@@ -10,7 +10,7 @@ extra/links/Perl-Homepage.url
 extra/links/Perl-Mailing-Lists.url
 extra/links/Perlmonks-Community-Forum.url
 extra/links/Search-CPAN-Modules.url
-extra/links/Vanilla-Perl-Homepage.url
+extra/links/Strawberry-Perl-Homepage.url
 extra/Packlist.pm
 extra/README.w32api
 extra/Signature.pm
@@ -34,6 +34,5 @@ META.yml
 README
 strawberry.iss
 strawberry.yml
-t/01_Perl-Dist-Vanilla.t
 t/98-pod.t
 t/99-pod-coverage.t
