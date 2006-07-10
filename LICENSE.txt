@@ -9,7 +9,7 @@ interoperability on the installation computer.
 Contributors to the VPP (as listed below) collectively agree to license
 their individual project contributions under the same terms as Perl
 itself.  Therefore, VPP code may be licensed under either the GNU Public
-License or the Artisic License.  A copy of each may be found in the
+License or the Artistic License.  A copy of each may be found in the
 "licenses/perl" directory included with a VPP release.
 
 Licenses for the individual packages distributed in aggregate as part of
