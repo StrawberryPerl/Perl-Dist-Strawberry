@@ -1,5 +1,10 @@
 Revision history for Strawberry Perl
 
+Alpha 2 (0.000002) under development
+
+    - Added a fake _verify() function to extra\Signature.pm to stop 
+      CPAN.pm warnings about an undef value when calling it
+
 Alpha 1 (0.000001) Sun Jul  9 14:23:40 EDT 2006
     
     - Initial Alpha 1 release of Strawberry Perl

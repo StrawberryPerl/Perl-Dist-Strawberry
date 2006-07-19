@@ -7,7 +7,7 @@ package_version:    0.000001
 # directories
 download_dir:   c:\temp\sp_sources
 build_dir:      c:\temp\sp_build
-image_dir:      c:\strawberry-perl
+image_dir:      c:\perl
 
 # Binary components
 binary:

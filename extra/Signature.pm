@@ -71,6 +71,8 @@ sub verify {
     return SIGNATURE_OK;
 }
 
+*_verify = \&verify;
+
 sub sign {
     my %args = ( skip => 1, @_ );
 
