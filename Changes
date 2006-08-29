@@ -1,7 +1,7 @@
 Revision history for Strawberry Perl
 
-Alpha 2 (0.1.2) under development
-    
+Alpha 2 (0.1.2) Tue Aug 29 00:16:07 EDTime 2006
+    - Released as Strawberry Perl 5.8.8 Alpha 2 
     - Switched to new version number scheme for Perl::Dist::Strawberry
     - Includes CPAN 1.87_57 (with CPAN::Reporter support!)
     - Includes up-to-date ExtUtils::MakeMaker (as this isn't in Bundle::CPAN)

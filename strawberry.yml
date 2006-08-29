@@ -77,6 +77,7 @@ modules:
         force: 1
     -   name: ANDK/CPAN-1.87_57.tar.gz 
     -   name: Win32API::File
+    -   name: File::Spec
     -   name: IO
         force: 1
     -   name: Compress::Zlib
@@ -112,6 +113,7 @@ cpan:
     - name: Win32::TieRegistry
     - name: File::HomeDir
     - name: Bundle::CPAN
+      force: 1
     - name: Bundle::LWP
       extra: 
         extra\FinalConfig.pm: perl\lib\CPAN\Config.pm
