@@ -2,12 +2,12 @@
 ---
 # package info
 package_name:       Strawberry Perl
-package_version:    0.000001
+package_version:    0.1.2
 
 # directories
 download_dir:   c:\temp\sp_sources
 build_dir:      c:\temp\sp_build
-image_dir:      c:\perl
+image_dir:      c:\strawberry-perl
 
 # Binary components
 binary:
@@ -29,6 +29,11 @@ binary:
     
     -   name: gcc-g++
         url: http://umn.dl.sourceforge.net/mingw/gcc-g++-3.4.5-20060117-1.tar.gz
+        license:
+        install_to: mingw
+
+    -   name: mingw32-make
+        url: http://umn.dl.sourceforge.net/mingw/mingw32-make-3.81-1.tar.gz 
         license:
         install_to: mingw
 
@@ -68,11 +73,10 @@ source:
 
 # Additional modules to bundle in site\lib
 modules:
-
-    -   name: Win32::Job    
-        # not used directly, but gets us the libwin32 dist
-        unpack_to:
-            APIFile: Win32API-File
+    -   name: MSCHWERN/ExtUtils-MakeMaker-6.30_01.tar.gz
+        force: 1
+    -   name: ANDK/CPAN-1.87_57.tar.gz 
+    -   name: Win32API::File
     -   name: IO
         force: 1
     -   name: Compress::Zlib
@@ -98,12 +102,12 @@ extra:
     extra\links\Perlmonks-Community-Forum.url: links\Perlmonks-Community-Forum.url
     extra\links\Search-CPAN-Modules.url: links\Search-CPAN-Modules.url
     extra\links\Strawberry-Perl-Homepage.url: links\Strawberry-Perl-Homepage.url
-    extra\Signature.pm: perl\site\lib\Module\Signature.pm
 
 # CPAN Modules to install using CPAN
 cpan:
     - name: ExtUtils::CBuilder
     - name: ExtUtils::ParseXS
+    - name: version
     - name: Win32API::Registry
     - name: Win32::TieRegistry
     - name: File::HomeDir

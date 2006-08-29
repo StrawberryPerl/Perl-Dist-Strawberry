@@ -1,5 +1,5 @@
 package Perl::Dist::Strawberry;
-$VERSION = '0.000001'; # build number
+use version; $VERSION = qv('0.1.2'); # Alpha 2
 
 use strict;
 use warnings;
@@ -10,6 +10,10 @@ __END__
 =head1 NAME
 
 Perl::Dist::Strawberry - Strawberry Perl for win32
+
+=head1 VERSION
+
+This is 0.1.2, corresponding to Strawberry Perl 5.8.8 Alpha 2
 
 =head1 DESCRIPTION
 
@@ -61,7 +65,7 @@ Win32 platform
 
 =back
 
-The Perl::Dist::Strawberry distribution on CPAN contains scripts and
+The Perl::Dist::Strawberry distribution on CPAN contains programs and
 instructions for downloading component sources and assembling them into the
 executable installer for Strawberry Perl.  It B<does not> include the resulting
 Strawberry Perl installer itself.  
@@ -88,6 +92,14 @@ Modules or distributions currently included are:
 
 =over
 
+=item *
+
+ExtUtils::MakeMaker 6.30_01 -- fixes a Win32 perl path bug
+
+=item *
+
+CPAN 1.87_57 -- many small fixes for numerous annoyances on Win32
+
 =item * 
 
 Win32API::File -- to allow for deletion of in-use files at next reboot;
@@ -106,11 +118,6 @@ dependency on external, binary programs to handle .tar.gz files
 
 Archive::Zip (and its dependency, Time::Local) -- to eliminate the CPAN.pm
 dependency on external, binary programs to handle .zip files
-
-=item *
-
-mock Module::Signature -- a dummy version of Module::Signature to avoid it
-if Bundle::CPAN is upgraded.  Takes no action, always returns success.
 
 =item *
 
@@ -161,6 +168,27 @@ Manual CPAN configuration may be repeated by running the following command:
 
     perl -MCPAN::FirstTime -e "CPAN::FirstTime::init"
 
+=head1 VERSION HISTORY AND ROADMAP
+
+Perl::Dist::Strawberry version numbers map to Strawberry Perl release
+versions as follows:
+
+ Pre-release series (0.x.y)
+   0.0.1 -- Strawberry Perl 5.8.8 Alpha 1 (July 9, 2006)
+   0.1.2 -- Strawberry Perl 5.8.8 Alpha 2 (August 27, 2006)
+   0.1.y -- Alpha series
+   0.3.y -- Beta series
+   0.5.y -- Release candidate series
+
+ Perl 5.8 series (1.x.y) -- 'x' will be odd for test releases 
+ 
+ Perl 5.10 series (2.x.y) -- 'x' will be odd for test releases 
+
+Strawberry Perl is targeting release 1.0.0 to correspond to the next 
+maintenance release of Perl (5.8.9), which should include most of the 
+"changes from core Perl" listed above.  Strawberry Perl will be declared
+Beta when the pre-release candidate for Perl 5.8.9 is available.
+
 =head1 CONTACTS AND BUGS REPORTING
 
 Currently, Strawberry Perl discussion is centered at win32.perl.org.  New 
@@ -169,7 +197,7 @@ venues for discussion may be listed there.
 Please report bugs or feature requests using the CPAN Request Tracker.
 Bugs can be sent by email to C<<< bug-Perl-Dist-Strawberry@rt.cpan.org >>> or
 submitted using the web interface at
-L<http://rt.cpan.org/Public/Dist/Display.html?Name=Perl-Dist-Strawberry>
+L<http://rt.cpan.org/Dist/Display.html?Queue=Perl-Dist-Strawberry>
 
 =head1 LICENSE AND COPYRIGHT
 

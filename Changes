@@ -1,10 +1,15 @@
 Revision history for Strawberry Perl
 
-Alpha 2 (0.000002) under development
-
-    - Added a fake _verify() function to extra\Signature.pm to stop 
-      CPAN.pm warnings about an undef value when calling it
-
+Alpha 2 (0.1.2) under development
+    
+    - Switched to new version number scheme for Perl::Dist::Strawberry
+    - Includes CPAN 1.87_57 (with CPAN::Reporter support!)
+    - Includes up-to-date ExtUtils::MakeMaker (as this isn't in Bundle::CPAN)
+    - Switched to standalone Win32API::File instead of the one embedded in
+      libwin32
+    - Added mingw32-make binary (helps with Alien::wxWidgets)
+    - Removed fake Module::Signature as Bundle::CPAN no longer includes it
+    
 Alpha 1 (0.000001) Sun Jul  9 14:23:40 EDT 2006
     
     - Initial Alpha 1 release of Strawberry Perl

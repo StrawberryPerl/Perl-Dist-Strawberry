@@ -1,6 +1,6 @@
 [Setup]
 AppName=Strawberry Perl
-AppVerName=Strawberry Perl 5.8.8 alpha 1
+AppVerName=Strawberry Perl 5.8.8 alpha 2
 AppPublisher=Vanilla Perl Project
 AppPublisherURL=http://vanillaperl.com/
 AppId=strawberryperl
@@ -15,7 +15,7 @@ DisableDirPage=yes
 
 ; folder + filename of created setup exe
 OutputDir=C:\
-OutputBaseFilename=strawberry-perl-5.8.8-alpha-1
+OutputBaseFilename=strawberry-perl-5.8.8-alpha-2
 
 ; location of source files
 SourceDir=C:\strawberry-perl
