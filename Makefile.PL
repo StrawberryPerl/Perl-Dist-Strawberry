@@ -1,4 +1,4 @@
-# Load the Module::Install bundled in ./inc/
+use strict;
 use inc::Module::Install;
 
 # Define metadata
@@ -12,5 +12,4 @@ requires    'Perl::Dist::Builder'      => '0.000001';
 no_index    directory => 'extra';
 no_index    directory => 'bin';
 
-auto_install;
 WriteAll;
