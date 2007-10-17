@@ -1,0 +1,48 @@
+COPYRIGHT AND LICENSE
+
+Strawberry Perl is part of the Vanilla Perl Project (hereafter "VPP").
+
+The VPP aggregates multiple free software packages into a single Win32
+installer file and, on installation, pre-configures these packages for
+interoperability on the installation computer.
+
+Contributors to the VPP (as listed below) collectively agree to license
+their individual project contributions under the same terms as Perl
+itself.  Therefore, VPP code may be licensed under either the GNU Public
+License or the Artistic License.  A copy of each may be found in the
+"licenses/perl" directory included with a VPP release.
+
+Licenses for the individual packages distributed in aggregate as part of
+a VPP release are contained either within the "licenses" directory or,
+for bundled Perl modules, wherever specified within the module
+documentation files included in the release.
+
+Individual VPP contributions Copyright 2006, 2007 by:
+
+* Adam Kennedy
+* Carl Franks
+* David A. Golden
+* Stephen Steneker
+
+DISCLAIMER OF WARRANTY
+
+BECAUSE THIS SOFTWARE IS LICENSED FREE OF CHARGE, THERE IS NO WARRANTY
+FOR THE SOFTWARE, TO THE EXTENT PERMITTED BY APPLICABLE LAW. EXCEPT WHEN
+OTHERWISE STATED IN WRITING THE COPYRIGHT HOLDERS AND/OR OTHER PARTIES
+PROVIDE THE SOFTWARE "AS IS" WITHOUT WARRANTY OF ANY KIND, EITHER
+EXPRESSED OR IMPLIED, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE. THE
+ENTIRE RISK AS TO THE QUALITY AND PERFORMANCE OF THE SOFTWARE IS WITH
+YOU. SHOULD THE SOFTWARE PROVE DEFECTIVE, YOU ASSUME THE COST OF ALL
+NECESSARY SERVICING, REPAIR, OR CORRECTION.
+
+IN NO EVENT UNLESS REQUIRED BY APPLICABLE LAW OR AGREED TO IN WRITING
+WILL ANY COPYRIGHT HOLDER, OR ANY OTHER PARTY WHO MAY MODIFY AND/OR
+REDISTRIBUTE THE SOFTWARE AS PERMITTED BY THE ABOVE LICENCE, BE
+LIABLE TO YOU FOR DAMAGES, INCLUDING ANY GENERAL, SPECIAL, INCIDENTAL,
+OR CONSEQUENTIAL DAMAGES ARISING OUT OF THE USE OR INABILITY TO USE
+THE SOFTWARE (INCLUDING BUT NOT LIMITED TO LOSS OF DATA OR DATA BEING
+RENDERED INACCURATE OR LOSSES SUSTAINED BY YOU OR THIRD PARTIES OR A
+FAILURE OF THE SOFTWARE TO OPERATE WITH ANY OTHER SOFTWARE), EVEN IF
+SUCH HOLDER OR OTHER PARTY HAS BEEN ADVISED OF THE POSSIBILITY OF
+SUCH DAMAGES.

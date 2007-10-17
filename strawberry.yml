@@ -97,8 +97,8 @@ modules:
 # Extra files to be placed
 extra:
     README:  README.txt
-    LICENSE.txt: LICENSE.txt
     Changes: Release-Notes.txt
+    extra\LICENSE.txt: LICENSE.txt
     # reset Config again
     extra\Config.pm: perl\lib\CPAN\Config.pm  
     extra\links\Perl-Documentation.url: links\Perl-Documentation.url
