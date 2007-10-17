@@ -136,6 +136,4 @@ cpan:
     - name: CPAN::Checksums
     - name: CPAN::Inject
     - name: pip
-    - name: HTTP::Status
-    - name: Tie::File
-    - name: Perl::Dist::Builder
+
