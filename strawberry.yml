@@ -96,7 +96,7 @@ modules:
 
 # Extra files to be placed
 extra:
-    README:  README.txt
+    extra\README:  README.txt
     Changes: Release-Notes.txt
     extra\LICENSE.txt: LICENSE.txt
     # reset Config again
