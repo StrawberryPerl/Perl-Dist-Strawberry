@@ -12,7 +12,7 @@ image_dir:      c:\bootstrap-perl
 # Binary components
 binary:
     -   name: dmake
-        url: http://www.cpan.org/authors/id/S/SH/SHAY/dmake-4.8-20070327-SHAY.zip
+        share: Perl-Dist-Downloads dmake-4.8-20070327-SHAY.zip
         license:
             dmake/COPYING : dmake/COPYING
             dmake/readme/license.txt: dmake/license.txt
@@ -21,38 +21,38 @@ binary:
             dmake/startup: dmake/bin/startup
 
     -   name: gcc-core
-        url: http://umn.dl.sourceforge.net/mingw/gcc-core-3.4.5-20060117-1.tar.gz
+        share: Perl-Dist-Downloads gcc-core-3.4.5-20060117-1.tar.gz
         license:
             COPYING: gcc/COPYING
             COPYING.lib: gcc/COPYING.lib
         install_to: mingw
     
     -   name: gcc-g++
-        url: http://umn.dl.sourceforge.net/mingw/gcc-g++-3.4.5-20060117-1.tar.gz
+        share: Perl-Dist-Downloads gcc-g++-3.4.5-20060117-1.tar.gz
         license:
         install_to: mingw
 
     -   name: mingw32-make
-        url: http://umn.dl.sourceforge.net/mingw/mingw32-make-3.81-1.tar.gz 
+        share: Perl-Dist-Downloads mingw32-make-3.81-2.tar.gz 
         license:
         install_to: mingw
 
     -   name: binutils
-        url: http://umn.dl.sourceforge.net/mingw/binutils-2.16.91-20060119-1.tar.gz
+        share: Perl-Dist-Downloads binutils-2.17.50-20060824-1.tar.gz
         license:
             Copying: binutils/Copying
             Copying.lib: binutils/Copying.lib
         install_to: mingw
 
     -   name: mingw-runtime
-        url: http://umn.dl.sourceforge.net/mingw/mingw-runtime-3.10.tar.gz
+        share: Perl-Dist-Downloads mingw-runtime-3.13.tar.gz
         license:
             doc/mingw-runtime/Contributors: mingw/Contributors
             doc/mingw-runtime/Disclaimer: mingw/Disclaimer
         install_to: mingw
 
     -   name: w32api
-        url: http://umn.dl.sourceforge.net/mingw/w32api-3.6.tar.gz
+        share: Perl-Dist-Downloads w32api-3.10.tar.gz
         license:
         install_to: mingw
         extra:
@@ -61,8 +61,8 @@ binary:
 # Source components
 source:
     -   name: perl
-        url: http://mirrors.kernel.org/CPAN/src/perl-5.8.8.tar.gz
-        license: 
+        share: Perl-Dist-Downloads perl-5.8.8.tar.gz
+        license:
             perl-5.8.8/Readme: perl/Readme
             perl-5.8.8/Artistic: perl/Artistic
             perl-5.8.8/Copying: perl/Copying
@@ -100,7 +100,7 @@ extra:
     LICENSE.txt: LICENSE.txt
     Changes: Release-Notes.txt
     # reset Config again
-    extra\Config.pm:  perl\lib\CPAN\Config.pm  
+    extra\Config.pm: perl\lib\CPAN\Config.pm  
     extra\links\Perl-Documentation.url: links\Perl-Documentation.url
     extra\links\Perl-Homepage.url: links\Perl-Homepage.url
     extra\links\Perl-Mailing-Lists.url: links\Perl-Mailing-Lists.url
