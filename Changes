@@ -1,5 +1,12 @@
 Revision history for Strawberry Perl
 
+Beta 1 (0.901) Thu 18 Oct 2007
+    - Various repairs and fixes
+    - Use binary packages from Perl-Dist-Downloads
+    - Updating binary packages to newer versions
+    - Add the installation of PAR::Dist
+    - Add the installation of pip
+
 Alpha 2 (0.1.2) Tue Aug 29 00:16:07 EDTime 2006
     - Released as Strawberry Perl 5.8.8 Alpha 2 
     - Switched to new version number scheme for Perl::Dist::Strawberry

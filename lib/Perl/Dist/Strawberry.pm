@@ -5,7 +5,7 @@ use strict;
 
 use vars qw{$VERSION};
 BEGIN {
-	use version; $VERSION = qv('0.1.3'); # Alpha 3
+	$VERSION = '0.901';
 }
 
 1;
@@ -17,7 +17,7 @@ Perl::Dist::Strawberry - Strawberry Perl for win32
 
 =head1 VERSION
 
-This is 0.1.2, corresponding to Strawberry Perl 5.8.8 Alpha 2
+This is 0.901, corresponding to Strawberry Perl 5.8.8 Beta 1
 
 =head1 DESCRIPTION
 
