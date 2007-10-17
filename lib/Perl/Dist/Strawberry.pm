@@ -1,8 +1,12 @@
 package Perl::Dist::Strawberry;
-use version; $VERSION = qv('0.1.2'); # Alpha 2
 
+use 5.005;
 use strict;
-use warnings;
+
+use vars qw{$VERSION};
+BEGIN {
+	use version; $VERSION = qv('0.1.3'); # Alpha 3
+}
 
 1;
 __END__

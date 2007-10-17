@@ -1,6 +1,6 @@
 [Setup]
 AppName=Strawberry Perl
-AppVerName=Strawberry Perl 5.8.8 alpha 2
+AppVerName=Strawberry Perl 5.8.8 alpha 3
 AppPublisher=Vanilla Perl Project
 AppPublisherURL=http://vanillaperl.com/
 AppId=strawberryperl
@@ -15,7 +15,7 @@ DisableDirPage=yes
 
 ; folder + filename of created setup exe
 OutputDir=C:\
-OutputBaseFilename=strawberry-perl-5.8.8-alpha-2
+OutputBaseFilename=strawberry-perl-5.8.8-alpha-3
 
 ; location of source files
 SourceDir=C:\strawberry-perl
@@ -67,3 +67,4 @@ Name: {group}\README; Filename: {app}\README.txt
 Root: HKLM; Subkey: SYSTEM\CurrentControlSet\Control\Session Manager\Environment; ValueType: expandsz; ValueName: PATH; ValueData: "{olddata};{app}\perl\bin;{app}\dmake\bin;{app}\mingw\bin"
 Root: HKLM; Subkey: SYSTEM\CurrentControlSet\Control\Session Manager\Environment; ValueType: expandsz; ValueName: LIB; ValueData: "{olddata};{app}\mingw\lib;{app}\perl\bin"
 Root: HKLM; Subkey: SYSTEM\CurrentControlSet\Control\Session Manager\Environment; ValueType: expandsz; ValueName: INCLUDE; ValueData: "{olddata};{app}\mingw\include;{app}\perl\lib\CORE;{app}\perl\lib\encode"
+Root: HKLM; Subkey: SYSTEM\CurrentControlSet\Control\Session Manager\Environment; ValueType: expandsz; ValueName: TERM; ValueData: "dumb"

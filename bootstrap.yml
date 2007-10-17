@@ -7,12 +7,12 @@ package_version:    0.1.3
 # directories
 download_dir:   c:\temp\sp_sources
 build_dir:      c:\temp\sp_build
-image_dir:      c:\bootstrap-perl
+image_dir:      c:\strawberry-perl
 
 # Binary components
 binary:
     -   name: dmake
-        url: http://www.cpan.org/authors/id/S/SH/SHAY/dmake-4.8-20070327-SHAY.zip
+        url: http://search.cpan.org/CPAN/authors/id/S/SH/SHAY/dmake-4.5-20060619-SHAY.zip
         license:
             dmake/COPYING : dmake/COPYING
             dmake/readme/license.txt: dmake/license.txt
@@ -73,17 +73,13 @@ source:
 
 # Additional modules to bundle in site\lib
 modules:
-    -   name: ExtUtils::MakeMaker
-    -   name: ExtUtils::Install
-    -   name: Test::Harness
-    -   name: CPAN
-    -   name: YAML
+    -   name: MSCHWERN/ExtUtils-MakeMaker-6.30_01.tar.gz
+        force: 1
+    -   name: ANDK/CPAN-1.87_57.tar.gz 
     -   name: Win32API::File
     -   name: File::Spec
     -   name: IO
-    -   name: IO::Compress::Base
-    -   name: Compress::Raw::Zlib
-    -   name: IO::Compress::Gzip
+        force: 1
     -   name: Compress::Zlib
     -   name: IO::Zlib
         force: 1
@@ -117,25 +113,7 @@ cpan:
     - name: Win32::TieRegistry
     - name: File::HomeDir
     - name: Bundle::CPAN
+      force: 1
     - name: Bundle::LWP
       extra: 
         extra\FinalConfig.pm: perl\lib\CPAN\Config.pm
-    - name: PAR::Dist
-    - name: IPC::Run3
-    - name: Test::Script
-    - name: Number::Compare
-    - name: File::Find::Rule
-    - name: File::Copy::Recursive
-    - name: File::pushd
-    - name: File::Remove
-    - name: File::chmod
-    - name: Params::Util
-    - name: LWP::Online
-    - name: Compress::Bzip2
-    - name: Data::Compare
-    - name: CPAN::Checksums
-    - name: CPAN::Inject
-    - name: pip
-    - name: HTTP::Status
-    - name: Tie::File
-    - name: Perl::Dist::Builder
