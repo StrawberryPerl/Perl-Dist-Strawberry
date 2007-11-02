@@ -2,10 +2,11 @@ package Perl::Dist::Strawberry;
 
 use 5.005;
 use strict;
+use base 'Perl::Dist::Strawberry';
 
 use vars qw{$VERSION};
 BEGIN {
-	$VERSION = '0.901';
+	$VERSION = '0.30';
 }
 
 1;
@@ -17,7 +18,7 @@ Perl::Dist::Strawberry - Strawberry Perl for win32
 
 =head1 VERSION
 
-This is 0.901, corresponding to Strawberry Perl 5.8.8 Beta 1
+This is 0.30, corresponding to Strawberry Perl 5.8.8 Beta 1
 
 =head1 DESCRIPTION
 
@@ -26,7 +27,7 @@ for production purposes.>
 
 Strawberry Perl is a binary distribution of Perl for the Windows operating
 system.  It includes a bundled compiler and pre-installed modules that offer
-the ability to install XS CPAN modules directly from CPAN.  
+the ability to install XS CPAN modules directly from CPAN.
 
 The purpose of the Strawberry Perl series is to provide a practical Win32 Perl
 environment for experienced Perl developers to experiment with and test the
@@ -161,7 +162,7 @@ executable installer adds the following environment variable changes:
 LIB and INCLUDE changes are likely more than are necessary, but attempt to
 head off potential problems compiling external programs for use with Perl.
 
-Users installing Strawberry Perl manually without the installer will need to
+Users installing Strawberry Perl without the installer will need to
 change their environment variables manually.
 
 The first time that the "cpan" program is run, users will be prompted for
