@@ -1,15 +1,136 @@
-package Perl::Dist::Strawberry;
+package Perl::Dist::Vanilla;
 
 use 5.005;
 use strict;
-use base 'Perl::Dist::Strawberry';
+use base 'Perl::Dist';
 
 use vars qw{$VERSION};
 BEGIN {
-	$VERSION = '0.30';
+	$VERSION = '0.51';
+}
+
+
+
+
+
+#####################################################################
+# Configuration
+
+sub app_name             { 'Strawberry Perl'               }
+sub app_ver_name         { 'Strawberry Perl 5.10.0 Beta 1' }
+sub app_publisher        { 'Vanilla Perl Project'          }
+sub app_publisher_url    { 'http://vanillaperl.org/'       }
+sub app_id               { 'strawberryperl'                }
+sub output_base_filename { 'strawberry-perl-5.10.0-beta-1' }
+
+# Apply some default paths
+sub new {
+	shift->SUPER::new(
+		image_dir => 'C:\\strawberry',
+		temp_dir  => 'C:\\tmp\\sp',
+		@_,
+	);
+}
+
+
+
+
+
+#####################################################################
+# Installation Script
+
+# Vanilla never has any additional libraries.
+# Just install the C toolchain and Perl core.
+sub run {
+	my $self = shift;
+
+	# Install the C toolchain
+	my $t1 = time;
+	$self->install_c_toolchain;
+	$self->trace("Completed install_c_toolchain in " . (time - $t1) . " seconds\n");
+
+	# Install the Perl 5.10.0 binary
+	my $t2 = time;
+	$self->install_perl_5100;
+	$self->trace("Complete install_perl_5110 in " . (time - $t2) . " seconds\n");
+
+	# Install modules
+	$self->install_perl_modules;
+
+	# Write out the exe
+	my $t3  = time;
+	$self->remove_waste;
+	my $exe = $self->write_exe;
+	$self->trace("Completed write_exe in " . (time - $t3) . " seconds\n");
+
+	# Finished
+	$self->trace("Distribution exe file created as $exe\n");
+	return 1;
+}
+
+sub install_perl_5110 {
+	my $self = shift;
+	$self->SUPER::install_perl(@_);
+
+	# Install the vanilla CPAN::Config
+	$self->install_file(
+		share      => 'Perl-Dist-Strawberry CPAN_Config.pm',
+		install_to => 'perl/lib/CPAN/Config.pm',
+	);
+
+	return 1;
+}
+
+sub install_perl_modules {
+	my $self = shift;
+
+	# Install the companion Perl modules for the
+	# various libs we installed.
+	$self->install_module(
+		name => 'XML::LibXML',
+	);
+
+	# Install the basics
+	$self->install_module(
+		name => 'Params::Util',
+	);
+	$self->install_module(
+		name => 'Bundle::LWP',
+	);
+
+	# Install various developer tools
+	$self->install_module(
+		name => 'Bundle::CPAN',
+	);
+	$self->install_module(
+		name => 'pler',
+	);
+	$self->install_module(
+		name => 'pip',
+	);
+	$self->install_module(
+		name => 'PAR::Dist',
+	);
+	$self->install_module(
+		name => 'DBI',
+	);
+
+	# Install SQLite
+	$self->install_distribution(
+		name  => 'MSERGEANT/DBD-SQLite-1.14.tar.gz',
+		force => 1,
+	);
+
+	# Now we have SQLite, install the CPAN::SQLite upgrade
+	$self->install_module(
+		name => 'CPAN::SQLite',
+	);
+
+	return 1;
 }
 
 1;
+
 __END__
 
 =head1 NAME
