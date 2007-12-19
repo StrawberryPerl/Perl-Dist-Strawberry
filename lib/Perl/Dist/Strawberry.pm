@@ -1,8 +1,9 @@
-package Perl::Dist::Vanilla;
+package Perl::Dist::Strawberry;
 
 use 5.005;
 use strict;
 use base 'Perl::Dist';
+use Perl::Dist::Util::Toolchain ();
 
 use vars qw{$VERSION};
 BEGIN {
@@ -43,34 +44,88 @@ sub new {
 # Just install the C toolchain and Perl core.
 sub run {
 	my $self = shift;
+	my $t    = undef;
 
 	# Install the C toolchain
-	my $t1 = time;
+	my $t = time;
 	$self->install_c_toolchain;
-	$self->trace("Completed install_c_toolchain in " . (time - $t1) . " seconds\n");
+	$self->trace("Completed install_c_toolchain in " . (time - $t) . " seconds\n");
+
+	# Install the additional C libraries
+	$t = time;
+	$self->install_c_libraries;
+	$self->trace("Completed install_c_libraries in " . (time - $t) . " seconds\n");
 
 	# Install the Perl 5.10.0 binary
-	my $t2 = time;
+	$t = time;
 	$self->install_perl_5100;
-	$self->trace("Complete install_perl_5110 in " . (time - $t2) . " seconds\n");
+	$self->trace("Complete install_perl_5100 in " . (time - $t) . " seconds\n");
 
 	# Install modules
+	$t = time;
 	$self->install_perl_modules;
+	$self->trace("Complete install_perl_modules in " . (time - $t) . " seconds\n");
 
 	# Write out the exe
-	my $t3  = time;
+	$t = time;
 	$self->remove_waste;
 	my $exe = $self->write_exe;
-	$self->trace("Completed write_exe in " . (time - $t3) . " seconds\n");
+	$self->trace("Completed write_exe in " . (time - $t) . " seconds\n");
 
 	# Finished
 	$self->trace("Distribution exe file created as $exe\n");
 	return 1;
 }
 
-sub install_perl_5110 {
+# Resolve the distribution list at startup time
+my $toolchain5100 = Perl::Dist::Util::Toolchain->new( qw{
+	Compress::Raw::Bzip2
+	IO::Compress::Bzip2
+	Compress::Bzip2
+	Win32API::Registry
+	Win32::TieRegistry
+	File::HomeDir
+	File::Which
+	Archive::Zip
+	YAML
+	Digest::SHA1
+	Term::ReadLine::Perl
+} );
+
+# Get the regular Perl to generate the list.
+# Run it in a separate process so we don't hold
+# any permanent CPAN.pm locks (for now).
+$toolchain5100->delegate;
+if ( $toolchain5100->{errstr} ) {
+	die "Failed to generate toolchain distributions";
+}
+
+sub install_perl_5100_toolchain {
 	my $self = shift;
-	$self->SUPER::install_perl(@_);
+	$self->SUPER::install_perl_5100_toolchain(@_);
+
+	foreach my $dist ( @{$toolchain5100->{dists}} ) {
+		my $force             = 0;
+		my $automated_testing = 0;
+		if ( $dist =~ /Scalar-List-Util/ ) {
+			# Does something weird with tainting
+			$force = 1;
+		}
+		if ( $dist =~ /File-Temp/ ) {
+			# Lock tests break
+			$force = 1;
+		}
+		if ( $dist =~ /Term-ReadLine-Perl/ ) {
+			# Does evil things when testing, and
+			# so testing cannot be automated.
+			$automated_testing = 1;
+		}
+		$self->install_distribution(
+			name              => $dist,
+			force             => $force,
+			automated_testing => $automated_testing,
+		);
+	}
 
 	# Install the vanilla CPAN::Config
 	$self->install_file(
