@@ -8,7 +8,7 @@ $CPAN::Config = {
   applypatch                    => q[],
   auto_commit                   => q[1],
   build_cache                   => q[10],
-  build_dir                     => q[C:\\strawberry\\cpan\\build],
+  build_dir                     => qq[C:\\strawberry\\cpan\\build],
   build_dir_reuse               => q[0],
   build_requires_install_policy => q[yes],
   bzip2                         => q[],
@@ -61,7 +61,13 @@ $CPAN::Config = {
   term_ornaments                => q[0],
   test_report                   => q[0],
   unzip                         => q[],
-  urllist                       => [q[http://mirrors.kernel.org/CPAN/],q[file://c|/minicpan/]],
+  urllist                       => [
+    q[http://cpan.strawberryperl.com/],
+    (-d 'C:\\minicpan'
+      ? (q[file://c|/strawberry/minicpan/])
+      : ()
+    ),
+  ],
   use_sqlite                    => q[1],
   wget                          => q[],
   yaml_load_code                => q[0],

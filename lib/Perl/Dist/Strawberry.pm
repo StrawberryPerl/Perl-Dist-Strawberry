@@ -17,12 +17,12 @@ BEGIN {
 #####################################################################
 # Configuration
 
-sub app_name             { 'Strawberry Perl'               }
-sub app_ver_name         { 'Strawberry Perl 5.10.0 Beta 1' }
-sub app_publisher        { 'Vanilla Perl Project'          }
-sub app_publisher_url    { 'http://vanillaperl.org/'       }
-sub app_id               { 'strawberryperl'                }
-sub output_base_filename { 'strawberry-perl-5.10.0-beta-1' }
+sub app_name             { 'Strawberry Perl'              }
+sub app_ver_name         { 'Strawberry Perl 5.10.0 Final' }
+sub app_publisher        { 'Vanilla Perl Project'         }
+sub app_publisher_url    { 'http://vanillaperl.org/'      }
+sub app_id               { 'strawberryperl'               }
+sub output_base_filename { 'strawberry-perl-5.10.0-final' }
 
 # Apply some default paths
 sub new {
@@ -44,6 +44,7 @@ sub new {
 # Just install the C toolchain and Perl core.
 sub run {
 	my $self = shift;
+	my $all  = time;
 	my $t    = undef;
 
 	# Install the C toolchain
@@ -59,12 +60,17 @@ sub run {
 	# Install the Perl 5.10.0 binary
 	$t = time;
 	$self->install_perl_5100;
-	$self->trace("Complete install_perl_5100 in " . (time - $t) . " seconds\n");
+	$self->trace("Completed install_perl_5100 in " . (time - $t) . " seconds\n");
 
 	# Install modules
 	$t = time;
 	$self->install_perl_modules;
-	$self->trace("Complete install_perl_modules in " . (time - $t) . " seconds\n");
+	$self->trace("Completed install_perl_modules in " . (time - $t) . " seconds\n");
+
+	# Install links and start menu stuff
+	$t = time;
+	$self->install_win32_extras;
+	$self->trace("Completed install_win32_extras in " . (time - $t) . " seconds\n");
 
 	# Write out the exe
 	$t = time;
@@ -73,59 +79,38 @@ sub run {
 	$self->trace("Completed write_exe in " . (time - $t) . " seconds\n");
 
 	# Finished
+	$self->trace("Completed run in " . (time - $all) . " seconds\n");
 	$self->trace("Distribution exe file created as $exe\n");
+
 	return 1;
 }
 
-# Resolve the distribution list at startup time
-my $toolchain5100 = Perl::Dist::Util::Toolchain->new( qw{
-	Compress::Raw::Bzip2
-	IO::Compress::Bzip2
-	Compress::Bzip2
-	Win32API::Registry
-	Win32::TieRegistry
-	File::HomeDir
-	File::Which
-	Archive::Zip
-	YAML
-	Digest::SHA1
-	Term::ReadLine::Perl
-} );
+sub install_c_libraries {
+	my $self = shift;
+	$self->SUPER::install_c_libraries(@_);
 
-# Get the regular Perl to generate the list.
-# Run it in a separate process so we don't hold
-# any permanent CPAN.pm locks (for now).
-$toolchain5100->delegate;
-if ( $toolchain5100->{errstr} ) {
-	die "Failed to generate toolchain distributions";
+	# Install libgmp (something to do with math)
+	$self->install_gmp;
+
+	return 1;
+}
+
+sub install_gmp {
+	my $self = shift;
+
+	# It comes as a single pre-prepared zip file
+	$self->install_binary(
+		name       => 'gmp',
+		share      => 'Perl-Dist-Downloads gmp-4.2.1-vanilla.zip',
+		install_to => 'c',
+	);
+
+	return 1;
 }
 
 sub install_perl_5100_toolchain {
 	my $self = shift;
 	$self->SUPER::install_perl_5100_toolchain(@_);
-
-	foreach my $dist ( @{$toolchain5100->{dists}} ) {
-		my $force             = 0;
-		my $automated_testing = 0;
-		if ( $dist =~ /Scalar-List-Util/ ) {
-			# Does something weird with tainting
-			$force = 1;
-		}
-		if ( $dist =~ /File-Temp/ ) {
-			# Lock tests break
-			$force = 1;
-		}
-		if ( $dist =~ /Term-ReadLine-Perl/ ) {
-			# Does evil things when testing, and
-			# so testing cannot be automated.
-			$automated_testing = 1;
-		}
-		$self->install_distribution(
-			name              => $dist,
-			force             => $force,
-			automated_testing => $automated_testing,
-		);
-	}
 
 	# Install the vanilla CPAN::Config
 	$self->install_file(
@@ -180,6 +165,21 @@ sub install_perl_modules {
 	$self->install_module(
 		name => 'CPAN::SQLite',
 	);
+
+	return 1;
+}
+
+sub install_win32_extras {
+	my $self = shift;
+
+	# Link to the Strawberry Perl website
+	$self->install_website(
+		name     => 'Strawberry Perl Website',
+		url      => 'http://strawberryperl.com/' . $self->output_base_filename,
+	);
+
+	# Add the rest of the extras
+	$self->SUPER::install_win32_extras(@_);
 
 	return 1;
 }
