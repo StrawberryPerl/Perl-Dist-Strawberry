@@ -7,7 +7,7 @@ use Perl::Dist::Util::Toolchain ();
 
 use vars qw{$VERSION};
 BEGIN {
-	$VERSION = '0.51';
+	$VERSION = '0.52';
 }
 
 
@@ -38,52 +38,7 @@ sub new {
 
 
 #####################################################################
-# Installation Script
-
-# Vanilla never has any additional libraries.
-# Just install the C toolchain and Perl core.
-sub run {
-	my $self = shift;
-	my $all  = time;
-	my $t    = undef;
-
-	# Install the C toolchain
-	my $t = time;
-	$self->install_c_toolchain;
-	$self->trace("Completed install_c_toolchain in " . (time - $t) . " seconds\n");
-
-	# Install the additional C libraries
-	$t = time;
-	$self->install_c_libraries;
-	$self->trace("Completed install_c_libraries in " . (time - $t) . " seconds\n");
-
-	# Install the Perl 5.10.0 binary
-	$t = time;
-	$self->install_perl_5100;
-	$self->trace("Completed install_perl_5100 in " . (time - $t) . " seconds\n");
-
-	# Install modules
-	$t = time;
-	$self->install_perl_modules;
-	$self->trace("Completed install_perl_modules in " . (time - $t) . " seconds\n");
-
-	# Install links and start menu stuff
-	$t = time;
-	$self->install_win32_extras;
-	$self->trace("Completed install_win32_extras in " . (time - $t) . " seconds\n");
-
-	# Write out the exe
-	$t = time;
-	$self->remove_waste;
-	my $exe = $self->write_exe;
-	$self->trace("Completed write_exe in " . (time - $t) . " seconds\n");
-
-	# Finished
-	$self->trace("Completed run in " . (time - $all) . " seconds\n");
-	$self->trace("Distribution exe file created as $exe\n");
-
-	return 1;
-}
+# Installation Methods
 
 sub install_c_libraries {
 	my $self = shift;
@@ -108,13 +63,26 @@ sub install_gmp {
 	return 1;
 }
 
+sub install_perl_588_toolchain {
+	my $self = shift;
+	$self->SUPER::install_perl_588_toolchain(@_);
+
+	# Install the vanilla CPAN::Config
+	$self->install_file(
+		share      => 'Perl-Dist-Strawberry CPAN_Config_588.pm',
+		install_to => 'perl/lib/CPAN/Config.pm',
+	);
+
+	return 1;
+}
+
 sub install_perl_5100_toolchain {
 	my $self = shift;
 	$self->SUPER::install_perl_5100_toolchain(@_);
 
 	# Install the vanilla CPAN::Config
 	$self->install_file(
-		share      => 'Perl-Dist-Strawberry CPAN_Config.pm',
+		share      => 'Perl-Dist-Strawberry CPAN_Config_5100.pm',
 		install_to => 'perl/lib/CPAN/Config.pm',
 	);
 
@@ -164,6 +132,12 @@ sub install_perl_modules {
 	# Now we have SQLite, install the CPAN::SQLite upgrade
 	$self->install_module(
 		name => 'CPAN::SQLite',
+	);
+
+	# Because many people expect it, and the tests are
+	# noisy and mess up terminals, install libwin32 now
+	$self->install_module(
+		name => 'Bundle::libwin32',
 	);
 
 	return 1;
