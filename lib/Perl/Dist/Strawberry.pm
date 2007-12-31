@@ -38,11 +38,16 @@ sub new {
 
 
 #####################################################################
-# Installation Methods
+# Top Level Process Methods
 
 sub install_c_libraries {
 	my $self = shift;
 	$self->SUPER::install_c_libraries(@_);
+
+	# Install various XML-related modules
+	$self->install_zlib;
+	$self->install_libiconv;
+	$self->install_libxml;
 
 	# Install libgmp (something to do with math)
 	$self->install_gmp;
@@ -134,8 +139,9 @@ sub install_perl_modules {
 		name => 'CPAN::SQLite',
 	);
 
-	# Because many people expect it, and the tests are
-	# noisy and mess up terminals, install libwin32 now
+	# Since it's is a noisy messy instally, we should preinstall
+	# libwin32. Additionally, many people coming from ActiveState
+	# may expect it to exist.
 	$self->install_module(
 		name => 'Bundle::libwin32',
 	);
@@ -146,17 +152,28 @@ sub install_perl_modules {
 sub install_win32_extras {
 	my $self = shift;
 
-	# Link to the Strawberry Perl website
-	$self->install_website(
-		name     => 'Strawberry Perl Website',
-		url      => 'http://strawberryperl.com/' . $self->output_base_filename,
-	);
+	# Link to the Strawberry Perl website.
+	# Don't include this for non-Strawberry sub-classes
+        if ( ref($self) =~ /Strawberry/ ) {
+		$self->install_website(
+			name     => 'Strawberry Perl Website',
+			url      => 'http://strawberryperl.com/' . $self->output_base_filename,
+		);
+	}
 
 	# Add the rest of the extras
 	$self->SUPER::install_win32_extras(@_);
 
 	return 1;
 }
+
+
+
+
+
+#####################################################################
+# General Install Methods
+
 
 1;
 
