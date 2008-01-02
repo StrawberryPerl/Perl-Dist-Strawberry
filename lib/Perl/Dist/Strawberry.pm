@@ -7,7 +7,7 @@ use Perl::Dist::Util::Toolchain ();
 
 use vars qw{$VERSION};
 BEGIN {
-	$VERSION = '0.52';
+	$VERSION = '0.99';
 }
 
 
@@ -18,11 +18,11 @@ BEGIN {
 # Configuration
 
 sub app_name             { 'Strawberry Perl'              }
-sub app_ver_name         { 'Strawberry Perl 5.10.0 Final' }
+sub app_ver_name         { 'Strawberry Perl 5.10.0 Update 1' }
 sub app_publisher        { 'Vanilla Perl Project'         }
 sub app_publisher_url    { 'http://vanillaperl.org/'      }
 sub app_id               { 'strawberryperl'               }
-sub output_base_filename { 'strawberry-perl-5.10.0-final' }
+sub output_base_filename { 'strawberry-perl-5.10.0-update-1' }
 
 # Apply some default paths
 sub new {
@@ -68,9 +68,9 @@ sub install_gmp {
 	return 1;
 }
 
-sub install_perl_588_toolchain {
+sub install_perl_588 {
 	my $self = shift;
-	$self->SUPER::install_perl_588_toolchain(@_);
+	$self->SUPER::install_perl_588(@_);
 
 	# Install the vanilla CPAN::Config
 	$self->install_file(
@@ -81,9 +81,9 @@ sub install_perl_588_toolchain {
 	return 1;
 }
 
-sub install_perl_5100_toolchain {
+sub install_perl_5100 {
 	my $self = shift;
-	$self->SUPER::install_perl_5100_toolchain(@_);
+	$self->SUPER::install_perl_5100(@_);
 
 	# Install the vanilla CPAN::Config
 	$self->install_file(
@@ -182,10 +182,6 @@ __END__
 =head1 NAME
 
 Perl::Dist::Strawberry - Strawberry Perl for win32
-
-=head1 VERSION
-
-This is 0.30, corresponding to Strawberry Perl 5.8.8 Beta 1
 
 =head1 DESCRIPTION
 
