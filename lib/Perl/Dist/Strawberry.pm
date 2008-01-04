@@ -61,7 +61,7 @@ sub install_gmp {
 	# It comes as a single pre-prepared zip file
 	$self->install_binary(
 		name       => 'gmp',
-		share      => 'Perl-Dist-Downloads gmp-4.2.1-vanilla.zip',
+		uri        => $self->strawberry('gmp-4.2.1-vanilla.zip'),
 		install_to => 'c',
 	);
 
