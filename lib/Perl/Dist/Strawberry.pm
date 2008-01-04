@@ -27,10 +27,26 @@ sub output_base_filename { 'strawberry-perl-5.10.0-update-1' }
 # Apply some default paths
 sub new {
 	shift->SUPER::new(
+		app_name  =>
 		image_dir => 'C:\\strawberry',
 		temp_dir  => 'C:\\tmp\\sp',
 		@_,
 	);
+}
+
+sub package_file {
+	my $self = shift;
+	my $name = shift;
+
+	# Packages we want to use
+	if ( $name eq 'gmp' ) {
+		return 'gmp-4.2.1-vanilla.zip';
+	} elsif ( $name eq 'expat' ) {
+		return 'expat-2.0.1-vanilla.zip';
+	}
+
+	# Otherwise default upwards
+	return $self->SUPER::package_file($name, @_);
 }
 
 
