@@ -17,36 +17,30 @@ BEGIN {
 #####################################################################
 # Configuration
 
-sub app_name             { 'Strawberry Perl'              }
-sub app_ver_name         { 'Strawberry Perl 5.10.0 Update 1' }
-sub app_publisher        { 'Vanilla Perl Project'         }
-sub app_publisher_url    { 'http://vanillaperl.org/'      }
-sub app_id               { 'strawberryperl'               }
-sub output_base_filename { 'strawberry-perl-5.10.0-update-1' }
-
 # Apply some default paths
 sub new {
 	shift->SUPER::new(
-		app_name  =>
-		image_dir => 'C:\\strawberry',
-		temp_dir  => 'C:\\tmp\\sp',
+		app_id            => 'strawberryperl',
+		app_name          => 'Strawberry Perl',
+		app_publisher     => 'Vanilla Perl Project',
+		app_publisher_url => 'http://vanillaperl.org/',
+		image_dir         => 'C:\\strawberry',
 		@_,
 	);
 }
 
-sub package_file {
-	my $self = shift;
-	my $name = shift;
+# Lazily default the full name.
+# Supports building multiple versions of Perl.
+sub app_ver_name {
+	$_[0]->{app_ver_name} or
+	$_[0]->app_name . ' ' . $_[0]->perl_version_human . ' Update 1';
+}
 
-	# Packages we want to use
-	if ( $name eq 'gmp' ) {
-		return 'gmp-4.2.1-vanilla.zip';
-	} elsif ( $name eq 'expat' ) {
-		return 'expat-2.0.1-vanilla.zip';
-	}
-
-	# Otherwise default upwards
-	return $self->SUPER::package_file($name, @_);
+# Lazily default the file name
+# Supports building multiple versions of Perl.
+sub output_base_filename {
+	$_[0]->{output_base_filename} or
+	'strawberry-perl-' . $_[0]->perl_version_human . '-update-1';
 }
 
 
@@ -54,7 +48,7 @@ sub package_file {
 
 
 #####################################################################
-# Top Level Process Methods
+# Customisations for C assets
 
 sub install_c_libraries {
 	my $self = shift;
@@ -67,22 +61,55 @@ sub install_c_libraries {
 
 	# Install libgmp (something to do with math)
 	$self->install_gmp;
+	$self->install_expat;
 
 	return 1;
+}
+
+sub package_file {
+	my $self = shift;
+	my $name = shift;
+
+	# Additional packages for this distribution
+	if ( $name eq 'gmp' ) {
+		return 'gmp-4.2.1-vanilla.zip';
+	} elsif ( $name eq 'expat' ) {
+		return 'expat-2.0.1-vanilla.zip';
+	}
+
+	# Otherwise default upwards
+	return $self->SUPER::package_file($name, @_);
 }
 
 sub install_gmp {
 	my $self = shift;
 
-	# It comes as a single pre-prepared zip file
+	# Comes as a single prepackaged vanilla-specific zip file
 	$self->install_binary(
-		name       => 'gmp',
-		uri        => $self->strawberry('gmp-4.2.1-vanilla.zip'),
-		install_to => 'c',
+		name => 'gmp',
 	);
 
 	return 1;
 }
+
+sub install_expat {
+	my $self = shift;
+
+	# Comes as a single prepackaged vanilla-specific zip file
+	$self->install_binary(
+		name => 'expat',
+	);
+
+	return 1;
+}
+
+
+
+
+
+
+#####################################################################
+# Customisations for Perl assets
 
 sub install_perl_588 {
 	my $self = shift;
@@ -165,15 +192,28 @@ sub install_perl_modules {
 	return 1;
 }
 
+
+
+
+
+#####################################################################
+# Customisations to Windows assets
+
 sub install_win32_extras {
 	my $self = shift;
 
 	# Link to the Strawberry Perl website.
 	# Don't include this for non-Strawberry sub-classes
         if ( ref($self) =~ /Strawberry/ ) {
+		$self->install_file(
+			name       => 'Strawberry Perl Website Icon',
+			url        => 'http://strawberryperl.com/favicon.ico',
+			install_to => 'Strawberry Perl Website.ico',
+		);
 		$self->install_website(
-			name     => 'Strawberry Perl Website',
-			url      => 'http://strawberryperl.com/' . $self->output_base_filename,
+			name       => 'Strawberry Perl Website',
+			url        => 'http://strawberryperl.com/' . $self->output_base_filename,
+			icon_file  => 
 		);
 	}
 
@@ -182,14 +222,6 @@ sub install_win32_extras {
 
 	return 1;
 }
-
-
-
-
-
-#####################################################################
-# General Install Methods
-
 
 1;
 
