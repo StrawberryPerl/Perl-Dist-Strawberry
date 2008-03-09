@@ -61,24 +61,21 @@ sub install_c_libraries {
 
 	# Install libgmp (something to do with math)
 	$self->install_gmp;
-	$self->install_expat;
 
 	return 1;
 }
 
-sub package_file {
+sub binary_file {
 	my $self = shift;
 	my $name = shift;
 
 	# Additional packages for this distribution
 	if ( $name eq 'gmp' ) {
 		return 'gmp-4.2.1-vanilla.zip';
-	} elsif ( $name eq 'expat' ) {
-		return 'expat-2.0.1-vanilla.zip';
 	}
 
 	# Otherwise default upwards
-	return $self->SUPER::package_file($name, @_);
+	return $self->SUPER::binary_file($name, @_);
 }
 
 sub install_gmp {
@@ -87,17 +84,6 @@ sub install_gmp {
 	# Comes as a single prepackaged vanilla-specific zip file
 	$self->install_binary(
 		name => 'gmp',
-	);
-
-	return 1;
-}
-
-sub install_expat {
-	my $self = shift;
-
-	# Comes as a single prepackaged vanilla-specific zip file
-	$self->install_binary(
-		name => 'expat',
 	);
 
 	return 1;
@@ -124,6 +110,15 @@ sub install_perl_588 {
 	return 1;
 }
 
+sub install_perl_588_toolchain_object {
+	Perl::Dist::Util::Toolchain->new(
+		perl_version => $_[0]->perl_version_literal,
+		force        => {
+			'ExtUtils::CBuilder' => 'KWILLIAMS/ExtUtils-CBuilder-0.21.tar.gz',
+		},
+	);
+}
+
 sub install_perl_5100 {
 	my $self = shift;
 	$self->SUPER::install_perl_5100(@_);
@@ -135,6 +130,15 @@ sub install_perl_5100 {
 	);
 
 	return 1;
+}
+
+sub install_perl_5100_toolchain_object {
+	Perl::Dist::Util::Toolchain->new(
+		perl_version => $_[0]->perl_version_literal,
+		force        => {
+			'ExtUtils::CBuilder' => 'KWILLIAMS/ExtUtils-CBuilder-0.21.tar.gz',
+		},
+	);
 }
 
 sub install_perl_modules {
@@ -155,9 +159,11 @@ sub install_perl_modules {
 	);
 
 	# Install various developer tools
-	$self->install_module(
-		name => 'Bundle::CPAN',
-	);
+	# Currently taken care of in Util::Toolchain default set.
+	#$self->install_module(
+	#	name => 'Bundle::CPAN',
+	#);
+
 	$self->install_module(
 		name => 'pler',
 	);
@@ -182,11 +188,9 @@ sub install_perl_modules {
 		name => 'CPAN::SQLite',
 	);
 
-	# Since it's is a noisy messy instally, we should preinstall
-	# libwin32. Additionally, many people coming from ActiveState
-	# may expect it to exist.
+	# Install PPM support
 	$self->install_module(
-		name => 'Bundle::libwin32',
+		name => 'PPM',
 	);
 
 	return 1;
