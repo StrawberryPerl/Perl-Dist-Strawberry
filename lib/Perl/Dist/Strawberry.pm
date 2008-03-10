@@ -58,6 +58,7 @@ sub install_c_libraries {
 	$self->install_zlib;
 	$self->install_libiconv;
 	$self->install_libxml;
+	$self->install_expat;
 
 	# Install libgmp (something to do with math)
 	$self->install_gmp;
@@ -143,6 +144,28 @@ sub install_perl_5100_toolchain_object {
 
 sub install_perl_modules {
 	my $self = shift;
+
+	# Install some Win32 basics
+	$self->install_module(
+		name  => 'Win32::File',
+		force => 1,
+	);
+	$self->install_module(
+		name => 'Win32::API',
+	);
+
+	# Install XML::Parser
+	$self->install_distribution(
+		name             => 'MSERGEANT/XML-Parser-2.36.tar.gz',
+		makefilepl_param => [
+			'EXPATLIBPATH=' . File::Spec->catdir(
+				$self->image_dir, 'c', 'lib',
+			),
+			'EXPATINCPATH=' . File::Spec->catdir(
+				$self->image_dir, 'c', 'include',
+			),
+		],
+	);
 
 	# Install the companion Perl modules for the
 	# various libs we installed.
