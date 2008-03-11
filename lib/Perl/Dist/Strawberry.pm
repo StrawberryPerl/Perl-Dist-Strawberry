@@ -33,14 +33,14 @@ sub new {
 # Supports building multiple versions of Perl.
 sub app_ver_name {
 	$_[0]->{app_ver_name} or
-	$_[0]->app_name . ' ' . $_[0]->perl_version_human . ' Update 1';
+	$_[0]->app_name . ' ' . $_[0]->perl_version_human . ' Update 1 Beta 1';
 }
 
 # Lazily default the file name
 # Supports building multiple versions of Perl.
 sub output_base_filename {
 	$_[0]->{output_base_filename} or
-	'strawberry-perl-' . $_[0]->perl_version_human . '-update-1';
+	'strawberry-perl-' . $_[0]->perl_version_human . '-update-1-beta-1';
 }
 
 
@@ -54,42 +54,17 @@ sub install_c_libraries {
 	my $self = shift;
 	$self->SUPER::install_c_libraries(@_);
 
-	# Install various XML-related modules
+	# XML Libraries
 	$self->install_zlib;
 	$self->install_libiconv;
 	$self->install_libxml;
 	$self->install_expat;
 
-	# Install libgmp (something to do with math)
+	# Math Libraries
 	$self->install_gmp;
 
 	return 1;
 }
-
-sub binary_file {
-	my $self = shift;
-	my $name = shift;
-
-	# Additional packages for this distribution
-	if ( $name eq 'gmp' ) {
-		return 'gmp-4.2.1-vanilla.zip';
-	}
-
-	# Otherwise default upwards
-	return $self->SUPER::binary_file($name, @_);
-}
-
-sub install_gmp {
-	my $self = shift;
-
-	# Comes as a single prepackaged vanilla-specific zip file
-	$self->install_binary(
-		name => 'gmp',
-	);
-
-	return 1;
-}
-
 
 
 
@@ -147,6 +122,7 @@ sub install_perl_modules {
 
 	# Install some Win32 basics
 	$self->install_module(
+		# This is actuall libwin32
 		name  => 'Win32::File',
 		force => 1,
 	);
@@ -253,6 +229,8 @@ sub install_win32_extras {
 1;
 
 __END__
+
+=pod
 
 =head1 NAME
 
@@ -375,27 +353,24 @@ Windows temporary directory for the CPAN working directory.
 
 =head1 DOWNLOADING THE INSTALLER
 
-Strawberry Perl is available from L<http://vanillaperl.com/>.
+Strawberry Perl is available from L<http://strawberryperl.com/>.
 
 =head1 CONFIGURATION
 
-At present, Strawberry Perl must be installed in C:\strawberry-perl.  The
+At present, Strawberry Perl must be installed in C:\strawberry.  The
 executable installer adds the following environment variable changes:
 
     * adds directories to PATH
-        - C:\strawberry-perl\perl\bin  
-        - C:\strawberry-perl\dmake\bin
-        - C:\strawberry-perl\mingw
-        - C:\strawberry-perl\mingw\bin
+        - C:\strawberry\perl\bin  
+        - C:\strawberry\c\bin  
 
     * adds directories to LIB
-        - C:\strawberry-perl\mingw\lib
-        - C:\strawberry-perl\perl\bin
+        - C:\strawberry\perl\bin
+        - C:\strawberry\c\lib
 
     * adds directories to INCLUDE 
-        - C:\strawberry-perl\mingw\include 
-        - C:\strawberry-perl\perl\lib\CORE 
-        - C:\strawberry-perl\perl\lib\encode
+        - C:\strawberry\perl\lib\CORE 
+        - C:\strawberry\mingw\include 
 
 LIB and INCLUDE changes are likely more than are necessary, but attempt to
 head off potential problems compiling external programs for use with Perl.
@@ -422,7 +397,7 @@ versions as follows:
    0.1.y -- Alpha series
    0.3.y -- Beta series
    0.5.y -- Release candidate series
-
+ 
  Perl 5.8 series (1.x.y) -- 'x' will be odd for test releases 
  
  Perl 5.10 series (2.x.y) -- 'x' will be odd for test releases 
