@@ -10,6 +10,10 @@ BEGIN {
 	$VERSION = '0.99';
 }
 
+use Object::Tiny qw{
+	bin_patch
+};
+
 
 
 
@@ -50,6 +54,16 @@ sub output_base_filename {
 #####################################################################
 # Customisations for C assets
 
+sub install_c_toolchain {
+	my $self = shift;
+	$self->SUPER::install_c_toolchain(@_);
+
+	# Extra Binary Tools
+	$self->install_patch;
+
+	return 1;
+}
+
 sub install_c_libraries {
 	my $self = shift;
 	$self->SUPER::install_c_libraries(@_);
@@ -66,6 +80,26 @@ sub install_c_libraries {
 	return 1;
 }
 
+sub install_patch {
+	my $self = shift;
+
+	$self->install_binary(
+		name => 'patch',
+		url  => $self->binary_url('patch-2.5.9-7-bin.zip'),
+		install_to => {
+			'bin/patch.exe' => 'c/bin/win32-patch.exe',
+		},
+	);
+	$self->{bin_patch} = File::Spec->catfile(
+		$self->image_dir, 'c', 'bin', 'win32-patch.exe',
+	);
+	unless ( -x $self->bin_patch ) {
+		die "Can't execute patch";
+	}
+
+	return 1;
+}
+n
 
 
 
@@ -120,17 +154,26 @@ sub install_perl_5100_toolchain_object {
 sub install_perl_modules {
 	my $self = shift;
 
-	# Install some Win32 basics
+	# Win32 Modules
 	$self->install_module(
 		# This is actuall libwin32
 		name  => 'Win32::File',
 		force => 1,
 	);
 	$self->install_module(
+		name => 'Win32::File::Object',
+	);
+	$self->install_module(
 		name => 'Win32::API',
 	);
+	$self->install_module(
+		name => 'Win32::Process::Info',
+	);
+	$self->install_module(
+		name => 'Win32::Exe',
+	);
 
-	# Install XML::Parser
+	# XML Modules
 	$self->install_distribution(
 		name             => 'MSERGEANT/XML-Parser-2.36.tar.gz',
 		makefilepl_param => [
@@ -142,54 +185,58 @@ sub install_perl_modules {
 			),
 		],
 	);
-
-	# Install the companion Perl modules for the
-	# various libs we installed.
 	$self->install_module(
 		name => 'XML::LibXML',
 	);
 
-	# Install the basics
-	$self->install_module(
-		name => 'Params::Util',
-	);
+	# Networking Modules
 	$self->install_module(
 		name => 'Bundle::LWP',
 	);
+	$self->install_module(
+		name => 'LWP::Online',
+	);
 
-	# Install various developer tools
-	# Currently taken care of in Util::Toolchain default set.
-	#$self->install_module(
-	#	name => 'Bundle::CPAN',
-	#);
+	# PAR Modules
+	$self->install_module(
+		name => 'PAR::Dist::InstallPPD',
+	);
+	$self->install_module(
+		name => 'PAR::Repository::Client',
+	);
 
+	# PPM Modules
+	$self->install_module(
+		name => 'SOAP::Lite',
+	);
+	$self->install_module(
+		name => 'PPM',
+	);
+	$self->install_module(
+		name => 'PPM::Profile',
+	);
+	$self->install_module(
+		name => 'PPM::Repositories',
+	);
+
+	# Install Utilities
 	$self->install_module(
 		name => 'pler',
 	);
 	$self->install_module(
 		name => 'pip',
 	);
-	$self->install_module(
-		name => 'PAR::Dist',
-	);
+
+	# CPAN::SQLite Modules
 	$self->install_module(
 		name => 'DBI',
 	);
-
-	# Install SQLite
 	$self->install_distribution(
 		name  => 'MSERGEANT/DBD-SQLite-1.14.tar.gz',
 		force => 1,
 	);
-
-	# Now we have SQLite, install the CPAN::SQLite upgrade
 	$self->install_module(
 		name => 'CPAN::SQLite',
-	);
-
-	# Install PPM support
-	$self->install_module(
-		name => 'PPM',
 	);
 
 	return 1;

@@ -46,7 +46,7 @@ $CPAN::Config = {
   ncftpget                      => q[],
   no_proxy                      => q[],
   pager                         => q[C:\\WINDOWS\\system32\\more.COM],
-  patch                         => q[],
+  patch                         => q[C:\\strawberry\\c\\bin\\win32-patch.exe],
   prefer_installer              => q[MB],
   prefs_dir                     => q[C:\\strawberry\\cpan\\prefs],
   prerequisites_policy          => q[follow],
@@ -63,7 +63,7 @@ $CPAN::Config = {
   unzip                         => q[],
   urllist                       => [
     q[http://cpan.strawberryperl.com/],
-    (-d 'C:\\minicpan'
+    (-d 'C:\\strawberry\\minicpan'
       ? (q[file://c|/strawberry/minicpan/])
       : ()
     ),
@@ -73,5 +73,5 @@ $CPAN::Config = {
   yaml_load_code                => q[0],
   yaml_module                   => q[YAML],
 };
+
 1;
-__END__
