@@ -120,15 +120,6 @@ sub install_perl_588 {
 	return 1;
 }
 
-sub install_perl_588_toolchain_object {
-	Perl::Dist::Util::Toolchain->new(
-		perl_version => $_[0]->perl_version_literal,
-		force        => {
-			'ExtUtils::CBuilder' => 'KWILLIAMS/ExtUtils-CBuilder-0.21.tar.gz',
-		},
-	);
-}
-
 sub install_perl_5100 {
 	my $self = shift;
 	$self->SUPER::install_perl_5100(@_);
@@ -140,15 +131,6 @@ sub install_perl_5100 {
 	);
 
 	return 1;
-}
-
-sub install_perl_5100_toolchain_object {
-	Perl::Dist::Util::Toolchain->new(
-		perl_version => $_[0]->perl_version_literal,
-		force        => {
-			'ExtUtils::CBuilder' => 'KWILLIAMS/ExtUtils-CBuilder-0.21.tar.gz',
-		},
-	);
 }
 
 sub install_perl_modules {
@@ -263,7 +245,7 @@ sub install_win32_extras {
 		$self->install_website(
 			name       => 'Strawberry Perl Website',
 			url        => 'http://strawberryperl.com/' . $self->output_base_filename,
-			icon_file  => 
+			icon_file  => 'Strawberry Perl Website.ico',
 		);
 	}
 
