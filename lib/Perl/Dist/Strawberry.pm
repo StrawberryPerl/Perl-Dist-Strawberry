@@ -89,14 +89,14 @@ sub install_patch {
 	my $self = shift;
 
 	$self->install_binary(
-		name => 'patch',
-		url  => $self->binary_url('patch-2.5.9-7-bin.zip'),
+		name       => 'patch',
+		url        => $self->binary_url('patch-2.5.9-7-bin.zip'),
 		install_to => {
-			'bin/patch.exe' => 'c/bin/win32-patch.exe',
+			'bin/patch.exe' => 'c/bin/patch.exe',
 		},
 	);
 	$self->{bin_patch} = File::Spec->catfile(
-		$self->image_dir, 'c', 'bin', 'win32-patch.exe',
+		$self->image_dir, 'c', 'bin', 'patch.exe',
 	);
 	unless ( -x $self->bin_patch ) {
 		die "Can't execute patch";
@@ -227,7 +227,7 @@ sub install_win32_extras {
 
 	# Link to the Strawberry Perl website.
 	# Don't include this for non-Strawberry sub-classes
-        if ( ref($self) =~ /Strawberry/ ) {
+        if ( ref($self) eq 'Perl::Dist::Strawberry' ) {
 		$self->install_file(
 			name       => 'Strawberry Perl Website Icon',
 			url        => 'http://strawberryperl.com/favicon.ico',

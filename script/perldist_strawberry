@@ -1,0 +1,162 @@
+#!/usr/bin/perl
+
+# A copy of perldist that does some strawberry-specific actions
+
+use 5.006;
+use strict;
+use warnings;
+use Params::Util qw{ _IDENTIFIER };
+use Pod::Usage;
+use Getopt::Long;
+use URI;
+use Perl::Dist::Machine;
+use Perl::Dist::Strawberry;
+
+use vars qw{$VERSION};
+BEGIN {
+	$VERSION = '0.90_03';
+}
+
+# Show usage
+unless ( @ARGV ) {
+	pod2usage( {
+		-exitval => 0,
+		-verbose => 0,
+	} );
+	exit(0);
+}
+
+
+
+
+
+#####################################################################
+# Handle Options
+
+my $PERL_VERSION = undef;
+my $CPAN         = undef;
+my $BINARY_ROOT  = undef;
+my $FORCE        = undef;
+my $result       = GetOptions(
+	"perl_version=s" => \$PERL_VERSION,
+	"cpan=s"         => \$CPAN,
+	"binary_root=s"  => \$BINARY_ROOT,
+	"force"          => \$FORCE,
+);
+
+# Get the distribution class name
+my $class = 'Perl::Dist::Strawberry';
+unless ( $class->isa('Perl::Dist') ) {
+	die "$class is not a Perl::Dist subclass";
+}
+
+
+
+
+
+# Generate options and hand off to the class
+my %options = ();
+if ( defined $PERL_VERSION ) {
+	$options{perl_version} = $PERL_VERSION;
+}
+if ( defined $CPAN ) {
+	$options{cpan} = URI->new( $CPAN );
+}
+if ( defined $BINARY_ROOT ) {
+	$options{binary_root} = $BINARY_ROOT;
+}
+if ( defined $FORCE ) {
+	$options{force} = 1;
+}
+
+# Create the machine
+my $machine = Perl::Dist::Machine->new(
+	class  => 'Perl::Dist::Strawberry',
+	common => \%options,
+);
+$machine->add_dimension('version');
+$machine->add_option('version',
+	perl_version => '5100',
+);
+# $machine->add_option('version',
+#	perl_version => '588',
+# );
+
+my $dist = $class->new( %options );
+unless ( $dist ) {
+	die "Failed to create $class";
+}
+unless ( $dist->run ) {
+	die "Failed to run";
+}
+
+exit(0);
+
+__END__
+
+=pod
+
+=head1 NAME
+
+perldist - Windows Perl distribution builder
+
+=head1 SYNOPSIS
+
+Simplfied usage...
+
+  perldist Vanilla
+  ...
+  (various output for 1-2 hours)
+  ...
+  Created as C:\tmp\vp\output\vanilla-perl-5.10.0-build-9.exe
+
+Full usage equivalent...
+
+  perldist --perl_version=588 --cpan="file://c|/minicpan/" Perl::Dist::Vanilla
+
+=head1 DESCRIPTION
+
+B<perldist> is the command line front-end to the L<Perl::Dist> Win32
+Perl distribution builder.
+
+It takes two arguments, burns CPU for an hour or more, and then
+spits out a distribution package.
+
+The argument is the class name for the distribution. This will be
+a subclass of L<Perl::Dist> that provides configuration information and
+scripts the installation sequence.
+
+If you are building a "Perl::Dist::Distribution" class, you can drop
+the "Perl::Dist::" as a convenience.
+
+And that's about all there is to it.
+
+For more information, see L<Perl::Dist>.
+
+=head1 SUPPORT
+
+Bugs should be reported via the CPAN bug tracker at
+
+L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Perl-Dist>
+
+For other issues, contact the author.
+
+=head1 AUTHOR
+
+Adam Kennedy E<lt>adamk@cpan.orgE<gt>
+
+=head1 SEE ALSO
+
+L<Perl::Dist>, L<http://ali.as/>
+
+=head1 COPYRIGHT
+
+Copyright 2007 - 2008 Adam Kennedy.
+
+This program is free software; you can redistribute
+it and/or modify it under the same terms as Perl itself.
+
+The full text of the license can be found in the
+LICENSE file included with this module.
+
+=cut
