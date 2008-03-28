@@ -29,6 +29,11 @@ sub new {
 		app_publisher     => 'Vanilla Perl Project',
 		app_publisher_url => 'http://vanillaperl.org/',
 		image_dir         => 'C:\\strawberry',
+
+		# Build both exe and zip versions
+		exe               => 1,
+		zip               => 1,
+
 		@_,
 	);
 }
@@ -37,14 +42,14 @@ sub new {
 # Supports building multiple versions of Perl.
 sub app_ver_name {
 	$_[0]->{app_ver_name} or
-	$_[0]->app_name . ' ' . $_[0]->perl_version_human . ' Update 1 Beta 1';
+	$_[0]->app_name . ' ' . $_[0]->perl_version_human . ' Update 1 Beta 2';
 }
 
 # Lazily default the file name
 # Supports building multiple versions of Perl.
 sub output_base_filename {
 	$_[0]->{output_base_filename} or
-	'strawberry-perl-' . $_[0]->perl_version_human . '-update-1-beta-1';
+	'strawberry-perl-' . $_[0]->perl_version_human . '-update-1-beta-2';
 }
 
 
@@ -99,7 +104,7 @@ sub install_patch {
 
 	return 1;
 }
-n
+
 
 
 
@@ -149,7 +154,7 @@ sub install_perl_modules {
 		name => 'Win32::API',
 	);
 	$self->install_module(
-		name => 'Win32::Process::Info',
+		name => 'Win32::Env::Path',
 	);
 	$self->install_module(
 		name => 'Win32::Exe',
@@ -185,20 +190,6 @@ sub install_perl_modules {
 	);
 	$self->install_module(
 		name => 'PAR::Repository::Client',
-	);
-
-	# PPM Modules
-	$self->install_module(
-		name => 'SOAP::Lite',
-	);
-	$self->install_module(
-		name => 'PPM',
-	);
-	$self->install_module(
-		name => 'PPM::Profile',
-	);
-	$self->install_module(
-		name => 'PPM::Repositories',
 	);
 
 	# Install Utilities
