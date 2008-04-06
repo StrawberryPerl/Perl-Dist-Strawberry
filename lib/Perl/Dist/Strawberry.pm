@@ -42,14 +42,14 @@ sub new {
 # Supports building multiple versions of Perl.
 sub app_ver_name {
 	$_[0]->{app_ver_name} or
-	$_[0]->app_name . ' ' . $_[0]->perl_version_human . ' Update 1 Beta 2';
+	$_[0]->app_name . ' ' . $_[0]->perl_version_human . '.1 Beta 3';
 }
 
 # Lazily default the file name
 # Supports building multiple versions of Perl.
 sub output_base_filename {
 	$_[0]->{output_base_filename} or
-	'strawberry-perl-' . $_[0]->perl_version_human . '-update-1-beta-2';
+	'strawberry-perl-' . $_[0]->perl_version_human . '.1-beta-3';
 }
 
 
@@ -143,7 +143,7 @@ sub install_perl_modules {
 
 	# Win32 Modules
 	$self->install_module(
-		# This is actuall libwin32
+		# This is actually libwin32
 		name  => 'Win32::File',
 		force => 1,
 	);
@@ -176,7 +176,7 @@ sub install_perl_modules {
 		name => 'XML::LibXML',
 	);
 
-	# Networking Modules
+	# Networking Enhancements
 	$self->install_module(
 		name => 'Bundle::LWP',
 	);
@@ -184,15 +184,19 @@ sub install_perl_modules {
 		name => 'LWP::Online',
 	);
 
-	# PAR Modules
+	# Binary Package Support
 	$self->install_module(
 		name => 'PAR::Dist::InstallPPD',
 	);
 	$self->install_module(
 		name => 'PAR::Repository::Client',
 	);
+	$self->install_distribution(
+		name => 'RKOBES/PPM-0.01_01.tar.gz',
+		url  => 'http://strawberryperl.com/package/PPM-0.01_01.tar.gz',
+	);
 
-	# Install Utilities
+	# Console Utilities
 	$self->install_module(
 		name => 'pler',
 	);

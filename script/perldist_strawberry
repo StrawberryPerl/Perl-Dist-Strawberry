@@ -17,15 +17,6 @@ BEGIN {
 	$VERSION = '0.90_03';
 }
 
-# Show usage
-unless ( @ARGV ) {
-	pod2usage( {
-		-exitval => 0,
-		-verbose => 0,
-	} );
-	exit(0);
-}
-
 
 
 
@@ -55,7 +46,11 @@ unless ( $class->isa('Perl::Dist') ) {
 
 
 # Generate options and hand off to the class
-my %options = ();
+my %options = (
+	# 5.8.8 may not build properly under
+	# a directory with spaces in it.
+	temp_dir => 'C:\\tmp',
+);
 if ( defined $PERL_VERSION ) {
 	$options{perl_version} = $PERL_VERSION;
 }
@@ -78,17 +73,15 @@ $machine->add_dimension('version');
 $machine->add_option('version',
 	perl_version => '5100',
 );
-# $machine->add_option('version',
+#$machine->add_option('version',
 #	perl_version => '588',
-# );
+#);
 
-my $dist = $class->new( %options );
-unless ( $dist ) {
-	die "Failed to create $class";
+unless ( $machine->run ) {
+	die("Failed to run");
 }
-unless ( $dist->run ) {
-	die "Failed to run";
-}
+
+chdir $machine->output;
 
 exit(0);
 
