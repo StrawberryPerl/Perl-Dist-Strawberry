@@ -7,7 +7,7 @@ use Perl::Dist::Util::Toolchain ();
 
 use vars qw{$VERSION};
 BEGIN {
-	$VERSION = '0.99';
+	$VERSION = '1.00';
 }
 
 use Object::Tiny qw{
@@ -42,14 +42,14 @@ sub new {
 # Supports building multiple versions of Perl.
 sub app_ver_name {
 	$_[0]->{app_ver_name} or
-	$_[0]->app_name . ' ' . $_[0]->perl_version_human . '.1 Beta 3';
+	$_[0]->app_name . ' ' . $_[0]->perl_version_human . '.1';
 }
 
 # Lazily default the file name
 # Supports building multiple versions of Perl.
 sub output_base_filename {
 	$_[0]->{output_base_filename} or
-	'strawberry-perl-' . $_[0]->perl_version_human . '.1-beta-3';
+	'strawberry-perl-' . $_[0]->perl_version_human . '.1';
 }
 
 

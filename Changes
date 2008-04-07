@@ -1,5 +1,8 @@
 Revision history for Strawberry Perl
 
+1.00 Mon 07 Apr 2008
+	- Release to match Strawberry Perl 5.10.0.1 April 2008
+
 0.99 Thu  3 Jan 2008
 	- Final refactoring to new API
 	- Should support both 5.10.0 and 5.8.8 variants
