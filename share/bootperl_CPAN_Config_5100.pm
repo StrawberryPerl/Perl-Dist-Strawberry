@@ -7,21 +7,22 @@
 my @urllist = (
     q[http://cpan.strawberryperl.com/],
 );
-if ( -d 'C:\\strawberry\\minicpan' ) {
+if ( -d 'C:\\minicpan' ) {
 	# If we are on fake Hotel/Airport wireless,
 	# prefer the minicpan to the poisoned wireless.
-	if ( LWP::Online::online() ) {
-		push @urllist, q[file://c|/strawberry/minicpan/];
-	} else {
-		unshift @urllist, q[file://c|/strawberry/minicpan/];
-	}
+	#require LWP::Online;
+	#if ( LWP::Online::online() ) {
+		push @urllist, q[file://c|/minicpan/];
+	#} else {
+	#	unshift @urllist, q[file://c|/minicpan/];
+	#}
 }
 
 $CPAN::Config = {
   applypatch                    => q[],
   auto_commit                   => q[1],
   build_cache                   => q[10],
-  build_dir                     => qq[C:\\strawberry\\cpan\\build],
+  build_dir                     => qq[C:\\bootperl\\cpan\\build],
   build_dir_reuse               => q[0],
   build_requires_install_policy => q[yes],
   bzip2                         => q[],
@@ -31,7 +32,7 @@ $CPAN::Config = {
   colorize_print                => q[bold blue on_white],
   colorize_warn                 => q[bold red on_white],
   commandnumber_in_prompt       => q[0],
-  cpan_home                     => q[C:\\strawberry\\cpan],
+  cpan_home                     => q[C:\\bootperl\\cpan],
   curl                          => q[],
   ftp                           => q[C:\\WINDOWS\\system32\\ftp.EXE],
   ftp_passive                   => q[1],
@@ -39,19 +40,19 @@ $CPAN::Config = {
   getcwd                        => q[cwd],
   gpg                           => q[],
   gzip                          => q[],
-  histfile                      => q[C:\\strawberry\\cpan\\histfile],
+  histfile                      => q[C:\\bootperl\\cpan\\histfile],
   histsize                      => q[100],
   http_proxy                    => q[],
   inactivity_timeout            => q[0],
   index_expire                  => q[1],
   inhibit_startup_message       => q[0],
-  keep_source_where             => q[C:\\strawberry\\cpan\\sources],
+  keep_source_where             => q[C:\\bootperl\\cpan\\sources],
   load_module_verbosity         => q[none],
   lynx                          => q[],
-  make                          => q[C:\\strawberry\\c\\bin\\dmake.EXE],
+  make                          => q[C:\\bootperl\\c\\bin\\dmake.EXE],
   make_arg                      => q[],
   make_install_arg              => q[UNINST=1],
-  makepl_arg                    => q[LIBS=-LC:\\strawberry\\c\\lib INC=-IC:\\strawberry\\c\\include],
+  makepl_arg                    => q[LIBS=-LC:\\bootperl\\c\\lib INC=-IC:\\bootperl\\c\\include],
   mbuild_arg                    => q[],
   mbuild_install_arg            => q[--uninst 1],
   mbuildpl_arg                  => q[],
@@ -59,9 +60,9 @@ $CPAN::Config = {
   ncftpget                      => q[],
   no_proxy                      => q[],
   pager                         => q[C:\\WINDOWS\\system32\\more.COM],
-  patch                         => q[C:\\strawberry\\c\\bin\\patch.exe],
+  patch                         => q[C:\\bootperl\\c\\bin\\patch.exe],
   prefer_installer              => q[MB],
-  prefs_dir                     => q[C:\\strawberry\\cpan\\prefs],
+  prefs_dir                     => q[C:\\bootperl\\cpan\\prefs],
   prerequisites_policy          => q[follow],
   scan_cache                    => q[atstart],
   shell                         => q[C:\\WINDOWS\\system32\\cmd.exe],

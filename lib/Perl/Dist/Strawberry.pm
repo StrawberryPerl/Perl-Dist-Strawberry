@@ -141,6 +141,11 @@ sub install_perl_5100 {
 sub install_perl_modules {
 	my $self = shift;
 
+	# Install LWP::Online, so our custom minicpan code works
+	$self->install_distribution(
+		name => 'ADAMK/LWP-Online-0.04.tar.gz'
+	);
+
 	# Win32 Modules
 	$self->install_module(
 		# This is actually libwin32
