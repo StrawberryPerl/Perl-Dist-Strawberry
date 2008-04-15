@@ -1,5 +1,9 @@
 Revision history for Strawberry Perl
 
+1.01 Wed 16 Apr 2008
+	- Updating to use install_modules
+	- Adding Perl::Dist::Bootperl
+
 1.00 Mon 07 Apr 2008
 	- Release to match Strawberry Perl 5.10.0.1 April 2008
 
