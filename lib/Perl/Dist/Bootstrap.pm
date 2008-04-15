@@ -58,9 +58,33 @@ sub install_perl_modules {
 	$self->SUPER::install_perl_modules(@_);
 
 	# Install Perl::Dist itself
-	$self->install_distribution(
-		name => 'ADAMK/Perl-Dist-1.00.tar.gz',
-	);
+	$self->install_modules( qw{
+		File::Copy::Recursive
+		File::Find::Rule
+		File::pushd
+		File::Remove
+		File::ShareDir
+		File::Temp
+		IPC::Run3
+		LWP::UserAgent::Determined
+		LWP::Online
+		Object::Tiny
+		Tie::File
+		YAML::Tiny
+		Module::CoreList
+		Params::Util
+		PAR::Dist
+		Process
+		Process::Storable
+		Process::Delegatable
+		IO::Capture
+		Win32::File::Object
+		Test::More
+		Test::Script
+		Test::LongString
+		Probe::Perl
+		Module::Install
+	} );
 
 	return 1;
 }
