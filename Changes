@@ -1,5 +1,9 @@
 Revision history for Strawberry Perl
 
+1.02 Wed 16 Apr 2008
+	- Removed redundant docs from perldist_strawberry
+	- Enabled multi-version building in perldist_strawberry
+
 1.01 Wed 16 Apr 2008
 	- Updating to use install_modules
 	- Adding Perl::Dist::Bootperl
