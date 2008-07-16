@@ -2,12 +2,13 @@ package Perl::Dist::Strawberry;
 
 use 5.005;
 use strict;
-use base 'Perl::Dist';
+use Perl::Dist ();
 use Perl::Dist::Util::Toolchain ();
 
-use vars qw{$VERSION};
+use vars qw{$VERSION @ISA};
 BEGIN {
-	$VERSION = '1.01';
+	$VERSION = '1.03';
+	@ISA     = 'Perl::Dist';
 }
 
 use Object::Tiny qw{
@@ -42,14 +43,20 @@ sub new {
 # Supports building multiple versions of Perl.
 sub app_ver_name {
 	$_[0]->{app_ver_name} or
-	$_[0]->app_name . ' ' . $_[0]->perl_version_human . '.1';
+	$_[0]->app_name
+		. ($_[0]->portable ? ' Portable' : '')
+		. ' ' . $_[0]->perl_version_human
+		. '.1';
 }
 
 # Lazily default the file name
 # Supports building multiple versions of Perl.
 sub output_base_filename {
 	$_[0]->{output_base_filename} or
-	'strawberry-perl-' . $_[0]->perl_version_human . '.1';
+	'strawberry-perl-'
+		. ($_[0]->portable ? '-portable' : '')
+		. $_[0]->perl_version_human
+		. '.1-1';
 }
 
 
@@ -147,12 +154,8 @@ sub install_perl_modules {
 	);
 
 	# Win32 Modules
-	$self->install_module(
-		# This is actually libwin32
-		name  => 'Win32::File',
-		force => 1,
-	);
 	$self->install_modules( qw{
+		Win32::File
 		Win32::File::Object
 		Win32::API
 		Win32::Env::Path
@@ -163,12 +166,8 @@ sub install_perl_modules {
 	$self->install_distribution(
 		name             => 'MSERGEANT/XML-Parser-2.36.tar.gz',
 		makefilepl_param => [
-			'EXPATLIBPATH=' . File::Spec->catdir(
-				$self->image_dir, 'c', 'lib',
-			),
-			'EXPATINCPATH=' . File::Spec->catdir(
-				$self->image_dir, 'c', 'include',
-			),
+			'EXPATLIBPATH=' . $self->dir(qw{ c lib     }),
+			'EXPATINCPATH=' . $self->dir(qw{ c include }),
 		],
 	);
 	$self->install_module(
@@ -207,6 +206,12 @@ sub install_perl_modules {
 	);
 	$self->install_module(
 		name => 'CPAN::SQLite',
+	);
+
+	# Install Math::Pari, and Net::SSH::Perl
+	$self->install_pari;
+	$self->install_module(
+		name => 'Net::SSH::Perl',
 	);
 
 	return 1;

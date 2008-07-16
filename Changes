@@ -1,5 +1,10 @@
 Revision history for Strawberry Perl
 
+1.03 Tue 15 Jul 2008
+	- Upgrading to Module::Install 0.76
+	- Adding support for Math::Pari by default
+	- Adding support for Net::SSH::Perl by default
+
 1.02 Wed 16 Apr 2008
 	- Removed redundant docs from perldist_strawberry
 	- Enabled multi-version building in perldist_strawberry
