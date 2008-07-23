@@ -1,9 +1,12 @@
-Revision history for Strawberry Perl
+Changes for Perl extension Perl-Dist-Strawberry
 
 1.03 Tue 15 Jul 2008
 	- Upgrading to Module::Install 0.76
 	- Adding support for Math::Pari by default
-	- Adding support for Net::SSH::Perl by default
+	- Updating Perl::Dist dep to 1.03 to get Vista support
+	- Cleaning up the documenation to refer to the current
+	  release, removed historical innacuracies.
+	- Adding support for installing path via install_patch
 
 1.02 Wed 16 Apr 2008
 	- Removed redundant docs from perldist_strawberry
