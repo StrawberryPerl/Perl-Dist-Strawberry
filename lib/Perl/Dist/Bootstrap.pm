@@ -7,7 +7,7 @@ use Perl::Dist::Util::Toolchain ();
 
 use vars qw{$VERSION};
 BEGIN {
-	$VERSION = '1.03';
+	$VERSION = '1.04';
 }
 
 

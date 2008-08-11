@@ -151,7 +151,7 @@ use Perl::Dist::Util::Toolchain ();
 
 use vars qw{$VERSION @ISA};
 BEGIN {
-	$VERSION = '1.03';
+	$VERSION = '1.04';
 	@ISA     = 'Perl::Dist';
 }
 
@@ -190,17 +190,17 @@ sub app_ver_name {
 	$_[0]->app_name
 		. ($_[0]->portable ? ' Portable' : '')
 		. ' ' . $_[0]->perl_version_human
-		. '.1';
+		. '.2';
 }
 
 # Lazily default the file name
 # Supports building multiple versions of Perl.
 sub output_base_filename {
 	$_[0]->{output_base_filename} or
-	'strawberry-perl-'
+	'strawberry-perl'
 		. ($_[0]->portable ? '-portable' : '')
-		. $_[0]->perl_version_human
-		. '.1-1';
+		. '-' . $_[0]->perl_version_human
+		. '.2';
 }
 
 
@@ -236,36 +236,6 @@ sub install_c_libraries {
 	return 1;
 }
 
-=pod
-
-=head2 install_patch
-
-The C<install_path> method can be used to install a copy of the Unix
-patch program into the distribution.
-
-Returns true or throws an exception on error.
-
-=cut
-
-sub install_patch {
-	my $self = shift;
-
-	$self->install_binary(
-		name       => 'patch',
-		url        => $self->binary_url('patch-2.5.9-7-bin.zip'),
-		install_to => {
-			'bin/patch.exe' => 'c/bin/patch.exe',
-		},
-	);
-	$self->{bin_patch} = File::Spec->catfile(
-		$self->image_dir, 'c', 'bin', 'patch.exe',
-	);
-	unless ( -x $self->bin_patch ) {
-		die "Can't execute patch";
-	}
-
-	return 1;
-}
 
 
 
@@ -278,7 +248,7 @@ sub install_perl_588 {
 	my $self = shift;
 	$self->SUPER::install_perl_588(@_);
 
-	# Install the vanilla CPAN::Config
+	# Install the Strawberry CPAN::Config
 	$self->install_file(
 		share      => 'Perl-Dist-Strawberry CPAN_Config_588.pm',
 		install_to => 'perl/lib/CPAN/Config.pm',
@@ -305,7 +275,7 @@ sub install_perl_modules {
 
 	# Install LWP::Online, so our custom minicpan code works
 	$self->install_distribution(
-		name => 'ADAMK/LWP-Online-0.04.tar.gz'
+		name => 'ADAMK/LWP-Online-1.07.tar.gz'
 	);
 
 	# Win32 Modules
@@ -343,12 +313,21 @@ sub install_perl_modules {
 	# Networking Enhancements
 	$self->install_modules( qw{
 		Bundle::LWP
-		LWP::Online
 	} );
 
 	# Binary Package Support
 	$self->install_modules( qw{
 		PAR::Dist::InstallPPD
+		Test::Exception
+		IO::Scalar
+		Test::Warn
+		Test::Deep
+	} );
+	$self->install_distribution(
+		name  => 'RKINYON/DBM-Deep-1.0013.tar.gz',
+		force => 1,
+	);
+	$self->install_modules( qw{
 		PAR::Repository::Client
 	} );
 	$self->install_distribution(
@@ -357,6 +336,12 @@ sub install_perl_modules {
 	);
 
 	# Console Utilities
+	$self->install_distribution(
+		# Latest version doesn't build, and pip needs it
+		# as a dependency.
+		name  => 'DCANTRELL/Data-Compare-1.19.tar.gz',
+		force => 1,
+	);
 	$self->install_modules( qw{
 		pler
 		pip
@@ -404,6 +389,44 @@ sub install_win32_extras {
 
 	# Add the rest of the extras
 	$self->SUPER::install_win32_extras(@_);
+
+	return 1;
+}
+
+
+
+
+
+#####################################################################
+# Installation Methods
+
+=pod
+
+=head2 install_patch
+
+The C<install_path> method can be used to install a copy of the Unix
+patch program into the distribution.
+
+Returns true or throws an exception on error.
+
+=cut
+
+sub install_patch {
+	my $self = shift;
+
+	$self->install_binary(
+		name       => 'patch',
+		url        => $self->binary_url('patch-2.5.9-7-bin.zip'),
+		install_to => {
+			'bin/patch.exe' => 'c/bin/patch.exe',
+		},
+	);
+	$self->{bin_patch} = File::Spec->catfile(
+		$self->image_dir, 'c', 'bin', 'patch.exe',
+	);
+	unless ( -x $self->bin_patch ) {
+		die "Can't execute patch";
+	}
 
 	return 1;
 }

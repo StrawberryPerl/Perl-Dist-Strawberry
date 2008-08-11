@@ -1,5 +1,9 @@
 Changes for Perl extension Perl-Dist-Strawberry
 
+1.04 Mon 11 Aug 2008
+	- Upgrading to Module::Install 0.77
+	- This release corrosponds with Strawberry Perl August 2008
+
 1.03 Tue 15 Jul 2008
 	- Upgrading to Module::Install 0.76
 	- Adding support for Math::Pari by default

@@ -14,7 +14,7 @@ use Perl::Dist::Strawberry;
 
 use vars qw{$VERSION};
 BEGIN {
-	$VERSION = '0.90_03';
+	$VERSION = '1.04';
 }
 
 
@@ -70,6 +70,10 @@ my $machine = Perl::Dist::Machine->new(
 	common => \%options,
 );
 $machine->add_dimension('version');
+$machine->add_option('version',
+	perl_version => '5100',
+	portable     => 1,
+);
 $machine->add_option('version',
 	perl_version => '5100',
 );
