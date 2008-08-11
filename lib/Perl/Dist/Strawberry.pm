@@ -437,11 +437,9 @@ sub install_patch {
 
 =head1 SUPPORT
 
-Please report bugs or feature requests using the CPAN Request Tracker.
+Bugs should be reported via the CPAN bug tracker at
 
-Bugs can be sent by email to E<lt>bug-Perl-Dist-Strawberry@rt.cpan.orgE<gt>
-or submitted using the web interface at
-L<http://rt.cpan.org/Dist/Display.html?Queue=Perl-Dist-Strawberry>
+L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Perl-Dist>
 
 For more support information and places for discussion, see the
 Strawberry Perl Support page L<http://strawberryperl.com/support.html>.
