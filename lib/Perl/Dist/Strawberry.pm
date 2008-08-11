@@ -439,7 +439,7 @@ sub install_patch {
 
 Bugs should be reported via the CPAN bug tracker at
 
-L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Perl-Dist>
+L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Perl-Dist-Strawberry>
 
 For more support information and places for discussion, see the
 Strawberry Perl Support page L<http://strawberryperl.com/support.html>.
