@@ -71,14 +71,15 @@ my $machine = Perl::Dist::Machine->new(
 );
 $machine->add_dimension('version');
 $machine->add_option('version',
+	perl_version => '588',
+	checkpoint_after => 2,
+);
+$machine->add_option('version',
+	perl_version => '5100',
+);
+$machine->add_option('version',
 	perl_version => '5100',
 	portable     => 1,
-);
-$machine->add_option('version',
-	perl_version => '5100',
-);
-$machine->add_option('version',
-	perl_version => '588',
 );
 
 unless ( $machine->run ) {

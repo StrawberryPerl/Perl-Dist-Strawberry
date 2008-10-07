@@ -77,51 +77,17 @@ that improve general compatibility with the Win32 platform or improve
 "turnkey" operation on Win32.  
 
 Whenever possible, these modifications will be made only by preinstalling
-additional CPAN modules within Strawberry Perl, particularly modules that have
-been newly included as core Perl modules in the "development" branch of perl
-to address Win32 compatibility issues.
+additional CPAN modules within Strawberry Perl, particularly modules that
+have been newly included as core Perl modules in the "development" branch
+of perl to address Win32 compatibility issues.
 
-Modules or distributions currently included are:
+Additionally, a stub CPAN Config.pm file is installed.  This provides a
+complete zero-conf preconfiguration for CPAN, using a stable
+http://cpan.strawberryperl.com/ URI to bounce to a known-reliable
+mirrors.
 
-=over
-
-=item *
-
-ExtUtils::MakeMaker 6.30_01 -- fixes a Win32 perl path bug
-
-=item *
-
-CPAN 1.87_57 -- many small fixes for numerous annoyances on Win32
-
-=item * 
-
-Win32API::File -- to allow for deletion of in-use files at next reboot;
-required for CPAN.pm to be able to upgrade itself
-
-=item *
-
-IO -- to address Win32 Socket bugs
-    
-=item *
-
-Compress::Zlib, IO::Zlib and Archive::Tar -- to eliminate the CPAN.pm
-dependency on external, binary programs to handle .tar.gz files
-
-=item *
-
-Archive::Zip (and its dependency, Time::Local) -- to eliminate the CPAN.pm
-dependency on external, binary programs to handle .zip files
-
-=item *
-
-libnet -- provides Net::FTP to eliminate the CPAN.pm dependency on an external,
-binary ftp program; installed configured for FTP passive mode
-
-=back
-
-Additionally, a stub CPAN Config.pm file is installed.  It provides defaults
-to the path for dmake, to automatically follow dependencies and to use the
-Windows temporary directory for the CPAN working directory. 
+A more-thorough network-aware zero-conf capability is currently being
+developed and will be provided at a later time.
 
 =head1 CONFIGURATION
 
@@ -190,7 +156,7 @@ sub app_ver_name {
 	$_[0]->app_name
 		. ($_[0]->portable ? ' Portable' : '')
 		. ' ' . $_[0]->perl_version_human
-		. '.2';
+		. '.3';
 }
 
 # Lazily default the file name
@@ -200,7 +166,7 @@ sub output_base_filename {
 	'strawberry-perl'
 		. ($_[0]->portable ? '-portable' : '')
 		. '-' . $_[0]->perl_version_human
-		. '.2';
+		. '.3';
 }
 
 
