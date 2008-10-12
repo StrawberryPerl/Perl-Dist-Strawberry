@@ -112,6 +112,7 @@ core.
 
 use 5.006;
 use strict;
+use URI::file                   ();
 use Perl::Dist                  ();
 use Perl::Dist::Util::Toolchain ();
 
@@ -295,12 +296,12 @@ sub install_perl_modules {
 	);
 
 	# Console Utilities
-	$self->install_distribution(
-		# Latest version doesn't build, and pip needs it
-		# as a dependency.
-		name  => 'DCANTRELL/Data-Compare-1.19.tar.gz',
-		force => 1,
-	);
+	#$self->install_distribution(
+	#	# Latest version doesn't build, and pip needs it
+	#	# as a dependency.
+	#	name  => 'DCANTRELL/Data-Compare-1.19.tar.gz',
+	#	force => 1,
+	#);
 	$self->install_modules( qw{
 		pler
 		pip

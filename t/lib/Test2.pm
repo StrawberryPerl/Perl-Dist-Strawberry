@@ -19,18 +19,11 @@ BEGIN {
 sub new {
 	return shift->SUPER::new(
 		perl_version => 5100,
+		trace        => 1,
 		@_,
 	);
 }
 
-sub trace { 1 } # Test::More::diag($_[1]) }
-
-sub install_binary {
-	return shift->SUPER::install_binary( @_, trace => sub { 1 } );
-}
-
-sub install_module {
-	return shift->SUPER::install_module( @_, trace => sub { 1 } );
-}
+sub trace { Test::More::diag($_[1]) }
 
 1;
