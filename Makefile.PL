@@ -1,11 +1,14 @@
 use inc::Module::Install 0.77;
 
-name           'Perl-Dist-Strawberry';
-author         'Adam Kennedy <adamk@cpan.org>';
-license        'perl';
 all_from       'lib/Perl/Dist/Strawberry.pm';
-requires       'Perl::Dist' => '1.04';
-test_requires  'Test::More' => '0.42';
+requires       'Object::Tiny' => '1.06';
+requires       'Perl::Dist'   => '1.05';
+test_requires  'Test::More'   => '0.42';
+test_requires  'File::Spec'   => '0.80';
+test_requires  'File::Path'   => 0;
+test_requires  'File::Remove' => 0;
+test_requires  'URI::file'    => 0;
+test_requires  'LWP::Online'  => 0;
 install_script 'perldist_strawberry';
 install_share;
 

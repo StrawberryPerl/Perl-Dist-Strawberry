@@ -112,12 +112,12 @@ core.
 
 use 5.006;
 use strict;
-use Perl::Dist ();
+use Perl::Dist                  ();
 use Perl::Dist::Util::Toolchain ();
 
 use vars qw{$VERSION @ISA};
 BEGIN {
-	$VERSION = '1.04';
+	$VERSION = '1.05_01';
 	@ISA     = 'Perl::Dist';
 }
 
@@ -132,7 +132,7 @@ use Object::Tiny qw{
 #####################################################################
 # Configuration
 
-# Apply some default paths
+# Apply default paths
 sub new {
 	shift->SUPER::new(
 		app_id            => 'strawberryperl',
@@ -159,7 +159,7 @@ sub app_ver_name {
 		. '.3';
 }
 
-# Lazily default the file name
+# Lazily default the file name.
 # Supports building multiple versions of Perl.
 sub output_base_filename {
 	$_[0]->{output_base_filename} or
@@ -210,30 +210,23 @@ sub install_c_libraries {
 #####################################################################
 # Customisations for Perl assets
 
-sub install_perl_588 {
-	my $self = shift;
-	$self->SUPER::install_perl_588(@_);
+sub patch_include_path {
+	my $self  = shift;
 
-	# Install the Strawberry CPAN::Config
-	$self->install_file(
-		share      => 'Perl-Dist-Strawberry CPAN_Config_588.pm',
-		install_to => 'perl/lib/CPAN/Config.pm',
+	# Find the share path for this distribution
+	my $share = File::ShareDir::dist_dir('Perl-Dist-Strawberry');
+	my $path  = File::Spec->catdir(
+		$share, 'strawberry',
 	);
+	unless ( -d $path ) {
+		die("Directory $path does not exist");
+	}
 
-	return 1;
-}
-
-sub install_perl_5100 {
-	my $self = shift;
-	$self->SUPER::install_perl_5100(@_);
-
-	# Install the vanilla CPAN::Config
-	$self->install_file(
-		share      => 'Perl-Dist-Strawberry CPAN_Config_5100.pm',
-		install_to => 'perl/lib/CPAN/Config.pm',
-	);
-
-	return 1;
+	# Prepend it to the default include path
+	return [
+		$path,
+		@{ $self->SUPER::patch_include_path },
+	];
 }
 
 sub install_perl_modules {

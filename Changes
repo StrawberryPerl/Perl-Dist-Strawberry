@@ -1,5 +1,10 @@
 Changes for Perl extension Perl-Dist-Strawberry
 
+1.05 (missing)
+	- Upgrading to Perl::Dist 1.05
+	- This release corrosponds with Strawberry Perl October 2008
+	- Adding constructor and full run test scripts
+
 1.04 Mon 11 Aug 2008
 	- Upgrading to Module::Install 0.77
 	- This release corrosponds with Strawberry Perl August 2008

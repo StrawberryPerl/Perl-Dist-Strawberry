@@ -1,13 +1,14 @@
 package Perl::Dist::Bootstrap;
 
-use 5.005;
+use 5.006;
 use strict;
-use base 'Perl::Dist::Strawberry';
+use Perl::Dist::Strawberry      ();
 use Perl::Dist::Util::Toolchain ();
 
-use vars qw{$VERSION};
+use vars qw{$VERSION @ISA};
 BEGIN {
-	$VERSION = '1.04';
+	$VERSION = '1.05_01';
+	@ISA     = 'Perl::Dist::Strawberry';
 }
 
 
@@ -37,20 +38,34 @@ sub new {
 # Supports building multiple versions of Perl.
 sub output_base_filename {
 	$_[0]->{output_base_filename} or
-	'boostrap-perl-' . $_[0]->perl_version_human . '.1';
+	'boostrap-perl-' . $_[0]->perl_version_human . '.2';
 }
 
-sub install_perl_5100 {
-	my $self = shift;
-	$self->SUPER::install_perl_5100(@_);
 
-	# Install the vanilla CPAN::Config
-	$self->install_file(
-		share      => 'Perl-Dist-Strawberry bootperl_CPAN_Config_5100.pm',
-		install_to => 'perl/lib/CPAN/Config.pm',
+
+
+
+
+#####################################################################
+# Customisations for Perl assets
+
+sub patch_include_path {
+	my $self  = shift;
+
+	# Find the share path for this distribution
+	my $share = File::ShareDir::dist_dir('Perl-Dist-Strawberry');
+	my $path  = File::Spec->catdir(
+		$share, 'bootstrap',
 	);
+	unless ( -d $path ) {
+		die("Directory $path does not exist");
+	}
 
-	return 1;
+	# Prepend it to the default include path
+	return [
+		$path,
+		@{ $self->SUPER::patch_include_path },
+	];
 }
 
 sub install_perl_modules {
