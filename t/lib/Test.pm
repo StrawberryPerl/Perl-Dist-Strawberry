@@ -9,6 +9,7 @@ use File::Path    ();
 use File::Remove  ();
 use t::lib::Test1 ();
 use t::lib::Test2 ();
+use t::lib::Test3 ();
 
 use vars qw{$VERSION};
 BEGIN {
@@ -75,6 +76,13 @@ sub new1 {
 sub new2 {
 	my $class = shift;
 	return t::lib::Test2->new(
+		$class->paths(@_),
+	);
+}
+
+sub new3 {
+	my $class = shift;
+	return t::lib::Test3->new(
 		$class->paths(@_),
 	);
 }
