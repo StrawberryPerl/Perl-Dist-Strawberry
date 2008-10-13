@@ -87,4 +87,12 @@ sub new3 {
 	);
 }
 
+sub new4 {
+	my $class = shift;
+	return t::lib::Test2->new(
+		$class->paths(@_),
+		portable => 1,
+	);
+}
+
 1;

@@ -4,6 +4,7 @@ Changes for Perl extension Perl-Dist-Strawberry
 	- Upgrading to Perl::Dist 1.05
 	- This release corrosponds with Strawberry Perl October 2008
 	- Adding constructor and full run test scripts
+	- Adding three full-run tests for 5.10.0, 5.10.0 Portable and 5.8.8
 
 1.04 Mon 11 Aug 2008
 	- Upgrading to Module::Install 0.77
@@ -51,7 +52,7 @@ Changes for Perl extension Perl-Dist-Strawberry
 	- Includes CPAN 1.87_57 (with CPAN::Reporter support!)
 	- Includes up-to-date ExtUtils::MakeMaker (as this isn't in Bundle::CPAN)
 	- Switched to standalone Win32API::File instead of the one embedded in
-	libwin32
+	  libwin32
 	- Added mingw32-make binary (helps with Alien::wxWidgets)
 	- Removed fake Module::Signature as Bundle::CPAN no longer includes it
     
