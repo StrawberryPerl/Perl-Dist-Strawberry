@@ -253,10 +253,8 @@ sub install_perl_modules {
 		Math::BigInt
 		Math::BigInt::FastCalc
 		Math::BigRat
+		Math::BigInt::GMP
 	});
-	$self->install_distribution(
-		name => 'TELS/math/Math-BigInt-GMP-1.24.tar.gz',
-	);
 
 	# XML Modules
 	$self->install_distribution(
@@ -296,12 +294,6 @@ sub install_perl_modules {
 	);
 
 	# Console Utilities
-	#$self->install_distribution(
-	#	# Latest version doesn't build, and pip needs it
-	#	# as a dependency.
-	#	name  => 'DCANTRELL/Data-Compare-1.19.tar.gz',
-	#	force => 1,
-	#);
 	$self->install_modules( qw{
 		pler
 		pip
