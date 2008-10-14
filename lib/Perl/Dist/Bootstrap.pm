@@ -21,7 +21,7 @@ BEGIN {
 # Apply some default paths
 sub new {
 	shift->SUPER::new(
-		app_id            => 'bootstrapperl',
+		app_id            => 'bootperl',
 		app_name          => 'Bootstrap Perl',
 		app_publisher     => 'Vanilla Perl Project',
 		app_publisher_url => 'http://vanillaperl.org/',
@@ -38,7 +38,7 @@ sub new {
 # Supports building multiple versions of Perl.
 sub output_base_filename {
 	$_[0]->{output_base_filename} or
-	'boostrap-perl-' . $_[0]->perl_version_human . '.2';
+	'bootstrap-perl-' . $_[0]->perl_version_human . '.3';
 }
 
 
