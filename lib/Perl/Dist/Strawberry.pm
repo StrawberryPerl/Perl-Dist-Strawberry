@@ -114,6 +114,7 @@ use 5.006;
 use strict;
 use URI::file                   ();
 use Perl::Dist                  ();
+use Perl::Dist::Machine         ();
 use Perl::Dist::Util::Toolchain ();
 
 use vars qw{$VERSION @ISA};
@@ -125,6 +126,37 @@ BEGIN {
 use Object::Tiny qw{
 	bin_patch
 };
+
+
+
+
+
+#####################################################################
+# Build Machine Generator
+
+sub default_machine {
+	my $class   = shift;
+	my %options = @_;
+
+	# Create the machine
+	my $machine = Perl::Dist::Machine->new(
+		class  => $class,
+		common => \%options,
+	);
+	$machine->add_dimension('version');
+	$machine->add_option('version',
+		perl_version => '588',
+	);
+	$machine->add_option('version',
+		perl_version => '5100',
+	);
+	$machine->add_option('version',
+		perl_version => '5100',
+		portable     => 1,
+	);
+
+	return $machine;
+}
 
 
 

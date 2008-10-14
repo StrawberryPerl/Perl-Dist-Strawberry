@@ -65,22 +65,10 @@ if ( defined $FORCE ) {
 }
 
 # Create the machine
-my $machine = Perl::Dist::Machine->new(
-	class  => 'Perl::Dist::Strawberry',
-	common => \%options,
-);
-$machine->add_dimension('version');
-$machine->add_option('version',
-	perl_version => '588',
-	checkpoint_after => 2,
-);
-$machine->add_option('version',
-	perl_version => '5100',
-);
-$machine->add_option('version',
-	perl_version => '5100',
-	portable     => 1,
-);
+my $machine = Perl::Dist::Strawberry->default_machine( %options );
+unless ( $machine ) {
+	die("Failed to create default machine");
+}
 
 unless ( $machine->run ) {
 	die("Failed to run");
