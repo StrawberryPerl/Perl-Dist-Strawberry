@@ -41,4 +41,4 @@ my $machine = Perl::Dist::Strawberry->default_machine(
 isa_ok( $machine, 'Perl::Dist::Machine' );
 
 # Run the machine and generate the dists
-ok( $machine->run, '->run ok' );
+ok( $machine->run, '->run completed' );
