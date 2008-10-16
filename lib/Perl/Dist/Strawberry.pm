@@ -413,7 +413,8 @@ sub install_win32_extras {
 		);
 		$self->install_website(
 			name       => 'Strawberry Perl Website',
-			url        => 'http://strawberryperl.com/' . $self->output_base_filename,
+			url        => 'http://strawberryperl.com/'
+			            . $self->output_base_filename,
 			icon_file  => 'Strawberry Perl Website.ico',
 		);
 	}
