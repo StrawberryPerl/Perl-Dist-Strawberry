@@ -421,6 +421,44 @@ sub install_win32_extras {
 	return 1;
 }
 
+
+
+
+
+#####################################################################
+# Custom Installation Methods
+
+=pod
+
+=head2 install_patch
+
+The C<install_path> method can be used to install a copy of the Unix
+patch program into the distribution.
+
+Returns true or throws an exception on error.
+
+=cut
+
+sub install_patch {
+	my $self = shift;
+
+	$self->install_binary(
+		name       => 'patch',
+		url        => $self->binary_url('patch-2.5.9-7-bin.zip'),
+		install_to => {
+			'bin/patch.exe' => 'c/bin/patch.exe',
+		},
+	);
+	$self->{bin_patch} = File::Spec->catfile(
+		$self->image_dir, 'c', 'bin', 'patch.exe',
+	);
+	unless ( -x $self->bin_patch ) {
+		die "Can't execute patch";
+	}
+
+	return 1;
+}
+
 sub install_win32_manifest {
 	my $self = shift;
 	my $name = shift;
@@ -465,44 +503,6 @@ END_MANIFEST
 	}
 
 	return 1;	
-}
-
-
-
-
-
-#####################################################################
-# Installation Methods
-
-=pod
-
-=head2 install_patch
-
-The C<install_path> method can be used to install a copy of the Unix
-patch program into the distribution.
-
-Returns true or throws an exception on error.
-
-=cut
-
-sub install_patch {
-	my $self = shift;
-
-	$self->install_binary(
-		name       => 'patch',
-		url        => $self->binary_url('patch-2.5.9-7-bin.zip'),
-		install_to => {
-			'bin/patch.exe' => 'c/bin/patch.exe',
-		},
-	);
-	$self->{bin_patch} = File::Spec->catfile(
-		$self->image_dir, 'c', 'bin', 'patch.exe',
-	);
-	unless ( -x $self->bin_patch ) {
-		die "Can't execute patch";
-	}
-
-	return 1;
 }
 
 1;
