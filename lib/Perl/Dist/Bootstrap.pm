@@ -71,16 +71,13 @@ sub patch_include_path {
 
 	# Find the share path for this distribution
 	my $share = File::ShareDir::dist_dir('Perl-Dist-Strawberry');
-	my $path  = File::Spec->catdir(
-		$share, 'bootstrap',
-	);
+	my $path  = File::Spec->catdir( $share, 'bootstrap' );
 	unless ( -d $path ) {
 		die("Directory $path does not exist");
 	}
 
 	# Prepend it to the default include path
-	return [
-		$path,
+	return [ $path,
 		@{ $self->SUPER::patch_include_path },
 	];
 }
@@ -116,8 +113,9 @@ sub install_perl_modules {
 		Test::LongString
 		Probe::Perl
 		Module::Install
+		Perl::Dist
 	} );
-
+	
 	return 1;
 }
 
