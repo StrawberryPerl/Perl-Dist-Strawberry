@@ -17,7 +17,7 @@ BEGIN {
 		plan( skip_all => 'No RELEASE_TESTING: Skipping very long test' );
 		exit(0);
 	}
-	plan( tests => 6 );
+	plan( tests => 2 );
 }
 
 use File::Spec::Functions ':ALL';
@@ -35,7 +35,7 @@ use t::lib::Test           ();
 my $output = catdir( 't', 'tmp7' );
 t::lib::Test::remake_path( $output );
 my $machine = Perl::Dist::Strawberry->default_machine(
-	t::lib::Test->paths(6),
+	common => [ t::lib::Test->paths(6) ],
 	output => $output,
 );
 isa_ok( $machine, 'Perl::Dist::Machine' );

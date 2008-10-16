@@ -128,7 +128,7 @@ use Perl::Dist::Util::Toolchain ();
 
 use vars qw{$VERSION @ISA};
 BEGIN {
-	$VERSION = '1.05_01';
+	$VERSION = '1.07';
 	@ISA     = 'Perl::Dist';
 }
 
@@ -161,14 +161,10 @@ Returns a L<Perl::Dist::Machine> object.
 =cut
 
 sub default_machine {
-	my $class   = shift;
-	my %options = @_;
+	my $class = shift;
 
 	# Create the machine
-	my $machine = Perl::Dist::Machine->new(
-		class  => $class,
-		common => \%options,
-	);
+	my $machine = Perl::Dist::Machine->new( class => $class, @_ );
 	$machine->add_dimension('version');
 	$machine->add_option('version',
 		perl_version => '588',
