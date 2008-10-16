@@ -432,6 +432,8 @@ sub install_win32_extras {
 
 =head2 install_patch
 
+  $dist->install_patch;
+
 The C<install_path> method can be used to install a copy of the Unix
 patch program into the distribution.
 
@@ -458,6 +460,17 @@ sub install_patch {
 
 	return 1;
 }
+
+=pod
+
+=head2 install_win32_manifest
+
+  $dist->install_win32_manifest( 'WX Perl' => 'perl', 'bin', 'wxperl.exe' );
+
+Installs a manifest file to make an executable binary look like a "real"
+Win32 program.
+
+=cut
 
 sub install_win32_manifest {
 	my $self = shift;
