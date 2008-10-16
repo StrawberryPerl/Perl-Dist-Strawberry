@@ -32,7 +32,7 @@ use t::lib::Test           ();
 #####################################################################
 # Generation Test
 
-my $output = catdir( 't', 'tmp7' );
+my $output = rel2abs(catdir( 't', 'tmp7' ));
 t::lib::Test::remake_path( $output );
 my $machine = Perl::Dist::Strawberry->default_machine(
 	common => [ t::lib::Test->paths(6) ],
