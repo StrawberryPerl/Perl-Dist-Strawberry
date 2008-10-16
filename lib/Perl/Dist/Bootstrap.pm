@@ -115,7 +115,7 @@ sub install_perl_modules {
 		Module::Install
 		Perl::Dist
 	} );
-	
+
 	return 1;
 }
 
