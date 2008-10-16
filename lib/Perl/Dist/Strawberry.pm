@@ -421,6 +421,52 @@ sub install_win32_extras {
 	return 1;
 }
 
+sub install_win32_manifest {
+	my $self = shift;
+	my $name = shift;
+
+	# Generate the file contents
+	my $manifest = <<"END_MANIFEST";
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+ <assembly xmlns="urn:schemas-microsoft-com:asm.v1" manifestVersion="1.0">
+     <assemblyIdentity
+         processorArchitecture="x86"
+         version="5.1.0.0"
+         type="win32"
+         name="Controls"
+     />
+     <description>$name</description>
+     <dependency>
+         <dependentAssembly>
+             <assemblyIdentity
+                 type="win32"
+                 name="Microsoft.Windows.Common-Controls"        
+                 version="6.0.0.0"
+                 publicKeyToken="6595b64144ccf1df"
+                 language="*"
+                 processorArchitecture="x86"
+         />
+     </dependentAssembly>
+     </dependency>
+ </assembly>
+END_MANIFEST
+
+	# Write the manifest
+	my $file = File::Spec->catfile( $self->image_dir, @_ );
+	unless ( -f $file ) {
+		die "Program $file does not exist";
+	}
+
+	SCOPE: {
+		local *FILE;
+		open( FILE, '>', "$file.manifest" ) or die "open: $!";
+		print FILE $manifest                or die "print: $!";
+		close( FILE )                       or die "close: $!";
+	}
+
+	return 1;	
+}
+
 
 
 
