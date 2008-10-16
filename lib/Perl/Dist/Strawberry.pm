@@ -35,71 +35,80 @@ Dmake "make" tool
 
 =item *
 
-L<Updates for many toolchain modules>
+Every bundled and dual-life modules upgraded to the latest version.
 
 =item *
 
-L<Bundle::CPAN> (including Perl modules that eliminate the need for
-external helper programs like C<gzip> and C<tar>)
+L<Bundle::CPAN>, L<Bundle::LWP> and L<CPAN::SQLite> to enhance the
+functionality of the CPAN client.
 
 =item *
 
-L<Bundle::LWP> (providing more reliable http CPAN repository support)
+Additional Perl modules that enhance the stability of core Perl for
+the Win32 platform
 
 =item *
 
-Additional Perl modules that enhance the stability of core Perl for the
-Win32 platform
+Modules that enhance the ability to install non-CPAN packages such as
+L<PAR::Dist>, L<PPM> and L<pip>.
 
 =item *
 
-Other modules that improve the toolchain, or enhance the ability to
-install packages.
+Prebuilt and known-good C libraries for math, crypto and XML support.
+
+=item *
+
+B<BETA> - Additions that provide L<Portable> support.
 
 =back
 
-The B<Perl::Dist::Strawberry> modules on CPAN contains programs and
-instructions for downloading component sources and assembling them into the
-executable installer for Strawberry Perl.  It B<does not> include the
-resulting Strawberry Perl installer.  
+The B<Perl::Dist::Strawberry> module available on CPAN contains the modules
+and L<perldist_strawberry> script that are used to generate the
+Strawberry Perl installers.
 
-See the Strawberry Perl website at L<http://strawberryperl.com/> to download
-the Strawberry Perl installer.
+Please note that B<Perl::Dist::Strawberry> B<does not> include the
+resulting Strawberry Perl installer. See the Strawberry Perl website at
+L<http://strawberryperl.com/> to download the Strawberry Perl installer.
 
-See L<Perl::Dist::Build> at L<http://search.cpan.org> for details on 
-the builder used to create Strawberry Perl from source.
+See L<Perl::Dist::Inno> for details on how the underlying distribution
+construction toolkit works.
 
 =head1 CHANGES FROM CORE PERL
 
-Strawberry Perl is and will continue to be based on the latest "stable" release
-of Perl, currently version 5.8.8.  Some additional modifications are included
-that improve general compatibility with the Win32 platform or improve
-"turnkey" operation on Win32.  
+Strawberry Perl is and will continue to be based on the latest "stable"
+releases of Perl, currently 5.8.8 and 5.10.0.
+
+Some additional modifications are included that improve general
+compatibility with the Win32 platform or improve "turnkey" operation on
+Win32.
 
 Whenever possible, these modifications will be made only by preinstalling
-additional CPAN modules within Strawberry Perl, particularly modules that
-have been newly included as core Perl modules in the "development" branch
-of perl to address Win32 compatibility issues.
+additional or updated CPAN modules within Strawberry Perl, particularly
+modules that have been newly included as core Perl modules in the
+"development" branch of perl to address Win32 compatibility issues.
 
-Additionally, a stub CPAN Config.pm file is installed.  This provides a
+Additionally, a stub CPAN Config.pm file is added.  This provides a
 complete zero-conf preconfiguration for CPAN, using a stable
-http://cpan.strawberryperl.com/ URI to bounce to a known-reliable
-mirrors.
+L<http://cpan.strawberryperl.com/> redirector to bounce to a
+known-reliable mirrors.
 
 A more-thorough network-aware zero-conf capability is currently being
-developed and will be provided at a later time.
+developed and will be included at a later time.
+
+Strawberry has B<never> patched the Perl source code or modified the
+perl.exe binary.
 
 =head1 CONFIGURATION
 
 At present, Strawberry Perl must be installed in C:\strawberry.  The
 executable installer adds the following environment variable changes:
 
-    * adds directories to PATH
-        - C:\strawberry\perl\bin  
-        - C:\strawberry\c\bin  
+  * Adds directories to PATH
+    - C:\strawberry\perl\bin  
+    - C:\strawberry\c\bin  
 
 Users installing Strawberry Perl without the installer will need to
-change the environment manually.
+add the environment entries manually.
 
 =head1 METHODS
 
@@ -133,6 +142,23 @@ use Object::Tiny qw{
 
 #####################################################################
 # Build Machine Generator
+
+=pod
+
+=head2 default_machine
+
+  Perl::Dist::Strawberry->default_machine->run;
+  
+The C<default_machine> class method is used to setup the most common
+machine for building Strawberry Perl.
+
+The machine provided creates a standard 5.8.8 distribution (.zip and .exe),
+a standard 5.10.0 distribution (.zip and .exe) and a Portable-enabled
+5.10.0 distribution (.zip only).
+
+Returns a L<Perl::Dist::Machine> object.
+
+=cut
 
 sub default_machine {
 	my $class   = shift;
@@ -248,24 +274,45 @@ sub patch_include_path {
 
 	# Find the share path for this distribution
 	my $share = File::ShareDir::dist_dir('Perl-Dist-Strawberry');
-	my $path  = File::Spec->catdir(
-		$share, 'strawberry',
-	);
+	my $path  = File::Spec->catdir( $share, 'strawberry' );
 	unless ( -d $path ) {
 		die("Directory $path does not exist");
 	}
 
-	# Prepend it to the default include path
-	return [
-		$path,
+	# Prepend to the default include path
+	return [ $path,
 		@{ $self->SUPER::patch_include_path },
 	];
+}
+
+sub install_perl_588_bin {
+	my $self   = shift;
+	my %params = @_;
+	my $patch  = delete($params{patch}) || [];
+	return $self->SUPER::install_perl_588_bin(
+		patch => [ qw{
+			win32/config.gc
+		}, @$patch ],
+		%params,
+	);
+}
+
+sub install_perl_5100_bin {
+	my $self   = shift;
+	my %params = @_;
+	my $patch  = delete($params{patch}) || [];
+	return $self->SUPER::install_perl_5100_bin(
+		patch => [ qw{
+			win32/config.gc
+		}, @$patch ],
+		%params,
+	);
 }
 
 sub install_perl_modules {
 	my $self = shift;
 
-	# Install LWP::Online, so our custom minicpan code works
+	# Install LWP::Online so our custom minicpan code works
 	$self->install_distribution(
 		name => 'ADAMK/LWP-Online-1.07.tar.gz'
 	);
@@ -281,12 +328,12 @@ sub install_perl_modules {
 
 	# Install additional math modules
 	$self->install_pari;
-	$self->install_modules(qw{
+	$self->install_modules( qw{
 		Math::BigInt
 		Math::BigInt::FastCalc
 		Math::BigRat
 		Math::BigInt::GMP
-	});
+	} );
 
 	# XML Modules
 	$self->install_distribution(
@@ -424,6 +471,10 @@ sub install_patch {
 Bugs should be reported via the CPAN bug tracker at
 
 L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Perl-Dist-Strawberry>
+
+Please note that B<only> bugs in the distribution itself or the CPAN
+configuration should be reported to RT. Bugs in individual modules
+should be reported to their respective distributions.
 
 For more support information and places for discussion, see the
 Strawberry Perl Support page L<http://strawberryperl.com/support.html>.
