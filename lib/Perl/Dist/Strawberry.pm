@@ -425,7 +425,7 @@ sub strawberry_url {
 	my $path = $self->output_base_filename;
 
 	# Strip off anything post-version
-	unless ( $path =~ s/^(strawberry-perl-\d+(?:\.\d+).*$/ ) {
+	unless ( $path =~ s/^(strawberry-perl-\d+(?:\.\d+)+).*$/$1/ ) {
 		die("Failed to generate the strawberry subpath");
 	}
 
