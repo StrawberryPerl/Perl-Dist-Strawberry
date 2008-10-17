@@ -211,7 +211,7 @@ sub app_ver_name {
 	$_[0]->app_name
 		. ($_[0]->portable ? ' Portable' : '')
 		. ' ' . $_[0]->perl_version_human
-		. '.3';
+		. '.3 Beta 1';
 }
 
 # Lazily default the file name.
@@ -221,7 +221,7 @@ sub output_base_filename {
 	'strawberry-perl'
 		. ($_[0]->portable ? '-portable' : '')
 		. '-' . $_[0]->perl_version_human
-		. '.3';
+		. '.3-beta-1';
 }
 
 
@@ -409,8 +409,7 @@ sub install_win32_extras {
 		);
 		$self->install_website(
 			name       => 'Strawberry Perl Website',
-			url        => 'http://strawberryperl.com/'
-			            . $self->output_base_filename,
+			url        => $self->strawberry_url,
 			icon_file  => 'Strawberry Perl Website.ico',
 		);
 	}
@@ -419,6 +418,18 @@ sub install_win32_extras {
 	$self->SUPER::install_win32_extras(@_);
 
 	return 1;
+}
+
+sub strawberry_url {
+	my $self = shift;
+	my $path = $self->output_base_filename;
+
+	# Strip off anything post-version
+	unless ( $path =~ s/^(strawberry-perl-\d+(?:\.\d+).*$/ ) {
+		die("Failed to generate the strawberry subpath");
+	}
+
+	return "http://strawberryperl.com/$path";
 }
 
 
