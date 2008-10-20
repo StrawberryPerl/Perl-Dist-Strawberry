@@ -165,16 +165,28 @@ sub default_machine {
 
 	# Create the machine
 	my $machine = Perl::Dist::Machine->new( class => $class, @_ );
+
+	# Set the different versions
 	$machine->add_dimension('version');
+	$machine->add_option('version',
+		perl_version => '5100',
+	);
 	$machine->add_option('version',
 		perl_version => '588',
 	);
 	$machine->add_option('version',
 		perl_version => '5100',
-	);
-	$machine->add_option('version',
-		perl_version => '5100',
 		portable     => 1,
+	);
+
+	# Set the different paths
+	$machine->add_dimension('drive');
+	$machine->add_option('drive',
+		image_dir => 'C:\strawberry',
+	);
+	$machine->add_option('drive',
+		image_dir => 'D:\strawberry',
+		zip       => 0,
 	);
 
 	return $machine;
@@ -219,9 +231,11 @@ sub app_ver_name {
 sub output_base_filename {
 	$_[0]->{output_base_filename} or
 	'strawberry-perl'
-		. ($_[0]->portable ? '-portable' : '')
 		. '-' . $_[0]->perl_version_human
-		. '.3-beta-1';
+		. '.3'
+		. ($_[0]->image_dir =~ /^d:/i ? '-ddrive' : '')
+		. ($_[0]->portable ? '-portable' : '')
+		. ($_[0]->portable ? '-beta-1' : '')
 }
 
 

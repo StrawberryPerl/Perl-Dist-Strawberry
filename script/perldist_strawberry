@@ -64,7 +64,7 @@ if ( defined $FORCE ) {
 }
 
 # Create the machine
-my $machine = Perl::Dist::Strawberry->default_machine( %options );
+my $machine = Perl::Dist::Strawberry->default_machine( common => \%options );
 unless ( $machine ) {
 	die("Failed to create default machine");
 }
