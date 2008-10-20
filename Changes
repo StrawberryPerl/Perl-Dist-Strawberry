@@ -1,8 +1,8 @@
 Changes for Perl extension Perl-Dist-Strawberry
 
 1.07 Thu 16 Oct 2008
-	- Upgrading to Perl::Dist 1.07
-	- This release corrosponds with Strawberry Perl October 2008
+	- Upgrading to Perl::Dist 1.09
+	- This release was used to build Strawberry Perl October 2008
 	- Adding constructor and full run test scripts
 	- Adding three full-run tests for 5.10.0, 5.10.0 Portable and 5.8.8
 	- More aggressively suppressing HTML and man generation
