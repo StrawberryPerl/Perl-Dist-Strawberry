@@ -12,7 +12,7 @@ BEGIN {
 		plan( skip_all => 'Not on Win32' );
 		exit(0);
 	}
-	plan( tests => 10 );
+	plan( tests => 11 );
 }
 
 use File::Spec::Functions ':ALL';
