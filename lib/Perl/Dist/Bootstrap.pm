@@ -94,8 +94,9 @@ sub install_perl_modules {
 		File::Remove
 		File::ShareDir
 		File::Temp
+		File::HomeDir
 		IPC::Run3
-		LWP::UserAgent::Determined
+		LWP::UserAgent::WithCache
 		LWP::Online
 		Object::Tiny
 		Tie::File
