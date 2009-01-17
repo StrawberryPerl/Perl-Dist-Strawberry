@@ -219,23 +219,44 @@ sub new {
 # Lazily default the full name.
 # Supports building multiple versions of Perl.
 sub app_ver_name {
-	$_[0]->{app_ver_name} or
-	$_[0]->app_name
-		. ($_[0]->portable ? ' Portable' : '')
-		. ' ' . $_[0]->perl_version_human
-		. '.3 Beta 1';
+	my $self = shift;
+	if ( $self->{app_ver_name} ) {
+		return $self->{app_ver_name};
+	}
+
+	my $name = $self->app_name;
+	if ( $self->portable ) {
+		$name .= ' ';
+		$name .= 'Portable';
+	}
+	$name .= ' ';
+	$name .= $self->perl_version_human;
+	$name .= '.4 Beta 1';
+
+	return $name;
 }
 
 # Lazily default the file name.
 # Supports building multiple versions of Perl.
 sub output_base_filename {
-	$_[0]->{output_base_filename} or
-	'strawberry-perl'
-		. '-' . $_[0]->perl_version_human
-		. '.3'
-		. ($_[0]->image_dir =~ /^d:/i ? '-ddrive' : '')
-		. ($_[0]->portable ? '-portable' : '')
-		. ($_[0]->portable ? '-beta-1' : '')
+	my $self = shift;
+	if ( $self->{output_base_filename} ) {
+		return $self->{output_base_filename};
+	}
+
+	my $file = 'strawberry-perl';
+	$file .= '-';
+	$file .= $self->perl_version_human;
+	$file .= '.4';
+	if ( $self->image_dir =~ /^d:/i ) {
+		$file .= '-ddrive';
+	}
+	if ( $self->portable ) {
+		$file .= '-portable';
+	}
+	$file .= '-beta-1';
+
+	return $file;
 }
 
 
