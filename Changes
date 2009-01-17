@@ -1,5 +1,9 @@
 Changes for Perl extension Perl-Dist-Strawberry
 
+1.08 Sun 18 Jan 2009
+	- Upgrading to Perl::Dist 1.11
+	- This release is a convenient stable point.
+
 1.07 Thu 16 Oct 2008
 	- Upgrading to Perl::Dist 1.09
 	- This release was used to build Strawberry Perl October 2008
