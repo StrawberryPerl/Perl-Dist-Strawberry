@@ -3,7 +3,7 @@ use inc::Module::Install 0.77;
 all_from       'lib/Perl/Dist/Strawberry.pm';
 requires       'Object::Tiny' => '1.06';
 requires       'Archive::Zip' => '1.26';
-requires       'Perl::Dist'   => '1.09';
+requires       'Perl::Dist'   => '1.11';
 test_requires  'Test::More'   => '0.42';
 test_requires  'File::Spec'   => '3.2701';
 test_requires  'File::Path'   => '2.04';
