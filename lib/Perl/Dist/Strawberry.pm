@@ -230,16 +230,20 @@ sub app_ver_name {
 		return $self->{app_ver_name};
 	}
 
-	my $name = $self->app_name;
+	my $version = $self->perl_version_human;
+	my $name    = $self->app_name;
+
 	if ( $self->portable ) {
-		$name .= ' ';
-		$name .= 'Portable';
+		$name .= ' Portable';
 	}
 
-	my $version = $self->perl_version_human;
-	$name .= ' ';
-	$name .= $version;
-	$name .= '.4';
+	# Add the version
+	$name .= " $version";
+	if ( $version eq '5.8.9' ) {
+		$name .= '.0';
+	} else {
+		$name .= '.4';
+	}
 
 	# Tag the betas
 	if ( $version eq '5.8.9' ) {
@@ -262,19 +266,26 @@ sub output_base_filename {
 		return $self->{output_base_filename};
 	}
 
-	my $file = 'strawberry-perl';
-	$file .= '-';
-	$file .= $self->perl_version_human;
-	$file .= '.4';
+	my $version = $self->perl_version_human;
+	my $file    = "strawberry-perl-$version";
+
+	# Add the version
+	if ( $version eq '5.8.9' ) {
+		$file .= '.0';
+	} else {
+		$file .= '.4';
+	}
+
 	if ( $self->image_dir =~ /^d:/i ) {
 		$file .= '-ddrive';
 	}
+
 	if ( $self->portable ) {
 		$file .= '-portable';
 	}
 
 	# Tag the betas
-	if ( $self->perl_version_human eq '5.8.9' ) {
+	if ( $version eq '5.8.9' ) {
 		$file .= '-beta-1';
 	}
 	if ( $self->portable ) {
