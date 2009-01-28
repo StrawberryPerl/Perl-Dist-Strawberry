@@ -549,51 +549,39 @@ underneath the strawberry dist.
 sub install_ppm {
 	my $self = shift;
 
-	# Install PPM itself
-	$self->install_distribution(
-		name => 'RKOBES/PPM-0.01_01.tar.gz',
-		url  => 'http://strawberryperl.com/package/PPM-0.01_01.tar.gz',
-	);
-
-	# Create the ppm temp directory
-	$self->install_file(
-		share      => 'Perl-Dist-Strawberry ppm/README.txt',
-		install_to => 'ppm/README.txt',
-	);
-	$self->add_dir('ppm');
+	# Where should the ppm build directory be
 	my $ppmdir = File::Spec->catdir(
 		$self->image_dir,
 		'ppm',
 	);
-	unless ( -d $ppmdir ) {
-		die("Failed to create '$ppmdir' directory");
+	if ( -d $ppmdir ) {
+		die("PPM build direcotry '$ppmdir' already exists");
 	}
 
-	# Overwrite the default ppm.xml configuration
-	my $config = File::Spec->catfile(
-		$self->image_dir,
-		qw{ perl site lib ppm.xml },
-	);
-	unless ( -f $config ) {
-		die("Could not find existing '$config' to replace");
+	SCOPE: {
+		# The build path in ppm.xml is derived from $ENV{TMP}.
+		# So set TMP to a dedicated location inside of the
+		# distribution root to prevent it being locked to the
+		# temp directory of the build machine.
+		local $ENV{TMP} = $ppmdir;
+
+		# Create the ppm temp directory so it exists when
+		# the PPM build needs it.
+		$self->install_file(
+			share      => 'Perl-Dist-Strawberry ppm/README.txt',
+			install_to => 'ppm/README.txt',
+		);
+		$self->add_dir('ppm');
+		unless ( -d $ppmdir ) {
+			die("Failed to create '$ppmdir' directory");
+		}
+
+		# Install PPM itself
+		$self->install_distribution(
+			name => 'RKOBES/PPM-0.01_01.tar.gz',
+			url  => 'http://strawberryperl.com/package/PPM-0.01_01.tar.gz',
+		);
 	}
-	my $ppmxml = IO::File->new( $config, '>' );
-	unless ( $ppmxml ) {
-		die("Failed to open '$config' for writing");
-	}
-	$ppmxml->print( <<"END_XML" );
-<PPMCONFIG>
-    <PPMVER>0,01_01,0,0</PPMVER>
-    <PLATFORM CPU="x86" OSVALUE="MSWin32" OSVERSION="4,0,0,0" />
-    <OPTIONS BUILDDIR="$ppmdir" CLEAN="1" CONFIRM="1" DOWNLOADSTATUS="16384" FORCEINSTALL="1" IGNORECASE="1" MORE="24" ROOT="" TRACE="0" TRACEFILE="PPM.LOG" VERBOSE="1" />
-    <REPOSITORY LOCATION="http://ppm.activestate.com/PPMPackages/5.10-windows" NAME="ActiveState" SUMMARYFILE="searchsummary.ppm" />
-    <REPOSITORY LOCATION="http://www.bribes.org/perl/ppm" NAME="Bribes" SUMMARYFILE="searchsummary.ppm" />
-    <REPOSITORY LOCATION="http://trouchelle.com/ppm10" NAME="Trouchelle" SUMMARYFILE="package.xml" />
-    <REPOSITORY LOCATION="http://cpan.uwinnipeg.ca/PPMPackages/10xx" NAME="UWinnipeg" SUMMARYFILE="searchsummary.ppm" />
-    <PPMPRECIOUS>Compress-Zlib;Archive-Tar;Digest-MD5;File-CounterFile;Font-AFM;HTML-Parser;HTML-Tree;MIME-Base64;URI;XML-Element;libwww-perl;XML-Parser;SOAP-Lite;PPM;libnet;libwin32</PPMPRECIOUS>
-</PPMCONFIG>
-END_XML
-	$ppmxml->close;
 
 	return 1;
 }
