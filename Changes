@@ -1,19 +1,28 @@
 Changes for Perl extension Perl-Dist-Strawberry
 
+1.09 Thu 29 Jan 2009
+	- This release was used to build Strawberry Perl January 2009
+	- Removed the experimental berkelydb functionality
+	- Bug fix to make the ppm temporary build directory get stored
+	  in the ppm.xml properly.
+	- Correcting the file and distribution naming
+	- Add an extra build (5.8.9) as a Beta
+	- Upgrading to Perl::Dist 1.12
+
 1.08 Sun 18 Jan 2009
 	- Upgrading to Perl::Dist 1.11
 	- This release is a convenient stable point.
 
 1.07 Thu 16 Oct 2008
-	- Upgrading to Perl::Dist 1.09
 	- This release was used to build Strawberry Perl October 2008
+	- Upgrading to Perl::Dist 1.09
 	- Adding constructor and full run test scripts
 	- Adding three full-run tests for 5.10.0, 5.10.0 Portable and 5.8.8
 	- More aggressively suppressing HTML and man generation
 
 1.04 Mon 11 Aug 2008
-	- Upgrading to Module::Install 0.77
 	- This release corrosponds with Strawberry Perl August 2008
+	- Upgrading to Module::Install 0.77
 
 1.03 Tue 15 Jul 2008
 	- Upgrading to Module::Install 0.76
@@ -62,5 +71,4 @@ Changes for Perl extension Perl-Dist-Strawberry
 	- Removed fake Module::Signature as Bundle::CPAN no longer includes it
     
 0.000001 Sun  9 Jul 2006  
-    - Initial Alpha 1 release of Strawberry Perl
-
+	- Initial Alpha 1 release of Strawberry Perl

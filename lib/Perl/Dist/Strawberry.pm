@@ -128,7 +128,7 @@ use Perl::Dist::Util::Toolchain ();
 
 use vars qw{$VERSION @ISA};
 BEGIN {
-	$VERSION = '1.08';
+	$VERSION = '1.09';
 	@ISA     = 'Perl::Dist';
 }
 
@@ -164,12 +164,18 @@ sub default_machine {
 	my $class = shift;
 
 	# Create the machine
-	my $machine = Perl::Dist::Machine->new( class => $class, @_ );
+	my $machine = Perl::Dist::Machine->new(
+		class => $class,
+		@_,
+	);
 
 	# Set the different versions
 	$machine->add_dimension('version');
 	$machine->add_option('version',
 		perl_version => '5100',
+	);
+	$machine->add_option('version',
+		perl_version => '589',
 	);
 	$machine->add_option('version',
 		perl_version => '588',
@@ -229,9 +235,21 @@ sub app_ver_name {
 		$name .= ' ';
 		$name .= 'Portable';
 	}
+
+	my $version = $self->perl_version_human;
 	$name .= ' ';
-	$name .= $self->perl_version_human;
-	$name .= '.4 Beta 1';
+	$name .= $version;
+	$name .= '.4';
+
+	# Tag the betas
+	if ( $version eq '5.8.9' ) {
+		$name .= ' ';
+		$name .= 'Beta 1';
+	}
+	if ( $self->portable ) {
+		$name .= ' ';
+		$name .= 'Beta 2';
+	}
 
 	return $name;
 }
@@ -254,7 +272,14 @@ sub output_base_filename {
 	if ( $self->portable ) {
 		$file .= '-portable';
 	}
-	$file .= '-beta-1';
+
+	# Tag the betas
+	if ( $self->perl_human_version eq '5.8.9' ) {
+		$file .= '-beta-1';
+	}
+	if ( $self->portable ) {
+		$file .= '-beta-2';
+	}
 
 	return $file;
 }
@@ -439,14 +464,14 @@ sub install_perl_modules {
 
 	# CPAN::SQLite Modules
 	$self->install_module(
-		name => 'DBI',
+		name  => 'DBI',
 	);
 	$self->install_distribution(
 		name  => 'MSERGEANT/DBD-SQLite-1.14.tar.gz',
 		force => 1,
 	);
 	$self->install_module(
-		name => 'CPAN::SQLite',
+		name  => 'CPAN::SQLite',
 	);
 
 	return 1;
