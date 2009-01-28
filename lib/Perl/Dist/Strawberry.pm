@@ -274,7 +274,7 @@ sub output_base_filename {
 	}
 
 	# Tag the betas
-	if ( $self->perl_human_version eq '5.8.9' ) {
+	if ( $self->perl_version_human eq '5.8.9' ) {
 		$file .= '-beta-1';
 	}
 	if ( $self->portable ) {
