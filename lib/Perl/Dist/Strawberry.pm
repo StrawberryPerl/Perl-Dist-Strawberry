@@ -172,10 +172,10 @@ sub default_machine {
 	# Set the different versions
 	$machine->add_dimension('version');
 	$machine->add_option('version',
-		perl_version => '5100',
+		perl_version => '589',
 	);
 	$machine->add_option('version',
-		perl_version => '589',
+		perl_version => '5100',
 	);
 	$machine->add_option('version',
 		perl_version => '588',
