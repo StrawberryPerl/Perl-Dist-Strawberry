@@ -1,4 +1,4 @@
-use inc::Module::Install 0.77;
+use inc::Module::Install 0.79;
 
 all_from       'lib/Perl/Dist/Strawberry.pm';
 requires       'Object::Tiny' => '1.06';

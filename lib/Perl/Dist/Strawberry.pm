@@ -128,7 +128,7 @@ use Perl::Dist::Util::Toolchain ();
 
 use vars qw{$VERSION @ISA};
 BEGIN {
-	$VERSION = '1.09';
+	$VERSION = '1.10';
 	@ISA     = 'Perl::Dist';
 }
 
@@ -171,15 +171,15 @@ sub default_machine {
 
 	# Set the different versions
 	$machine->add_dimension('version');
-	$machine->add_option('version',
-		perl_version => '589',
-	);
+	#$machine->add_option('version',
+	#	perl_version => '589',
+	#);
 	$machine->add_option('version',
 		perl_version => '5100',
 	);
-	$machine->add_option('version',
-		perl_version => '588',
-	);
+	#$machine->add_option('version',
+	#	perl_version => '588',
+	#);
 	$machine->add_option('version',
 		perl_version => '5100',
 		portable     => 1,
@@ -190,10 +190,10 @@ sub default_machine {
 	$machine->add_option('drive',
 		image_dir => 'C:\strawberry',
 	);
-	$machine->add_option('drive',
-		image_dir => 'D:\strawberry',
-		zip       => 0,
-	);
+	#$machine->add_option('drive',
+	#	image_dir => 'D:\strawberry',
+	#	zip       => 0,
+	#);
 
 	return $machine;
 }
@@ -239,20 +239,12 @@ sub app_ver_name {
 
 	# Add the version
 	$name .= " $version";
-	if ( $version eq '5.8.9' ) {
-		$name .= '.0';
-	} else {
-		$name .= '.4';
-	}
-
-	# Tag the betas
-	if ( $version eq '5.8.9' ) {
-		$name .= ' ';
-		$name .= 'Beta 1';
-	}
 	if ( $self->portable ) {
-		$name .= ' ';
-		$name .= 'Beta 2';
+		$name .= '.0';
+	} elsif ( $version eq '5.8.9' ) {
+		$name .= '.1';
+	} else {
+		$name .= '.5';
 	}
 
 	return $name;
@@ -270,10 +262,12 @@ sub output_base_filename {
 	my $file    = "strawberry-perl-$version";
 
 	# Add the version
-	if ( $version eq '5.8.9' ) {
-		$file .= '.0';
+	if ( $self->portable ) {
+		$file .= '.1';
+	} elsif ( $version eq '5.8.9' ) {
+		$file .= '.1';
 	} else {
-		$file .= '.4';
+		$file .= '.5';
 	}
 
 	if ( $self->image_dir =~ /^d:/i ) {
@@ -282,14 +276,6 @@ sub output_base_filename {
 
 	if ( $self->portable ) {
 		$file .= '-portable';
-	}
-
-	# Tag the betas
-	if ( $version eq '5.8.9' ) {
-		$file .= '-beta-1';
-	}
-	if ( $self->portable ) {
-		$file .= '-beta-2';
 	}
 
 	return $file;

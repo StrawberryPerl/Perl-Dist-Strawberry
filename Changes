@@ -1,5 +1,12 @@
 Changes for Perl extension Perl-Dist-Strawberry
 
+1.10 Sun 22 Feb 2009
+	- This release was used to build the first Strawberry Perl
+	  Portable stable release.
+	- Updating to Module::Install 0.79
+	- Removing the Beta tags from 5.8.9 and Portable (even though
+	  we won't distribute non-beta 5.8.9 until April).
+
 1.09 Thu 29 Jan 2009
 	- This release was used to build Strawberry Perl January 2009
 	- Removed the experimental berkelydb functionality
