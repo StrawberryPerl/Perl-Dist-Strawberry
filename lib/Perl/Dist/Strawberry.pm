@@ -174,9 +174,9 @@ sub default_machine {
 	#$machine->add_option('version',
 	#	perl_version => '589',
 	#);
-	$machine->add_option('version',
-		perl_version => '5100',
-	);
+	#$machine->add_option('version',
+	#	perl_version => '5100',
+	#);
 	#$machine->add_option('version',
 	#	perl_version => '588',
 	#);
@@ -239,12 +239,10 @@ sub app_ver_name {
 
 	# Add the version
 	$name .= " $version";
-	if ( $self->portable ) {
-		$name .= '.0';
-	} elsif ( $version eq '5.8.9' ) {
+	if ( $version eq '5.8.9' ) {
 		$name .= '.1';
 	} else {
-		$name .= '.5';
+		$name .= '.4';
 	}
 
 	return $name;
@@ -262,12 +260,10 @@ sub output_base_filename {
 	my $file    = "strawberry-perl-$version";
 
 	# Add the version
-	if ( $self->portable ) {
-		$file .= '.1';
-	} elsif ( $version eq '5.8.9' ) {
+	if ( $version eq '5.8.9' ) {
 		$file .= '.1';
 	} else {
-		$file .= '.5';
+		$file .= '.4-1';
 	}
 
 	if ( $self->image_dir =~ /^d:/i ) {
