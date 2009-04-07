@@ -1,6 +1,7 @@
 Changes for Perl extension Perl-Dist-Strawberry
 
-        - do not use external tar/gzip in CPAN::Config template (CHORNY)
+	- Upgrading to Module::Install::DSL 0.81 (ADAMK)
+	- Do not use external tar/gzip in CPAN::Config template (CHORNY)
 
 1.10 Sun 22 Feb 2009
 	- This release was used to build the first Strawberry Perl
