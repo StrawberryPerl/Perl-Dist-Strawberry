@@ -17,7 +17,7 @@ BEGIN {
 		plan( skip_all => 'No RELEASE_TESTING: Skipping very long test' );
 		exit(0);
 	}
-	plan( tests => 5 );
+	plan( tests => 6 );
 }
 
 use File::Spec::Functions ':ALL';
