@@ -1,7 +1,10 @@
 Changes for Perl extension Perl-Dist-Strawberry
 
-	- Upgrading to Module::Install::DSL 0.82 (ADAMK)
+1.11 Mon 27 Apr 2009
+	- Upgrading to Module::Install::DSL 0.85 (ADAMK)
 	- Do not use external tar/gzip in CPAN::Config template (CHORNY)
+	- Don't install Win32::Env::Path (ADAMK)
+	- Removed the 1.14 version lock on DBD::SQLite (ADAMK)
 
 1.10 Sun 22 Feb 2009
 	- This release was used to build the first Strawberry Perl

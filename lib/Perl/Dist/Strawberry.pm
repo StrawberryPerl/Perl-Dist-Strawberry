@@ -128,7 +128,7 @@ use Perl::Dist::Util::Toolchain ();
 
 use vars qw{$VERSION @ISA};
 BEGIN {
-	$VERSION = '1.10';
+	$VERSION = '1.11';
 	@ISA     = 'Perl::Dist';
 }
 
@@ -392,7 +392,6 @@ sub install_perl_modules {
 		Win32::File
 		Win32::File::Object
 		Win32::API
-		Win32::Env::Path
 		Win32::Exe
 	} );
 
@@ -456,16 +455,11 @@ sub install_perl_modules {
 	#);
 
 	# CPAN::SQLite Modules
-	$self->install_module(
-		name  => 'DBI',
-	);
-	$self->install_distribution(
-		name  => 'MSERGEANT/DBD-SQLite-1.14.tar.gz',
-		force => 1,
-	);
-	$self->install_module(
-		name  => 'CPAN::SQLite',
-	);
+	$self->install_modules( qw{
+		DBI
+		DBD::SQLite
+		CPAN::SQLite
+	} );
 
 	return 1;
 }

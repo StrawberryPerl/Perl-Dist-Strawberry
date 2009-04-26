@@ -13,7 +13,7 @@ use Perl::Dist::Strawberry ();
 
 use vars qw{$VERSION};
 BEGIN {
-	$VERSION = '1.10';
+	$VERSION = '1.11';
 }
 
 
@@ -40,10 +40,6 @@ unless ( $class->isa('Perl::Dist') ) {
 	die "$class is not a Perl::Dist subclass";
 }
 
-
-
-
-
 # Generate options and hand off to the class
 my %options = (
 	# 5.8.8 may not build properly under
@@ -64,7 +60,9 @@ if ( defined $FORCE ) {
 }
 
 # Create the machine
-my $machine = Perl::Dist::Strawberry->default_machine( common => \%options );
+my $machine = Perl::Dist::Strawberry->default_machine(
+	common => \%options,
+);
 unless ( $machine ) {
 	die("Failed to create default machine");
 }
