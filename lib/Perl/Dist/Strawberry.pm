@@ -132,7 +132,7 @@ BEGIN {
 	@ISA     = 'Perl::Dist';
 }
 
-use Object::Tiny qw{
+use Object::Tiny 1.06 qw{
 	bin_patch
 };
 
@@ -171,15 +171,12 @@ sub default_machine {
 
 	# Set the different versions
 	$machine->add_dimension('version');
-	#$machine->add_option('version',
-	#	perl_version => '589',
-	#);
-	#$machine->add_option('version',
-	#	perl_version => '5100',
-	#);
-	#$machine->add_option('version',
-	#	perl_version => '588',
-	#);
+	$machine->add_option('version',
+		perl_version => '589',
+	);
+	$machine->add_option('version',
+		perl_version => '5100',
+	);
 	$machine->add_option('version',
 		perl_version => '5100',
 		portable     => 1,
@@ -190,10 +187,10 @@ sub default_machine {
 	$machine->add_option('drive',
 		image_dir => 'C:\strawberry',
 	);
-	#$machine->add_option('drive',
-	#	image_dir => 'D:\strawberry',
-	#	zip       => 0,
-	#);
+	$machine->add_option('drive',
+		image_dir => 'D:\strawberry',
+		zip       => 0,
+	);
 
 	return $machine;
 }
@@ -242,7 +239,7 @@ sub app_ver_name {
 	if ( $version eq '5.8.9' ) {
 		$name .= '.1';
 	} else {
-		$name .= '.4';
+		$name .= '.5';
 	}
 
 	return $name;
@@ -263,7 +260,7 @@ sub output_base_filename {
 	if ( $version eq '5.8.9' ) {
 		$file .= '.1';
 	} else {
-		$file .= '.4-1';
+		$file .= '.5';
 	}
 
 	if ( $self->image_dir =~ /^d:/i ) {
@@ -367,6 +364,18 @@ sub install_perl_588_bin {
 	);
 }
 
+sub install_perl_589_bin {
+	my $self   = shift;
+	my %params = @_;
+	my $patch  = delete($params{patch}) || [];
+	return $self->SUPER::install_perl_589_bin(
+		patch => [ qw{
+			win32/config.gc
+		}, @$patch ],
+		%params,
+	);
+}
+
 sub install_perl_5100_bin {
 	my $self   = shift;
 	my %params = @_;
@@ -431,6 +440,12 @@ sub install_perl_modules {
 	} );
 	$self->install_distribution(
 		name  => 'RKINYON/DBM-Deep-1.0013.tar.gz',
+		force => 1,
+	);
+	$self->install_module(
+		name  => 'PAR',
+		# In the cleaup test script, the test doesn't
+		# handle Win32's non-instant delete problem.
 		force => 1,
 	);
 	$self->install_modules( qw{
