@@ -1,4 +1,4 @@
-#!/usr/bin/perl
+#! perl
 
 # A copy of perldist that does some strawberry-specific actions
 
@@ -13,7 +13,7 @@ use Perl::Dist::Strawberry ();
 
 use vars qw{$VERSION};
 BEGIN {
-	$VERSION = '1.11';
+	$VERSION = '1.11_12';
 }
 
 
@@ -36,9 +36,13 @@ my $result       = Getopt::Long::GetOptions(
 
 # Get the distribution class name
 my $class = 'Perl::Dist::Strawberry';
-unless ( $class->isa('Perl::Dist') ) {
-	die "$class is not a Perl::Dist subclass";
+unless ( $class->isa('Perl::Dist::WiX') ) {
+	die "$class is not a Perl::Dist::WiX subclass";
 }
+
+
+
+
 
 # Generate options and hand off to the class
 my %options = (
@@ -60,9 +64,7 @@ if ( defined $FORCE ) {
 }
 
 # Create the machine
-my $machine = Perl::Dist::Strawberry->default_machine(
-	common => \%options,
-);
+my $machine = Perl::Dist::Strawberry->default_machine( common => \%options );
 unless ( $machine ) {
 	die("Failed to create default machine");
 }

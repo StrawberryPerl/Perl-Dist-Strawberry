@@ -4,16 +4,19 @@ package t::lib::Test;
 
 use strict;
 use File::Spec::Functions ':ALL';
-use Test::More    ();
-use File::Path    ();
-use File::Remove  ();
-use t::lib::Test1 ();
-use t::lib::Test2 ();
-use t::lib::Test3 ();
+use Test::More            ();
+use File::Path            ();
+use File::Remove          ();
+use t::lib::TestNew       ();
+use t::lib::Test5100      ();
+use t::lib::Test588       ();
+use t::lib::Test589       ();
+use t::lib::TestBootstrap ();
+
 
 use vars qw{$VERSION};
 BEGIN {
-	$VERSION = '1.11';
+	$VERSION = '1.11_12';
 }
 
 
@@ -67,7 +70,7 @@ sub cpan {
 
 sub new1 {
 	my $class = shift;
-	return t::lib::Test1->new(
+	return t::lib::TestNew->new(
 		cpan => $class->cpan,
 		$class->paths(@_),
 	);
@@ -75,23 +78,37 @@ sub new1 {
 
 sub new2 {
 	my $class = shift;
-	return t::lib::Test2->new(
+	return t::lib::Test5100->new(
 		$class->paths(@_),
 	);
 }
 
 sub new3 {
 	my $class = shift;
-	return t::lib::Test3->new(
+	return t::lib::Test588->new(
 		$class->paths(@_),
 	);
 }
 
 sub new4 {
 	my $class = shift;
-	return t::lib::Test2->new(
+	return t::lib::Test5100->new(
 		$class->paths(@_),
 		portable => 1,
+	);
+}
+
+sub new5 {
+	my $class = shift;
+	return t::lib::Test589->new(
+		$class->paths(@_),
+	);
+}
+
+sub new_bootstrap {
+	my $class = shift;
+	return t::lib::TestBootstrap->new(
+		$class->paths(@_),
 	);
 }
 

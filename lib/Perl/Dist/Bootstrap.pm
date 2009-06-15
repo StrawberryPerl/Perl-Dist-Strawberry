@@ -9,23 +9,23 @@ Perl::Dist::Bootstrap - A Perl distribution for building Perl distributions
 =head1 DESCRIPTION
 
 Bootstrap Perl is a subclass and variant of Strawberry Perl that installs
-into a different directory (C:\bootstrap) than Strawberry Perl so that
+into a different directory (C:\bootperl) than Strawberry Perl so that
 it won't be "in the way" when building Strawberry and other Perls.
 
 It also comes prepackaged with a number of additional modules that are
-dependencies of Perl::Dist.
+dependencies of Perl::Dist and Perl::Dist::WiX.
 
 =cut
 
 use 5.006;
 use strict;
-use Perl::Dist::Strawberry      ();
-use Perl::Dist::Util::Toolchain ();
+use base                    qw( Perl::Dist::Strawberry );
+use vars                    qw( $VERSION               );
+use File::Spec::Functions   qw( catfile catdir         );
+use File::ShareDir          qw();
 
-use vars qw{$VERSION @ISA};
 BEGIN {
-	$VERSION = '1.11';
-	@ISA     = 'Perl::Dist::Strawberry';
+	$VERSION = '1.11_12';
 }
 
 
@@ -44,8 +44,40 @@ sub new {
 		app_publisher_url => 'http://vanillaperl.org/',
 		image_dir         => 'C:\\bootperl',
 
-		# Build both exe and zip versions
-		exe               => 1,
+		msi_directory_tree_additions => [qw (
+			perl\site\lib\Class
+			perl\site\lib\Data
+			perl\site\lib\Module
+			perl\site\lib\Object
+			perl\site\lib\Perl
+			perl\site\lib\Perl\Dist
+			perl\site\lib\Process
+			perl\site\lib\Readonly
+			perl\site\lib\Sub
+			perl\site\lib\Tie
+			perl\site\lib\auto\Class
+			perl\site\lib\auto\Data
+			perl\site\lib\auto\Module
+			perl\site\lib\auto\Object
+			perl\site\lib\auto\Perl
+			perl\site\lib\auto\Perl\Dist
+			perl\site\lib\auto\Process
+			perl\site\lib\auto\Readonly
+			perl\site\lib\auto\share\dist
+			perl\site\lib\auto\share\dist\Perl-Dist
+			perl\site\lib\auto\share\dist\Perl-Dist\default
+			perl\site\lib\auto\share\dist\Perl-Dist\default\perl-5.10.0
+			perl\site\lib\auto\share\dist\Perl-Dist\default\perl-5.10.0\lib
+			perl\site\lib\auto\share\dist\Perl-Dist\default\perl-5.8.8
+			perl\site\lib\auto\share\dist\Perl-Dist\default\perl-5.8.8\lib
+			perl\site\lib\auto\share\dist\Perl-Dist\default\perl-5.8.9
+			perl\site\lib\auto\share\dist\Perl-Dist\default\perl-5.8.9\lib
+			perl\site\lib\auto\Sub
+		)],
+
+		# Build both msi and zip versions
+		msi               => 1,
+		zip               => 1,
 
 		@_,
 	);
@@ -55,7 +87,9 @@ sub new {
 # Supports building multiple versions of Perl.
 sub output_base_filename {
 	$_[0]->{output_base_filename} or
-	'bootstrap-perl-' . $_[0]->perl_version_human . '.3';
+	'bootstrap-perl-' . $_[0]->perl_version_human 
+	. '.' . $_[0]->build_number
+	. ($_[0]->beta_number ? '-beta-' . $_[0]->beta_number : '');
 }
 
 
@@ -71,9 +105,9 @@ sub patch_include_path {
 
 	# Find the share path for this distribution
 	my $share = File::ShareDir::dist_dir('Perl-Dist-Strawberry');
-	my $path  = File::Spec->catdir( $share, 'bootstrap' );
+	my $path  = catdir( $share, 'bootstrap' );
 	unless ( -d $path ) {
-		die("Directory $path does not exist");
+		PDWiX->throw("Directory $path does not exist");
 	}
 
 	# Prepend it to the default include path
@@ -86,36 +120,89 @@ sub install_perl_modules {
 	my $self = shift;
 	$self->SUPER::install_perl_modules(@_);
 
-	# Install Perl::Dist itself
-	$self->install_modules( qw{
+	my $share = File::ShareDir::dist_dir('Perl-Dist-Strawberry');
+
+	$self->install_distribution_from_file(
+	    file => catfile($share, 'modules', 'Alien-WiX-0.300000.tar.gz'),
+	);
+
+	# Install Perl::Dist and everything required for Perl::Dist::WiX itself
+	$self->install_modules( qw(
 		File::Copy::Recursive
-		File::Find::Rule
-		File::pushd
-		File::Remove
+		Class::Inspector
 		File::ShareDir
 		File::Temp
 		File::HomeDir
+		File::PathList
 		IPC::Run3
+		Error
+		Cache::Cache
 		LWP::UserAgent::WithCache
 		LWP::Online
 		Object::Tiny
-		Tie::File
+	) );
+# Both 5.8.9 and 5.10.0 include a more-up-to-date version of Tie::File than CPAN.
+#		Tie::File
+	$self->install_modules( qw(
 		YAML::Tiny
 		Module::CoreList
 		Params::Util
 		PAR::Dist
 		Process
-		Process::Storable
-		Process::Delegatable
+	) );
+# Since these two modules come with Process now, why mention them?
+#		Process::Storable
+#		Process::Delegatable
+	$self->install_modules( qw(
 		IO::Capture
 		Win32::File::Object
-		Test::More
 		Test::Script
 		Test::LongString
 		Probe::Perl
+		Module::ScanDeps
 		Module::Install
+		Portable::Dist
+		AppConfig
+		Template
+		File::IgnoreReadonly
+		File::Slurp
+		Tie::Slurp
+		List::MoreUtils
 		Perl::Dist
-	} );
+	) );
+
+	# Data::UUID needs to have a temp directory set.
+	{
+		local $ENV{'TMPDIR'} = $self->image_dir;
+		$self->install_module( name => 'Data::UUID', );
+	}
+
+	$self->install_modules( qw(
+		Sub::Install
+		Data::OptList
+		Sub::Exporter
+		Test::Output
+		Devel::StackTrace
+		Class::Data::Inheritable
+		Exception::Class
+		Test::UseAllModules
+		Object::InsideOut
+		B::Utils
+		PadWalker
+		Data::Dump::Streamer
+		Win32
+		Readonly
+		Readonly::XS
+		Regexp::Common
+		Pod::Text
+		Pod::Readme
+	) );
+	$self->install_module(
+		name => 'Perl::Dist::WiX',
+		force => 1,
+	);
+
+#	$self->trace_line(0, "Loading extra Bootstrap packlists\n");
 
 	return 1;
 }
@@ -141,9 +228,11 @@ Strawberry Perl Support page L<http://strawberryperl.com/support.html>.
 
 Adam Kennedy E<lt>adamk@cpan.orgE<gt>
 
+Curtis Jewell E<lt>csjewell@cpan.orgE<gt>
+
 =head1 COPYRIGHT
 
-Copyright 2007 - 2009 Adam Kennedy.
+Copyright 2007 - 2009 Adam Kennedy.  Copyright 2009 Curtis Jewell.
 
 This program is free software; you can redistribute
 it and/or modify it under the same terms as Perl itself.
