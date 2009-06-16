@@ -553,6 +553,13 @@ sub install_perl_modules {
 		JSON::XS
 		JSON
 	} );	
+
+	# Local library installation.
+	$self->install_module(    # Fails its test because of a packaging problem in 1.004002 only.
+		name => 'local::lib',
+		force => 1,
+	);
+
 	
 #	$self->trace_line(0, "Loading extra Strawberry packlists\n");
 
