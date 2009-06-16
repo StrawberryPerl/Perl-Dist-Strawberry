@@ -592,6 +592,11 @@ sub install_win32_extras {
 			url        => $self->strawberry_url,
 			icon_file  => catfile($dist_dir, 'strawberry.ico')
 		);
+		$self->install_website(
+			name       => 'Live Support',
+			url        => 'http://widget.mibbit.com/?server=irc.perl.org&channel=%23win32',
+			icon_file  => catfile($dist_dir, 'onion.ico')
+		);
 	}
 
 	my $license_file_from = catfile($dist_dir, 'License.rtf');

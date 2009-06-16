@@ -2,6 +2,7 @@ Changes for Perl extension Perl-Dist-Strawberry
 
 1.11_13 To be released
     - Store a Strawberry-specific e-mail in the Perl configuration.
+    - Onion image from perfoundation.org, Link to #win32 via Mibbit
 	
 1.11_12 Sun 14 Jun 2009
     - Moving JSON and JSON::XS to Strawberry.
