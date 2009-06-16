@@ -37,7 +37,7 @@ requires	'Portable::Dist'            => '0.02';
 requires	'Probe::Perl'               => '0.01';
 
 requires	'Perl::Dist'      => '1.14';
-requires	'Perl::Dist::WiX' => '0.183';
+requires	'Perl::Dist::WiX' => '0.184';
 test_requires	'Test::More'      => '0.42';
 test_requires	'File::Spec'      => '3.2701';
 test_requires	'File::Path'      => '2.04';
