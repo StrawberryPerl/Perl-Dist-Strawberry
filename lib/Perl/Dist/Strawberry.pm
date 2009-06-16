@@ -264,26 +264,29 @@ sub new {
 	$params->{msi_directory_tree_additions} = \@additions;
 
 	$self->SUPER::new(
-		app_id            => 'strawberryperl',
-		app_name          => 'Strawberry Perl',
-		app_publisher     => 'Vanilla Perl Project',
-		app_publisher_url => 'http://www.strawberryperl.com/',
-		image_dir         => 'C:\strawberry',
+		app_id               => 'strawberryperl',
+		app_name             => 'Strawberry Perl',
+		app_publisher        => 'Vanilla Perl Project',
+		app_publisher_url    => 'http://www.strawberryperl.com/',
+		image_dir            => 'C:\strawberry',
 
 		# Program version.
-		build_number      => 6,
-		beta_number       => 3,
+		build_number         => 6,
+		beta_number          => 3,
 
 		# New options for msi building...
-		msi_license_file  => catfile($dist_dir, 'License-short.rtf'),
-		msi_product_icon  => catfile(File::ShareDir::dist_dir('Perl-Dist-WiX'), 'win32.ico'),
-		msi_help_url      => 'http://www.strawberryperl.com/support.html',
-		msi_banner_top    => catfile($dist_dir, 'StrawberryBanner.bmp'),
-		msi_banner_side   => catfile($dist_dir, 'StrawberryDialog.bmp'),
+		msi_license_file     => catfile($dist_dir, 'License-short.rtf'),
+		msi_product_icon     => catfile(File::ShareDir::dist_dir('Perl-Dist-WiX'), 'win32.ico'),
+		msi_help_url         => 'http://www.strawberryperl.com/support.html',
+		msi_banner_top       => catfile($dist_dir, 'StrawberryBanner.bmp'),
+		msi_banner_side      => catfile($dist_dir, 'StrawberryDialog.bmp'),
+
+		# Set e-mail to something Strawberry-specific.
+		perl_config_cf_email => 'perl.strawberry@csjewell.fastmail.us',
 
 		# Build both msi and zip versions
-		msi               => 1,
-		zip               => 1,
+		msi                  => 1,
+		zip                  => 1,
 
 		%{$params},
 	);
