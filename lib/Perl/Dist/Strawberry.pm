@@ -800,14 +800,14 @@ sub install_dbd_mysql {
 	if ($self->perl_version eq '5100') {
 		$filelist = $self->install_par(
 		  name => 'DBD_mysql', 
-		  url => 'http://strawberryperl.com/package/DBD-mysql-4.005-MSWin32-x86-multi-thread-5.10-5.10.0.par'
+		  url => 'http://strawberryperl.com/package/DBD-mysql-4.012-MSWin32-x86-multi-thread-5.10.0.par'
 		);
 		$self->insert_fragment( 'DBD_mysql', $filelist->files );
 	} elsif ($self->perl_version eq '589') {
 		$self->trace_line(0, "Installing DBD::mysql is untested in 5.8.9.\n");
 		$filelist = $self->install_par(
 		  name => 'DBD_mysql', 
-		  url => 'http://strawberryperl.com/package/DBD-mysql-4.005-MSWin32-x86-multi-thread-5.8-5.8.9.par'
+		  url => 'http://strawberryperl.com/package/DBD-mysql-4.012-MSWin32-x86-multi-thread-5.8.9.par'
 		);
 		$self->insert_fragment( 'DBD_mysql', $filelist->files );
 	} else {
