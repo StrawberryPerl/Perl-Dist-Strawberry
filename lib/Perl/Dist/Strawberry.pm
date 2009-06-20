@@ -420,6 +420,8 @@ sub install_perl_5100_bin {
 sub install_perl_modules {
 	my $self = shift;
 
+	$self->install_cpan_upgrades;
+	
 	# Install LWP::Online so our custom minicpan code works
 	$self->install_distribution(
 		name => 'ADAMK/LWP-Online-1.07.tar.gz'
@@ -436,17 +438,6 @@ sub install_perl_modules {
 
 	# Install additional math modules
 	$self->install_pari;
-	$self->install_module(    # had no packlist when installing 5.8.8.
-		name => 'Math::BigInt',
-		packlist => 0,
-	);
-	$self->install_modules( qw{
-		Math::BigInt::FastCalc
-	} );
-	$self->install_module(    # had no packlist when installing 5.8.9.
-		name => 'Math::BigRat',
-		packlist => 0,
-	);
 	$self->install_modules( qw{
 		Math::BigInt::GMP
 	} );
@@ -471,11 +462,8 @@ sub install_perl_modules {
 	);
 
 	# Networking Enhancements
-	# This is the one Bundle::LWP module that's
-	# not included in the toolchain.
-	$self->install_modules( qw{
-		MIME::Base64
-	} );
+	# All the Bundle::LWP modules are
+	# included in the toolchain or in the upgrades.
 
 	# Binary Package Support
 	$self->install_modules( qw{
@@ -498,7 +486,6 @@ sub install_perl_modules {
 	);
 	$self->install_modules( qw{
 		YAML::Tiny
-		AutoLoader
 		PAR
 		PAR::Repository::Query
 		PAR::Repository::Client
@@ -559,7 +546,6 @@ sub install_perl_modules {
 		name => 'local::lib',
 		force => 1,
 	);
-
 	
 #	$self->trace_line(0, "Loading extra Strawberry packlists\n");
 

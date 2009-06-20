@@ -134,7 +134,6 @@ sub install_perl_modules {
 		File::Temp
 		File::HomeDir
 		File::PathList
-		IPC::Run3
 		Error
 		Cache::Cache
 		LWP::UserAgent::WithCache
@@ -190,11 +189,9 @@ sub install_perl_modules {
 		B::Utils
 		PadWalker
 		Data::Dump::Streamer
-		Win32
 		Readonly
 		Readonly::XS
 		Regexp::Common
-		Pod::Text
 		Pod::Readme
 	) );
 	$self->install_module(
