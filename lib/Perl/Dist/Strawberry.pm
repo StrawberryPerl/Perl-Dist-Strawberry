@@ -465,6 +465,8 @@ sub install_perl_modules {
 	# All the Bundle::LWP modules are
 	# included in the toolchain or in the upgrades.
 
+	PDWiX->throw(q{Debugging stop - what's wrong with PAR::Dist/Archive::Zip?})
+	
 	# Binary Package Support
 	# PAR::Dist 0.45 is failing tests. Need to find out why.
 	$self->install_module(
@@ -492,8 +494,13 @@ sub install_perl_modules {
 		YAML::Tiny
 		PAR
 		PAR::Repository::Query
-		PAR::Repository::Client
 	} );
+	# PAR::Repository::Client 0.24 is failing tests. 
+	# Same reason as PAR::Dist. Need to find out why.	
+	$self->install_module(
+		name => 'PAR::Repository::Client',
+		force => 1,
+	);
 	$self->install_ppm;
 
 	# Console Utilities

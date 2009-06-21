@@ -140,8 +140,6 @@ sub install_perl_modules {
 		LWP::Online
 		Object::Tiny
 	) );
-# Both 5.8.9 and 5.10.0 include a more-up-to-date version of Tie::File than CPAN.
-#		Tie::File
 	$self->install_modules( qw(
 		YAML::Tiny
 		Module::CoreList
@@ -149,9 +147,6 @@ sub install_perl_modules {
 		PAR::Dist
 		Process
 	) );
-# Since these two modules come with Process now, why mention them?
-#		Process::Storable
-#		Process::Delegatable
 	$self->install_modules( qw(
 		IO::Capture
 		Win32::File::Object
@@ -167,8 +162,13 @@ sub install_perl_modules {
 		File::Slurp
 		Tie::Slurp
 		List::MoreUtils
-		Perl::Dist
 	) );
+	# Perl::Dist 1.14 is failing tests. 
+	# Same reason as PAR::Dist. Need to find out why.	
+	$self->install_module(
+		name => 'Perl::Dist',
+		force => 1,
+	);
 
 	# Data::UUID needs to have a temp directory set.
 	{
@@ -193,6 +193,17 @@ sub install_perl_modules {
 		Readonly::XS
 		Regexp::Common
 		Pod::Readme
+		Algorithm::C3
+		Class::C3
+		MRO::Compat
+		Task::Weaken
+		Scope::Guard
+		Devel::GlobalDestruction
+		Sub::Name
+		Class::MOP
+		Moose
+		MooseX::AttributeHelpers
+		File::List::Object
 	) );
 	$self->install_module(
 		name => 'Perl::Dist::WiX',
