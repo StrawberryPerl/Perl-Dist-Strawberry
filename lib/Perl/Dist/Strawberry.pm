@@ -465,7 +465,7 @@ sub install_perl_modules {
 	# All the Bundle::LWP modules are
 	# included in the toolchain or in the upgrades.
 
-	PDWiX->throw(q{Debugging stop - what's wrong with PAR::Dist/Archive::Zip?})
+	PDWiX->throw(q{Debugging stop - what's wrong with PAR::Dist/Archive::Zip?});
 	
 	# Binary Package Support
 	# PAR::Dist 0.45 is failing tests. Need to find out why.
