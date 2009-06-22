@@ -25,7 +25,7 @@ use File::Spec::Functions   qw( catfile catdir         );
 use File::ShareDir          qw();
 
 BEGIN {
-	$VERSION = '1.11_12';
+	$VERSION = '1.11_13';
 }
 
 
@@ -162,13 +162,14 @@ sub install_perl_modules {
 		File::Slurp
 		Tie::Slurp
 		List::MoreUtils
+		Perl::Dist
 	) );
 	# Perl::Dist 1.14 is failing tests. 
 	# Same reason as PAR::Dist. Need to find out why.	
-	$self->install_module(
-		name => 'Perl::Dist',
-		force => 1,
-	);
+#	$self->install_module(
+#		name => 'Perl::Dist',
+#		force => 1,
+#	);
 
 	# Data::UUID needs to have a temp directory set.
 	{
