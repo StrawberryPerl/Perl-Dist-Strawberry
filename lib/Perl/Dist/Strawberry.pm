@@ -466,11 +466,6 @@ sub install_perl_modules {
 	# included in the toolchain or in the upgrades.
 
 	# Binary Package Support
-	# PAR::Dist 0.45 is failing tests. Need to find out why.
-#	$self->install_module(
-#		name => 'PAR::Dist',
-#		force => 1,
-#	);
 	$self->install_modules( qw{
 		PAR::Dist
 		PAR::Dist::FromPPD
@@ -495,12 +490,6 @@ sub install_perl_modules {
 		PAR::Repository::Query
 		PAR::Repository::Client
 	} );
-	# PAR::Repository::Client 0.24 is failing tests. 
-	# Same reason as PAR::Dist. Need to find out why.	
-#	$self->install_module(
-#		name => 'PAR::Repository::Client',
-#		force => 1,
-#	);
 	$self->install_ppm;
 
 	# Console Utilities

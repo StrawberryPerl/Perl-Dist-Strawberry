@@ -47,6 +47,7 @@ sub new {
 		msi_directory_tree_additions => [qw (
 			perl\site\lib\Class
 			perl\site\lib\Data
+			perl\site\lib\Devel
 			perl\site\lib\Module
 			perl\site\lib\Object
 			perl\site\lib\Perl
@@ -57,6 +58,7 @@ sub new {
 			perl\site\lib\Tie
 			perl\site\lib\auto\Class
 			perl\site\lib\auto\Data
+			perl\site\lib\auto\Devel
 			perl\site\lib\auto\Module
 			perl\site\lib\auto\Object
 			perl\site\lib\auto\Perl
@@ -163,12 +165,6 @@ sub install_perl_modules {
 		List::MoreUtils
 		Perl::Dist
 	) );
-	# Perl::Dist 1.14 is failing tests. 
-	# Same reason as PAR::Dist. Need to find out why.	
-#	$self->install_module(
-#		name => 'Perl::Dist',
-#		force => 1,
-#	);
 
 	# Data::UUID needs to have a temp directory set.
 	{
