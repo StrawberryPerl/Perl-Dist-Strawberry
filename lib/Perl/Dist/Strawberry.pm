@@ -539,6 +539,12 @@ sub install_perl_modules {
 		CPAN::SQLite
 	} );
 
+	# CPANPLUS::Internals::Source::SQLite 
+	# needs this module, so adding it.
+	$self->install_modules( qw{
+		DBIx::Simple
+	} ) if ($self->perl_version eq '5100');
+	
 	# Support for other databases.
 	$self->install_modules( qw{
 		DBD::ODBC
