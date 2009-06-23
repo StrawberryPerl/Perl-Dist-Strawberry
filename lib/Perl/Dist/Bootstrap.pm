@@ -133,35 +133,22 @@ sub install_perl_modules {
 		File::Copy::Recursive
 		Class::Inspector
 		File::ShareDir
-		File::Temp
-		File::HomeDir
 		File::PathList
 		Error
 		Cache::Cache
 		LWP::UserAgent::WithCache
-		LWP::Online
 		Object::Tiny
-	) );
-	$self->install_modules( qw(
-		YAML::Tiny
-		Module::CoreList
-		Params::Util
 		Process
-	) );
-	$self->install_modules( qw(
 		IO::Capture
-		Win32::File::Object
-		Test::Script
 		Test::LongString
-		Probe::Perl
 		Module::ScanDeps
 		Module::Install
+		Tie::Slurp
+		File::Slurp
+		File::IgnoreReadonly
 		Portable::Dist
 		AppConfig
 		Template
-		File::IgnoreReadonly
-		File::Slurp
-		Tie::Slurp
 		List::MoreUtils
 		Perl::Dist
 	) );

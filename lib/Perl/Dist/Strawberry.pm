@@ -525,6 +525,7 @@ sub install_perl_modules {
 		DBI
 		DBD::SQLite
 		CPAN::DistnameInfo
+		File::HomeDir
 		CPAN::SQLite
 	} );
 
