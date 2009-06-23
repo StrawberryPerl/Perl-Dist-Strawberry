@@ -144,7 +144,6 @@ sub install_perl_modules {
 		YAML::Tiny
 		Module::CoreList
 		Params::Util
-		PAR::Dist
 		Process
 	) );
 	$self->install_modules( qw(
