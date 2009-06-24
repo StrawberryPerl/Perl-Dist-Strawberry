@@ -430,6 +430,7 @@ sub install_perl_modules {
 	# Win32 Modules
 	$self->install_modules( qw{
 		Win32::File
+		File::Remove
 		Win32::File::Object
 		Win32::API
 		Parse::Binary
@@ -501,7 +502,6 @@ sub install_perl_modules {
 		File::Find::Rule
 		Data::Compare
 		File::chmod
-		File::Remove
 		Params::Util
 		CPAN::Checksums
 		CPAN::Inject
@@ -525,7 +525,6 @@ sub install_perl_modules {
 		DBI
 		DBD::SQLite
 		CPAN::DistnameInfo
-		File::HomeDir
 		CPAN::SQLite
 	} );
 
