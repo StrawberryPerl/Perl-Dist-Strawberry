@@ -122,7 +122,7 @@ core.
 use 5.006;
 use strict;
 use base                        qw( Perl::Dist::WiX );
-use File::Spec::Functions       qw( catfile         );
+use File::Spec::Functions       qw( catfile catdir  );
 use URI::file                   qw();
 use Perl::Dist::Machine         qw();
 use Perl::Dist::Util::Toolchain qw();
@@ -493,6 +493,12 @@ sub install_perl_modules {
 	} );
 	$self->install_ppm;
 
+	my $cpan_sources = catdir($self->image_dir, 'cpan', 'sources');
+	unless (-d $cpan_sources) {
+		require File::Path;
+		File::Path::mkpath($cpan_sources);
+	}
+	
 	# Console Utilities
 	$self->install_modules( qw{
 		IPC::Run3
@@ -528,6 +534,9 @@ sub install_perl_modules {
 		CPAN::SQLite
 	} );
 
+	# Copy the files that CPAN::SQLite needs.
+	# $self->copy_cpan_sqlite_files();
+	
 	# CPANPLUS::Internals::Source::SQLite 
 	# needs this module, so adding it.
 	$self->install_modules( qw{
@@ -839,6 +848,40 @@ sub install_dbd_pg {
 	}
 }
 
+sub copy_cpan_sqlite_files {
+	my $self = shift;
+	my $cpan_dir_src = $self->cpan()->file();
+	$self->trace_line(1, "Copying CPAN database files for CPAN::SQLite to pick up.\n");
+	
+	my $cpan_authors_dir = catdir($self->image_dir, 'cpan', 'sources', 'authors');
+	my $cpan_authors_file_src = catfile($cpan_dir_src, '01mailrc.txt.gz');
+	my $cpan_authors_file_dest = catfile($cpan_authors_dir, '01mailrc.txt.gz');
+	unless (-f $cpan_authors_file_dest) {
+		unless (-d $cpan_authors_dir) {
+			require File::Path;
+			File::Path::mkpath($cpan_authors_dir);
+		}
+		$self->trace_line(2, "   Copying authors file.\n");
+		require File::Copy;
+		File::Copy::copy($cpan_authors_file_src, $cpan_authors_file_dest);
+	}
+	
+	my $cpan_modules_dir = catdir($self->image_dir, 'cpan', 'sources', 'modules');
+	my $cpan_packages_file_src = catfile($cpan_dir_src, '02packages.details.txt.gz');
+	my $cpan_modules_file_src = catfile($cpan_dir_src, '03modlist.data.gz');
+	my $cpan_packages_file_dest = catfile($cpan_modules_dir, '02packages.details.txt.gz');
+	my $cpan_modules_file_dest = catfile($cpan_modules_dir, '03modlist.data.gz');
+	unless (-f $cpan_modules_file_dest) {
+		unless (-d $cpan_modules_dir) {
+			require File::Path;
+			File::Path::mkpath($cpan_modules_dir);
+		}
+		$self->trace_line(2, "   Copying modules and packages files.\n");
+		require File::Copy;
+		File::Copy::copy($cpan_packages_file_src, $cpan_packages_file_dest);
+		File::Copy::copy($cpan_modules_file_src, $cpan_modules_file_dest);
+	}
+}
 
 1;
 
