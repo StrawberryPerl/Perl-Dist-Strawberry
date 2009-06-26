@@ -144,6 +144,51 @@ An example entry would like this:
                 'host' => 'ftp.funet.fi'
             }
         ];
+
+# If we are on fake Hotel/Airport wireless,
+# prefer a minicpan to the poisoned wireless.
+if ( -d '[% self.image_dir %]\minicpan' ) {
+	eval { require LWP::Online; };
+	unless ( $@ ) {
+		my $path = URI::file->new('[% self.image_dir %]\minicpan');
+	
+		if ( LWP::Online::online() ) {
+			push @{$Conf->{'conf'}->{'hosts'}}, {
+				'path' => $path->path(),
+				'scheme' => 'file',
+				'host' => ''
+			};
+		} else {
+			unshift @{$Conf->{'conf'}->{'hosts'}}, {
+				'path' => $path->path(),
+				'scheme' => 'file',
+				'host' => ''
+			};
+		}
+	}
+}
+
+if ( -d '[% self.image_drive %]\minicpan' ) {
+	eval { require LWP::Online; };
+	unless ( $@ ) {
+		my $path = URI::file->new('[% self.image_drive %]\minicpan');
+
+		if ( LWP::Online::online() ) {
+			push @{$Conf->{'conf'}->{'hosts'}}, {
+				'path' => $path->path(),
+				'scheme' => 'file',
+				'host' => ''
+			};
+		} else {
+			unshift @{$Conf->{'conf'}->{'hosts'}}, {
+				'path' => $path->path(),
+				'scheme' => 'file',
+				'host' => ''
+			};
+		}
+	}
+}
+
         
 =item allow_build_interactivity
 
@@ -161,8 +206,7 @@ Defaults to ~/.cpanplus.
 
 =cut
 
-       $Conf->{'conf'}->{'base'} = File::Spec->catdir(
-                                        __PACKAGE__->_home_dir, DOT_CPANPLUS );
+       $Conf->{'conf'}->{'base'} = File::Spec->catdir('[% self.image_drive %]', 'cpanplus');
 
 =item buildflags
 
@@ -229,6 +273,7 @@ details on how to use them.
 Defaults to C<true>
 
 =cut
+		### csjewell@cpan.org: This is very slow, so turning off.
 
         ### this addresses #32248 which requests a possibillity to
         ### turn off custom sources
@@ -289,7 +334,7 @@ when invoked. Defaults to an empty string.
 
 =cut
 
-        $Conf->{'conf'}->{'makeflags'} = '';
+        $Conf->{'conf'}->{'makeflags'} = 'UNINST=1';
 
 =item makemakerflags
 
@@ -365,7 +410,7 @@ The default is to ask.
 
 =cut
 
-        $Conf->{'conf'}->{'prereqs'} = PREREQ_ASK;
+        $Conf->{'conf'}->{'prereqs'} = PREREQ_INSTALL;
 
 =item shell
 
