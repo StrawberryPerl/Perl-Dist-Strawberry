@@ -150,8 +150,10 @@ sub install_perl_modules {
 		AppConfig
 		Template
 		List::MoreUtils
-		Perl::Dist
 	) );
+
+	# Perl::Dist does not pass tests if offline.
+	$self->install_module( name => 'Perl::Dist', force => !! $self->offline );
 
 	# Data::UUID needs to have a temp directory set.
 	{
