@@ -147,11 +147,16 @@ sub install_perl_modules {
 		File::Slurp
 		File::IgnoreReadonly
 		Portable::Dist
-		AppConfig
-		Template
 		List::MoreUtils
+		AppConfig
 	) );
 
+	$self->install_distribution( 
+		name     => 'ADW/Template-Toolkit-2.21_02', 
+		mod_name => 'Template',
+		force    => $self->force(),
+	);
+	
 	# Perl::Dist does not pass tests if offline.
 	$self->install_module( name => 'Perl::Dist', force => !! $self->offline );
 
