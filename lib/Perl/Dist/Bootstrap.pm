@@ -152,7 +152,7 @@ sub install_perl_modules {
 	) );
 
 	$self->install_distribution( 
-		name     => 'ADW/Template-Toolkit-2.21_02', 
+		name     => 'ABW/Template-Toolkit-2.21_02.tar.gz', 
 		mod_name => 'Template',
 		force    => $self->force(),
 	);
