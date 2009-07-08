@@ -1,11 +1,11 @@
-use inc::Module::Install;
+use inc::Module::Install 0.91;
 
 all_from	'lib/Perl/Dist/Strawberry.pm';
 
 # Perl::Dist 1.14 does not load its requirements.
 # Delete when we can require a version that does.
 requires	'Archive::Tar'              => '1.42';
-requires	'Archive::Zip'              => '1.26';
+requires	'Archive::Zip'              => '1.29';
 requires	'File::Spec'                => '3.29';
 requires	'File::Copy::Recursive'     => '0.38';
 requires	'File::Find::Rule'          => '0.30';
@@ -36,8 +36,8 @@ requires	'Win32::File::Object'       => '0.01' if winlike;
 requires	'Portable::Dist'            => '0.02';
 requires	'Probe::Perl'               => '0.01';
 
-requires	'Perl::Dist'      => '1.14';
-requires	'Perl::Dist::WiX' => '0.184';
+requires	'Perl::Dist'      => '1.15';
+requires	'Perl::Dist::WiX' => '0.192';
 test_requires	'Test::More'      => '0.42';
 test_requires	'File::Spec'      => '3.2701';
 test_requires	'File::Path'      => '2.04';

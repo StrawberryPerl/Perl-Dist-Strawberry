@@ -5,7 +5,7 @@ use Perl::Dist::Bootstrap;
 
 use vars qw{$VERSION @ISA};
 BEGIN {
-	$VERSION = '1.11_12';
+	$VERSION = '1.11_14';
 	@ISA     = 'Perl::Dist::Bootstrap';
 }
 

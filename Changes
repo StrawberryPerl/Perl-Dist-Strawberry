@@ -1,27 +1,38 @@
 Changes for Perl extension Perl-Dist-Strawberry
 
-1.11_13 To be released
-    - Store a Strawberry-specific e-mail in the Perl configuration.
-    - Onion image from perfoundation.org, Link to #win32 via Mibbit
-	
-1.11_12 Sun 14 Jun 2009
-    - Moving JSON and JSON::XS to Strawberry.
-
-1.11_11 Tue 26 May 2009 (SVN r7335)
-	- Adding install_to_ppd routine.
-	- This release will be used to build Strawberry Perl
-	  July 2009 Beta 2 release.
-
-1.11_10 Fri 01 May 2009 (SVN r6814)
-	- Matching with Strawberry Perl April 2009 release.
-	- This release was used to build Strawberry Perl 
-	  July 2009 Beta 1 release.
-	- Upgrading to Perl::Dist::WiX 0.180
-	- Dropping building 5.8.8 in the default machine.
+1.12 To be released
+	- This release corresponds to Strawberry Perl July 2009.
+	  It was branched off from 1.09 for the purpose of building using
+	  Perl::Dist::WiX, but all changes from 1.10 and 1.11 
+	  are included, plus the ones below. (by CSJEWELL unless noted)
+	- Store a Strawberry-specific e-mail in the Perl configuration
+	- Onion image from perfoundation.org, Link to #win32 via Mibbit (SZABGAB)
+	- Moving JSON and JSON::XS to Strawberry
+	- Installing DBIx::Simple when CPANPLUS is installed
+	- Installing DBD::Pg, DBD::mysql, and local::lib
+	- Configure a CPANPLUS::Config with settings along the
+	  lines of the CPAN::Config
+	- Dropping building 5.8.8 in the default machine
 	- Updated tests to include perl 5.8.9
-	- Updated tests to test for dlltool error.
-	- Version updated to overwrite Perl::Dist::Strawberry
-	  version 1.11
+	- Updated tests to test for dlltool error
+	- Now depends on Perl::Dist::WiX 0.192 and Perl::Dist 1.15
+	- Bootstrap installs Perl::Dist::WiX and its required modules
+	- Upgrading to Module::Install 0.91
+
+1.11 Wed  1 Apr 2009
+	- This release corresponds to Strawberry Perl April 2009
+	- Upgrading to Module::Install::DSL 0.83 (ADAMK)
+	- Do not use external tar/gzip in CPAN::Config template (CHORNY)
+	- Don't install Win32::Env::Path (ADAMK)
+	- Removed the 1.14 version lock on DBD::SQLite (ADAMK)
+	- Updated Perl::Dist dependency to 1.14 (ADAMK)
+
+1.10 Sun 22 Feb 2009
+	- This release was used to build the first Strawberry Perl
+	  Portable stable release.
+	- Updating to Module::Install 0.79
+	- Removing the Beta tags from 5.8.9 and Portable (even though
+	  we won't distribute non-beta 5.8.9 until April).
 
 1.09 Thu 29 Jan 2009
 	- This release was used to build Strawberry Perl January 2009

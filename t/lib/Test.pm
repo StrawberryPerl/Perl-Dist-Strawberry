@@ -16,7 +16,7 @@ use t::lib::TestBootstrap ();
 
 use vars qw{$VERSION};
 BEGIN {
-	$VERSION = '1.11_12';
+	$VERSION = '1.11_14';
 }
 
 

@@ -130,7 +130,7 @@ use File::ShareDir              qw();
 
 use vars qw($VERSION);
 BEGIN {
-	$VERSION = '1.11_13';
+	$VERSION = '1.11_14';
 }
 
 use Object::Tiny qw{

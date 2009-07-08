@@ -215,7 +215,7 @@ for details. Defaults to an empty string.
 
 =cut
 
-        $Conf->{'conf'}->{'buildflags'} = '';
+        $Conf->{'conf'}->{'buildflags'} = '--uninst 1';
 
 =item cpantest
 
