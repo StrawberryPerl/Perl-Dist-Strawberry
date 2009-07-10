@@ -272,7 +272,6 @@ sub new {
 
 		# Program version.
 		build_number         => 6,
-		beta_number          => 3,
 
 		# New options for msi building...
 		msi_license_file     => catfile($dist_dir, 'License-short.rtf'),
