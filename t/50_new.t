@@ -7,6 +7,7 @@ BEGIN {
 }
 
 use Test::More;
+use Scalar::Util 'blessed';
 use File::Spec::Functions ':ALL';
 BEGIN {
 	unless ( $^O eq 'MSWin32' ) {
@@ -17,7 +18,7 @@ BEGIN {
 		plan( skip_all => 'Cannot be tested in a directory with an extension.' );
 		exit(0);
 	}
-	plan( tests => 11 );
+	plan( tests => 12 );
 }
 
 use Perl::Dist::Strawberry ();

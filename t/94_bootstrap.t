@@ -7,6 +7,7 @@ BEGIN {
 }
 
 use Test::More;
+use Scalar::Util 'blessed';
 use LWP::Online ':skip_all';
 use File::Spec::Functions ':ALL';
 BEGIN {
@@ -22,7 +23,7 @@ BEGIN {
 		plan( skip_all => 'Cannot be tested in a directory with an extension.' );
 		exit(0);
 	}
-	plan( tests => 7 );
+	plan( tests => 8 );
 }
 
 use Perl::Dist::Strawberry ();
@@ -39,4 +40,17 @@ use t::lib::Test           ();
 my $dist = t::lib::Test->new_bootstrap(94);
 isa_ok( $dist, 'Perl::Dist::Bootstrap' );
 isa_ok( $dist, 'Perl::Dist::Strawberry' );
-ok( $dist->run, '->run ok' );
+
+# Run the dist object, and ensure everything we expect was created
+my $time = scalar localtime();
+diag( "Building test dist @ $time, may take several hours... (sorry)" );
+ok( eval { $dist->run; 1; }, '->run ok' );
+if ( defined $@ ) {
+	if ( blessed( $@ ) && $@->isa("Exception::Class::Base") {
+		diag($@->as_string);
+	} else {
+		diag($@);
+	}
+}
+$time = scalar localtime();
+diag( "Test dist finished @ $time." );

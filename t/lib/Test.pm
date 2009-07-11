@@ -44,17 +44,29 @@ sub remake_path {
 sub paths {
 	my $class        = shift;
 	my $subpath      = shift || '';
+
+	# Create base and download directory so we can do a GetShortPathName on it.
+	my $basedir  = rel2abs( catdir( 't', "tmp$subpath" ) );
+	my $download = rel2abs( catdir( 't', 'download' ) );
+    File::Path::mkpath( $basedir )  unless -d $basedir;
+	File::Path::mkpath( $download ) unless -d $download;
+	$basedir  = Win32::GetShortPathName( $basedir );
+	$download = Win32::GetShortPathName( $download );
+	Test::More::diag($basedir);
+
 	my $basedir      = rel2abs( catdir( 't', "tmp$subpath" ) );
 	# File::Remove::clear( $basedir );
-	my $output_dir   = remake_path( catdir( $basedir, 'output'   ) );
-	my $image_dir    = remake_path( catdir( $basedir, 'image'    ) );
-	my $download_dir =   make_path( catdir( $basedir, 'download' ) );
-	my $build_dir    = remake_path( catdir( $basedir, 'build'    ) );
+	my $output_dir   = remake_path( catdir( $basedir, 'output'    ) );
+	my $image_dir    = remake_path( catdir( $basedir, 'image'     ) );
+	my $download_dir =   make_path( $download                       );
+	my $fragment_dir = remake_path( catdir( $basedir, 'fragments' ) );
+	my $build_dir    = remake_path( catdir( $basedir, 'build'     ) );
 	return (
 		output_dir   => $output_dir,
 		image_dir    => $image_dir,
 		download_dir => $download_dir,
 		build_dir    => $build_dir,
+		fragment_dir => $fragment_dir,
 	);
 }
 
