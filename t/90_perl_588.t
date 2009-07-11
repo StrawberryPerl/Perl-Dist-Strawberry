@@ -45,7 +45,7 @@ my $time = scalar localtime();
 diag( "Building test dist @ $time, may take several hours... (sorry)" );
 ok( eval { $dist->run; 1; }, '->run ok' );
 if ( defined $@ ) {
-	if ( blessed( $@ ) && $@->isa("Exception::Class::Base") {
+	if ( blessed( $@ ) && $@->isa("Exception::Class::Base") ) {
 		diag($@->as_string);
 	} else {
 		diag($@);

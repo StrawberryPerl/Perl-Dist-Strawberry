@@ -54,8 +54,6 @@ sub paths {
 	$download = Win32::GetShortPathName( $download );
 	Test::More::diag($basedir);
 
-	my $basedir      = rel2abs( catdir( 't', "tmp$subpath" ) );
-	# File::Remove::clear( $basedir );
 	my $output_dir   = remake_path( catdir( $basedir, 'output'    ) );
 	my $image_dir    = remake_path( catdir( $basedir, 'image'     ) );
 	my $download_dir =   make_path( $download                       );
