@@ -231,6 +231,7 @@ sub new {
 		perl\site\lib\Bundle\DBD
 		perl\site\lib\CPAN
 		perl\site\lib\DBD
+		perl\site\lib\IPC
 		perl\site\lib\JSON
 		perl\site\lib\LWP
 		perl\site\lib\Math
@@ -243,6 +244,7 @@ sub new {
 		perl\site\lib\XML\LibXML
 		perl\site\lib\auto\CPAN
 		perl\site\lib\auto\DBD
+		perl\site\lib\auto\IPC
 		perl\site\lib\auto\JSON
 		perl\site\lib\auto\LWP
 		perl\site\lib\auto\Math
