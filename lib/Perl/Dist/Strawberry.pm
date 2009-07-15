@@ -239,6 +239,7 @@ sub new {
 		perl\site\lib\PAR\Dist
 		perl\site\lib\PAR\Repository
 		perl\site\lib\Parse
+		perl\site\lib\Pod
 		perl\site\lib\Test
 		perl\site\lib\XML
 		perl\site\lib\XML\LibXML
@@ -252,6 +253,7 @@ sub new {
 		perl\site\lib\auto\PAR\Dist
 		perl\site\lib\auto\PAR\Repository
 		perl\site\lib\auto\Parse
+		perl\site\lib\auto\Pod
 		perl\site\lib\auto\Test
 		perl\site\lib\auto\Win32\File
 		perl\site\lib\auto\XML
