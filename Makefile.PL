@@ -1,4 +1,4 @@
-use inc::Module::Install 0.91;
+use inc::Module::Install::DSL 0.91;
 
 all_from       lib/Perl/Dist/Strawberry.pm
 requires       Perl::Dist      1.16
