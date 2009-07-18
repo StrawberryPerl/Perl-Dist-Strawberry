@@ -285,7 +285,7 @@ sub new {
 		msi_banner_side      => catfile($dist_dir, 'StrawberryDialog.bmp'),
 
 		# Set e-mail to something Strawberry-specific.
-		perl_config_cf_email => 'perl.strawberry@csjewell.fastmail.us',
+		perl_config_cf_email => 'win32-vanilla@perl.org',
 
 		# Build both msi and zip versions
 		msi                  => 1,
