@@ -130,7 +130,7 @@ use File::ShareDir              qw();
 
 use vars qw($VERSION);
 BEGIN {
-	$VERSION = '1.11_14';
+	$VERSION = '1.11_15';
 }
 
 use Object::Tiny qw{
@@ -551,7 +551,14 @@ sub install_perl_modules {
 		DBD::ODBC
 	} );
 	$self->install_dbd_mysql;
-	$self->install_dbd_pg;
+#	$self->install_dbd_pg;
+
+	my $filelist = $self->install_binary(
+		name       => 'db_libraries',
+		url        => $self->binary_url('DatabaseLibraries-07292009.zip'),
+		install_to => q{.}
+	);
+	$self->insert_fragment( 'db_libraries', $filelist->files );
 
 	# JSON installation
 	$self->install_modules( qw{
@@ -851,40 +858,43 @@ sub install_dbd_pg {
 	}
 }
 
-sub copy_cpan_sqlite_files {
+=pod
+
+=head3 install_pari
+
+  $dist->install_pari
+
+The C<install_pari> method install (via a PAR package) libpari and the
+L<Math::Pari> module into the distribution.
+
+This method should only be called at during the install_modules phase.
+
+=cut
+
+sub install_pari {
 	my $self = shift;
-	my $cpan_dir_src = $self->cpan()->file();
-	$self->trace_line(1, "Copying CPAN database files for CPAN::SQLite to pick up.\n");
+	my $filelist;
 	
-	my $cpan_authors_dir = catdir($self->image_dir, 'cpan', 'sources', 'authors');
-	my $cpan_authors_file_src = catfile($cpan_dir_src, '01mailrc.txt.gz');
-	my $cpan_authors_file_dest = catfile($cpan_authors_dir, '01mailrc.txt.gz');
-	unless (-f $cpan_authors_file_dest) {
-		unless (-d $cpan_authors_dir) {
-			require File::Path;
-			File::Path::mkpath($cpan_authors_dir);
-		}
-		$self->trace_line(2, "   Copying authors file.\n");
-		require File::Copy;
-		File::Copy::copy($cpan_authors_file_src, $cpan_authors_file_dest);
+	if ($self->perl_version eq '5100') {
+		$filelist = $self->install_par(
+		  name => 'pari', 
+		  url => 'http://strawberryperl.com/package/Math-Pari-2.010801-MSWin32-x86-multi-thread-5.10.0.par'
+		);
+		$self->insert_fragment( 'pari', $filelist->files );
+	} elsif ($self->perl_version eq '589') {
+		$self->trace_line(0, "Installing DBD::Pg is untested in 5.8.9.\n");
+		$filelist = $self->install_par(
+		  name => 'pari', 
+		  url => 'http://strawberryperl.com/package/Math-Pari-2.010801-MSWin32-x86-multi-thread-5.8.9.par'
+		);
+		$self->insert_fragment( 'pari', $filelist->files );
+	} else {
+		PDWiX->throw('Could not install DBD::Pg - invalid version of perl');
 	}
-	
-	my $cpan_modules_dir = catdir($self->image_dir, 'cpan', 'sources', 'modules');
-	my $cpan_packages_file_src = catfile($cpan_dir_src, '02packages.details.txt.gz');
-	my $cpan_modules_file_src = catfile($cpan_dir_src, '03modlist.data.gz');
-	my $cpan_packages_file_dest = catfile($cpan_modules_dir, '02packages.details.txt.gz');
-	my $cpan_modules_file_dest = catfile($cpan_modules_dir, '03modlist.data.gz');
-	unless (-f $cpan_modules_file_dest) {
-		unless (-d $cpan_modules_dir) {
-			require File::Path;
-			File::Path::mkpath($cpan_modules_dir);
-		}
-		$self->trace_line(2, "   Copying modules and packages files.\n");
-		require File::Copy;
-		File::Copy::copy($cpan_packages_file_src, $cpan_packages_file_dest);
-		File::Copy::copy($cpan_modules_file_src, $cpan_modules_file_dest);
-	}
-}
+
+	return 1;
+} ## end sub install_pari
+
 
 1;
 

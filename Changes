@@ -9,7 +9,8 @@ x.xx To be released
 	- Onion image from perfoundation.org, Link to #win32 via Mibbit (SZABGAB)
 	- Moving JSON and JSON::XS to Strawberry
 	- Installing DBIx::Simple when CPANPLUS is installed
-	- Installing DBD::Pg, DBD::mysql, and local::lib
+	- Installing DBD::mysql and local::lib (DBD::Pg code was added, but
+	  is not used.)
 	- Configure a CPANPLUS::Config with settings along the
 	  lines of the CPAN::Config
 	- Dropping building 5.8.8 in the default machine
