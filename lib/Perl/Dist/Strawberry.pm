@@ -245,6 +245,7 @@ sub new {
 		perl\site\lib\XML\LibXML
 		perl\site\lib\auto\CPAN
 		perl\site\lib\auto\DBD
+		perl\site\lib\auto\DBD\mysql
 		perl\site\lib\auto\IPC
 		perl\site\lib\auto\JSON
 		perl\site\lib\auto\LWP
