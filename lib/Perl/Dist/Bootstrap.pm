@@ -17,16 +17,14 @@ dependencies of Perl::Dist and Perl::Dist::WiX.
 
 =cut
 
-use 5.006;
+use 5.010;
 use strict;
-use base                    qw( Perl::Dist::Strawberry );
-use vars                    qw( $VERSION               );
+use parent                  qw( Perl::Dist::Strawberry );
 use File::Spec::Functions   qw( catfile catdir         );
 use File::ShareDir          qw();
 
-BEGIN {
-	$VERSION = '2.00';
-}
+our $VERSION = '2.00_01';
+$VERSION = eval { return $VERSION };
 
 
 
@@ -77,9 +75,9 @@ sub new {
 			perl\site\lib\auto\Sub
 		)],
 
-		# Build both msi and zip versions
+		# Build msi version only.
 		msi               => 1,
-		zip               => 1,
+		zip               => 0,
 
 		@_,
 	);
@@ -124,6 +122,8 @@ sub install_perl_modules {
 
 	my $share = File::ShareDir::dist_dir('Perl-Dist-Strawberry');
 
+	# Install a "cheat" version of Alien::WiX that yells on import
+	# to require a real installation.
 	$self->install_distribution_from_file(
 	    file => catfile($share, 'modules', 'Alien-WiX-0.300000.tar.gz'),
 	);
@@ -149,13 +149,8 @@ sub install_perl_modules {
 		Portable::Dist
 		List::MoreUtils
 		AppConfig
+		Template
 	) );
-
-	$self->install_distribution( 
-		name     => 'ABW/Template-Toolkit-2.21_02.tar.gz', 
-		mod_name => 'Template',
-		force    => $self->force(),
-	);
 	
 	# Perl::Dist does not pass tests if offline.
 	$self->install_module( name => 'Perl::Dist', force => !! $self->offline );
@@ -195,12 +190,11 @@ sub install_perl_modules {
 		MooseX::AttributeHelpers
 		File::List::Object
 	) );
+
 	$self->install_module(
 		name => 'Perl::Dist::WiX',
 		force => 1,
 	);
-
-#	$self->trace_line(0, "Loading extra Bootstrap packlists\n");
 
 	return 1;
 }
