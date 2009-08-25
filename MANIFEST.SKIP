@@ -1,0 +1,46 @@
+# Avoid version control files.
+\bRCS\b
+\bCVS\b
+\bSCCS\b
+,v$
+\B\.svn\b
+\B\.git\b
+\B\.gitignore\b
+\b_darcs\b
+
+# Avoid Makemaker generated and utility files.
+\bMANIFEST\.bak
+\bMakefile$
+\bblib/
+\bMakeMaker-\d
+\bpm_to_blib\.ts$
+\bpm_to_blib$
+\bblibdirs\.ts$         # 6.18 through 6.25 generated this
+\bMANIFEST\.SKIP
+
+# Avoid Module::Build generated and utility files.
+\bBuild$
+\b_build/
+
+# Avoid temp and backup files.
+~$
+\.old$
+\#$
+\b\.#
+\.bak$
+\btmp[0-9][0-9]\b
+\bdownload\b
+
+# Avoid Devel::Cover files.
+\bcover_db\b
+
+# Avoid Windows thumbnail files.
+\bThumbs\.db$
+
+# Avoid our own built files.
+\APerl-Dist-Strawberry-
+\bfilelist\.txt$
+
+# Avoid release files
+\breleaserc$
+\bsite_html_config.yaml$

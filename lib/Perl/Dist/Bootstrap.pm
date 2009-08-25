@@ -25,7 +25,7 @@ use File::Spec::Functions   qw( catfile catdir         );
 use File::ShareDir          qw();
 
 BEGIN {
-	$VERSION = '1.11_14';
+	$VERSION = '2.00';
 }
 
 

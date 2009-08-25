@@ -1,0 +1,7 @@
+cpan_user CSJEWELL
+skip_prereqs 1
+skip_kwalitee 1
+twit_user CSJewellPerl
+ownsite_ftp_user a3922569
+ownsite_ftp_host csjewell.comyr.com
+ownsite_ftp_upload_dir /public_html/perl

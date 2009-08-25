@@ -1,7 +1,8 @@
 Changes for Perl extension Perl-Dist-Strawberry
 
-x.xx To be released
+2.00 Tue 25 Aug 2009
 	- This release corresponds to Strawberry Perl July 2009.
+	  (Yes, it's late.)
 	  It was branched off from 1.09 for the purpose of building using
 	  Perl::Dist::WiX, but all changes from 1.10 and 1.11 
 	  are included, plus the ones below. (by CSJEWELL unless noted)
@@ -16,7 +17,7 @@ x.xx To be released
 	- Dropping building 5.8.8 in the default machine
 	- Updated tests to include perl 5.8.9
 	- Updated tests to test for dlltool error
-	- Now depends on Perl::Dist::WiX 0.192 and Perl::Dist 1.16
+	- Now depends on Perl::Dist::WiX 1.000 and Perl::Dist 1.16
 	- Bootstrap installs Perl::Dist::WiX and its required modules
 	- Upgrading to Module::Install 0.91
 

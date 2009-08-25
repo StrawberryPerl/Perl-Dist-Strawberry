@@ -5,7 +5,7 @@ use Perl::Dist::Strawberry;
 
 use vars qw{$VERSION @ISA};
 BEGIN {
-	$VERSION = '1.11_14';
+	$VERSION = '2.00';
 	@ISA     = 'Perl::Dist::Strawberry';
 }
 
