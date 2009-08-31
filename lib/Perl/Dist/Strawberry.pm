@@ -462,6 +462,10 @@ sub install_perl_modules {
 	# All the Bundle::LWP modules are
 	# included in the toolchain or in the upgrades.
 
+	# TODO: Need to check if Test::Exception is still 
+	# needed by anything else in Strawberry, because it's
+	# not needed by Test::Warn any longer. (CSJewell, 31-Aug-2009)
+	
 	# Binary Package Support
 	$self->install_modules( qw{
 		PAR::Dist
@@ -469,7 +473,6 @@ sub install_perl_modules {
 		PAR::Dist::InstallPPD
 		Sub::Uplevel
 		Test::Exception
-		Array::Compare
 		Tree::DAG_Node
 		Test::Warn
 		Test::Tester
