@@ -1,5 +1,12 @@
 Changes for Perl extension Perl-Dist-Strawberry
 
+2.00_02 Sun 27 Sep 2009
+	- This release corresponds to Strawberry Perl October 2009
+	  Beta 2.
+	- Updated to work with Perl::Dist::WiX 1.090 versions.
+	- Library-installing code split off into another module.
+	- DBD::Pg, DB_File, graphics and crypto modules added.
+
 2.00 Tue 25 Aug 2009
 	- This release corresponds to Strawberry Perl July 2009.
 	  (Yes, it's late.)

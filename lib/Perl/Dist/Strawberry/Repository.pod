@@ -1,0 +1,88 @@
+=pod
+
+=head1 NAME
+
+Perl::Dist::Strawberry::Repository - The repository that is used for Perl::Dist::Strawberry.
+
+=head1 DESCRIPTION
+
+This documentation describes the repository that Perl::Dist::Strawberry uses, 
+and the branches that are currently being used as of September 2009.
+
+=head1 REPOSITORY
+
+Perl::Dist::Strawberry is currently on Adam Kennedy's "Open Repository" for 
+CPAN authors, at L<http://svn.ali.as/cpan/>
+
+My understanding is that if you're a CPAN author, you can get commit access 
+to it by asking Adam Kennedy for it. His e-mail address is 
+C<< adamk@cpan.org >>.
+
+If you aren't a CPAN author and need commit access for Perl::Dist::Strawberry, 
+please e-mail me with what you'd like to do (a patch would be nice to see) and 
+I'll recommend to him that you be given access.
+
+In any case, before committing anything more than minor changes to the 
+Perl-Dist-Strawberry trunk or branches, please e-mail me.  I'll probably say 
+yes, but I need to know what you're planning to do, so that I don't accidentally 
+step on your changes.
+
+You may wish to work on your own branch, and then communicate with me to get it 
+merged into the trunk, by doing:
+
+	svn cp http://svn.ali.as/trunk/Perl-Dist-Strawberry/ http://svn.ali.as/branches/Perl-Dist-Strawberry/<branch_name>
+
+=head1 BRANCHES
+
+The trunk is currently unstable at the moment, due to the fact that the code 
+underneath is in the process of changing from using 
+L<Object::InsideOut|Object::InsideOut> and L<Object::Tiny|Object::Tiny> to 
+L<Moose|Moose>.
+
+Yes, I know Moose is "heavy" in the dependencies and initial loading time. 
+The problems are that Object::Tiny is a little TOO tiny for what I need, 
+and Object::InsideOut objects that contain other Object::InsideOut objects 
+are very difficult to make L<Storable>, which breaks checkpointing.
+
+Plus, with Moose, I gain the ability to check constructor parameters better,
+the ability to extend logging, and the ability to factor out the XML generation
+and handling to another distribution in a sane matter.
+
+So here are the 2 branches:
+
+=head2 Trunk 
+
+Location: L<http://svn.ali.as/cpan/trunk/Perl-Dist-Strawberry/>
+
+The trunk is currently working with Perl::Dist::WiX 1.000, although this will 
+change soon.
+
+=head2 "Updated WiX" branch.
+
+Location: L<http://svn.ali.as/cpan/branches/Perl-Dist-Strawberry/Updated-WiX/>
+
+This branch is going to be merged into trunk soon, and works with the trunk 
+version of Perl::Dist::WiX.
+
+=head2 "Vendorperl"
+
+Location: L<http://svn.ali.as/cpan/branches/Perl-Dist-Strawberry/vendorperl2/>)
+
+This is the current "work" branch" and includes code for having modules 
+provided by Strawberry Perl install into a "vendor" directory, instead 
+of using the "site" directories.
+
+=head1 AUTHORS
+
+Curtis Jewell E<lt>csjewell@cpan.orgE<gt>
+
+=head1 SEE ALSO
+
+L<http://ali.as/>, L<http://csjewell.comyr.com/perl/>
+
+=head1 COPYRIGHT AND LICENSE
+
+The license is the same as L<Perl::Dist::Strawberry|Perl::Dist::Strawberry>. 
+See that module for details.
+
+=cut

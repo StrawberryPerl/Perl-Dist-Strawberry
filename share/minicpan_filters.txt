@@ -2,6 +2,27 @@
 # version 1.000 or greater.
 
 # Perl::Dist::Bootstrap
+/NUFFIN/Try-Tiny-
+/DROLSKY/Params-Validate-
+/CORION/parent-
+/DROLSKY/MooseX-Singleton-
+/DOY/MooseX-NonMoose-
+/VPIT/Variable-Magic-
+/FLORA/B-Hooks-EndOfScope-
+/FLORA/namespace-clean-
+/JJORE/Carp-Clan-
+/RKITOVER/MooseX-Types-
+/RJBS/Email-Date-Format
+# Date::Format
+/GBARR/TimeDate-\d
+# Mail::Address
+/MARKOV/MailTools-\d
+/PETDANCE/Test-Pod-
+/MARKOV/MIME-Types-
+/RJBS/MIME-Lite-
+/CSJEWELL/WiX3-\d
+/RJBS/CPAN-Mini-\d
+/DAGOLDEN/CPAN-Mini-Devel-\d
 /JUERD/DBIx-Simple-
 /FLORA/Algorithm-C3-
 /FLORA/Class-C3-
@@ -105,12 +126,60 @@
 /SMUELLER/PAR-Dist-
 /SMUELLER/PAR-Dist-FromPPD-
 /ADAMK/Params-Util-
-/KWILLIAMS/Probe-Perl-
 /AUDREYT/Parse-Binary-
 /PHISH/XML-LibXML-Common-
 /(?:RBERJON|PERIGRIN)/XML-NamespaceSupport-
-/ADAMK/Test-Script-
-/(?:RSCHUPP|RJBS)/IPC-Run3-
 /APEIRON/local-lib-
+/TONYC/Imager-\d
+/LDS/GD-\d
+/PMQS/DB_File-\d
+/PMQS/BerkeleyDB-\d
+/TURNSTEP/DBD-Pg-
+/RKOBES/PPM-
+
+# Starting with crypto
+/DLAND/Crypt-SSLeay-\d
+/FLORA/Net-SSLeay-\d
+/GAAS/Digest-HMAC-\d
+/SULLR/IO-Socket-SSL-\d
+/AWESTHOLM/Net-SMTP-TLS-\d
+
+/BTROTT/Data-Buffer
+/ADEO/Data-Random-
+/ADAMK/Crypt-DSA-
+/BTROTT/Class-ErrorHandler-
+/GBARR/Convert-ASN1-
+/LDS/Crypt-CBC-
+/DPARIS/Crypt-DES-
+/BTROTT/Crypt-DES_EDE3-
+/BTROTT/Convert-PEM-
+/BTROTT/Crypt-DH-
+/DPARIS/Crypt-Blowfish-
+/VIPUL/Tie-EncryptedHash-
+/VIPUL/Class-Loader-
+/VIPUL/Crypt-Random-
+/VIPUL/Convert-ASCII-Armour-
+/GAAS/Digest-MD2-
+/EDAVIS/Sort-Versions-
+/VIPUL/Crypt-Primes-
+/VIPUL/Crypt-RSA-
+/BTROTT/Digest-BubbleBabble-
+/DPARIS/Crypt-IDEA-
+/SOENKE/String-CRC32-
+/TURNSTEP/Net-SSH-Perl-
+
+# Module::Signature toolchain.
+/BDFOY/Test-Manifest-
+/BDFOY/Crypt-Rijndael-
+/BOBMATH/Crypt-CAST5_PP-
+/CHGEUER/Crypt-RIPEMD160-
+/AMS/Crypt-Twofish-
+/BTROTT/Crypt-OpenPGP-
+/TYEMQ/Algorithm-Diff-
+/ADAMK/Text-Diff-
+/AUDREYT/Module-Signature-
+
+
+
 
 # Stuff required for portability is in Perl-Dist-WiX.

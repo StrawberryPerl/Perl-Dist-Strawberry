@@ -28,7 +28,7 @@
 \#$
 \b\.#
 \.bak$
-\btmp[0-9][0-9]\b
+\btmp[0-9][0-9][0-9]\b
 \bdownload\b
 
 # Avoid Devel::Cover files.

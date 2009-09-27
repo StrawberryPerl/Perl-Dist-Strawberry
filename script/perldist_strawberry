@@ -2,19 +2,20 @@
 
 # A copy of perldist that does some strawberry-specific actions
 
-use 5.006;
+use 5.008001;
 use strict;
 use warnings;
 use Pod::Usage;
-use Getopt::Long           ();
-use URI                    ();
-use Perl::Dist::Machine    ();
-use Perl::Dist::Strawberry ();
+use File::HomeDir                 qw();
+use Getopt::Long                  qw();
+use URI                           qw();
+use Perl::Dist::Strawberry 2.0001 qw();
+use English                       qw( -no_match_vars );
 
-use vars qw{$VERSION};
-BEGIN {
-	$VERSION = '2.00_01';
-}
+
+our $VERSION = '2.00_01';
+our $VERSION_STRING = $VERSION;
+$VERSION = eval $VERSION_STRING;
 
 
 
@@ -23,15 +24,23 @@ BEGIN {
 #####################################################################
 # Handle Options
 
-my $PERL_VERSION = undef;
 my $CPAN         = undef;
 my $OUTPUT       = undef;
-my $FORCE        = undef;
+my $FORCE        = 0;
+my $TRACE        = undef;
+my $OFFLINE      = 0;
+my @SKIP         = undef;
 my $result       = Getopt::Long::GetOptions(
-	"perl_version=s" => \$PERL_VERSION,
 	"cpan=s"         => \$CPAN,
 	"output=s"       => \$OUTPUT,
-	"force"          => \$FORCE,
+	"force!"         => \$FORCE,
+	"trace=i"        => \$TRACE,
+	"offline!"       => \$OFFLINE,
+	"skip=i{,}"      => \@SKIP,
+	"help|?"         => sub { pod2usage(-exitstatus => 1, -verbose => 0); },
+	"man"            => sub { pod2usage(-exitstatus => 1, -verbose => 2); },
+	"usage"          => sub { usage(); },
+	"version"        => sub { version(); }
 );
 
 # Get the distribution class name
@@ -49,29 +58,43 @@ my %options = (
 	# 5.8.8 may not build properly under
 	# a directory with spaces in it.
 	temp_dir => 'C:\\tmp',
+	# Force perl only by default.
+	forceperl => 1,
 );
-if ( defined $PERL_VERSION ) {
-	$options{perl_version} = $PERL_VERSION;
-}
 if ( defined $CPAN ) {
 	$options{cpan} = URI->new( $CPAN );
 }
-if ( defined $OUTPUT ) {
-	$options{output} = $OUTPUT;
+if ( not defined $OUTPUT ) {
+	$OUTPUT = File::HomeDir->my_desktop();
 }
 if ( defined $FORCE ) {
-	$options{force} = 1;
+	$options{force} = $FORCE;
+}
+if ( defined $OFFLINE ) {
+	$options{offline} = $OFFLINE;
+}
+if ( defined $TRACE ) {
+	$options{trace} = $TRACE;
+}
+if ( defined @SKIP ) {
+	push @SKIP, 6;
+} else {
+	@SKIP = ( 6 );
 }
 
 # Create the machine
-my $machine = Perl::Dist::Strawberry->default_machine( common => \%options );
+my $machine = Perl::Dist::Strawberry->default_machine( 
+	skip => \@SKIP, 
+	common => \%options,
+	output => $OUTPUT,
+);
 unless ( $machine ) {
-	die("Failed to create default machine");
+	croak("Failed to create default machine");
 }
 
 my $start = time;
-unless ( $machine->run ) {
-	die("Failed to run");
+unless ( $machine->run() ) {
+	croak 'Failed to run';
 }
 my $t = time - $start;
 print "Completed full generation run in $t seconds\n";
@@ -79,3 +102,194 @@ print "Completed full generation run in $t seconds\n";
 chdir $machine->output;
 
 exit(0);
+
+sub version {
+	print <<"EOF";
+This is $PROGRAM_NAME, version $VERSION_STRING, a distribution builder 
+for Perl::Dist::Strawberry.
+
+Copyright 2009 Curtis Jewell and Adam Kennedy.
+
+This script may be copied only under the terms of either the Artistic License
+or the GNU General Public License, which may be found in the Perl 5 
+distribution or the distribution containing this script.
+EOF
+
+	exit(1);
+	
+}
+
+sub usage {
+	my $error = shift;
+
+	print "Error: $error\n\n" if (defined $error);
+
+	print <<"EOF";
+This is $PROGRAM_NAME, version $VERSION_STRING, a distribution builder 
+for Perl::Dist::Strawberry.
+
+Usage: $PROGRAM_NAME [ --output <DIRECTORY> ] [ --skip <NUM>[,<NUM>...] ]
+                     [ --trace <NUM> ] [ --cpan <URL> ] [ --[no]force ]
+                     [ --[no]offline ]
+                     [ --help ] [ --usage ] [ --man ] [ --version ] [ -? ]
+
+For more assistance, run $PROGRAM_NAME --help.
+EOF
+
+	exit(1);	
+}
+
+__END__
+
+=head1 NAME
+
+perldist_strawberry - a distribution builder for Perl::Dist::Strawberry.
+
+=head1 VERSION
+
+This document describes perldist_strawberry version 2.00_01.
+
+=head1 DESCRIPTION
+
+This script builds Strawberry Perl.
+
+=head1 SYNOPSIS
+
+  perldist_strawberry [ --output <DIR> ] [ --skip <NUM>[,<NUM>...] ]
+                 [ --trace <NUM> ] [ --cpan <URL> ] [ --[no]force ]
+                 [ --[no]verbose ]
+                 [ --help ] [ --usage ] [ --man ] [ --version ] [ -? ]
+				 
+  Options:
+    --output <DIR>    The directory to copy distributions to.
+                      Defaults to the current user's desktop.
+    --cpan <URL>      Specifies the CPAN mirror to download to.
+                      Defaults to http://cpan.strawberryperl.com/.
+    --skip <NUM>...   Specifies a list of which builds need skipped.
+                      6 (D-drive & portable) is added automatically.
+    --trace <NUM>     Specifies the trace level.
+                      Defaults to 1, range is between 0 and 5.
+
+    --offline         Does not download files.
+    --nooffline       Downloads files as required. (default)
+	
+    --force           Skips testing of all modules installed.
+    --noforce         Only skips testing of modules specified 
+                      in Strawberry.pm. (default)
+
+    --usage           Gives a minimum amount of aid and comfort.
+    --help            Gives aid and comfort.
+    -?                Gives aid and comfort.
+    --man             Gives maximum aid and comfort.	
+	
+    --version         Gives the name, version and copyright of the script.
+	
+=head1 OPTIONS
+
+=over
+
+=item B<--output>
+
+Specifies where the distributions that are created should be copied to.
+Defaults to the user's desktop directory.
+
+=item B<--cpan>
+
+Specifies the CPAN mirror to use.
+
+Defaults to L<http://cpan.strawberryperl.com/>.
+
+=item B<--skip>
+
+Specifies which builds need skipped from the list below:
+
+=over
+
+=item 1. 5.8.9 C: drive (.msi & .zip)
+
+=item 2. 5.10.1 C: drive (.msi & .zip)
+
+=item 3. 5.10.1 Portable (.zip)
+
+=item 4. 5.8.9 D: drive (.msi)
+
+=item 5. 5.10.1 D: drive (.msi)
+
+=back
+
+=item B<--trace>
+
+Sets the trace level to be used when building.  The level can be between 
+0 and 5, where 0 means print only the most mandatory information, while 5 
+prints B<EVERYTHING>.  Levels beyond 2 are only useful for debugging.
+
+Defaults to 1.
+
+=item B<--offline>/B<--nooffline>
+
+Specifies whether the files and modules required can or should be downloaded 
+from the internet.
+
+Defaults to B<--nooffline>.
+
+=item B<--force>/B<--noforce>
+
+Specifies whether all modules installed should not be tested.
+This is useful when debugging, or for increased speed.
+
+Defaults to B<--noforce>.
+
+=item B<--usage>
+
+Print a brief usage message and exits.
+
+=item B<--help> or B<-?>
+
+Print a short help message and exits.
+
+=item B<--man>
+
+Prints the POD documentation contained in the script and exits.
+
+=item B<--version>
+
+Prints the script name, version, and copyright and exits.
+
+=back
+
+=head1 CONFIGURATION
+
+No environment variables or configuration files are used during the 
+execution of this script.
+
+=head1 DEPENDENCIES
+
+Perl 5.8.1 is the mimimum version of perl that this script will run on.
+
+Other modules that this script depends on are L<File::HomeDir|File::HomeDir> 
+L<URI|URI>, and L<Perl::Dist::Strawberry|Perl::Dist::Strawberry>.
+  
+=head1 SUPPORT
+
+No support is provided for this script.
+
+=head1 AUTHOR
+
+Curtis Jewell, E<lt>csjewell@cpan.orgE<gt>
+
+Adam Kennedy, E<lt>adamk@cpan.orgE<gt>
+
+=head1 COPYRIGHT & LICENSE
+
+Copyright 2009 Curtis Jewell.
+
+Copyright 2007-2009 Adam Kennedy.
+
+This program is free software; you can redistribute
+it and/or modify it under the same terms as Perl itself.
+
+The full text of the license can be found in the
+LICENSE file included with this distribution.
+
+=cut
+
