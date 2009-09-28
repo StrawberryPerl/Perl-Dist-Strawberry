@@ -1,0 +1,16 @@
+Strawberry Perl [% dist.distribution_version_human %] README
+===============================
+
+Strawberry Perl is a version of Perl for Microsoft Windows that includes a
+MingW/gcc-based compiler toolchain and libraries and modules to make 
+installation of modules from the CPAN easier.
+
+Installation: (.zip files only)
+===============================
+
+NOTE: If installing this version from a .zip file, you MUST install it to
+[% dist.image_dir %] and then set some environment variables:
+
+set PATH=%PATH%;[% dist.image_dir %]\c\bin;[% dist.image_dir %]\perl\bin
+set TERM = dumb
+set FTP_PASSIVE=1
