@@ -378,7 +378,7 @@ sub install_libiconv {
 
 	my $filelist = $self->install_binary( 
 		name => 'libiconv', 
-		url  => $self->binary_url('libiconv-08192009.zip'),
+		url  => $self->binary_url('libiconv-1.9.2-1-bin_20090831.zip'),
 	);
 
 	$self->insert_fragment( 'libiconv', $filelist );
