@@ -220,7 +220,7 @@ sub new {
 		
 		# Program version.
 		build_number         => 0,
-		beta_number          => 2,
+		beta_number          => 3,
 		
 		# New options for msi building...
 		msi_license_file     => catfile($dist_dir, 'License-short.rtf'),
@@ -656,8 +656,11 @@ sub install_strawberry_modules_4 {
 		Digest::BubbleBabble
 		Crypt::IDEA
 		String::CRC32
-		Net::SSH::Perl
 	});
+
+	# Since	Net::SSH::Perl does not work under Win32 yet, it
+	# is not being installed.  When it does, add it to the end
+	# of the previous install_modules call.
 
 	# Module::Signature toolchain.
 	$self->install_modules( qw{
@@ -706,6 +709,8 @@ sub install_strawberry_extras {
 			url        => 'http://widget.mibbit.com/?server=irc.perl.org&channel=%23win32',
 			icon_file  => catfile($dist_dir, 'onion.ico')
 		);
+		$self->patch_file( 'README.txt' => catfile($self->image_dir, 'README.txt');
+		);
 	}
 
 	my $license_file_from = catfile($dist_dir, 'License.rtf');
@@ -713,6 +718,7 @@ sub install_strawberry_extras {
 	
 	$self->_copy($license_file_from, $license_file_to);
 	$self->add_to_fragment('perl_licenses', [ $license_file_to ]);
+	
 	
 	return 1;
 }
