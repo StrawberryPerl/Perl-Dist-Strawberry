@@ -143,8 +143,8 @@ $VERSION = eval $VERSION;
 The C<default_machine> class method is used to setup the most common
 machine for building Strawberry Perl.
 
-The machine provided creates a standard 5.8.9 distribution (.zip and .exe),
-a standard 5.10.1 distribution (.zip and .exe) and a Portable-enabled 5.10.0 
+The machine provided creates a standard 5.8.9 distribution (.zip and .msi),
+a standard 5.10.1 distribution (.zip and .msi) and a Portable-enabled 5.10.0 
 distribution (.zip only).
 
 Returns a L<Perl::Dist::WiX::Util::Machine> object.
