@@ -10,15 +10,14 @@ What is Strawberry Perl?
   you need to run and develop perl applications. It is designed to be as close
   as possible to perl enviroment on UNIX systems. See http://strawberryperl.com/
 
-Installation instruction: (.zip distribution only)
---------------------------------------------------
+Installation instructions: (.zip distribution only)
+---------------------------------------------------
 
 * If installing this version from a .zip file, you MUST install it to
   [% dist.image_dir %] and then manually set some environment variables:
 
   set PATH=%PATH%;[% dist.image_dir %]\c\bin;[% dist.image_dir %]\perl\bin
   set TERM=dumb
-  set FTP_PASSIVE=1
 
 * If the fixed installation path [% dist.image_dir %] does not suit you, go to
   http://strawberryperl.com/releases.html and try "Strawberry Portable Edition"
