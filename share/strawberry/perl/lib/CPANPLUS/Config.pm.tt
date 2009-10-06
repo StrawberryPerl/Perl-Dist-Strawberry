@@ -148,7 +148,11 @@ An example entry would like this:
 # If we are on fake Hotel/Airport wireless,
 # prefer a minicpan to the poisoned wireless.
 if ( -d '[% self.image_dir %]\minicpan' ) {
-	eval { require LWP::Online; };
+	eval { 
+		require LWP::Online;
+		require URI::file;
+		1;
+	};
 	unless ( $@ ) {
 		my $path = URI::file->new('[% self.image_dir %]\minicpan');
 	
@@ -169,7 +173,11 @@ if ( -d '[% self.image_dir %]\minicpan' ) {
 }
 
 if ( -d '[% self.image_drive %]\minicpan' ) {
-	eval { require LWP::Online; };
+	eval { 
+		require LWP::Online;
+		require URI::file;
+		1;
+	};
 	unless ( $@ ) {
 		my $path = URI::file->new('[% self.image_drive %]\minicpan');
 
