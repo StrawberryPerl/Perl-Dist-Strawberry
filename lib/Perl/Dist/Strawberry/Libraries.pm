@@ -378,6 +378,7 @@ sub install_libiconv {
 
 	my $filelist = $self->install_binary( 
 		name => 'libiconv', 
+		install_to => q{.},
 		url  => $self->binary_url('libiconv-1.9.2-1-bin_20090831.zip'),
 	);
 
@@ -406,7 +407,6 @@ sub install_libxml {
 
 	my $filelist = $self->install_binary(
 		name       => 'libxml2',
-		install_to => q{.},
 		url        => $self->binary_url('libxml2-2.7.3-bin_20090819.zip'),
 	);
 
