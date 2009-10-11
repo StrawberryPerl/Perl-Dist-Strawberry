@@ -197,7 +197,6 @@ sub install_bootstrap_modules_2 {
 		MooseX::AttributeHelpers
 		File::List::Object
 		Params::Validate
-		parent
 		MooseX::Singleton
 		Variable::Magic
 		B::Hooks::EndOfScope
