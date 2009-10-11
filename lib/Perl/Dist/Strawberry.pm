@@ -451,7 +451,6 @@ sub install_strawberry_modules_1 {
 	$self->install_modules( qw{
 		XML::NamespaceSupport
 		XML::SAX
-		XML::LibXML::Common
 		XML::LibXML
 		XML::LibXSLT
 	} );
