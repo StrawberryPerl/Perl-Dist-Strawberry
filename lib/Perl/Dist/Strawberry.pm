@@ -454,7 +454,7 @@ sub install_strawberry_modules_1 {
 		XML::LibXML::Common
 		XML::LibXML
 		XML::LibXSLT
-	) );
+	} );
 
 	# Insert ParserDetails.ini
 	$self->add_to_fragment('XML_SAX', [ catfile($self->image_dir, qw(perl site lib XML SAX ParserDetails.ini)) ]);
@@ -707,8 +707,7 @@ sub install_strawberry_extras {
 			url        => 'http://widget.mibbit.com/?server=irc.perl.org&channel=%23win32',
 			icon_file  => catfile($dist_dir, 'onion.ico')
 		);
-		$self->patch_file( 'README.txt' => catfile($self->image_dir, 'README.txt');
-		);
+		$self->patch_file( 'README.txt' => catfile($self->image_dir, 'README.txt') );
 	}
 
 	my $license_file_from = catfile($dist_dir, 'License.rtf');
