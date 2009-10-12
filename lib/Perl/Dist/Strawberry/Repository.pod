@@ -7,7 +7,7 @@ Perl::Dist::Strawberry::Repository - The repository that is used for Perl::Dist:
 =head1 DESCRIPTION
 
 This documentation describes the repository that Perl::Dist::Strawberry uses, 
-and the branches that are currently being used as of September 2009.
+and the branches that are currently being used as of October 2009.
 
 =head1 REPOSITORY
 
@@ -48,7 +48,7 @@ Plus, with Moose, I gain the ability to check constructor parameters better,
 the ability to extend logging, and the ability to factor out the XML generation
 and handling to another distribution in a sane matter.
 
-So here are the 2 branches:
+So here are the branches:
 
 =head2 Trunk 
 
@@ -56,21 +56,6 @@ Location: L<http://svn.ali.as/cpan/trunk/Perl-Dist-Strawberry/>
 
 The trunk is currently working with Perl::Dist::WiX 1.000, although this will 
 change soon.
-
-=head2 "Updated WiX" branch.
-
-Location: L<http://svn.ali.as/cpan/branches/Perl-Dist-Strawberry/Updated-WiX/>
-
-This branch is going to be merged into trunk soon, and works with the trunk 
-version of Perl::Dist::WiX.
-
-=head2 "Vendorperl"
-
-Location: L<http://svn.ali.as/cpan/branches/Perl-Dist-Strawberry/vendorperl2/>)
-
-This is the current "work" branch" and includes code for having modules 
-provided by Strawberry Perl install into a "vendor" directory, instead 
-of using the "site" directories.
 
 =head1 AUTHORS
 

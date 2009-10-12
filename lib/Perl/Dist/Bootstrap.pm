@@ -24,7 +24,7 @@ use parent                  qw( Perl::Dist::Strawberry );
 use File::Spec::Functions   qw( catfile catdir         );
 use File::ShareDir          qw();
 
-our $VERSION = '2.00_02';
+our $VERSION = '2.01';
 $VERSION = eval $VERSION;
 
 

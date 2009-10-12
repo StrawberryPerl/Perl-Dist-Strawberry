@@ -4,7 +4,7 @@ package Perl::Dist::Strawberry::Libraries;
 
 =head1 NAME
 
-Perl::Dist::Strawberry - Library installation routines for Strawberry Perl
+Perl::Dist::Strawberry::Libraries - Library installation routines for Strawberry Perl
 
 =head1 SYNOPSIS
 
@@ -37,7 +37,7 @@ use File::Spec::Functions       qw( catfile catdir  );
 #use URI::file                   qw();
 #use File::ShareDir              qw();
 
-our $VERSION = '2.00_02';
+our $VERSION = '2.01';
 $VERSION = eval $VERSION;
 
 

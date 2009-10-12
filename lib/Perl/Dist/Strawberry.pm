@@ -128,7 +128,7 @@ use URI::file                   qw();
 use File::ShareDir              qw();
 require Perl::Dist::WiX::Util::Machine;
 
-our $VERSION = '2.00_03';
+our $VERSION = '2.01';
 $VERSION = eval $VERSION;
 
 #####################################################################
@@ -173,10 +173,11 @@ sub default_machine {
 	$machine->add_option('version',
 		perl_version => '5101',
 	);
-	$machine->add_option('version',
-		perl_version => '5101',
-		portable     => 1,
-	);
+# Too many bugs in portable to want to try to do it in October.
+#	$machine->add_option('version',
+#		perl_version => '5101',
+#		portable     => 1,
+#	);
 
 	# Set the different paths
 	$machine->add_dimension('drive');
@@ -220,7 +221,7 @@ sub new {
 		
 		# Program version.
 		build_number         => 0,
-		beta_number          => 3,
+#		beta_number          => 3,
 		
 		# New options for msi building...
 		msi_license_file     => catfile($dist_dir, 'License-short.rtf'),
