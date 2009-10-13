@@ -690,7 +690,7 @@ sub install_strawberry_extras {
 			url        => 'http://widget.mibbit.com/?server=irc.perl.org&channel=%23win32',
 			icon_file  => catfile($dist_dir, 'onion.ico')
 		);
-		$self->patch_file( 'README.txt' => catfile($self->image_dir, 'README.txt') );
+		$self->patch_file( 'README.txt' => $self->image_dir );
 	}
 
 	my $license_file_from = catfile($dist_dir, 'License.rtf');
