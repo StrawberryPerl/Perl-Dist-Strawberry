@@ -151,6 +151,9 @@ sub install_ppm {
 	
 	$self->_copy($xml_file_old, $xml_file_new);
 	
+	# This is because the UWinnipeg repository is insane atm.
+	$self->_run3("ppm.bat", qw(set repository --remove UWinnipeg));
+	
 	# Add the readme file.
 	$self->add_to_fragment('PPM', $filelist->files);
 
