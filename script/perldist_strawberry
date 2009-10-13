@@ -11,14 +11,11 @@ use Getopt::Long                  qw();
 use URI                           qw();
 use Perl::Dist::Strawberry 2.0001 qw();
 use English                       qw( -no_match_vars );
+use Carp                          qw( croak          );
 
-
-our $VERSION = '2.00_01';
+our $VERSION = '2.01';
 our $VERSION_STRING = $VERSION;
 $VERSION = eval $VERSION_STRING;
-
-
-
 
 
 #####################################################################
@@ -76,7 +73,7 @@ if ( defined $OFFLINE ) {
 if ( defined $TRACE ) {
 	$options{trace} = $TRACE;
 }
-if ( defined @SKIP ) {
+if ( 1 < scalar @SKIP ) {
 	push @SKIP, 6;
 } else {
 	@SKIP = ( 6 );
@@ -99,7 +96,7 @@ unless ( $machine->run() ) {
 my $t = time - $start;
 print "Completed full generation run in $t seconds\n";
 
-chdir $machine->output;
+chdir $machine->_get_output();
 
 exit(0);
 

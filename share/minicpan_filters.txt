@@ -167,6 +167,7 @@
 /DPARIS/Crypt-IDEA-
 /SOENKE/String-CRC32-
 /TURNSTEP/Net-SSH-Perl-
+/TURNSTEP/Math-GMP-
 
 # Module::Signature toolchain.
 /BDFOY/Test-Manifest-

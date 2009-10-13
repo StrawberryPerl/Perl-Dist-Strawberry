@@ -599,27 +599,9 @@ sub install_strawberry_modules_4 {
 	$self->install_modules( qw{
 		Net::SSLeay
 		Digest::HMAC_MD5
-	});
-
-	# 1.30 has a test that does not work on Windows.
-	# So installing this one while we wait for 1.31.
-	$self->install_distribution( 
-		mod_name         => 'IO::Socket::SSL',
-		name             => 'SULLR/IO-Socket-SSL-1.30_3.tar.gz',
-		makefilepl_param => ['INSTALLDIRS=vendor'],
-	);
-
-	$self->install_modules( qw{
+		IO::Socket::SSL
 		Net::SMTP::TLS	
 	});
-
-	# Needs patched to build on Win32 at all.
-	my $share = File::ShareDir::dist_dir('Perl-Dist-Strawberry');
-	$self->install_distribution_from_file(
-		mod_name         => 'Math::GMP',
-		file             => catfile($share, 'modules', 'Math-GMP-2.05.tar.gz'),
-		makefilepl_param => ['INSTALLDIRS=vendor'],
-	);
 
 	# The rest of the Net::SSH::Perl toolchain.
 	$self->install_module(
@@ -627,6 +609,7 @@ sub install_strawberry_modules_4 {
 		force => 1, # Timing-dependent test.
 	);
 	$self->install_modules( qw{
+		Math::GMP
 		Data::Buffer
 		Crypt::DSA
 		Class::ErrorHandler
