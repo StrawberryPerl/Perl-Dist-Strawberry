@@ -88,6 +88,7 @@
 
 # Perl::Dist::Strawberry
 /JDB/Win32-File-\d
+/JDB/Win32-EventLog-\d
 /ADAMK/Win32-File-Object-
 /COSIMO/Win32-API-
 /SMUELLER/Win32-Exe-

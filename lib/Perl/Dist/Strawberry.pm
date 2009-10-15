@@ -431,6 +431,7 @@ sub install_strawberry_modules_1 {
 		Win32::API
 		Parse::Binary
 		Win32::Exe
+		Win32::EventLog
 	} );
 
 	# Install additional math modules
