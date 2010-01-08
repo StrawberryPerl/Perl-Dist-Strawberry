@@ -538,15 +538,10 @@ sub install_strawberry_modules_3 {
 		DBIx::Simple
 	} ) if ($self->perl_version >= 5100);
 	
-	# TODO: BerkeleyDB does not build yet.
-	#$self->install_distribution(
-	#	name => 'BerkeleyDB',
-	#	url  => 'http://strawberryperl.com/package/BerkeleyDB-0.34-vanilla.tar.gz',
-	#);
-
 	# Support for other databases.
 	$self->install_modules( qw{
 		DB_File
+		BerkeleyDB
 		DBD::ODBC
 	} );
 	$self->install_dbd_mysql;
