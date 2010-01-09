@@ -246,10 +246,12 @@ sub new {
 			'install_perl',
 			'install_perl_toolchain',
 			'install_cpan_upgrades',
-			'install_strawberry_modules_1',
-			'install_strawberry_modules_2',
-			'install_strawberry_modules_3',
-			'install_strawberry_modules_4',
+# TODO: Remove temporary commenting-out.
+#			'install_strawberry_modules_1',
+#			'install_strawberry_modules_2',
+#			'install_strawberry_modules_3',
+#			'install_strawberry_modules_4',
+			'write_merge_module',
 			'install_win32_extras',
 			'install_strawberry_extras',
 			'install_portable',
@@ -552,7 +554,7 @@ sub install_strawberry_modules_3 {
 
 	my $filelist = $self->install_binary(
 		name       => 'db_libraries',
-		url        => $self->binary_url('DatabaseLibraries-09162009.zip'),
+		url        => $self->_binary_url('DatabaseLibraries-09162009.zip'),
 		install_to => q{.}
 	);
 	$self->insert_fragment( 'db_libraries', $filelist );
@@ -646,6 +648,7 @@ sub install_strawberry_modules_4 {
 		Crypt::CAST5_PP
 		Crypt::RIPEMD160
 		Crypt::Twofish
+		Test::Exception
 		Crypt::OpenPGP
 		Algorithm::Diff
 		Text::Diff
