@@ -59,7 +59,7 @@ sub install_patch {
 
 	my $filelist = $self->install_binary(
 		name       => 'patch',
-		url        => $self->binary_url('patch-2.5.9-7-bin.zip'),
+		url        => $self->_binary_url('patch-2.5.9-7-bin.zip'),
 		install_to => {
 			'bin/patch.exe' => 'c/bin/patch.exe',
 		},
@@ -238,14 +238,14 @@ sub install_dbd_mysql {
 		when (m{\A510}) { # 5.10.0 and 5.10.1 are binary-compatible.
 			$filelist = $self->install_par(
 			  name => 'DBD::mysql', 
-			  url => $self->binary_url('DBD-mysql-4.012-MSWin32-x86-multi-thread-5.10.0.par')
+			  url => $self->_binary_url('DBD-mysql-4.012-MSWin32-x86-multi-thread-5.10.0.par')
 			);
 		}
 		
 		when ('589') {
 			$filelist = $self->install_par(
 			  name => 'DBD::mysql', 
-			  url => $self->binary_url('DBD-mysql-4.012-MSWin32-x86-multi-thread-5.8.9.par')
+			  url => $self->_binary_url('DBD-mysql-4.012-MSWin32-x86-multi-thread-5.8.9.par')
 			);
 		}
 		
@@ -273,14 +273,14 @@ sub install_dbd_pg {
 		when (m{\A510}) { # 5.10.0 and 5.10.1 are binary-compatible.
 			$filelist = $self->install_par(
 			  name => 'DBD::Pg', 
-			  url => $self->binary_url('DBD-Pg-2.13.1-MSWin32-x86-multi-thread-5.10-5.10.0.par')
+			  url => $self->_binary_url('DBD-Pg-2.13.1-MSWin32-x86-multi-thread-5.10-5.10.0.par')
 			);
 		}
 		
 		when ('589') {
 			$filelist = $self->install_par(
 			  name => 'DBD::Pg', 
-			  url => $self->binary_url('DBD-Pg-2.13.1-MSWin32-x86-multi-thread-5.8-5.8.9.par')
+			  url => $self->_binary_url('DBD-Pg-2.13.1-MSWin32-x86-multi-thread-5.8-5.8.9.par')
 			);
 		}
 		
@@ -311,14 +311,14 @@ sub install_pari {
 		when (m{\A510}) { # 5.10.0 and 5.10.1 are binary-compatible.
 			$self->install_par(
 			  name => 'Math::Pari', 
-			  url => $self->binary_url('Math-Pari-2.010801-MSWin32-x86-multi-thread-5.10.0.par')
+			  url => $self->_binary_url('Math-Pari-2.010801-MSWin32-x86-multi-thread-5.10.0.par')
 			);
 		}
 		
 		when ('589') {
 			$self->install_par(
 			  name => 'Math::Pari', 
-			  url => $self->binary_url('Math-Pari-2.010801-MSWin32-x86-multi-thread-5.8.9.par')
+			  url => $self->_binary_url('Math-Pari-2.010801-MSWin32-x86-multi-thread-5.8.9.par')
 			);
 		}
 		
@@ -354,7 +354,7 @@ sub install_zlib {
 	my $filelist = $self->install_binary(
 		name      => 'zlib',
 		install_to => q{.},
-		url       => $self->binary_url('libzlib-1.2.3-bin_20090819.zip'),
+		url       => $self->_binary_url('libzlib-1.2.3-bin_20090819.zip'),
 	);
 
 	$self->insert_fragment( 'zlib', $filelist );
@@ -382,7 +382,7 @@ sub install_libiconv {
 	my $filelist = $self->install_binary( 
 		name => 'libiconv', 
 		install_to => q{.},
-		url  => $self->binary_url('libiconv-1.9.2-1-bin_20090831.zip'),
+		url  => $self->_binary_url('libiconv-1.9.2-1-bin_20090831.zip'),
 	);
 
 	$self->insert_fragment( 'libiconv', $filelist );
@@ -411,7 +411,7 @@ sub install_libxml {
 	my $filelist = $self->install_binary(
 		name       => 'libxml2',
 		install_to => q{.},
-		url        => $self->binary_url('libxml2-2.7.3-bin_20090819.zip'),
+		url        => $self->_binary_url('libxml2-2.7.3-bin_20090819.zip'),
 	);
 
 	$self->insert_fragment( 'libxml', $filelist );
@@ -439,7 +439,7 @@ sub install_expat {
 	my $filelist = $self->install_binary(
 		name       => 'libexpat',
 		install_to => q{.},
-		url        => $self->binary_url('libexpat-2.0.1-vanilla.zip'),
+		url        => $self->_binary_url('libexpat-2.0.1-vanilla.zip'),
 	);
 
 	$self->insert_fragment( 'libexpat', $filelist );
@@ -466,7 +466,7 @@ sub install_gmp {
 	# Comes as a single prepackaged vanilla-specific zip file
 	my $filelist = $self->install_binary( 
 		name => 'gmp', 
-		url  => $self->binary_url('gmp-4.2.1-vanilla.zip'),
+		url  => $self->_binary_url('gmp-4.2.1-vanilla.zip'),
 	);
 
 	$self->insert_fragment( 'gmp', $filelist );
@@ -480,7 +480,7 @@ sub install_libxslt {
 	my $filelist = $self->install_binary(
 		name       => 'libxslt',
 		install_to => q{.},
-		url        => $self->binary_url('libxslt-1.1.24-bin_20090819.zip'),
+		url        => $self->_binary_url('libxslt-1.1.24-bin_20090819.zip'),
 	);
 
 	$self->insert_fragment( 'libxslt', $filelist );
@@ -496,7 +496,7 @@ sub install_libjpeg {
 
 	my $filelist = $self->install_binary(
 		name       => 'libjpeg',
-		url        => $self->binary_url('libjpeg-6b-4-bin_20090821.zip'),
+		url        => $self->_binary_url('libjpeg-6b-4-bin_20090821.zip'),
 		install_to => q{.}
 	);
 	$self->insert_fragment('libjpeg', $filelist);
@@ -510,7 +510,7 @@ sub install_libgif {
 
 	my $filelist = $self->install_binary(
 		name       => 'libgif',
-		url        => $self->binary_url('libgif-4.1.4-1-bin_20090821.zip'),
+		url        => $self->_binary_url('libgif-4.1.4-1-bin_20090821.zip'),
 		install_to => q{.}
 	);
 	$self->insert_fragment('libgif', $filelist);
@@ -524,7 +524,7 @@ sub install_libpng {
 
 	my $filelist = $self->install_binary(
 		name       => 'libpng',
-		url        => $self->binary_url('libpng-1.2.38-bin_20090828.zip'),
+		url        => $self->_binary_url('libpng-1.2.38-bin_20090828.zip'),
 		install_to => q{.}
 	);
 	$self->insert_fragment('libpng', $filelist);
@@ -539,7 +539,7 @@ sub install_libtiff {
 
 	my $filelist = $self->install_binary(
 		name       => 'libtiff',
-		url        => $self->binary_url('libtiff-3.8.2-1-bin_20090821.zip'),
+		url        => $self->_binary_url('libtiff-3.8.2-1-bin_20090821.zip'),
 		install_to => q{.}
 	);
 	$self->insert_fragment('libtiff', $filelist);
@@ -554,7 +554,7 @@ sub install_libgd {
 
 	my $filelist = $self->install_binary(
 		name       => 'libgd',
-		url        => $self->binary_url('libgd-2.0.33-1-bin_20090828.zip'),
+		url        => $self->_binary_url('libgd-2.0.33-1-bin_20090828.zip'),
 		install_to => q{.}
 	);
 	$self->insert_fragment('libgd', $filelist);
@@ -568,7 +568,7 @@ sub install_libfreetype {
 
 	my $filelist = $self->install_binary(
 		name       => 'libfreetype',
-		url        => $self->binary_url('libfreetype-2.3.5-1-bin_20090828.zip'),
+		url        => $self->_binary_url('libfreetype-2.3.5-1-bin_20090828.zip'),
 		install_to => q{.}
 	);
 	$self->insert_fragment('libfreetype', $filelist);
@@ -581,7 +581,7 @@ sub install_libopenssl {
 
 	my $filelist = $self->install_binary(
 		name       => 'libopenssl',
-		url        => $self->binary_url('libopenssl-0.9.8k-bin_20090820.zip'),
+		url        => $self->_binary_url('libopenssl-0.9.8k-bin_20090820.zip'),
 		install_to => q{.}
 	);
 	$self->insert_fragment('libopenssl', $filelist);
@@ -595,7 +595,7 @@ sub install_libpostgresql {
 
 	my $filelist = $self->install_binary(
 		name       => 'libpostgresql',
-		url        => $self->binary_url('libpostgresql-8.4.0-bin_20090821.zip'),
+		url        => $self->_binary_url('libpostgresql-8.4.0-bin_20090821.zip'),
 		install_to => q{.}
 	);
 	$self->insert_fragment('libpostgresql', $filelist);
@@ -622,7 +622,7 @@ sub install_libdb {
 
 	my $filelist = $self->install_binary(
 		name       => 'libdb',
-		url        => $self->binary_url('libdb-4.7.25-bin_20090817.zip'),
+		url        => $self->_binary_url('libdb-4.7.25-bin_20090817.zip'),
 		install_to => q{.}
 	);
 	$self->insert_fragment('libdb', $filelist);

@@ -242,7 +242,6 @@ sub new {
 			'final_initialization',
 			'install_c_toolchain',
 			'install_strawberry_c_toolchain',
-			'install_c_libraries',
 			'install_strawberry_c_libraries',
 			'install_perl',
 			'install_perl_toolchain',
@@ -445,8 +444,8 @@ sub install_strawberry_modules_1 {
 		mod_name         => 'XML::Parser',
 		makefilepl_param => [
 			'INSTALLDIRS=vendor',
-			'EXPATLIBPATH=' . $self->dir(qw{ c lib     }),
-			'EXPATINCPATH=' . $self->dir(qw{ c include }),
+			'EXPATLIBPATH=' . $self->_dir(qw{ c lib     }),
+			'EXPATINCPATH=' . $self->_dir(qw{ c include }),
 		],
 	);
 
