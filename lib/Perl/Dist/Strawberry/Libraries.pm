@@ -112,7 +112,7 @@ sub install_ppm {
 	}
 
 	# Add the ppm directory to the build.
-	$self->directories->add_root_directory(
+	$self->get_directory_tree()->add_root_directory(
 		'PPM',       'ppm'
 	);
 
@@ -140,7 +140,6 @@ sub install_ppm {
 		$self->install_distribution(
 			mod_name         => 'PPM',
 			name             => 'RKOBES/PPM-0.01_01.tar.gz',
-			url              => 'http://strawberryperl.com/package/PPM-0.01_01.tar.gz',
 			makefilepl_param => ['INSTALLDIRS=vendor'],
 		);
 	}
@@ -155,7 +154,7 @@ sub install_ppm {
 	$self->_run3("ppm.bat", qw(set repository --remove UWinnipeg));
 	
 	# Add the readme file.
-	$self->add_to_fragment('PPM', $filelist->files);
+	$self->add_to_fragment('PPM', $filelist->files());
 
 	# Add the ppm.xml file.
 	$self->add_to_fragment('PPM', [ $xml_file_new ]);
@@ -622,13 +621,27 @@ sub install_libdb {
 
 	my $filelist = $self->install_binary(
 		name       => 'libdb',
-		url        => $self->_binary_url('libdb-4.7.25-bin_20090817.zip'),
+		url        => $self->_binary_url('libdb-4.8.24-bin_20091019.zip'),
 		install_to => q{.}
 	);
 	$self->insert_fragment('libdb', $filelist);
 
 	return 1;
 }
+
+sub install_libgdbm {
+	my $self = shift;
+
+	my $filelist = $self->install_binary(
+		name       => 'libgdbm',
+		url        => $self->_binary_url('libgdbm-1.8.3_20091105.zip'),
+		install_to => q{.}
+	);
+	$self->insert_fragment('libgdbm', $filelist);
+
+	return 1;
+}
+
 
 1;
 

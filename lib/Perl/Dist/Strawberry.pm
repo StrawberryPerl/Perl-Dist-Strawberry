@@ -344,6 +344,7 @@ sub install_strawberry_c_libraries {
 	
 	# Database Libraries
 	$self->install_libdb();
+	$self->install_libgdbm();
 	$self->install_libpostgresql();
 
 	# Crypto libraries
