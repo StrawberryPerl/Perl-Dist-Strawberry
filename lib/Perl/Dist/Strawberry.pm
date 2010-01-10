@@ -246,17 +246,17 @@ sub new {
 			'install_perl',
 			'install_perl_toolchain',
 			'install_cpan_upgrades',
-# TODO: Remove temporary commenting-out.
-#			'install_strawberry_modules_1',
-#			'install_strawberry_modules_2',
-#			'install_strawberry_modules_3',
-#			'install_strawberry_modules_4',
+			'install_strawberry_modules_1',
+			'install_strawberry_modules_2',
+			'install_strawberry_modules_3',
+			'install_strawberry_modules_4',
+			'add_forgotten_files',
+			'regenerate_fragments',
 			'write_merge_module',
 			'install_win32_extras',
 			'install_strawberry_extras',
 			'install_portable',
 			'remove_waste',
-			'add_forgotten_files',
 			'create_distribution_list',
 			'regenerate_fragments',
 			'write',
@@ -386,6 +386,8 @@ sub install_perl_589_bin {
 	return $self->SUPER::install_perl_589_bin(
 		patch => [ qw{
 			win32/config.gc
+			ext/GDBM_File/GDBM_File.xs
+			ext/GDBM_File/GDBM_File.pl
 		}, @$patch ],
 		%params,
 	);
@@ -410,6 +412,8 @@ sub install_perl_5101_bin {
 	return $self->SUPER::install_perl_5101_bin(
 		patch => [ qw{
 			win32/config.gc
+			ext/GDBM_File/GDBM_File.xs
+			ext/GDBM_File/GDBM_File.pl
 		}, @$patch ],
 		%params,
 	);
@@ -697,7 +701,12 @@ sub install_strawberry_extras {
 	my $readme_file = catfile($self->image_dir, 'README.txt');
 
 	$self->_copy($license_file_from, $license_file_to);
-	$self->add_to_fragment('perl_licenses', [ $license_file_to, $readme_file ]);
+	$self->_add_fragment(
+		'StrawberryExtras',
+		Perl::Dist::WiX::Fragment::Files->new(
+			id    => 'StrawberryExtras',
+			files => File::List::Object->new()->add_files($license_file_to, $readme_file),
+	) );
 
 	return 1;
 }
