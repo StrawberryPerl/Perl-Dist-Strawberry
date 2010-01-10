@@ -164,7 +164,7 @@ sub default_machine {
 	$machine->add_dimension('version');
 	$machine->add_option('version',
 		perl_version => '589',
-	    build_number => 3,
+	    build_number => 4,
 	);
 # Not worrying about building 5.10.0 in October.
 #	$machine->add_option('version',
@@ -220,8 +220,8 @@ sub new {
 		perl_version         => '5101',
 		
 		# Program version.
-		build_number         => 0,
-#		beta_number          => 3,
+		build_number         => 1,
+		beta_number          => 1,
 		
 		# New options for msi building...
 		msi_license_file     => catfile($dist_dir, 'License-short.rtf'),
