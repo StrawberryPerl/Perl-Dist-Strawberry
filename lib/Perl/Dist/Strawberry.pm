@@ -429,12 +429,19 @@ sub install_strawberry_modules_1 {
 	$self->install_modules( qw{
 		XML::NamespaceSupport
 		XML::SAX
+	} );
+	
+	# Copy and Insert ParserDetails.ini
+	my $ini_file_old = catfile($self->image_dir(), qw(perl site   lib XML SAX ParserDetails.ini));
+	my $ini_file_new = catfile($self->image_dir(), qw(perl vendor lib XML SAX ParserDetails.ini));
+	
+	$self->_copy($ini_file_old, $ini_file_new);
+	$self->add_to_fragment('XML_SAX', [ $ini_file_old, $ini_file_new ]);
+	
+	$self->install_modules( qw{
 		XML::LibXML
 		XML::LibXSLT
 	} );
-
-	# Insert ParserDetails.ini
-	$self->add_to_fragment('XML_SAX', [ catfile($self->image_dir, qw(perl site lib XML SAX ParserDetails.ini)) ]);
 
 	return 1;
 }
