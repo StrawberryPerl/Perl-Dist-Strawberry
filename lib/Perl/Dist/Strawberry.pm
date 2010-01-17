@@ -128,7 +128,7 @@ use URI::file                   qw();
 use File::ShareDir              qw();
 require Perl::Dist::WiX::Util::Machine;
 
-our $VERSION = '2.01';
+our $VERSION = '2.02_01';
 $VERSION = eval $VERSION;
 
 #####################################################################
@@ -166,10 +166,6 @@ sub default_machine {
 		perl_version => '589',
 	    build_number => 4,
 	);
-# Not worrying about building 5.10.0 in October.
-#	$machine->add_option('version',
-#		perl_version => '5100',
-#	);
 	$machine->add_option('version',
 		perl_version => '5101',
 	);
@@ -205,7 +201,7 @@ sub new {
 	my $dist_dir = File::ShareDir::dist_dir('Perl-Dist-Strawberry');
 	my $class = shift;
 	
-	if ($Perl::Dist::WiX::VERSION < '1.090') {
+	if ($Perl::Dist::WiX::VERSION < '1.100') {
 		PDWiX->throw('Perl::Dist::WiX version is not high enough.')
 	}
 
@@ -379,41 +375,15 @@ sub patch_include_path {
 	];
 }
 
-sub install_perl_589_bin {
+sub install_perl_bin {
 	my $self   = shift;
 	my %params = @_;
 	my $patch  = delete($params{patch}) || [];
-	return $self->SUPER::install_perl_589_bin(
+	return $self->SUPER::install_perl_bin(
 		patch => [ qw{
-			win32/config.gc
+			win32/FindExt.pm
 			ext/GDBM_File/GDBM_File.xs
-			ext/GDBM_File/GDBM_File.pl
-		}, @$patch ],
-		%params,
-	);
-}
-
-sub install_perl_5100_bin {
-	my $self   = shift;
-	my %params = @_;
-	my $patch  = delete($params{patch}) || [];
-	return $self->SUPER::install_perl_5100_bin(
-		patch => [ qw{
-			win32/config.gc
-		}, @$patch ],
-		%params,
-	);
-}
-
-sub install_perl_5101_bin {
-	my $self   = shift;
-	my %params = @_;
-	my $patch  = delete($params{patch}) || [];
-	return $self->SUPER::install_perl_5101_bin(
-		patch => [ qw{
-			win32/config.gc
-			ext/GDBM_File/GDBM_File.xs
-			ext/GDBM_File/GDBM_File.pl
+			ext/GDBM_File/GDBM_File.pm
 		}, @$patch ],
 		%params,
 	);
