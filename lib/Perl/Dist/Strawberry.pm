@@ -372,7 +372,7 @@ sub patch_include_path {
 		die("Directory $path does not exist");
 	}
 
-	if ( $portable ) {
+	if ( $self->portable() ) {
 		unless ( -d $portable ) {
 			die("Directory $portable does not exist");
 		}
