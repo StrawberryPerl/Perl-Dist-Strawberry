@@ -364,15 +364,28 @@ sub patch_include_path {
 
 	# Find the share path for this distribution
 	my $share = File::ShareDir::dist_dir('Perl-Dist-Strawberry');
+	
+	# Verify the subdirectories we need exist.
 	my $path  = File::Spec->catdir( $share, 'strawberry' );
+	my $portable  = File::Spec->catdir( $share, 'portable' );
 	unless ( -d $path ) {
 		die("Directory $path does not exist");
 	}
 
-	# Prepend to the default include path
-	return [ $path,
-		@{ $self->SUPER::patch_include_path },
-	];
+	if ( $portable ) {
+		unless ( -d $portable ) {
+			die("Directory $portable does not exist");
+		}
+		# Prepend to the default include path
+		return [ $portable, $path,
+			@{ $self->SUPER::patch_include_path() },
+		];
+	} else {
+		# Prepend to the default include path
+		return [ $path,
+			@{ $self->SUPER::patch_include_path() },
+		];
+	}
 }
 
 sub install_perl_bin {
@@ -565,10 +578,13 @@ sub install_strawberry_modules_3 {
 		force => 1,
 	);
 
+	my $library_location = $self->library_directory();
+	my $install_location = $self->portable() ? q{perl\site\lib} : q{perl\vendor\lib};
+	
 	my $filelist = $self->install_binary(
 		name       => 'db_libraries',
-		url        => $self->_binary_url('DatabaseLibraries-09162009.zip'),
-		install_to => q{.}
+		url        => $self->_binary_url("$library_location/MySQLLibraries-20100121.zip"),
+		install_to => $install_location
 	);
 	$self->insert_fragment( 'db_libraries', $filelist );
 
