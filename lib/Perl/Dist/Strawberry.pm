@@ -393,11 +393,19 @@ sub install_strawberry_modules_1 {
 	my $self = shift;
 
 	# Install LWP::Online so our custom minicpan code works
-	$self->install_distribution(
-		name     => 'ADAMK/LWP-Online-1.07.tar.gz',
-		mod_name => 'LWP::Online',
-		makefilepl_param => ['INSTALLDIRS=vendor'],
-	);
+	if ($self->portable()) {
+		$self->install_distribution(
+			name     => 'ADAMK/LWP-Online-1.07.tar.gz',
+			mod_name => 'LWP::Online',
+			makefilepl_param => ['INSTALLDIRS=site'],
+		);
+	} else {
+		$self->install_distribution(
+			name     => 'ADAMK/LWP-Online-1.07.tar.gz',
+			mod_name => 'LWP::Online',
+			makefilepl_param => ['INSTALLDIRS=vendor'],
+		);
+	}
 
 	# Win32 Modules
 	$self->install_modules( qw{
@@ -416,33 +424,45 @@ sub install_strawberry_modules_1 {
 		Math::BigInt::GMP
 	} );
 	# XML Modules
-	$self->install_distribution(
-		name             => 'MSERGEANT/XML-Parser-2.36.tar.gz',
-		mod_name         => 'XML::Parser',
-		makefilepl_param => [
-			'INSTALLDIRS=vendor',
-			'EXPATLIBPATH=' . $self->_dir(qw{ c lib     }),
-			'EXPATINCPATH=' . $self->_dir(qw{ c include }),
-		],
-	);
+	if ($self->portable()) {
+		$self->install_distribution(
+			name             => 'MSERGEANT/XML-Parser-2.36.tar.gz',
+			mod_name         => 'XML::Parser',
+			makefilepl_param => [
+				'INSTALLDIRS=site',
+				'EXPATLIBPATH=' . $self->_dir(qw{ c lib     }),
+				'EXPATINCPATH=' . $self->_dir(qw{ c include }),
+			],
+		);
+	} else {
+		$self->install_distribution(
+			name             => 'MSERGEANT/XML-Parser-2.36.tar.gz',
+			mod_name         => 'XML::Parser',
+			makefilepl_param => [
+				'INSTALLDIRS=vendor',
+				'EXPATLIBPATH=' . $self->_dir(qw{ c lib     }),
+				'EXPATINCPATH=' . $self->_dir(qw{ c include }),
+			],
+		);
+	}
 
 	$self->install_modules( qw{
 		XML::NamespaceSupport
 		XML::SAX
-	} );
-	
-	# Copy and Insert ParserDetails.ini
-	my $ini_file_old = catfile($self->image_dir(), qw(perl site   lib XML SAX ParserDetails.ini));
-	my $ini_file_new = catfile($self->image_dir(), qw(perl vendor lib XML SAX ParserDetails.ini));
-	
-	$self->_copy($ini_file_old, $ini_file_new);
-	$self->add_to_fragment('XML_SAX', [ $ini_file_old, $ini_file_new ]);
-	
-	$self->install_modules( qw{
 		XML::LibXML
 		XML::LibXSLT
 	} );
-
+	
+	unless ($self->portable()) {
+		# Copy and Insert ParserDetails.ini
+		my $ini_file_old = catfile($self->image_dir(), qw(perl vendor lib XML SAX ParserDetails.ini));
+#		my $ini_file_new = catfile($self->image_dir(), qw(perl site   lib XML SAX ParserDetails.ini));
+	
+#		$self->_copy($ini_file_old, $ini_file_new);
+#		$self->add_to_fragment('XML_SAX', [ $ini_file_old, $ini_file_new ]);
+		$self->add_to_fragment('XML_SAX', [ $ini_file_old ]);
+	}
+	
 	return 1;
 }
 
@@ -466,13 +486,25 @@ sub install_strawberry_modules_2 {
 		Test::Deep
 		IO::Scalar
 	} );
-	$self->install_distribution(
-		name             => 'RKINYON/DBM-Deep-1.0013.tar.gz',
-		mod_name         => 'DBM::Deep',
-		makefilepl_param => ['INSTALLDIRS=vendor'],
-		buildpl_param    => ['--installdirs', 'vendor'],
-		force            => 1,
-	);
+	
+	if ($self->portable()) {
+		$self->install_distribution(
+			name             => 'RKINYON/DBM-Deep-1.0013.tar.gz',
+			mod_name         => 'DBM::Deep',
+			makefilepl_param => ['INSTALLDIRS=site'],
+			buildpl_param    => ['--installdirs', 'site'],
+			force            => 1,
+		);
+	} else {
+		$self->install_distribution(
+			name             => 'RKINYON/DBM-Deep-1.0013.tar.gz',
+			mod_name         => 'DBM::Deep',
+			makefilepl_param => ['INSTALLDIRS=vendor'],
+			buildpl_param    => ['--installdirs', 'vendor'],
+			force            => 1,
+		);
+	}
+	
 	$self->install_modules( qw{
 		YAML::Tiny
 		PAR
@@ -519,7 +551,7 @@ sub install_strawberry_modules_3 {
 	# needs this module, so adding it.
 	$self->install_modules( qw{
 		DBIx::Simple
-	} ) if ($self->perl_version >= 5100);
+	} ) if ($self->perl_version() >= 5100);
 	
 	# Support for other databases.
 	$self->install_modules( qw{
@@ -567,14 +599,24 @@ sub install_strawberry_modules_4 {
 
 	# We have to tell the Makefile.PL where the OpenSSL 
 	# libraries are by passing a parameter for Crypt::SSLeay.
-	$self->install_distribution( 
-		mod_name => 'Crypt::SSLeay',
-		name     => 'DLAND/Crypt-SSLeay-0.57.tar.gz',
-		makefilepl_param => [
-			'INSTALLDIRS=vendor', '--lib', $ENV{'OPENSSL_PREFIX'} ,
-		],
-	);
-
+	if ($self->portable()) {
+		$self->install_distribution( 
+			mod_name => 'Crypt::SSLeay',
+			name     => 'DLAND/Crypt-SSLeay-0.57.tar.gz',
+			makefilepl_param => [
+				'--lib', $ENV{'OPENSSL_PREFIX'} ,
+			],
+		);
+	} else {
+		$self->install_distribution( 
+			mod_name => 'Crypt::SSLeay',
+			name     => 'DLAND/Crypt-SSLeay-0.57.tar.gz',
+			makefilepl_param => [
+				'INSTALLDIRS=vendor', '--lib', $ENV{'OPENSSL_PREFIX'} ,
+			],
+		);
+	}
+	
 	$self->install_modules( qw{
 		Net::SSLeay
 		Digest::HMAC_MD5
@@ -654,22 +696,24 @@ sub install_strawberry_extras {
 	# Links to the Strawberry Perl website.
 	# Don't include this for non-Strawberry sub-classes
 	if ( ref($self) eq 'Perl::Dist::Strawberry' ) {
-		$self->install_website(
-			name       => 'Strawberry Perl Website',
-			url        => $self->strawberry_url,
-			icon_file  => catfile($dist_dir, 'strawberry.ico')
-		);
-		$self->install_website(
-			name       => 'Strawberry Perl Release Notes',
-			url        => $self->strawberry_release_notes_url,
-			icon_file  => catfile($dist_dir, 'strawberry.ico')
-		);
-		# Link to IRC.
-		$self->install_website(
-			name       => 'Live Support',
-			url        => 'http://widget.mibbit.com/?server=irc.perl.org&channel=%23win32',
-			icon_file  => catfile($dist_dir, 'onion.ico')
-		);
+		if (not $self->portable()) {
+			$self->install_website(
+				name       => 'Strawberry Perl Website',
+				url        => $self->strawberry_url,
+				icon_file  => catfile($dist_dir, 'strawberry.ico')
+			);
+			$self->install_website(
+				name       => 'Strawberry Perl Release Notes',
+				url        => $self->strawberry_release_notes_url,
+				icon_file  => catfile($dist_dir, 'strawberry.ico')
+			);
+			# Link to IRC.
+			$self->install_website(
+				name       => 'Live Support',
+				url        => 'http://widget.mibbit.com/?server=irc.perl.org&channel=%23win32',
+				icon_file  => catfile($dist_dir, 'onion.ico')
+			);
+		}
 		$self->patch_file( 'README.txt' => $self->image_dir, { dist => $self } );
 	}
 

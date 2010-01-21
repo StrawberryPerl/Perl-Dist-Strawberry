@@ -137,28 +137,38 @@ sub install_ppm {
 		}
 
 		# Install PPM itself
-		$self->install_distribution(
-			mod_name         => 'PPM',
-			name             => 'RKOBES/PPM-0.01_01.tar.gz',
-			makefilepl_param => ['INSTALLDIRS=vendor'],
-		);
+		if ($self->portable()) {
+			$self->install_distribution(
+				mod_name         => 'PPM',
+				name             => 'RKOBES/PPM-0.01_01.tar.gz',
+				makefilepl_param => ['INSTALLDIRS=site'],
+			);
+		} else {
+			$self->install_distribution(
+				mod_name         => 'PPM',
+				name             => 'RKOBES/PPM-0.01_01.tar.gz',
+				makefilepl_param => ['INSTALLDIRS=vendor'],
+			);
+		}
 	}
 
-	# Unfortunately, PPM.pm does not check in vendor/lib for ppm.xml
-	my $xml_file_old = catfile($self->image_dir, qw(perl vendor lib ppm.xml));
-	my $xml_file_new = catfile($self->image_dir, qw(perl site lib ppm.xml));
+	unless ($self->portable()) {
+		# Unfortunately, PPM.pm does not check in vendor/lib for ppm.xml
+		my $xml_file_old = catfile($self->image_dir, qw(perl vendor lib ppm.xml));
+		my $xml_file_new = catfile($self->image_dir, qw(perl site lib ppm.xml));
 	
-	$self->_copy($xml_file_old, $xml_file_new);
+		$self->_copy($xml_file_old, $xml_file_new);
+
+		# Add the readme file.
+		$self->add_to_fragment('PPM', $filelist->files());
+
+		# Add the ppm.xml file.
+		$self->add_to_fragment('PPM', [ $xml_file_new ]);
+	}
 	
 	# This is because the UWinnipeg repository is insane atm.
 	$self->_run3("ppm.bat", qw(set repository --remove UWinnipeg));
 	
-	# Add the readme file.
-	$self->add_to_fragment('PPM', $filelist->files());
-
-	# Add the ppm.xml file.
-	$self->add_to_fragment('PPM', [ $xml_file_new ]);
-
 	return 1;
 }
 
