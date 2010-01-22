@@ -128,8 +128,8 @@ use URI::file                   qw();
 use File::ShareDir              qw();
 require Perl::Dist::WiX::Util::Machine;
 
-our $VERSION = '2.02_01';
-$VERSION = eval $VERSION;
+our $VERSION = '2.02_02';
+$VERSION =~ s/_//ms;
 
 #####################################################################
 # Build Machine Generator
@@ -144,7 +144,7 @@ The C<default_machine> class method is used to setup the most common
 machine for building Strawberry Perl.
 
 The machine provided creates a standard 5.8.9 distribution (.zip and .msi),
-a standard 5.10.1 distribution (.zip and .msi) and a Portable-enabled 5.10.0 
+a standard 5.10.1 distribution (.zip and .msi) and a Portable-enabled 5.10.1 
 distribution (.zip only).
 
 Returns a L<Perl::Dist::WiX::Util::Machine> object.
@@ -157,6 +157,7 @@ sub default_machine {
 	# Create the machine
 	my $machine = Perl::Dist::WiX::Util::Machine->new(
 		class => $class,
+		skip  => [6],
 		@_,
 	);
 
@@ -169,11 +170,10 @@ sub default_machine {
 	$machine->add_option('version',
 		perl_version => '5101',
 	);
-# Too many bugs in portable to want to try to do it in October.
-#	$machine->add_option('version',
-#		perl_version => '5101',
-#		portable     => 1,
-#	);
+	$machine->add_option('version',
+		perl_version => '5101',
+		portable     => 1,
+	);
 
 	# Set the different paths
 	$machine->add_dimension('drive');
@@ -217,7 +217,7 @@ sub new {
 		
 		# Program version.
 		build_number         => 1,
-		beta_number          => 1,
+		beta_number          => 2,
 		
 		# New options for msi building...
 		msi_license_file     => catfile($dist_dir, 'License-short.rtf'),

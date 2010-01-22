@@ -33,12 +33,10 @@ support for tools that are included in Strawberry Perl.
 use 5.010;
 use strict;
 use warnings;
-use File::Spec::Functions       qw( catfile catdir  );
-#use URI::file                   qw();
-#use File::ShareDir              qw();
+use File::Spec::Functions qw( catfile catdir );
 
-our $VERSION = '2.01';
-$VERSION = eval $VERSION;
+our $VERSION = '2.02_02';
+$VERSION =~ s/_//ms;
 
 
 =pod
@@ -243,8 +241,8 @@ sub install_dbd_mysql {
 	my $self = shift;
 	my $filelist;
 
-	given ($self->perl_version) {
-		when (m{\A510}) { # 5.10.0 and 5.10.1 are binary-compatible.
+	given ($self->perl_version()) {
+		when (m{\A510}) { # 5.10.0 and 5.10.1 are binary-compatible, supposedly.
 			$filelist = $self->install_par(
 			  name => 'DBD::mysql', 
 			  url => $self->_binary_url('DBD-mysql-4.012-MSWin32-x86-multi-thread-5.10.0.par')
