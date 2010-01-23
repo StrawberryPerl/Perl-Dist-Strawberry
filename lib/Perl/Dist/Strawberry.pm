@@ -128,7 +128,7 @@ use URI::file                   qw();
 use File::ShareDir              qw();
 require Perl::Dist::WiX::Util::Machine;
 
-our $VERSION = '2.02_02';
+our $VERSION = '2.02';
 $VERSION =~ s/_//ms;
 
 #####################################################################
@@ -217,7 +217,6 @@ sub new {
 		
 		# Program version.
 		build_number         => 1,
-		beta_number          => 2,
 		
 		# New options for msi building...
 		msi_license_file     => catfile($dist_dir, 'License-short.rtf'),
@@ -737,13 +736,9 @@ sub install_strawberry_extras {
 	my $license_file_to = catfile($self->license_dir, 'License.rtf');
 	my $readme_file = catfile($self->image_dir, 'README.txt');
 
-	$self->_copy($license_file_from, $license_file_to);
-	$self->_add_fragment(
-		'StrawberryExtras',
-		Perl::Dist::WiX::Fragment::Files->new(
-			id    => 'StrawberryExtras',
-			files => File::List::Object->new()->add_files($license_file_to, $readme_file),
-	) );
+	$self->_copy($license_file_from, $license_file_to);	
+	$self->add_to_fragment( 'Win32Extras',
+		[ $license_file_to, $readme_file ] );
 
 	return 1;
 }
