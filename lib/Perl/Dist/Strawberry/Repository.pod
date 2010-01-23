@@ -7,7 +7,7 @@ Perl::Dist::Strawberry::Repository - The repository that is used for Perl::Dist:
 =head1 DESCRIPTION
 
 This documentation describes the repository that Perl::Dist::Strawberry uses, 
-and the branches that are currently being used as of October 2009.
+and the branches that are currently being used as of January 2010.
 
 =head1 REPOSITORY
 
@@ -34,28 +34,26 @@ merged into the trunk, by doing:
 
 =head1 BRANCHES
 
-The trunk is currently unstable at the moment, due to the fact that the code 
-underneath is in the process of changing from using 
-L<Object::InsideOut|Object::InsideOut> and L<Object::Tiny|Object::Tiny> to 
-L<Moose|Moose>.
+The trunk is currently in the process of polishing for a January 2010
+release of Strawberry Perl.
 
-Yes, I know Moose is "heavy" in the dependencies and initial loading time. 
-The problems are that Object::Tiny is a little TOO tiny for what I need, 
-and Object::InsideOut objects that contain other Object::InsideOut objects 
-are very difficult to make L<Storable>, which breaks checkpointing.
-
-Plus, with Moose, I gain the ability to check constructor parameters better,
-the ability to extend logging, and the ability to factor out the XML generation
-and handling to another distribution in a sane matter.
-
-So here are the branches:
+Here are the branches:
 
 =head2 Trunk 
 
 Location: L<http://svn.ali.as/cpan/trunk/Perl-Dist-Strawberry/>
 
-The trunk is currently working with Perl::Dist::WiX 1.000, although this will 
-change soon.
+The trunk is currently working with Perl::Dist::WiX 1.101.
+
+=head2 Maintenance 
+
+Location: L<http://svn.ali.as/cpan/branches/Perl-Dist-Strawberry/October-2009-maintenance/>
+
+This is a maintenance branch for use only if there is a major bug that 
+requires a re-release of the October 2009 version of Strawberry Perl.
+
+This branch will be deleted once the January 2010 version is released, 
+and a new maintenance branch will be created at that time.
 
 =head1 AUTHORS
 
