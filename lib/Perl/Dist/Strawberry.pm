@@ -764,8 +764,7 @@ sub strawberry_release_notes_url {
 	return "http://strawberryperl.com/release-notes/$path.html";
 }
 
-
-
+1;
 
 =pod
 
