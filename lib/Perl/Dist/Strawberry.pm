@@ -737,8 +737,10 @@ sub install_strawberry_extras {
 	my $readme_file = catfile($self->image_dir, 'README.txt');
 
 	$self->_copy($license_file_from, $license_file_to);	
-	$self->add_to_fragment( 'Win32Extras',
-		[ $license_file_to, $readme_file ] );
+	if (not $self->portable()) {
+		$self->add_to_fragment( 'Win32Extras',
+			[ $license_file_to, $readme_file ] );
+	}
 
 	return 1;
 }
