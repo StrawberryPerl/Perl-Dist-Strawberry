@@ -733,8 +733,8 @@ sub install_strawberry_extras {
 	}
 
 	my $license_file_from = catfile($dist_dir, 'License.rtf');
-	my $license_file_to = catfile($self->license_dir, 'License.rtf');
-	my $readme_file = catfile($self->image_dir, 'README.txt');
+	my $license_file_to = catfile($self->license_dir(), 'License.rtf');
+	my $readme_file = catfile($self->image_dir(), 'README.txt');
 
 	$self->_copy($license_file_from, $license_file_to);	
 	if (not $self->portable()) {
