@@ -1,7 +1,7 @@
-use inc::Module::Install::DSL 0.91;
+use inc::Module::Install::DSL 0.92;
 
 all_from       lib/Perl/Dist/Strawberry.pm
-requires       Perl::Dist::WiX  1.100
+requires       Perl::Dist::WiX  1.102
 test_requires  Test::More       0.42
 test_requires  File::Spec       3.2701
 test_requires  File::Path       2.04
