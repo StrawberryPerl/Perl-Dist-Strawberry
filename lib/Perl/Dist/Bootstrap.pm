@@ -24,8 +24,8 @@ use parent                  qw( Perl::Dist::Strawberry );
 use File::Spec::Functions   qw( catfile catdir         );
 use File::ShareDir          qw();
 
-our $VERSION = '2.01';
-$VERSION = eval $VERSION;
+our $VERSION = '2.02';
+$VERSION =~ s/_//ms;
 
 
 
@@ -37,7 +37,7 @@ $VERSION = eval $VERSION;
 # Apply some default paths
 sub new {
 
-	if ($Perl::Dist::Strawberry::VERSION < 2.00_02) {
+	if ($Perl::Dist::Strawberry::VERSION < 2.02) {
 		PDWiX->throw('Perl::Dist::Strawberry version is not high enough.')
 	}
 
@@ -50,6 +50,7 @@ sub new {
 
 		# Tasks to complete to create Bootstrap
 		tasklist => [
+			'final_initialization',
 			'final_initialization',
 			'install_c_toolchain',
 			'install_strawberry_c_toolchain',
@@ -86,9 +87,10 @@ sub new {
 # Supports building multiple versions of Perl.
 sub output_base_filename {
 	$_[0]->{output_base_filename} or
-	'bootstrap-perl-' . $_[0]->perl_version_human 
-	. '.' . $_[0]->build_number
-	. ($_[0]->beta_number ? '-beta-' . $_[0]->beta_number : '');
+	'bootstrap-perl' 
+	. '-' . $_[0]->perl_version_human() 
+	. '.' . $_[0]->build_number()
+	. ($_[0]->beta_number() ? '-beta-' . $_[0]->beta_number : '');
 }
 
 
@@ -127,7 +129,7 @@ sub install_bootstrap_modules_1 {
 		buildpl_param => ['--installdirs', 'vendor'],
 	);
 
-	# Install Perl::Dist and everything required for Perl::Dist::WiX itself
+	# Install everything required for Perl::Dist::WiX itself
 	$self->install_modules( qw(
 		File::Copy::Recursive
 		Class::Inspector
@@ -151,9 +153,6 @@ sub install_bootstrap_modules_1 {
 		Template
 	) );
 	
-	# Perl::Dist does not pass tests if offline.
-	# $self->install_module( name => 'Perl::Dist', force => !! $self->offline );
-
 	# Data::UUID needs to have a temp directory set.
 	{
 		local $ENV{'TMPDIR'} = $self->image_dir;
@@ -221,16 +220,12 @@ sub install_bootstrap_modules_2 {
 		CPAN::Mini::Devel
 	) );
 
-#	$self->install_module(
-#		name => 'Perl::Dist::WiX',
-#		force => 1,
-#	);
-#	$self->install_distribution(
-#		name     => 'CSJEWELL/Perl-Dist-WiX-1.090_103.tar.gz',
-#		mod_name => 'Perl::Dist::WiX',
-#		force    => 1,
-#		makefilepl_param => ['INSTALLDIRS=vendor'],
-#	);
+	$self->install_distribution(
+		name     => 'CSJEWELL/Perl-Dist-WiX-1.100.tar.gz',
+		mod_name => 'Perl::Dist::WiX',
+		force    => 1,
+		makefilepl_param => ['INSTALLDIRS=vendor'],
+	);
 
 	return 1;
 }
@@ -260,7 +255,9 @@ Curtis Jewell E<lt>csjewell@cpan.orgE<gt>
 
 =head1 COPYRIGHT
 
-Copyright 2007 - 2009 Adam Kennedy.  Copyright 2009 Curtis Jewell.
+Copyright 2007 - 2009 Adam Kennedy.  
+
+Copyright 2009 - 2010 Curtis Jewell.
 
 This program is free software; you can redistribute
 it and/or modify it under the same terms as Perl itself.

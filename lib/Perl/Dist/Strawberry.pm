@@ -296,11 +296,11 @@ sub add_forgotten_files {
 sub output_base_filename {
 	$_[0]->{output_base_filename} or
 	'strawberry-perl'
-		. '-' . $_[0]->perl_version_human
-		. '.' . $_[0]->build_number
-		. ($_[0]->image_dir =~ /^d:/i ? '-ddrive' : '')
-		. ($_[0]->portable ? '-portable' : '')
-		. ($_[0]->beta_number ? '-beta-' . $_[0]->beta_number : '')
+		. '-' . $_[0]->perl_version_human()
+		. '.' . $_[0]->build_number()
+		. ($_[0]->image_dir() =~ /^d:/i ? '-ddrive' : '')
+		. ($_[0]->portable() ? '-portable' : '')
+		. ($_[0]->beta_number() ? '-beta-' . $_[0]->beta_number() : '')
 }
 
 
@@ -313,7 +313,7 @@ sub install_strawberry_c_toolchain {
 	my $self = shift;
 
 	# Extra Binary Tools
-	$self->install_patch;
+	$self->install_patch();
 
 	return 1;
 }
@@ -466,13 +466,9 @@ sub install_strawberry_modules_1 {
 	} );
 	
 	unless ($self->portable()) {
-		# Copy and Insert ParserDetails.ini
-		my $ini_file_old = catfile($self->image_dir(), qw(perl vendor lib XML SAX ParserDetails.ini));
-#		my $ini_file_new = catfile($self->image_dir(), qw(perl site   lib XML SAX ParserDetails.ini));
-	
-#		$self->_copy($ini_file_old, $ini_file_new);
-#		$self->add_to_fragment('XML_SAX', [ $ini_file_old, $ini_file_new ]);
-		$self->add_to_fragment('XML_SAX', [ $ini_file_old ]);
+		# Insert ParserDetails.ini
+		my $ini_file = catfile($self->image_dir(), qw(perl vendor lib XML SAX ParserDetails.ini));
+		$self->add_to_fragment('XML_SAX', [ $ini_file ]);
 	}
 	
 	return 1;
@@ -714,12 +710,12 @@ sub install_strawberry_extras {
 		if (not $self->portable()) {
 			$self->install_website(
 				name       => 'Strawberry Perl Website',
-				url        => $self->strawberry_url,
+				url        => $self->strawberry_url(),
 				icon_file  => catfile($dist_dir, 'strawberry.ico')
 			);
 			$self->install_website(
 				name       => 'Strawberry Perl Release Notes',
-				url        => $self->strawberry_release_notes_url,
+				url        => $self->strawberry_release_notes_url(),
 				icon_file  => catfile($dist_dir, 'strawberry.ico')
 			);
 			# Link to IRC.
@@ -729,7 +725,7 @@ sub install_strawberry_extras {
 				icon_file  => catfile($dist_dir, 'onion.ico')
 			);
 		}
-		$self->patch_file( 'README.txt' => $self->image_dir, { dist => $self } );
+		$self->patch_file( 'README.txt' => $self->image_dir(), { dist => $self } );
 	}
 
 	my $license_file_from = catfile($dist_dir, 'License.rtf');
@@ -747,7 +743,7 @@ sub install_strawberry_extras {
 
 sub strawberry_url {
 	my $self = shift;
-	my $path = $self->output_base_filename;
+	my $path = $self->output_base_filename();
 
 	# Strip off anything post-version
 	unless ( $path =~ s/^(strawberry-perl-\d+(?:\.\d+)+).*$/$1/ ) {
@@ -759,9 +755,9 @@ sub strawberry_url {
 
 sub strawberry_release_notes_url {
 	my $self = shift;
-	my $path = $self->perl_version_human
-		. q{.} . $self->build_number
-		. ($self->beta_number ? '.beta' : '');
+	my $path = $self->perl_version_human()
+		. q{.} . $self->build_number()
+		. ($self->beta_number() ? '.beta' : '');
 
 	return "http://strawberryperl.com/release-notes/$path.html";
 }
@@ -782,6 +778,7 @@ should be reported to their respective distributions.
 
 For more support information and places for discussion, see the
 Strawberry Perl Support page L<http://strawberryperl.com/support.html>.
+Strawberry Perl Support page L<http://strawberryperl.com/support.html>.
 
 =head1 AUTHOR
 
@@ -791,7 +788,9 @@ Curtis Jewell E<lt>csjewell@cpan.orgE<gt>
 
 =head1 COPYRIGHT
 
-Copyright 2007 - 2009 Adam Kennedy.  Copyright 2009 Curtis Jewell.
+Copyright 2007 - 2009 Adam Kennedy.  
+
+Copyright 2009 - 2010 Curtis Jewell.
 
 This program is free software; you can redistribute
 it and/or modify it under the same terms as Perl itself.

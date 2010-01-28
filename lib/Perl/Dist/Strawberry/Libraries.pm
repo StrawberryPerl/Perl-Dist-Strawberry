@@ -35,7 +35,7 @@ use strict;
 use warnings;
 use File::Spec::Functions qw( catfile catdir );
 
-our $VERSION = '2.02_02';
+our $VERSION = '2.02';
 $VERSION =~ s/_//ms;
 
 
@@ -65,7 +65,7 @@ sub install_patch {
 	$self->{bin_patch} = File::Spec->catfile(
 		$self->image_dir, 'c', 'bin', 'patch.exe',
 	);
-	unless ( -x $self->bin_patch ) {
+	unless ( -x $self->bin_patch() ) {
 		die "Can't execute patch";
 	}
 
@@ -104,7 +104,7 @@ sub install_ppm {
 	my $self = shift;
 
 	# Where should the ppm build directory be
-	my $ppmdir = catdir( $self->image_dir, 'ppm', );
+	my $ppmdir = catdir( $self->image_dir(), 'ppm', );
 	if ( -d $ppmdir ) {
 		die("PPM build directory '$ppmdir' already exists");
 	}
@@ -212,7 +212,7 @@ sub install_win32_manifest {
 END_MANIFEST
 
 	# Write the manifest
-	my $file = File::Spec->catfile( $self->image_dir, @_ );
+	my $file = File::Spec->catfile( $self->image_dir(), @_ );
 	unless ( -f $file ) {
 		die "Program $file does not exist";
 	}
@@ -276,7 +276,7 @@ sub install_dbd_pg {
 	my $self = shift;
 	my $filelist;
 	
-	given ($self->perl_version) {
+	given ($self->perl_version()) {
 		when (m{\A510}) { # 5.10.0 and 5.10.1 are binary-compatible.
 			$filelist = $self->install_par(
 			  name => 'DBD::Pg', 
@@ -314,7 +314,7 @@ sub install_pari {
 	my $self = shift;
 	my $filelist;
 	
-	given ($self->perl_version) {
+	given ($self->perl_version()) {
 		when (m{\A510}) { # 5.10.0 and 5.10.1 are binary-compatible.
 			$self->install_par(
 			  name => 'Math::Pari', 
@@ -676,7 +676,9 @@ Curtis Jewell E<lt>csjewell@cpan.orgE<gt>
 
 =head1 COPYRIGHT
 
-Copyright 2007 - 2009 Adam Kennedy.  Copyright 2009 Curtis Jewell.
+Copyright 2007 - 2009 Adam Kennedy.  
+
+Copyright 2009 - 2010 Curtis Jewell.
 
 This program is free software; you can redistribute
 it and/or modify it under the same terms as Perl itself.
