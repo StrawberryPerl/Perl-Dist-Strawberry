@@ -29,8 +29,6 @@ $VERSION =~ s/_//ms;
 
 
 
-
-
 #####################################################################
 # Configuration
 
@@ -39,6 +37,9 @@ sub new {
 
 	if ($Perl::Dist::Strawberry::VERSION < 2.02) {
 		PDWiX->throw('Perl::Dist::Strawberry version is not high enough.')
+	}
+	if ($Perl::Dist::WiX::VERSION < 1.102001) {
+		PDWiX->throw('Perl::Dist::WiX version is not high enough.')
 	}
 
 	shift->SUPER::new(
@@ -51,7 +52,7 @@ sub new {
 		# Tasks to complete to create Bootstrap
 		tasklist => [
 			'final_initialization',
-			'initialize_bootstrap',
+			'initialize_nomsm',
 			'install_c_toolchain',
 			'install_strawberry_c_toolchain',
 			'install_strawberry_c_libraries',
@@ -73,13 +74,16 @@ sub new {
 			'write',
 		],
 
-		# Build msi version only.
+		# Build msi version only. Do not create a merge module.
 		msi               => 1,
 		zip               => 0,
+		msm               => 0,
 
 		@_,
 	);
 }
+
+
 
 # Lazily default the file name
 # Supports building multiple versions of Perl.
@@ -90,9 +94,6 @@ sub output_base_filename {
 	. '.' . $_[0]->build_number()
 	. ($_[0]->beta_number() ? '-beta-' . $_[0]->beta_number : '');
 }
-
-
-
 
 
 
@@ -115,33 +116,7 @@ sub patch_include_path {
 	];
 }
 
-sub initialize_bootstrap {
-	my $self = shift;
 
-	# Making sure that this is unset.
-	$self->_set_in_merge_module(0);
-
-	# Add fragments that otherwise would be after the merge module is done.
-	$self->_add_fragment(
-		'StartMenuIcons',
-		Perl::Dist::WiX::Fragment::StartMenu->new(
-			directory_id => 'D_App_Menu',
-		) );
-	$self->_add_fragment(
-		'Win32Extras',
-		Perl::Dist::WiX::Fragment::Files->new(
-			id    => 'Win32Extras',
-			files => File::List::Object->new(),
-		) );
-
-	$self->_set_icons(
-		$self->get_fragment_object('StartMenuIcons')->get_icons() );
-	if ( defined $self->msi_product_icon() ) {
-		$self->_icons()->add_icon( $self->msi_product_icon() );
-	}
-	
-	return 1;
-};
 
 sub install_bootstrap_modules_1 {
 	my $self = shift;
@@ -187,6 +162,8 @@ sub install_bootstrap_modules_1 {
 
 	return 1;
 }
+
+
 
 sub install_bootstrap_modules_2 {
 	my $self = shift;
@@ -247,7 +224,7 @@ sub install_bootstrap_modules_2 {
 	) );
 
 	$self->install_distribution(
-		name     => 'CSJEWELL/Perl-Dist-WiX-1.102.tar.gz',
+		name     => 'CSJEWELL/Perl-Dist-WiX-1.102001.tar.gz',
 		mod_name => 'Perl::Dist::WiX',
 		force    => 1,
 		makefilepl_param => ['INSTALLDIRS=vendor'],

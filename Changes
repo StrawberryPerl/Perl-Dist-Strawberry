@@ -1,8 +1,9 @@
 Changes for Perl extension Perl-Dist-Strawberry
 
-2.02 To Be Released 2010
+2.02 Fri 29 Jan 2010
 	- This release corresponds to Strawberry Perl January 2010.
 	- GDBM_File added.
+	- Ability to create a merge module added.
 
 2.01 Wed 11 Nov 2009
 	- This release corresponds to Strawberry Perl October 2009.
