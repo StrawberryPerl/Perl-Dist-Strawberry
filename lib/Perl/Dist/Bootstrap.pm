@@ -51,10 +51,9 @@ sub new {
 		# Tasks to complete to create Bootstrap
 		tasklist => [
 			'final_initialization',
-			'final_initialization',
+			'initialize_bootstrap',
 			'install_c_toolchain',
 			'install_strawberry_c_toolchain',
-			'install_c_libraries',
 			'install_strawberry_c_libraries',
 			'install_perl',
 			'install_perl_toolchain',
@@ -65,11 +64,10 @@ sub new {
 			'install_strawberry_modules_4',
 			'install_bootstrap_modules_1',
 			'install_bootstrap_modules_2',
+			'add_forgotten_files',
 			'install_win32_extras',
 			'install_strawberry_extras',
-			'install_portable',
 			'remove_waste',
-			'add_forgotten_files',
 			'create_distribution_list',
 			'regenerate_fragments',
 			'write',
@@ -116,6 +114,34 @@ sub patch_include_path {
 		@{ $self->SUPER::patch_include_path },
 	];
 }
+
+sub initialize_bootstrap {
+	my $self = shift;
+
+	# Making sure that this is unset.
+	$self->_set_in_merge_module(0);
+
+	# Add fragments that otherwise would be after the merge module is done.
+	$self->_add_fragment(
+		'StartMenuIcons',
+		Perl::Dist::WiX::Fragment::StartMenu->new(
+			directory_id => 'D_App_Menu',
+		) );
+	$self->_add_fragment(
+		'Win32Extras',
+		Perl::Dist::WiX::Fragment::Files->new(
+			id    => 'Win32Extras',
+			files => File::List::Object->new(),
+		) );
+
+	$self->_set_icons(
+		$self->get_fragment_object('StartMenuIcons')->get_icons() );
+	if ( defined $self->msi_product_icon() ) {
+		$self->_icons()->add_icon( $self->msi_product_icon() );
+	}
+	
+	return 1;
+};
 
 sub install_bootstrap_modules_1 {
 	my $self = shift;
@@ -189,9 +215,8 @@ sub install_bootstrap_modules_2 {
 		Scope::Guard
 		Devel::GlobalDestruction
 		Sub::Name
-		Test::Exception
-		Class::MOP
 		Try::Tiny
+		Class::MOP
 		Moose
 		MooseX::AttributeHelpers
 		File::List::Object
@@ -199,6 +224,7 @@ sub install_bootstrap_modules_2 {
 		MooseX::Singleton
 		Variable::Magic
 		B::Hooks::EndOfScope
+		Sub::Identify
 		namespace::clean
 		Carp::Clan
 		MooseX::Types
@@ -221,7 +247,7 @@ sub install_bootstrap_modules_2 {
 	) );
 
 	$self->install_distribution(
-		name     => 'CSJEWELL/Perl-Dist-WiX-1.100.tar.gz',
+		name     => 'CSJEWELL/Perl-Dist-WiX-1.102.tar.gz',
 		mod_name => 'Perl::Dist::WiX',
 		force    => 1,
 		makefilepl_param => ['INSTALLDIRS=vendor'],

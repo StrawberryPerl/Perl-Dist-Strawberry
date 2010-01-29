@@ -2,6 +2,7 @@
 # version 1.000 or greater.
 
 # Perl::Dist::Bootstrap
+/RGARCIA/Sub-Identify-
 /NUFFIN/Try-Tiny-
 /DROLSKY/Params-Validate-
 /CORION/parent-
