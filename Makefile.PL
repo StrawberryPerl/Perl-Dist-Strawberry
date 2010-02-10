@@ -11,3 +11,4 @@ test_requires  LWP::Online      1.07
 test_requires  Test::Perl::Dist 0.202
 install_script perldist_strawberry
 install_share
+use_ptar
