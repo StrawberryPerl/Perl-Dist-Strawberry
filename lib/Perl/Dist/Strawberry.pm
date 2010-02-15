@@ -128,7 +128,7 @@ use URI::file                   qw();
 use File::ShareDir              qw();
 require Perl::Dist::WiX::Util::Machine;
 
-our $VERSION = '2.02';
+our $VERSION = '2.02_01';
 $VERSION =~ s/_//ms;
 
 #####################################################################
@@ -165,7 +165,7 @@ sub default_machine {
 	$machine->add_dimension('version');
 	$machine->add_option('version',
 		perl_version => '589',
-	    build_number => 4,
+	    build_number => 5,
 	);
 	$machine->add_option('version',
 		perl_version => '5101',
@@ -216,7 +216,8 @@ sub new {
 		perl_version         => '5101',
 		
 		# Program version.
-		build_number         => 1,
+		build_number         => 2,
+		beta_number          => 1,
 		
 		# New options for msi building...
 		msi_license_file     => catfile($dist_dir, 'License-short.rtf'),
@@ -692,7 +693,19 @@ sub install_strawberry_modules_4 {
 	return 1;
 }
 
+sub install_strawberry_modules_5 {
+	my $self = shift;
 
+	$self->install_modules( qw{
+		Task::Weaken
+	});
+	# This is fixed by a distropref.
+	$self->install_modules( qw{
+		SOAP::Lite
+	});
+	
+	return 1;
+}
 
 
 
