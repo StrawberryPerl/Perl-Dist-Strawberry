@@ -1,5 +1,9 @@
 Changes for Perl extension Perl-Dist-Strawberry
 
+2.02_01 Wed 17 Feb 2010
+	- This release corresponds to Strawberry Perl Professional 5.10.1.1 Alpha 1.
+    - Adding SOAP::Lite and Task::Weaken.
+	
 2.02 Fri 29 Jan 2010
 	- This release corresponds to Strawberry Perl January 2010.
 	- GDBM_File added.
