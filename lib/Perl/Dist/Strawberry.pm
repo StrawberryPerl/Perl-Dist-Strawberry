@@ -760,7 +760,7 @@ sub strawberry_url {
 
 	# Strip off anything post-version
 	unless ( $path =~ s/^(strawberry-perl-\d+(?:\.\d+)+).*$/$1/ ) {
-		die "Failed to generate the strawberry subpath";
+		PDWiX->throw("Failed to generate the strawberry subpath");
 	}
 
 	return "http://strawberryperl.com/$path";
