@@ -1,5 +1,14 @@
 Changes for Perl extension Perl-Dist-Strawberry
 
+2.02_04 To be released
+    - Changing $Config{installsitebin} to perl/site/bin directory.
+
+2.02_03 Fri 19 Feb 2010
+	- Release script is locking up.  Changed it and trying again.
+
+2.02_02 Fri 19 Feb 2010
+	- Messed up uploading to PAUSE. Re-uploading.
+
 2.02_01 Fri 19 Feb 2010
 	- This release corresponds to Strawberry Perl Professional 5.10.1.1 Alpha 1.
     - Adding SOAP::Lite and Task::Weaken.
