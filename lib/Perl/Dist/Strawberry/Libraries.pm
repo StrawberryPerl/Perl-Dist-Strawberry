@@ -135,6 +135,7 @@ sub install_ppm {
 		}
 
 		# Install PPM itself
+		my $share = $self->dist_dir();
 		if ($self->portable()) {
 			$self->install_distribution_from_file(
 				mod_name      => 'PPM',
