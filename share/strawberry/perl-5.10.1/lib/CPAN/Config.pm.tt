@@ -81,7 +81,7 @@ $CPAN::Config = {
   use_sqlite                    => q[1],
   wget                          => q[],
   yaml_load_code                => q[0],
-  yaml_module                   => q[YAML::Syck],
+  yaml_module                   => q[YAML],
 };
 
 1;
