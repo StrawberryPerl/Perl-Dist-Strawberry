@@ -431,11 +431,9 @@ sub install_strawberry_modules_1 {
 		Win32::EventLog
 	} );
 
+	# TODO: Put math modules back here when done.
 	# Install additional math modules
-	$self->install_pari;
-	$self->install_modules( qw{
-		Math::BigInt::GMP
-	} );
+	
 	# XML Modules
 	if ($self->portable()) {
 		$self->install_distribution(
@@ -496,6 +494,13 @@ sub install_strawberry_modules_2 {
 		IO::Scalar
 	} );
 	
+	PDWiX->throw('Debugging stop.');
+
+	$self->install_pari();
+	$self->install_modules( qw{
+		Math::BigInt::GMP
+	} );
+
 	if ($self->portable()) {
 		$self->install_distribution(
 			name             => 'RKINYON/DBM-Deep-1.0013.tar.gz',
@@ -568,18 +573,19 @@ sub install_strawberry_modules_3 {
 		BerkeleyDB
 		DBD::ODBC
 	} );
+
 	$self->install_dbd_mysql;
 	$self->install_module(
 		name  => 'DBD::Pg',
 		force => 1,
 	);
 
-	my $library_location = $self->library_directory();
-	my $install_location = $self->portable() ? q{perl\site\lib} : q{perl\vendor\lib};
+	my $install_location = $self->portable() ? q{perl\site\lib} : q{perl\vendor\lib};	
+	my $mysql_url = $self->get_library_file('mysqllib');
 	
 	my $filelist = $self->install_binary(
 		name       => 'db_libraries',
-		url        => $self->_binary_url("$library_location/MySQLLibraries-20100121.zip"),
+		url        => $self->_binary_url($mysql_url),
 		install_to => $install_location
 	);
 	$self->insert_fragment( 'db_libraries', $filelist );
