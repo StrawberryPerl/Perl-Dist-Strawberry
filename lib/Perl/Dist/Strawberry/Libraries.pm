@@ -41,7 +41,7 @@ $VERSION =~ s/_//ms;
 
 Readonly my %LIBRARIES_S => {
 	'32bit-gcc3' => {
-		'patch'         => 'patch-2.5.9-7-bin.zip',
+		'patch'         => '32bit-gcc3/patch-2.5.9-7-bin_20100110_20100303.zip',
 		'mysql589'      => 'DBD-mysql-4.012-MSWin32-x86-multi-thread-5.8.9.par',
 		'mysql5100'     => 'DBD-mysql-4.012-MSWin32-x86-multi-thread-5.10.0.par',
 		'mysql5101'     => 'DBD-mysql-4.012-MSWin32-x86-multi-thread-5.10.0.par',
@@ -69,7 +69,7 @@ Readonly my %LIBRARIES_S => {
 		'libgdbm'       => 'libgdbm-1.8.3_20091105.zip',
 	},
 	'32bit-gcc4' => {
-		'patch'         => 'patch-2.5.9-7-bin.zip',
+		'patch'         => '32bit-gcc4/patch-2.5.9-7-bin_20100110_20100303.zip',
 		'mysql589'      => undef,
 		'mysql5100'     => undef,
 		'mysql5101'     => undef,
@@ -98,7 +98,7 @@ Readonly my %LIBRARIES_S => {
 
 	},
 	'64bit-gcc4' => {
-		'patch'         => undef,
+		'patch'         => '64bit-gcc4/patch-2.5.9-7-bin_20100110_20100303.zip',
 		'mysql589'      => undef,
 		'mysql5100'     => undef,
 		'mysql5101'     => undef,
