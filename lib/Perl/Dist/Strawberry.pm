@@ -246,6 +246,7 @@ sub new {
 			'install_strawberry_modules_2',
 			'install_strawberry_modules_3',
 			'install_strawberry_modules_4',
+			'install_strawberry_modules_5',
 			'add_forgotten_files',
 			'regenerate_fragments',
 			'write_merge_module',
@@ -606,12 +607,13 @@ sub install_strawberry_modules_3 {
 sub install_strawberry_modules_4 {
 	my $self = shift;
 
+	# This is due to RT #52408.
+	return 1 if 64 == $self->bits();
+	
 	# Required for Net::SSLeay.
 	local $ENV{'OPENSSL_PREFIX'} = catdir($self->image_dir, 'c');
 	# This is required for IO::Socket::SSL.
 	local $ENV{'SKIP_RNG_TEST'} = 1;
-	# This is required for Net::SSH::Perl.
-	local $ENV{'HOME'} = $ENV{'USERPROFILE'};
 
 	# We have to tell the Makefile.PL where the OpenSSL 
 	# libraries are by passing a parameter for Crypt::SSLeay.
