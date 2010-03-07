@@ -340,6 +340,7 @@ sub install_strawberry_c_libraries {
 	$self->install_libpng();
 	$self->install_libgd();
 	$self->install_libfreetype();
+	$self->install_libxpm();	
 	
 	# Database Libraries
 	$self->install_libdb();

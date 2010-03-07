@@ -67,6 +67,7 @@ Readonly my %LIBRARIES_S => {
 		'libpostgresql' => '32bit-gcc4/postgresql-8.4.1-bin_20091126.zip',
 		'libdb'         => '32bit-gcc4/db-4.8.24-bin_20091126.zip',
 		'libgdbm'       => '32bit-gcc4/gdbm-1.8.3-bin_20100112.zip',
+		'libxpm'        => '32bit-gcc4/libXpm-3.5.8-bin_20091126.zip',
 	},
 	'32bit-gcc4' => {
 		'patch'         => '32bit-gcc4/patch-2.5.9-7-bin_20100110_20100303.zip',
@@ -95,6 +96,7 @@ Readonly my %LIBRARIES_S => {
 		'libpostgresql' => '32bit-gcc4/postgresql-8.4.1-bin_20091126.zip',
 		'libdb'         => '32bit-gcc4/db-4.8.24-bin_20091126.zip',
 		'libgdbm'       => '32bit-gcc4/gdbm-1.8.3-bin_20100112.zip',
+		'libxpm'        => '32bit-gcc4/libXpm-3.5.8-bin_20091126.zip',
 	},
 	'64bit-gcc4' => {
 		'patch'         => '64bit-gcc4/patch-2.5.9-7-bin_20100110_20100303.zip',
@@ -123,7 +125,7 @@ Readonly my %LIBRARIES_S => {
 		'libpostgresql' => undef,
 		'libdb'         => undef,
 		'libgdbm'       => undef,
-		
+		'libxpm'        => undef,		
 	},
 };
 
@@ -716,6 +718,20 @@ sub install_libgdbm {
 		install_to => q{.}
 	);
 	$self->insert_fragment('libgdbm', $filelist);
+
+	return 1;
+}
+
+sub install_libxpm {
+	my $self = shift;
+
+	my $filelist = $self->install_binary(
+		name       => 'libxpm',
+		url        => $self->_binary_url($self->get_library_file('libxpm')),
+		install_to => q{.}
+	);
+	$self->insert_fragment('libxpm', $filelist);
+
 
 	return 1;
 }
