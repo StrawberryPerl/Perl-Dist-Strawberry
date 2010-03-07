@@ -203,10 +203,8 @@ sub install_patch {
 
 	my $filelist = $self->install_binary(
 		name       => 'patch',
+		install_to => q{.},
 		url        => $self->_binary_url($self->get_library_file('patch')),
-		install_to => {
-			'bin/patch.exe' => 'c/bin/patch.exe',
-		},
 	);
 	$self->{bin_patch} = File::Spec->catfile(
 		$self->image_dir, 'c', 'bin', 'patch.exe',
