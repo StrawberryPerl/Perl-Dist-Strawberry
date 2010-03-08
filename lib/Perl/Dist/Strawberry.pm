@@ -345,7 +345,9 @@ sub install_strawberry_c_libraries {
 	# Database Libraries
 	$self->install_libdb();
 	$self->install_libgdbm();
-	$self->install_libpostgresql();
+ 	if (32 == $self->bits()) {
+		$self->install_libpostgresql();
+	}
 
 	# Crypto libraries
 	$self->install_libopenssl();
@@ -574,10 +576,6 @@ sub install_strawberry_modules_3 {
 
 	if (3 == $self->gcc_version()) {
 		$self->install_dbd_mysql;
-		$self->install_module(
-			name  => 'DBD::Pg',
-			force => 1,
-		);
 		
 		my $install_location = $self->portable() ? q{perl\site\lib} : q{perl\vendor\lib};	
 		my $mysql_url = $self->get_library_file('mysqllib');
@@ -588,6 +586,13 @@ sub install_strawberry_modules_3 {
 			install_to => $install_location
 		);
 		$self->insert_fragment( 'db_libraries', $filelist );
+	}
+	
+	if (32 == $self->bits()) {
+		$self->install_module(
+			name  => 'DBD::Pg',
+			force => 1,
+		);
 	}
 	
 	# JSON and local library installation
