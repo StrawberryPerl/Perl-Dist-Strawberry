@@ -99,7 +99,7 @@ Readonly my %LIBRARIES_S => {
 		'libxpm'        => '32bit-gcc4/libXpm-3.5.8-bin_20091126.zip',
 	},
 	'64bit-gcc4' => {
-		'patch'         => undef, '64bit-gcc4/patch-2.5.9-7-bin_20100110_20100303.zip',
+		'patch'         => '64bit-gcc4/patch-2.5.9-7-bin_20100110_20100303.zip',
 		'mysql589'      => undef,
 		'mysql5100'     => undef,
 		'mysql5101'     => undef,
