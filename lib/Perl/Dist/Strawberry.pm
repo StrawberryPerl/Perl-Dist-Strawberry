@@ -288,7 +288,7 @@ sub add_forgotten_files {
 
 	$self->add_to_fragment('Digest_HMAC_MD5', 
 		[ catfile($self->image_dir(), qw( perl site lib auto Digest HMAC .packlist )) ]
-	);
+	) if 32 == $self->bits();
 	
 	return 1;
 }
@@ -429,14 +429,14 @@ sub install_strawberry_modules_1 {
 		Win32::File
 		File::Remove
 		Win32::File::Object
-		Win32::API
 		Parse::Binary
 		Win32::Exe
 		Win32::EventLog
 	} );
+	$self->install_modules('Win32::API') if not 64 == $self->bits();
 
 	# Install additional math modules
-	$self->install_pari();
+	$self->install_pari() if not 64 == $self->bits();
 	$self->install_modules( qw{
 		Math::BigInt::GMP
 	} );
@@ -525,7 +525,7 @@ sub install_strawberry_modules_2 {
 		PAR::Repository::Query
 		PAR::Repository::Client
 	} );
-	$self->install_ppm;
+	$self->install_ppm();
 
 	my $cpan_sources = catdir($self->image_dir, 'cpan', 'sources');
 	unless (-d $cpan_sources) {
@@ -568,14 +568,19 @@ sub install_strawberry_modules_3 {
 	} ) if ($self->perl_version() >= 5100);
 	
 	# Support for other databases.
+	# DB_File had a "Permission denied" on 64-bit Win7 machine on the last test. 
+	# Could be artifact of build environment... 
+	$self->install_module(
+		name  => 'DB_File',
+		force => 1,
+	); 
 	$self->install_modules( qw{
-		DB_File
 		BerkeleyDB
 		DBD::ODBC
 	} );
 
 	if (3 == $self->gcc_version()) {
-		$self->install_dbd_mysql;
+		$self->install_dbd_mysql();
 		
 		my $install_location = $self->portable() ? q{perl\site\lib} : q{perl\vendor\lib};	
 		my $mysql_url = $self->get_library_file('mysqllib');
@@ -604,6 +609,10 @@ sub install_strawberry_modules_3 {
 	} );	
 
 	# Graphics module installation.
+# We're having heisenbugs in Imager in 64-bit because
+# the build directory can't move subdirs that exist. Ick.
+# Hoping clearing the build directory fixes things.
+	$self->_remake_path(catdir($self->image_dir(), qw(cpan build))); 
 	$self->install_module( name => 'Imager' );
 	$self->install_module( name => 'GD' );
 	
@@ -645,7 +654,7 @@ sub install_strawberry_modules_4 {
 		Net::SSLeay
 		Digest::HMAC_MD5
 		IO::Socket::SSL
-		Net::SMTP::TLS	
+		Net::SMTP::TLS
 	});
 
 	# The rest of the Net::SSH::Perl toolchain.
@@ -715,6 +724,9 @@ sub install_strawberry_modules_5 {
 	$self->install_modules( qw{
 		SOAP::Lite
 	});
+
+	# Clear things out.
+	$self->_remake_path(catdir($self->image_dir(), qw(cpan build))); 
 	
 	return 1;
 }
