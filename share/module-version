@@ -26,13 +26,17 @@ GetOptions('help|?'  => sub { pod2usage(-exitstatus => 0, -verbose => 0); },
 		   'prompt'  => \$prompt,
 		  ) or pod2usage(-verbose => 2);
 
+if (0 == scalar @ARGV) {
+	$prompt = 1;
+}
+
 if ($prompt) {
 	version();
 	print "\nPlease type in a space-separated list of modules you want to find\nthe installed versions for below.\n> ";
 	my $cmd = <STDIN>;
 	@prompted = split m{\s+}, $cmd; 
 }
-		  
+
 print "\n";
 my $version_info;
 MODULE:

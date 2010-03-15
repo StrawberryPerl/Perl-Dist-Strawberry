@@ -121,12 +121,14 @@ core.
 
 use 5.010;
 use strict;
-use parent                      qw( Perl::Dist::WiX 
-                                    Perl::Dist::Strawberry::Libraries );
-use File::Spec::Functions       qw( catfile catdir  );
-use URI::file                   qw();
-use File::ShareDir              qw();
-require Perl::Dist::WiX::Util::Machine;
+use parent                           qw( Perl::Dist::WiX 
+                                         Perl::Dist::Strawberry::Libraries );
+use File::Spec::Functions            qw( catfile catdir  );
+use URI::file                        qw();
+use File::ShareDir                   qw();
+use Perl::Dist::WiX::Util::Machine   qw();
+use File::List::Object               qw();
+use Perl::Dist::WiX::Fragment::Files qw();
 
 our $VERSION = '2.02_04';
 $VERSION =~ s/_//ms;
@@ -718,6 +720,7 @@ sub install_strawberry_modules_5 {
 	my $self = shift;
 
 	$self->install_modules( qw{
+		Module::InstalledVersion
 		Task::Weaken
 	});
 	# This is fixed by a distropref.
@@ -731,6 +734,17 @@ sub install_strawberry_modules_5 {
 	# Copy the module-version script in, and use the runperl.bat trick on it.
 	$self->_copy(catfile($self->dist_dir(), 'module-version'), catdir($self->image_dir(), qw(perl bin));
 	$self->_copy(catfile($self->image_dir(), qw(perl bin runperl.bat)), catfile($self->image_dir(), qw(perl bin module-version.bat));
+	
+	# Make sure it gets installed.
+	$self->_add_fragment('module-version',
+		Perl::Dist::WiX::Fragment::Files->new(
+			files => File::List::Object->new()->add_files(
+				catfile($self->image_dir(), qw(perl bin module-version)),
+				catfile($self->image_dir(), qw(perl bin module-version.bat)),				
+			),
+			id => 'module_version',
+		)
+	);
 	
 	return 1;
 }
