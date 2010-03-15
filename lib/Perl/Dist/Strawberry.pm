@@ -728,6 +728,10 @@ sub install_strawberry_modules_5 {
 	# Clear things out.
 	$self->_remake_path(catdir($self->image_dir(), qw(cpan build))); 
 	
+	# Copy the module-version script in, and use the runperl.bat trick on it.
+	$self->_copy(catfile($self->dist_dir(), 'module-version'), catdir($self->image_dir(), qw(perl bin));
+	$self->_copy(catfile($self->image_dir(), qw(perl bin runperl.bat)), catfile($self->image_dir(), qw(perl bin module-version.bat));
+	
 	return 1;
 }
 
@@ -745,6 +749,10 @@ sub install_strawberry_extras {
 	# Don't include this for non-Strawberry sub-classes
 	if ( ref($self) eq 'Perl::Dist::Strawberry' ) {
 		if (not $self->portable()) {
+			$self->install_launcher(
+				name => 'Check installed versions of modules',
+				bin  => 'module-version',
+			);
 			$self->install_website(
 				name       => 'Strawberry Perl Website',
 				url        => $self->strawberry_url(),
