@@ -720,7 +720,6 @@ sub install_strawberry_modules_5 {
 	my $self = shift;
 
 	$self->install_modules( qw{
-		Module::InstalledVersion
 		Task::Weaken
 	});
 	# This is fixed by a distropref.
@@ -732,8 +731,8 @@ sub install_strawberry_modules_5 {
 	$self->_remake_path(catdir($self->image_dir(), qw(cpan build))); 
 	
 	# Copy the module-version script in, and use the runperl.bat trick on it.
-	$self->_copy(catfile($self->dist_dir(), 'module-version'), catdir($self->image_dir(), qw(perl bin));
-	$self->_copy(catfile($self->image_dir(), qw(perl bin runperl.bat)), catfile($self->image_dir(), qw(perl bin module-version.bat));
+	$self->_copy(catfile($self->dist_dir(), 'module-version'), catdir($self->image_dir(), qw(perl bin)));
+	$self->_copy(catfile($self->image_dir(), qw(perl bin runperl.bat)), catfile($self->image_dir(), qw(perl bin module-version.bat)));
 	
 	# Make sure it gets installed.
 	$self->_add_fragment('module-version',
