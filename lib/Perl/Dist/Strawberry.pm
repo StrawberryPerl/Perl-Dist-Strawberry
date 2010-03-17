@@ -742,6 +742,7 @@ sub install_strawberry_modules_5 {
 				catfile($self->image_dir(), qw(perl bin module-version.bat)),				
 			),
 			id => 'module_version',
+			in_merge_module => 1,
 		)
 	);
 	
