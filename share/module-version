@@ -3,17 +3,17 @@
 use 5.008009;
 use strict;
 use warnings;
-use Module::InstalledVersion;
 use Getopt::Long 2.13 qw(GetOptions);
 use Pod::Usage qw(pod2usage);
 use English qw( -no_match_vars );
 use Config;
-use File::Spec::Functions qw(splitpath);
+use File::Spec::Functions qw(splitpath catfile);
+use Carp qw(carp);
 
 sub usage;
 sub version;
 
-our $STRING_VERSION = our $VERSION = '1.001';
+our $STRING_VERSION = our $VERSION = '1.002';
 $VERSION  =~ s/_//;
 
 my $prompt = 0;
@@ -79,8 +79,31 @@ for my $module (@ARGV, @prompted) {
 		print "The version of ActivePerl is $PERL_VERSION build number $buildnumber\n";
 		next MODULE;
 	}
+
+    my $version_info = {};
+    my $module_file = catfile(split(/::/, $module));
+
+    DIRECTORY: foreach my $dir (@INC) {
+        my $filename = catfile($dir, "$module_file.pm");
+        if (-e $filename ) {
+            $version_info->{dir} = $dir;
+            if (open IN, "$filename") {
+                while (<IN>) {
+                    # the following regexp comes from the Extutils::MakeMaker
+                    # documentation.
+                    if (/([\$*])(([\w\:\']*)\bVERSION)\b.*\=/) {
+                        local $VERSION;
+                        my $res = eval $_;
+                        $version_info->{version} = $VERSION || $res;
+                        last DIRECTORY;
+                    }
+                }
+            } else {
+                carp "Can't open $filename: $!";
+            }
+        }
+    }
 	
-	$version_info = Module::InstalledVersion->new($module);
 	if (exists $version_info->{dir}) {
 		if (exists $version_info->{version}) {
 			print "The version of $module in " . $version_info->{dir} . ' is ' . $version_info->{version} . "\n";
@@ -187,7 +210,6 @@ ActivePerl.
 Perl 5.8.9 is the mimimum version of perl that this script will run on.
 
 Other modules that this script depends on are 
-L<Module::InstalledVersion|Module::InstalledVersion>, 
 L<Getopt::Long|Getopt::Long>, L<Pod::Usage|Pod::Usage>, 
 and L<Term::ReadKey|Term::ReadKey>
 
