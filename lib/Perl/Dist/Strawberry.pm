@@ -128,7 +128,6 @@ use URI::file                        qw();
 use File::ShareDir                   qw();
 use Perl::Dist::WiX::Util::Machine   qw();
 use File::List::Object               qw();
-use Perl::Dist::WiX::Fragment::Files qw();
 
 our $VERSION = '2.02_04';
 $VERSION =~ s/_//ms;
@@ -720,6 +719,7 @@ sub install_strawberry_modules_5 {
 	my $self = shift;
 
 	$self->install_modules( qw{
+		File::Slurp
 		Task::Weaken
 	});
 	# This is fixed by a distropref.
@@ -735,15 +735,23 @@ sub install_strawberry_modules_5 {
 	$self->_copy(catfile($self->image_dir(), qw(perl bin runperl.bat)), catfile($self->image_dir(), qw(perl bin module-version.bat)));
 	
 	# Make sure it gets installed.
-	$self->_add_fragment('module-version',
-		Perl::Dist::WiX::Fragment::Files->new(
-			files => File::List::Object->new()->add_files(
-				catfile($self->image_dir(), qw(perl bin module-version)),
-				catfile($self->image_dir(), qw(perl bin module-version.bat)),				
-			),
-			id => 'module_version',
-			in_merge_module => 1,
-		)
+	$self->insert_fragment('module-version',
+		File::List::Object->new()->add_files(
+			catfile($self->image_dir(), qw(perl bin module-version)),
+			catfile($self->image_dir(), qw(perl bin module-version.bat)),				
+		),
+	);
+
+	# Copy the relocation information in.
+	$self->_copy(catfile($self->dist_dir(), 'relocation.pl'), $self->image_dir());
+	$self->patch_file('relocation.txt', $self->image_dir());
+	
+	# Make sure it gets installed.
+	$self->insert_fragment('module-version',
+		File::List::Object->new()->add_files(
+			catfile($self->image_dir(), qw(perl bin module-version)),
+			catfile($self->image_dir(), qw(perl bin module-version.bat)),				
+		),
 	);
 	
 	return 1;
