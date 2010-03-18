@@ -67,7 +67,9 @@ foreach my $file (@files) {
 	
 	print "\nRelocating files from $old_location to $new_location\n" if not $quiet;
 	
+  LINE:
 	foreach my $line (@lines) {
+		next LINE if $line eq "\n";
 		$ok = relocate_file($old_location, $new_location, $quiet, split /:/, $line);
 		if (not $ok) {
 			carp "Could not relocate $file.\n" if not $quiet;

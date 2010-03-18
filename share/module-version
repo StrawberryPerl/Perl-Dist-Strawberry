@@ -171,7 +171,7 @@ module-version - Gets the version of a module
 
 =head1 VERSION
 
-This document describes module-version version 1.000.
+This document describes module-version version 1.002.
 
 =head1 DESCRIPTION
 
