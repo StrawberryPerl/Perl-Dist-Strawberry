@@ -742,17 +742,19 @@ sub install_strawberry_modules_5 {
 		),
 	);
 
-	# Copy the relocation information in.
-	$self->_copy(catfile($self->dist_dir(), 'relocation.pl'), $self->image_dir());
-	$self->patch_file('relocation.txt', $self->image_dir());
-	
-	# Make sure it gets installed.
-	$self->insert_fragment('module-version',
-		File::List::Object->new()->add_files(
-			catfile($self->image_dir(), qw(perl bin module-version)),
-			catfile($self->image_dir(), qw(perl bin module-version.bat)),				
-		),
-	);
+	if ($self->relocatable()) {
+		# Copy the relocation information in.
+		$self->_copy(catfile($self->dist_dir(), 'relocation.pl'), $self->image_dir());
+		$self->patch_file('relocation.txt', $self->image_dir());
+		
+		# Make sure it gets installed.
+		$self->insert_fragment('relocation',
+			File::List::Object->new()->add_files(
+				catfile($self->image_dir(), qw(perl bin module-version)),
+				catfile($self->image_dir(), qw(perl bin module-version.bat)),				
+			),
+		);
+	}
 	
 	return 1;
 }
