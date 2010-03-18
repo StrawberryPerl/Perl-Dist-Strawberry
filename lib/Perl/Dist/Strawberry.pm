@@ -842,6 +842,18 @@ sub strawberry_release_notes_url {
 	return "http://strawberryperl.com/release-notes/$path.html";
 }
 
+sub msi_relocation_commandline_files {
+	my $self = shift;
+	
+	return('relocation_info', catfile($self->image_dir(), 'strawberry-merge-module.reloc.txt'));
+}
+
+sub msm_relocation_commandline_files {
+	my $self = shift;
+	
+	return('relocation_ui_info', catfile($self->image_dir(), 'strawberry-ui.reloc.txt'));
+}
+
 1;
 
 =pod
