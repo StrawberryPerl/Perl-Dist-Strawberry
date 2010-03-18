@@ -610,9 +610,6 @@ sub install_strawberry_modules_3 {
 	} );	
 
 	# Graphics module installation.
-# We're having heisenbugs in Imager in 64-bit because
-# the build directory can't move subdirs that exist. Ick.
-# Hoping clearing the build directory fixes things.
 	$self->_remake_path(catdir($self->image_dir(), qw(cpan build))); 
 	$self->install_module( name => 'Imager' );
 	$self->install_module( name => 'GD' );
@@ -718,6 +715,7 @@ sub install_strawberry_modules_4 {
 sub install_strawberry_modules_5 {
 	my $self = shift;
 
+	# These are common requests.
 	$self->install_modules( qw{
 		File::Slurp
 		Task::Weaken
@@ -729,6 +727,8 @@ sub install_strawberry_modules_5 {
 
 	# Clear things out.
 	$self->_remake_path(catdir($self->image_dir(), qw(cpan build))); 
+	
+	## Now let's copy individual files in.
 	
 	# Copy the module-version script in, and use the runperl.bat trick on it.
 	$self->_copy(catfile($self->dist_dir(), 'module-version'), catdir($self->image_dir(), qw(perl bin)));
