@@ -735,7 +735,7 @@ sub install_strawberry_modules_5 {
 	$self->_copy(catfile($self->image_dir(), qw(perl bin runperl.bat)), catfile($self->image_dir(), qw(perl bin module-version.bat)));
 	
 	# Make sure it gets installed.
-	$self->insert_fragment('module-version',
+	$self->insert_fragment('module_version',
 		File::List::Object->new()->add_files(
 			catfile($self->image_dir(), qw(perl bin module-version)),
 			catfile($self->image_dir(), qw(perl bin module-version.bat)),				
