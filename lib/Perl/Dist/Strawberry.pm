@@ -750,12 +750,12 @@ sub install_strawberry_modules_5 {
 		# Make sure it gets installed.
 		$self->insert_fragment('relocation',
 			File::List::Object->new()->add_files(
-				catfile($self->image_dir(), qw(perl bin module-version)),
-				catfile($self->image_dir(), qw(perl bin module-version.bat)),				
+				catfile($self->image_dir(), 'relocation.pl')),
+				catfile($self->image_dir(), 'relocation.txt')),				
 			),
 		);
 	}
-	
+
 	return 1;
 }
 
