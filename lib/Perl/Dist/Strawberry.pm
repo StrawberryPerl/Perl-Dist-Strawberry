@@ -254,6 +254,7 @@ sub new {
 			'install_win32_extras',
 			'install_strawberry_extras',
 			'install_portable',
+			'install_relocatable',
 			'remove_waste',
 			'create_distribution_list',
 			'regenerate_fragments',
