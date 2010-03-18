@@ -744,14 +744,12 @@ sub install_strawberry_modules_5 {
 
 	if ($self->relocatable()) {
 		# Copy the relocation information in.
-		$self->_copy(catfile($self->dist_dir(), 'relocation.pl'), $self->image_dir());
-		$self->patch_file('relocation.txt', $self->image_dir());
+		$self->patch_file('strawberry-merge-module.reloc.txt', $self->image_dir());
 		
 		# Make sure it gets installed.
-		$self->insert_fragment('relocation',
-			File::List::Object->new()->add_files(
-				catfile($self->image_dir(), 'relocation.pl'),
-				catfile($self->image_dir(), 'relocation.txt'),				
+		$self->insert_fragment('relocation_info',
+			File::List::Object->new()->add_file(
+				catfile($self->image_dir(), 'strawberry-merge-module.reloc.txt'),				
 			),
 		);
 	}
@@ -807,6 +805,19 @@ sub install_strawberry_extras {
 			[ $license_file_to, $readme_file ] );
 	}
 
+	if ($self->relocatable()) {
+		# Copy the relocation information in.
+		$self->patch_file('strawberry-ui.reloc.txt', $self->image_dir());
+		
+		# Make sure it gets installed.
+		$self->insert_fragment('relocation_ui_info',
+			File::List::Object->new()->add_file(
+				catfile($self->image_dir(), 'strawberry-ui.reloc.txt'),				
+			),
+		);
+	}
+
+	
 	return 1;
 }
 
