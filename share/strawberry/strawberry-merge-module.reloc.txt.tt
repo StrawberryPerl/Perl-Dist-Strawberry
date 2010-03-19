@@ -138,7 +138,7 @@ perl\vendor\lib\auto\YAML\Tiny\.packlist:backslash
 perl\vendor\lib\ppm.xml:backslash
 [% IF 589 != self.perl_version %]perl\lib\CPANPLUS\Config.pm:backslash[% END %]
 [% IF 4 != self.gcc_version %]perl\lib\DBD\mysql\.packlist:backslash[% END %]
-[% IF 32 != self.bits %]
+[% IF 64 != self.bits %]
 perl\vendor\lib\auto\Algorithm\Diff\.packlist:backslash
 perl\vendor\lib\auto\Class\ErrorHandler\.packlist:backslash
 perl\vendor\lib\auto\Convert\ASCII\Armour\.packlist:backslash
