@@ -248,13 +248,15 @@ sub new {
 			'install_strawberry_modules_3',
 			'install_strawberry_modules_4',
 			'install_strawberry_modules_5',
+			'install_strawberry_files',
 			'add_forgotten_files',
+			'install_relocatable',
 			'regenerate_fragments',
+			'find_relocatable_fields',
 			'write_merge_module',
 			'install_win32_extras',
 			'install_strawberry_extras',
 			'install_portable',
-			'install_relocatable',
 			'remove_waste',
 			'create_distribution_list',
 			'regenerate_fragments',
@@ -728,6 +730,12 @@ sub install_strawberry_modules_5 {
 
 	# Clear things out.
 	$self->_remake_path(catdir($self->image_dir(), qw(cpan build))); 
+
+	return 1;
+}
+
+sub install_strawberry_files {
+	my $self = shift;
 	
 	## Now let's copy individual files in.
 	
@@ -767,7 +775,7 @@ sub install_strawberry_extras {
 	my $self = shift;
 
 	my $dist_dir = File::ShareDir::dist_dir('Perl-Dist-Strawberry');
-	
+
 	# Links to the Strawberry Perl website.
 	# Don't include this for non-Strawberry sub-classes
 	if ( ref($self) eq 'Perl::Dist::Strawberry' ) {
@@ -846,13 +854,13 @@ sub strawberry_release_notes_url {
 sub msi_relocation_commandline_files {
 	my $self = shift;
 	
-	return('relocation_info', catfile($self->image_dir(), 'strawberry-merge-module.reloc.txt'));
+	return('relocation_ui_info', catfile($self->image_dir(), 'strawberry-ui.reloc.txt'));
 }
 
 sub msm_relocation_commandline_files {
 	my $self = shift;
 	
-	return('relocation_ui_info', catfile($self->image_dir(), 'strawberry-ui.reloc.txt'));
+	return('relocation_info', catfile($self->image_dir(), 'strawberry-merge-module.reloc.txt'));
 }
 
 1;
