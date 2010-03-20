@@ -1,9 +1,14 @@
 Changes for Perl extension Perl-Dist-Strawberry
 
-2.02_04 To be released
+2.02_04 Sat 20 Mar 2010
+    - This release corresponds to Strawberry Perl April 2010 Beta 1.
     - Changing $Config{installsitebin} to perl/site/bin directory.
     - Installing updated version of PPM that fixes bug RT#44584,
       and a site/lib dependency for the ppm.xml file.
+    - Adding module-version script.
+    - Adding ability to relocate (only works with 5.11.5 so far)
+    - Adding ability to build against 5.11.5.
+    - Updating to new versions of most libraries.
 
 2.02_03 Fri 19 Feb 2010
 	- Release script is locking up.  Changed it and trying again.
