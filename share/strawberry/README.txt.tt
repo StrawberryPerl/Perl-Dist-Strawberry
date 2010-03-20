@@ -20,7 +20,7 @@ Installation instructions: (.zip distribution only)
   variables:
 
   cd <directory>
-  perl\bin\perl.exe relocation.pl --file relocation.txt
+  perl\bin\perl.exe relocation.pl
   set PATH=%PATH%;<directory>\c\bin;<directory>\perl\bin
   set TERM=dumb
 
