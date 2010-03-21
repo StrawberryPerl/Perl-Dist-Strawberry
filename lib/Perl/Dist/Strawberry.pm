@@ -158,7 +158,6 @@ sub default_machine {
 	# Create the machine
 	my $machine = Perl::Dist::WiX::Util::Machine->new(
 		class => $class,
-		skip  => [6],
 		@_,
 	);
 
@@ -173,18 +172,13 @@ sub default_machine {
 	);
 	$machine->add_option('version',
 		perl_version => '5101',
-		portable     => 1,
-	);
-
-	# Set the different paths
-	$machine->add_dimension('drive');
-	$machine->add_option('drive',
-		image_dir => 'C:\strawberry',
-	);
-	$machine->add_option('drive',
 		image_dir => 'D:\strawberry',
 		msi       => 1,
 		zip       => 0,
+	);
+	$machine->add_option('version',
+		perl_version => '5101',
+		portable     => 1,
 	);
 
 	return $machine;
@@ -846,7 +840,7 @@ sub strawberry_release_notes_url {
 	my $self = shift;
 	my $path = $self->perl_version_human()
 		. q{.} . $self->build_number()
-		. ($self->beta_number() ? '.beta' : '');
+		. ($self->beta_number() ? '.beta-' . $self->beta_number() : '');
 
 	return "http://strawberryperl.com/release-notes/$path.html";
 }
