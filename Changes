@@ -1,5 +1,10 @@
 Changes for Perl extension Perl-Dist-Strawberry
 
+2.02_05 Mon 22 Mar 2010
+    - This release corresponds to the 5.12.0-RC0 builds of
+      Strawberry Perl April 2010 Beta 1.
+    - Adding ability to build against 5.12.0-RC0.
+
 2.02_04 Sat 20 Mar 2010
     - This release corresponds to Strawberry Perl April 2010 Beta 1.
     - Changing $Config{installsitebin} to perl/site/bin directory.

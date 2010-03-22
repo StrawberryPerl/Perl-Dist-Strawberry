@@ -129,7 +129,7 @@ use File::ShareDir                   qw();
 use Perl::Dist::WiX::Util::Machine   qw();
 use File::List::Object               qw();
 
-our $VERSION = '2.02_04';
+our $VERSION = '2.02_05';
 $VERSION =~ s/_//ms;
 
 #####################################################################
@@ -139,7 +139,7 @@ $VERSION =~ s/_//ms;
 
 =head2 default_machine
 
-  Perl::Dist::Strawberry->default_machine->run;
+  Perl::Dist::Strawberry->default_machine(...)->run();
   
 The C<default_machine> class method is used to setup the most common
 machine for building Strawberry Perl.
@@ -196,7 +196,7 @@ sub new {
 	my $dist_dir = File::ShareDir::dist_dir('Perl-Dist-Strawberry');
 	my $class = shift;
 	
-	if ($Perl::Dist::WiX::VERSION < '1.102100') {
+	if ($Perl::Dist::WiX::VERSION < '1.102102') {
 		PDWiX->throw('Perl::Dist::WiX version is not high enough.')
 	}
 

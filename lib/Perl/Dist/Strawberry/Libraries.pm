@@ -36,7 +36,7 @@ use warnings;
 use File::Spec::Functions qw( catfile catdir );
 use Readonly;
 
-our $VERSION = '2.02_04';
+our $VERSION = '2.02_05';
 $VERSION =~ s/_//ms;
 
 Readonly my %LIBRARIES_S => {
@@ -46,11 +46,13 @@ Readonly my %LIBRARIES_S => {
 		'mysql5100'     => 'DBD-mysql-4.012-MSWin32-x86-multi-thread-5.10.0.par',
 		'mysql5101'     => 'DBD-mysql-4.012-MSWin32-x86-multi-thread-5.10.0.par',
 		'mysql5115'     => undef,
+		'mysql5120'     => undef,
 		'mysqllib'      => '32bit-gcc3/MySQLLibraries-20100121.zip',
 		'pari589'       => 'Math-Pari-2.010801-MSWin32-x86-multi-thread-5.8.9.par',
 		'pari5100'      => '32bit-gcc3/Math-Pari-2.01080603-MSWin32-x86-multi-thread-5.10.1.par',
 		'pari5101'      => '32bit-gcc3/Math-Pari-2.01080603-MSWin32-x86-multi-thread-5.10.1.par',
 		'pari5115'      => '32bit-gcc3/Math-Pari-2.01080603-MSWin32-x86-multi-thread-5.11.5.par',
+		'pari5120'      => undef,
 		'zlib'          => '32bit-gcc4/zlib-1.2.3-bin_20091126.zip',
 		'libiconv'      => '32bit-gcc4/libiconv-1.13.1-bin_20091126.zip',
 		'libxml2'       => '32bit-gcc4/libxml2-2.7.3-bin_20091126.zip',
@@ -75,11 +77,13 @@ Readonly my %LIBRARIES_S => {
 		'mysql5100'     => undef,
 		'mysql5101'     => undef,
 		'mysql5115'     => undef,
+		'mysql5120'     => undef,
 		'mysqllib'      => '32bit-gcc3/MySQLLibraries-20100121.zip',
 		'pari589'       => undef,
 		'pari5100'      => undef,
 		'pari5101'      => undef,
 		'pari5115'      => '32bit-gcc4/Math-Pari-2.01080604-MSWin32-x86-multi-thread-5.11.5.par',
+		'pari5120'      => '32bit-gcc4/Math-Pari-2.01080604-MSWin32-x86-multi-thread-5.12.0.par',
 		'zlib'          => '32bit-gcc4/zlib-1.2.3-bin_20091126.zip',
 		'libiconv'      => '32bit-gcc4/libiconv-1.13.1-bin_20091126.zip',
 		'libxml2'       => '32bit-gcc4/libxml2-2.7.3-bin_20091126.zip',
@@ -104,11 +108,13 @@ Readonly my %LIBRARIES_S => {
 		'mysql5100'     => undef,
 		'mysql5101'     => undef,
 		'mysql5115'     => undef,
+		'mysql5120'     => undef,
 		'mysqllib'      => undef,
 		'pari589'       => undef,
 		'pari5100'      => undef,
 		'pari5101'      => undef,
 		'pari5115'      => undef,
+		'pari5120'      => undef,
 		'zlib'          => '64bit-gcc4/zlib-1.2.3-bin_20100110.zip',
 		'libiconv'      => '64bit-gcc4/libiconv-1.13.1-bin_20100110.zip',
 		'libxml2'       => '64bit-gcc4/libxml2-2.7.3-bin_20100110.zip',
