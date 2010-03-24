@@ -279,10 +279,6 @@ sub app_ver_name {
 
 sub add_forgotten_files {
 	my $self = shift;
-	
-	$self->add_to_fragment('IO_Scalar', 
-		[ catfile($self->image_dir(), qw( perl site lib auto IO Stringy .packlist )) ]
-	);
 
 	$self->add_to_fragment('Digest_HMAC_MD5', 
 		[ catfile($self->image_dir(), qw( perl site lib auto Digest HMAC .packlist )) ]
@@ -496,7 +492,7 @@ sub install_strawberry_modules_2 {
 		Test::Tester
 		Test::NoWarnings
 		Test::Deep
-		IO::Scalar
+		IO::Stringy
 	} );
 	
 	if ($self->portable()) {
