@@ -43,6 +43,7 @@ perl\lib\auto\Module\Load\.packlist:backslash
 perl\lib\auto\Module\Load\Conditional\.packlist:backslash
 perl\lib\auto\Safe\.packlist:backslash
 perl\lib\auto\Term\ANSIColor\.packlist:backslash
+perl\lib\auto\Term\ReadLine\.packlist:backslash
 perl\lib\auto\Test\Harness\.packlist:backslash
 perl\lib\auto\threads\.packlist:backslash
 perl\lib\auto\threads\shared\.packlist:backslash
@@ -110,7 +111,6 @@ perl\vendor\lib\auto\SOAP\Lite\.packlist:backslash
 perl\vendor\lib\auto\Sub\Uplevel\.packlist:backslash
 perl\vendor\lib\auto\Task\Weaken\.packlist:backslash
 perl\vendor\lib\auto\Term\ReadKey\.packlist:backslash
-perl\vendor\lib\auto\Term\ReadLine\.packlist:backslash
 perl\vendor\lib\auto\Test\Deep\.packlist:backslash
 perl\vendor\lib\auto\Test\NoWarnings\.packlist:backslash
 perl\vendor\lib\auto\Test\Script\.packlist:backslash
