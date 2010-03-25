@@ -280,10 +280,6 @@ sub app_ver_name {
 sub add_forgotten_files {
 	my $self = shift;
 
-	$self->add_to_fragment('Digest_HMAC_MD5', 
-		[ catfile($self->image_dir(), qw( perl site lib auto Digest HMAC .packlist )) ]
-	) if 32 == $self->bits();
-	
 	return 1;
 }
 
@@ -643,7 +639,7 @@ sub install_strawberry_modules_4 {
 	
 	$self->install_modules( qw{
 		Net::SSLeay
-		Digest::HMAC_MD5
+		Digest::HMAC
 		IO::Socket::SSL
 		Net::SMTP::TLS
 	});
