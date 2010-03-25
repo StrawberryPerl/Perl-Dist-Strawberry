@@ -290,9 +290,10 @@ sub output_base_filename {
 	'strawberry-perl'
 		. '-' . $_[0]->perl_version_human()
 		. '.' . $_[0]->build_number()
-		. ($_[0]->image_dir() =~ /^d:/i ? '-ddrive' : '')
-		. ($_[0]->portable() ? '-portable' : '')
-		. ($_[0]->beta_number() ? '-beta-' . $_[0]->beta_number() : '')
+		. ($_[0]->image_dir() =~ /^d:/i ? '-ddrive' : q{})
+		. ($_[0]->portable() ? '-portable' : q{})
+		. ( 64 == $_[0]->bits() ) ? q{-64bit} : q{})
+		. ($_[0]->beta_number() ? '-beta-' . $_[0]->beta_number() : q{})
 }
 
 
