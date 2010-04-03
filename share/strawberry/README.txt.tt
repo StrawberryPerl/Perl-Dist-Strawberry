@@ -21,7 +21,7 @@ Installation instructions: (.zip distribution only)
 
   cd <directory>
   perl\bin\perl.exe relocation.pl
-  set PATH=%PATH%;<directory>\c\bin;<directory>\perl\bin;<directory>\perl\site\bin
+  set PATH=%PATH%;<directory>\c\bin;<directory>\perl\site\bin;<directory>\perl\bin
   set TERM=dumb
 
   (You probably should set the last two entries in your environment 
@@ -36,7 +36,7 @@ Installation instructions: (.zip distribution only)
 * If installing this version from a .zip file, you MUST install it to
   [% dist.image_dir %]\ and then manually set some environment variables:
 
-  set PATH=%PATH%;[% dist.image_dir %]\c\bin;[% dist.image_dir %]\perl\bin;[% dist.image_dir %]\perl\site\bin
+  set PATH=%PATH%;[% dist.image_dir %]\c\bin;[% dist.image_dir %]\perl\site\bin;[% dist.image_dir %]\perl\bin
   set TERM=dumb
 
   (You probably should set the last two entries in your environment 
