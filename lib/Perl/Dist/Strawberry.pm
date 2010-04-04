@@ -315,34 +315,47 @@ sub install_strawberry_c_libraries {
 	my $self = shift;
 
 	# XML Libraries
-	$self->install_zlib();
-	$self->install_libiconv();
-	$self->install_libxml();
-	$self->install_expat();
-	$self->install_libxslt();
+	$self->install_librarypacks(qw{
+		zlib
+		libiconv
+		libxml2
+		libexpat
+		libxslt
+	});
 
 	# Math Libraries
-	$self->install_gmp();
+	$self->install_librarypacks(qw{
+		gmp
+		mpc
+		mpfr
+	});
 
 	# Graphics libraries
-	$self->install_libjpeg();
-	$self->install_libgif();
-	$self->install_libtiff();
-	$self->install_libpng();
-	$self->install_libgd();
-	$self->install_libfreetype();
-	$self->install_libxpm();	
+	$self->install_librarypacks(qw{
+		libjpeg
+		libgif
+		libtiff
+		libpng
+		libgd
+		libfreetype
+		libxpm
+	});	
 	
 	# Database Libraries
-	$self->install_libdb();
-	$self->install_libgdbm();
+	$self->install_librarypacks(qw{
+		libdb
+		libgdbm
+	});
  	if (32 == $self->bits()) {
-		$self->install_libpostgresql();
+		$self->install_librarypack('libpostgresql');
 	}
 
+	# Extra compression libraries
+	$self->install_librarypack('libxz');
+
 	# Crypto libraries
-	$self->install_libopenssl();
-	
+	$self->install_librarypack('libopenssl');
+
 	return 1;
 }
 
@@ -600,7 +613,6 @@ sub install_strawberry_modules_3 {
 	} );	
 
 	# Graphics module installation.
-	$self->_remake_path(catdir($self->image_dir(), qw(cpan build))); 
 	$self->install_module( name => 'Imager' );
 	$self->install_module( name => 'GD' );
 	
@@ -709,14 +721,11 @@ sub install_strawberry_modules_5 {
 	$self->install_modules( qw{
 		File::Slurp
 		Task::Weaken
-	});
-	# This is fixed by a distropref.
-	$self->install_modules( qw{
 		SOAP::Lite
 	});
 
 	# Clear things out.
-	$self->_remake_path(catdir($self->image_dir(), qw(cpan build))); 
+	$self->remake_path($self->dir(qw(cpan build))); 
 
 	return 1;
 }
@@ -727,14 +736,14 @@ sub install_strawberry_files {
 	## Now let's copy individual files in.
 	
 	# Copy the module-version script in, and use the runperl.bat trick on it.
-	$self->_copy(catfile($self->dist_dir(), 'module-version'), catdir($self->image_dir(), qw(perl bin)));
-	$self->_copy(catfile($self->image_dir(), qw(perl bin runperl.bat)), catfile($self->image_dir(), qw(perl bin module-version.bat)));
+	$self->copy(catfile($self->dist_dir(), 'module-version'), $self->dir(qw(perl bin)));
+	$self->copy($self->file(qw(perl bin runperl.bat)), $self->file(qw(perl bin module-version.bat)));
 	
 	# Make sure it gets installed.
 	$self->insert_fragment('module_version',
 		File::List::Object->new()->add_files(
-			catfile($self->image_dir(), qw(perl bin module-version)),
-			catfile($self->image_dir(), qw(perl bin module-version.bat)),				
+			$self->file(qw(perl bin module-version)),
+			$self->file(qw(perl bin module-version.bat)),				
 		),
 	);
 
@@ -745,7 +754,7 @@ sub install_strawberry_files {
 		# Make sure it gets installed.
 		$self->insert_fragment('relocation_info',
 			File::List::Object->new()->add_file(
-				catfile($self->image_dir(), 'strawberry-merge-module.reloc.txt'),				
+				$self->file('strawberry-merge-module.reloc.txt'),				
 			),
 		);
 	}
@@ -757,6 +766,10 @@ sub install_strawberry_files {
 
 #####################################################################
 # Customisations to Windows assets
+
+sub _dist_file {
+	return File::ShareDir::dist_file('Perl-Dist-Strawberry', @_);
+}
 
 sub install_strawberry_extras {
 	my $self = shift;
@@ -774,18 +787,18 @@ sub install_strawberry_extras {
 			$self->install_website(
 				name       => 'Strawberry Perl Website',
 				url        => $self->strawberry_url(),
-				icon_file  => catfile($dist_dir, 'strawberry.ico')
+				icon_file  => _dist_file('strawberry.ico')
 			);
 			$self->install_website(
 				name       => 'Strawberry Perl Release Notes',
 				url        => $self->strawberry_release_notes_url(),
-				icon_file  => catfile($dist_dir, 'strawberry.ico')
+				icon_file  => _dist_file('strawberry.ico')
 			);
 			# Link to IRC.
 			$self->install_website(
 				name       => 'Live Support',
 				url        => 'http://widget.mibbit.com/?server=irc.perl.org&channel=%23win32',
-				icon_file  => catfile($dist_dir, 'onion.ico')
+				icon_file  => _dist_file('onion.ico')
 			);
 		}
 		$self->patch_file( 'README.txt' => $self->image_dir(), { dist => $self } );
@@ -793,10 +806,10 @@ sub install_strawberry_extras {
 
 	my $license_file_from = catfile($dist_dir, 'License.rtf');
 	my $license_file_to = catfile($self->license_dir(), 'License.rtf');
-	my $readme_file = catfile($self->image_dir(), 'README.txt');
+	my $readme_file = $self->file('README.txt');
 
-	my $onion_ico_file = catfile($self->image_dir(), qw(win32 onion.ico));
-	my $strawberry_ico_file = catfile($self->image_dir(), qw(win32 strawberry.ico));
+	my $onion_ico_file = $self->file(qw(win32 onion.ico));
+	my $strawberry_ico_file = $self->file(qw(win32 strawberry.ico));
 	
 	$self->_copy($license_file_from, $license_file_to);	
 	if (not $self->portable()) {
@@ -811,7 +824,7 @@ sub install_strawberry_extras {
 		# Make sure it gets installed.
 		$self->insert_fragment('relocation_ui_info',
 			File::List::Object->new()->add_file(
-				catfile($self->image_dir(), 'strawberry-ui.reloc.txt'),				
+				$self->file('strawberry-ui.reloc.txt'),				
 			),
 		);
 	}
@@ -844,13 +857,13 @@ sub strawberry_release_notes_url {
 sub msi_relocation_commandline_files {
 	my $self = shift;
 	
-	return('relocation_ui_info', catfile($self->image_dir(), 'strawberry-ui.reloc.txt'));
+	return('relocation_ui_info', $self->file('strawberry-ui.reloc.txt'));
 }
 
 sub msm_relocation_commandline_files {
 	my $self = shift;
 	
-	return('relocation_info', catfile($self->image_dir(), 'strawberry-merge-module.reloc.txt'));
+	return('relocation_info', $self->file('strawberry-merge-module.reloc.txt'));
 }
 
 1;

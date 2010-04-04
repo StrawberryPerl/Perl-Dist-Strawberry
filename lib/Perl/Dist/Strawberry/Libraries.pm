@@ -78,7 +78,7 @@ Readonly my %LIBRARIES_S => {
 		'mysql5101'     => undef,
 		'mysql5115'     => undef,
 		'mysql5120'     => undef,
-		'mysqllib'      => '32bit-gcc3/MySQLLibraries-20100121.zip',
+		'mysqllib'      => '32bit-gcc4/mysql-5.1.44-bin_20100304.zip',
 		'pari589'       => undef,
 		'pari5100'      => undef,
 		'pari5101'      => undef,
@@ -101,6 +101,9 @@ Readonly my %LIBRARIES_S => {
 		'libdb'         => '32bit-gcc4/db-4.8.24-bin_20091126.zip',
 		'libgdbm'       => '32bit-gcc4/gdbm-1.8.3-bin_20100112.zip',
 		'libxpm'        => '32bit-gcc4/libXpm-3.5.8-bin_20091126.zip',
+		'libxz'         => '32bit-gcc4/liblzma-xz-4.999.9beta-bin_20100308.zip'
+		'mpc'           => '32bit-gcc4/mpc-0.8.1-bin_20100306.zip'
+		'mpfr'          => '32bit-gcc4/mpfr-2.4.2-bin_20100306.zip'
 	},
 	'64bit-gcc4' => {
 		'patch'         => '64bit-gcc4/patch-2.5.9-7-bin_20100110_20100303.zip',
@@ -196,7 +199,7 @@ sub get_library_file_versioned {
 
 =head2 install_patch
 
-  $dist->install_patch;
+  $dist->install_patch();
 
 The C<install_patch> method can be used to install a copy of the Unix
 patch program into the distribution.
@@ -213,8 +216,7 @@ sub install_patch {
 		install_to => q{.},
 		url        => $self->_binary_url($self->get_library_file('patch')),
 	);
-	$self->{bin_patch} = File::Spec->catfile(
-		$self->image_dir, 'c', 'bin', 'patch.exe',
+	$self->{bin_patch} = $self->file(qw(c bin patch.exe)),
 	);
 	unless ( -x $self->bin_patch() ) {
 		die "Can't execute patch";
@@ -229,7 +231,7 @@ sub install_patch {
 
 =head2 bin_patch
 
-  $dist->bin_patch;
+  $dist->bin_patch();
 
 The C<bin_patch> method returns the location of the patch.exe file 
 installed by L</install_patch>.
@@ -255,7 +257,7 @@ sub install_ppm {
 	my $self = shift;
 
 	# Where should the ppm build directory be
-	my $ppmdir = catdir( $self->image_dir(), 'ppm', );
+	my $ppmdir = $self->dir('ppm');
 	if ( -d $ppmdir ) {
 		die("PPM build directory '$ppmdir' already exists");
 	}
@@ -352,17 +354,15 @@ sub install_win32_manifest {
 END_MANIFEST
 
 	# Write the manifest
-	my $file = File::Spec->catfile( $self->image_dir(), @_ );
+	my $file = $self->file(@_);
 	unless ( -f $file ) {
 		die "Program $file does not exist";
 	}
 
-	SCOPE: {
-		local *FILE;
-		open( FILE, '>', "$file.manifest" ) or die "open: $!";
-		print FILE $manifest                or die "print: $!";
-		close( FILE )                       or die "close: $!";
-	}
+	my $manifest_file;
+	open $manifest_file, '>', "$file.manifest" or die "open: $!";
+	print { $manifest_file } $manifest         or die "print: $!";
+	close $manifest_file                       or die "close: $!";
 
 	return 1;	
 }
@@ -371,7 +371,7 @@ END_MANIFEST
 
 =head2 install_dbd_mysql
 
-  $dist->install_dbd_mysql;
+  $dist->install_dbd_mysql();
 
 Installs DBD::mysql from the PAR files on the Strawberry Perl web site.
 
@@ -391,9 +391,9 @@ sub install_dbd_mysql {
 
 =pod
 
-=head3 install_pari
+=head2 install_pari
 
-  $dist->install_pari
+  $dist->install_pari()
 
 The C<install_pari> method install (via a PAR package) libpari and the
 L<Math::Pari> module into the distribution.
@@ -415,331 +415,55 @@ sub install_pari {
 	return 1;
 } ## end sub install_pari
 
-=pod
-
-=head2 install_zlib
-
-  $dist->install_zlib
-
-The C<install_zlib> method installs the B<GNU zlib> compression library
-into the distribution, and is typically installed during "C toolchain"
-build phase.
-
-It provides the appropriate arguments to a C<install_library> call that
-will extract the standard zlib win32 package, and generate the additional
-files that Perl needs.
-
-Returns true or throws an exception on error.
-
-=cut
-
-sub install_zlib {
-	my $self = shift;
-
-	my $filelist = $self->install_binary(
-		name      => 'zlib',
-		install_to => q{.},
-		url       => $self->_binary_url($self->get_library_file('zlib')),
-	);
-
-	$self->insert_fragment( 'zlib', $filelist );
-
-	return 1;
-} ## end sub install_zlib
-
-=pod
-
-=head2 install_libiconv
-
-  $dist->install_libiconv
-
-The C<install_libiconv> method installs the C<GNU libiconv> library,
-which is used for various character encoding tasks, and is needed for
-other libraries such as C<libxml>.
-
-Returns true or throws an exception on error.
-
-=cut
-
-sub install_libiconv {
-	my $self     = shift;
-
-	my $filelist = $self->install_binary( 
-		name => 'libiconv', 
-		install_to => q{.},
-		url  => $self->_binary_url($self->get_library_file('libiconv')),
-	);
-
-	$self->insert_fragment( 'libiconv', $filelist );
-
-	return 1;
-} ## end sub install_libiconv
 
 
 =pod
 
-=head2 install_libxml
+=head2 install_librarypack
 
-  $dist->install_libxml
+  $dist->install_librarypack('zlib')
 
-The C<install_libxml> method installs the C<Gnome libxml> library,
-which is a fast, reliable, XML parsing library, and the new standard
-library for XML parsing.
-
-Returns true or throws an exception on error.
+The C<install_librarypack> method installs a library defined in 
+C<%Perl::Dist::Strawberry::LIBRARIES_S>.
 
 =cut
 
-sub install_libxml {
+sub install_librarypack {
 	my $self = shift;
-
+	my $library = shift;
+	
 	my $filelist = $self->install_binary(
-		name       => 'libxml2',
-		install_to => q{.},
-		url        => $self->_binary_url($self->get_library_file('libxml2')),
+		name       => $library,
+		url        => $self->_binary_url($self->get_library_file($library)),
+		install_to => q{.}
 	);
+	$self->insert_fragment($library, $filelist);
 
-	$self->insert_fragment( 'libxml', $filelist );
 
 	return 1;
-} ## end sub install_libxml
+}
+
+
 
 =pod
 
-=head2 install_expat
+=head2 install_librarypacks
 
-  $dist->install_expat
+  $dist->install_librarypacks(qw{zlib libiconv})
 
-The C<install_expat> method installs the C<Expat> XML library,
-which was the first popular C XML parser. Many Perl XML libraries
-are based on Expat.
-
-Returns true or throws an exception on error.
+The C<install_librarypacks> method installs a list of libraries defined 
+in C<%Perl::Dist::Strawberry::LIBRARIES_S>.
 
 =cut
 
-sub install_expat {
+sub install_librarypacks {
 	my $self = shift;
 
-	my $filelist = $self->install_binary(
-		name       => 'libexpat',
-		install_to => q{.},
-		url        => $self->_binary_url($self->get_library_file('libexpat')),
-	);
-
-	$self->insert_fragment( 'libexpat', $filelist );
-
-	return 1;
-} ## end sub install_expat
-
-=pod
-
-=head2 install_gmp
-
-  $dist->install_gmp
-
-The C<install_gmp> method installs the C<GNU Multiple Precision Arithmetic
-Library>, which is used for fast and robust bignum support.
-
-Returns true or throws an exception on error.
-
-=cut
-
-sub install_gmp {
-	my $self = shift;
-
-	# Comes as a single prepackaged vanilla-specific zip file
-	my $filelist = $self->install_binary( 
-		name => 'gmp', 
-		install_to => q{.},
-		url  => $self->_binary_url($self->get_library_file('gmp')),
-	);
-
-	$self->insert_fragment( 'gmp', $filelist );
-
-	return 1;
-}
-
-sub install_libxslt {
-	my $self = shift;
-
-	my $filelist = $self->install_binary(
-		name       => 'libxslt',
-		install_to => q{.},
-		url        => $self->_binary_url($self->get_library_file('libxslt')),
-	);
-
-	$self->insert_fragment( 'libxslt', $filelist );
-
-	return 1;
-}
-
-
-
-sub install_libjpeg {
-	my $self = shift;
-
-	my $filelist = $self->install_binary(
-		name       => 'libjpeg',
-		url        => $self->_binary_url($self->get_library_file('libjpeg')),
-		install_to => q{.}
-	);
-	$self->insert_fragment('libjpeg', $filelist);
-
-	return 1;
-}
-
-
-sub install_libgif {
-	my $self = shift;
-
-	my $filelist = $self->install_binary(
-		name       => 'libgif',
-		url        => $self->_binary_url($self->get_library_file('libgif')),
-		install_to => q{.}
-	);
-	$self->insert_fragment('libgif', $filelist);
-
-	return 1;
-}
-
-
-sub install_libpng {
-	my $self = shift;
-
-	my $filelist = $self->install_binary(
-		name       => 'libpng',
-		url        => $self->_binary_url($self->get_library_file('libpng')),
-		install_to => q{.}
-	);
-	$self->insert_fragment('libpng', $filelist);
-
-
-	return 1;
-}
-
-
-sub install_libtiff {
-	my $self = shift;
-
-	my $filelist = $self->install_binary(
-		name       => 'libtiff',
-		url        => $self->_binary_url($self->get_library_file('libtiff')),
-		install_to => q{.}
-	);
-	$self->insert_fragment('libtiff', $filelist);
-
-
-	return 1;
-}
-
-
-sub install_libgd {
-	my $self = shift;
-
-	my $filelist = $self->install_binary(
-		name       => 'libgd',
-		url        => $self->_binary_url($self->get_library_file('libgd')),
-		install_to => q{.}
-	);
-	$self->insert_fragment('libgd', $filelist);
-
-
-	return 1;
-}
-
-sub install_libfreetype {
-	my $self = shift;
-
-	my $filelist = $self->install_binary(
-		name       => 'libfreetype',
-		url        => $self->_binary_url($self->get_library_file('libfreetype')),
-		install_to => q{.}
-	);
-	$self->insert_fragment('libfreetype', $filelist);
-
-	return 1;
-}
-
-sub install_libopenssl {
-	my $self = shift;
-
-	my $filelist = $self->install_binary(
-		name       => 'libopenssl',
-		url        => $self->_binary_url($self->get_library_file('libopenssl')),
-		install_to => q{.}
-	);
-	$self->insert_fragment('libopenssl', $filelist);
-
-
-	return 1;
-}
-
-sub install_libpostgresql {
-	my $self = shift;
-
-	my $filelist = $self->install_binary(
-		name       => 'libpostgresql',
-		url        => $self->_binary_url($self->get_library_file('libpostgresql')),
-		install_to => q{.}
-	);
-	$self->insert_fragment('libpostgresql', $filelist);
-
-	return 1;
-}
-
-=pod
-
-=head2 install_libdb
-
-  $dist->install_libdb;
-
-The C<install_libdb> method can be used to install a copy of the 
-Berkeley DB library.
-
-Returns true or throws an exception on error.
-
-=cut
-
-
-sub install_libdb {
-	my $self = shift;
-
-	my $filelist = $self->install_binary(
-		name       => 'libdb',
-		url        => $self->_binary_url($self->get_library_file('libdb')),
-		install_to => q{.}
-	);
-	$self->insert_fragment('libdb', $filelist);
-
-	return 1;
-}
-
-sub install_libgdbm {
-	my $self = shift;
-
-	my $filelist = $self->install_binary(
-		name       => 'libgdbm',
-		url        => $self->_binary_url($self->get_library_file('libgdbm')),
-		install_to => q{.}
-	);
-	$self->insert_fragment('libgdbm', $filelist);
-
-	return 1;
-}
-
-sub install_libxpm {
-	my $self = shift;
-
-	my $filelist = $self->install_binary(
-		name       => 'libxpm',
-		url        => $self->_binary_url($self->get_library_file('libxpm')),
-		install_to => q{.}
-	);
-	$self->insert_fragment('libxpm', $filelist);
-
-
-	return 1;
+	foreach my $library (@_) {
+		$self->install_librarypack( $library );
+	}
+
+	return $1;
 }
 
 1;
