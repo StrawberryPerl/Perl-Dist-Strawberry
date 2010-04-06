@@ -128,6 +128,7 @@ use URI::file                        qw();
 use File::ShareDir                   qw();
 use Perl::Dist::WiX::Util::Machine   qw();
 use File::List::Object               qw();
+use Path::Class::Dir                 qw();
 
 our $VERSION = '2.02_05';
 $VERSION =~ s/_//ms;
@@ -193,7 +194,7 @@ sub default_machine {
 
 # Apply default paths
 sub new {
-	my $dist_dir = File::ShareDir::dist_dir('Perl-Dist-Strawberry');
+	my $dist_dir = Path::Class::Dir->new(File::ShareDir::dist_dir('Perl-Dist-Strawberry'));
 	my $class = shift;
 	
 	if ($Perl::Dist::WiX::VERSION < '1.102102') {
@@ -215,11 +216,11 @@ sub new {
 		beta_number          => 1,
 		
 		# New options for msi building...
-		msi_license_file     => catfile($dist_dir, 'License-short.rtf'),
+		msi_license_file     => $dist_dir->file('License-short.rtf'),
 		msi_product_icon     => catfile(File::ShareDir::dist_dir('Perl-Dist-WiX'), 'win32.ico'),
 		msi_help_url         => 'http://www.strawberryperl.com/support.html',
-		msi_banner_top       => catfile($dist_dir, 'StrawberryBanner.bmp'),
-		msi_banner_side      => catfile($dist_dir, 'StrawberryDialog.bmp'),
+		msi_banner_top       => $dist_dir->file('StrawberryBanner.bmp'),
+		msi_banner_side      => $dist_dir->file('StrawberryDialog.bmp'),
 
 		# Set e-mail to something Strawberry-specific.
 		perl_config_cf_email => 'win32-vanilla@perl.org',
@@ -736,8 +737,14 @@ sub install_strawberry_files {
 	## Now let's copy individual files in.
 	
 	# Copy the module-version script in, and use the runperl.bat trick on it.
-	$self->copy(catfile($self->dist_dir(), 'module-version'), $self->dir(qw(perl bin)));
-	$self->copy($self->file(qw(perl bin runperl.bat)), $self->file(qw(perl bin module-version.bat)));
+	$self->copy_file(
+		catfile($self->dist_dir(), 'module-version'), 
+		$self->file(qw(perl bin module-version))
+	);
+	$self->copy_file(
+		$self->file(qw(perl bin runperl.bat)), 
+		$self->file(qw(perl bin module-version.bat))
+	);
 	
 	# Make sure it gets installed.
 	$self->insert_fragment('module_version',

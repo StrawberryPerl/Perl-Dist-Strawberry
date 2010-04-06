@@ -70,6 +70,9 @@ Readonly my %LIBRARIES_S => {
 		'libdb'         => '32bit-gcc4/db-4.8.24-bin_20091126.zip',
 		'libgdbm'       => '32bit-gcc4/gdbm-1.8.3-bin_20100112.zip',
 		'libxpm'        => '32bit-gcc4/libXpm-3.5.8-bin_20091126.zip',
+		'libxz'         => '32bit-gcc4/liblzma-xz-4.999.9beta-bin_20100308.zip',
+		'mpc'           => '32bit-gcc4/mpc-0.8.1-bin_20100306.zip',
+		'mpfr'          => '32bit-gcc4/mpfr-2.4.2-bin_20100306.zip',
 	},
 	'32bit-gcc4' => {
 		'patch'         => '32bit-gcc4/patch-2.5.9-7-bin_20100110_20100303.zip',
@@ -101,9 +104,9 @@ Readonly my %LIBRARIES_S => {
 		'libdb'         => '32bit-gcc4/db-4.8.24-bin_20091126.zip',
 		'libgdbm'       => '32bit-gcc4/gdbm-1.8.3-bin_20100112.zip',
 		'libxpm'        => '32bit-gcc4/libXpm-3.5.8-bin_20091126.zip',
-		'libxz'         => '32bit-gcc4/liblzma-xz-4.999.9beta-bin_20100308.zip'
-		'mpc'           => '32bit-gcc4/mpc-0.8.1-bin_20100306.zip'
-		'mpfr'          => '32bit-gcc4/mpfr-2.4.2-bin_20100306.zip'
+		'libxz'         => '32bit-gcc4/liblzma-xz-4.999.9beta-bin_20100308.zip',
+		'mpc'           => '32bit-gcc4/mpc-0.8.1-bin_20100306.zip',
+		'mpfr'          => '32bit-gcc4/mpfr-2.4.2-bin_20100306.zip',
 	},
 	'64bit-gcc4' => {
 		'patch'         => '64bit-gcc4/patch-2.5.9-7-bin_20100110_20100303.zip',
@@ -135,6 +138,9 @@ Readonly my %LIBRARIES_S => {
 		'libdb'         => '64bit-gcc4/db-4.8.24-bin_20100110.zip',
 		'libgdbm'       => '64bit-gcc4/gdbm-1.8.3-bin_20100112.zip',
 		'libxpm'        => '64bit-gcc4/libXpm-3.5.8-bin_20100110.zip',
+		'libxz'         => undef,
+		'mpc'           => undef,
+		'mpfr'          => undef,
 	},
 };
 
@@ -216,8 +222,8 @@ sub install_patch {
 		install_to => q{.},
 		url        => $self->_binary_url($self->get_library_file('patch')),
 	);
-	$self->{bin_patch} = $self->file(qw(c bin patch.exe)),
-	);
+	$self->{bin_patch} = $self->file(qw(c bin patch.exe));
+
 	unless ( -x $self->bin_patch() ) {
 		die "Can't execute patch";
 	}
