@@ -399,12 +399,17 @@ sub install_perl_bin {
 	my $self   = shift;
 	my %params = @_;
 	my $patch  = delete($params{patch}) || [];
+	
+	# Patch this file so GDBM_File will build.
+	my @files_to_patch = ('win32/FindExt.pm');
+
+	# If we aren't a git checkout or a 5.12 version, patch up GDBM_File.
+	if ( $self->perl_version() !~ m/ \A512 | \Agit\z /msx) {
+		push @files_to_patch, qw(ext/GDBM_File/GDBM_File.xs ext/GDBM_File/GDBM_File.pm);
+	}
+
 	return $self->SUPER::install_perl_bin(
-		patch => [ qw{
-			win32/FindExt.pm
-			ext/GDBM_File/GDBM_File.xs
-			ext/GDBM_File/GDBM_File.pm
-		}, @$patch ],
+		patch => [ @files_to_patch, @$patch ],
 		%params,
 	);
 }

@@ -13,8 +13,8 @@
 /*
  * Package name      : perl5
  * Source directory  : 
- * Configuration time: Fri Dec 12 15:41:26 2008
- * Configured by     : shay
+ * Configuration time: Sun Jan 10 19:53:56 2010
+ * Configured by     : Steve
  * Target system     : 
  */
 
@@ -4560,7 +4560,7 @@
  *	This symbol tells the name of the array holding the stdio streams.
  *	Usual values include _iob, __iob, and __sF.
  */
-/*#define	HAS_STDIO_STREAM_ARRAY	/**/
+/*#define	HAS_STDIO_STREAM_ARRAY	/ **/
 #ifdef HAS_STDIO_STREAM_ARRAY
 #define STDIO_STREAM_ARRAY	
 #endif
