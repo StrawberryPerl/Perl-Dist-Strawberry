@@ -502,7 +502,13 @@ sub install_strawberry_modules_2 {
 		Test::NoWarnings
 		Test::Deep
 		IO::Stringy
-		DBM::Deep
+		Test::Exception
+	} );
+	$self->install_module(
+		name => 'DBM::Deep',
+		force => 1, # RT#56512. (missing t\lib directory) Other tests pass.
+	);
+	$self->install_modules( qw{
 		YAML::Tiny
 		PAR
 		PAR::Repository::Query
@@ -681,7 +687,6 @@ sub install_strawberry_modules_4 {
 		Crypt::CAST5_PP
 		Crypt::RIPEMD160
 		Crypt::Twofish
-		Test::Exception
 		Crypt::OpenPGP
 		Algorithm::Diff
 		Text::Diff
