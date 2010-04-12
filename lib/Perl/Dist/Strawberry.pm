@@ -565,7 +565,9 @@ sub install_strawberry_modules_3 {
 	); 
 	$self->install_modules( qw{
 		BerkeleyDB
+		Win32::OLE
 		DBD::ODBC
+		DBD::ADO
 	} );
 
 	if (3 == $self->gcc_version()) {
@@ -713,12 +715,15 @@ sub install_strawberry_modules_5 {
 	});
 
 	# Additional compression modules
-	$self->install_module( name => 'IO::Compress::Lzma' );
+	$self->install_modules( qw{
+		Compress::Raw::Lzma
+		IO::Compress::Lzma
+	});
 	
 	# Additional math modules.
 	$self->install_modules( qw{
-		Math::MPC
 		Math::MPFR
+		Math::MPC
 	});
 	
 	# Clear things out.
