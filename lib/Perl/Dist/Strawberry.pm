@@ -213,7 +213,7 @@ sub new {
 		
 		# Program version.
 		build_number         => 2,
-		beta_number          => 1,
+		beta_number          => 2,
 		
 		# New options for msi building...
 		msi_license_file     => $dist_dir->file('License-short.rtf'),
@@ -346,10 +346,8 @@ sub install_strawberry_c_libraries {
 	$self->install_librarypacks(qw{
 		libdb
 		libgdbm
+		libpostgresql
 	});
- 	if (32 == $self->bits()) {
-		$self->install_librarypack('libpostgresql');
-	}
 
 	# Extra compression libraries
 	$self->install_librarypack('libxz');
@@ -504,27 +502,7 @@ sub install_strawberry_modules_2 {
 		Test::NoWarnings
 		Test::Deep
 		IO::Stringy
-	} );
-	
-	if ($self->portable()) {
-		$self->install_distribution(
-			name             => 'RKINYON/DBM-Deep-1.0013.tar.gz',
-			mod_name         => 'DBM::Deep',
-			makefilepl_param => ['INSTALLDIRS=site'],
-			buildpl_param    => ['--installdirs', 'site'],
-			force            => 1,
-		);
-	} else {
-		$self->install_distribution(
-			name             => 'RKINYON/DBM-Deep-1.0013.tar.gz',
-			mod_name         => 'DBM::Deep',
-			makefilepl_param => ['INSTALLDIRS=vendor'],
-			buildpl_param    => ['--installdirs', 'vendor'],
-			force            => 1,
-		);
-	}
-	
-	$self->install_modules( qw{
+		DBM::Deep
 		YAML::Tiny
 		PAR
 		PAR::Repository::Query
@@ -598,12 +576,10 @@ sub install_strawberry_modules_3 {
 		$self->insert_fragment( 'db_libraries', $filelist );
 	}
 	
-	if (32 == $self->bits()) {
-		$self->install_module(
-			name  => 'DBD::Pg',
-			force => 1,
-		);
-	}
+	$self->install_module(
+		name  => 'DBD::Pg',
+		force => 1,
+	);
 	
 	# JSON and local library installation
 	$self->install_modules( qw{
@@ -726,14 +702,22 @@ sub install_strawberry_modules_5 {
 	});
 	
 	# For the local-lib script.
-#	$self->install_modules( qw{
-#		IO::Interactive
-#		App::local::lib::Win32Helper
-#	});
+	$self->install_modules( qw{
+		IO::Interactive
+		App::local::lib::Win32Helper
+	});
 
+	# Additional compression modules
+	$self->install_module( name => 'IO::Compress::Lzma' );
+	
 	# Clear things out.
 	$self->remake_path($self->dir(qw(cpan build))); 
 
+	$self->install_modules( qw{
+		Math::MPC
+		Math::MPFR
+	});
+	
 	return 1;
 }
 
@@ -796,6 +780,10 @@ sub install_strawberry_extras {
 			$self->install_launcher(
 				name => 'Check installed versions of modules',
 				bin  => 'module-version',
+			);
+			$self->install_launcher(
+				name => 'Create local library areas',
+				bin  => 'llw32helper',
 			);
 			$self->install_website(
 				name       => 'Strawberry Perl Website',
