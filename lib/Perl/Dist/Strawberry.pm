@@ -453,8 +453,8 @@ sub install_strawberry_modules_1 {
 			mod_name         => 'XML::Parser',
 			makefilepl_param => [
 				'INSTALLDIRS=site',
-				'EXPATLIBPATH=' . $self->_dir(qw{ c lib     }),
-				'EXPATINCPATH=' . $self->_dir(qw{ c include }),
+				'EXPATLIBPATH=' . $self->dir(qw{ c lib     }),
+				'EXPATINCPATH=' . $self->dir(qw{ c include }),
 			],
 		);
 	} else {
@@ -463,8 +463,8 @@ sub install_strawberry_modules_1 {
 			mod_name         => 'XML::Parser',
 			makefilepl_param => [
 				'INSTALLDIRS=vendor',
-				'EXPATLIBPATH=' . $self->_dir(qw{ c lib     }),
-				'EXPATINCPATH=' . $self->_dir(qw{ c include }),
+				'EXPATLIBPATH=' . $self->dir(qw{ c lib     }),
+				'EXPATINCPATH=' . $self->dir(qw{ c include }),
 			],
 		);
 	}
@@ -724,6 +724,12 @@ sub install_strawberry_modules_5 {
 		Task::Weaken
 		SOAP::Lite
 	});
+	
+	# For the local-lib script.
+#	$self->install_modules( qw{
+#		IO::Interactive
+#		App::local::lib::Win32Helper
+#	});
 
 	# Clear things out.
 	$self->remake_path($self->dir(qw(cpan build))); 
@@ -818,7 +824,7 @@ sub install_strawberry_extras {
 	my $onion_ico_file = $self->file(qw(win32 onion.ico));
 	my $strawberry_ico_file = $self->file(qw(win32 strawberry.ico));
 	
-	$self->_copy($license_file_from, $license_file_to);	
+	$self->copy_file($license_file_from, $license_file_to);	
 	if (not $self->portable()) {
 		$self->add_to_fragment( 'Win32Extras',
 			[ $license_file_to, $readme_file, $onion_ico_file, $strawberry_ico_file ] );
