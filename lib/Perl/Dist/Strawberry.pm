@@ -710,14 +710,15 @@ sub install_strawberry_modules_5 {
 	# Additional compression modules
 	$self->install_module( name => 'IO::Compress::Lzma' );
 	
-	# Clear things out.
-	$self->remake_path($self->dir(qw(cpan build))); 
-
+	# Additional math modules.
 	$self->install_modules( qw{
 		Math::MPC
 		Math::MPFR
 	});
 	
+	# Clear things out.
+	$self->remake_path($self->dir(qw(cpan build))); 
+
 	return 1;
 }
 
