@@ -54,13 +54,8 @@ perl\lib\CORE\config.h:doublebackslash
 perl\lib\CPAN\Config.pm:doublebackslash
 perl\lib\CPAN\Config.pm:url
 perl\lib\perllocal.pod:backslash
-[% IF 64 != self.bits %]
-perl\vendor\bin\cpandb:backslash
-perl\vendor\bin\cpandb.bat:backslash
-[% ELSE %]
 perl\bin\cpandb:backslash
 perl\bin\cpandb.bat:backslash
-[% END %]
 perl\vendor\lib\auto\File\Slurp\.packlist:backslash
 perl\vendor\lib\auto\Archive\Zip\.packlist:backslash
 perl\vendor\lib\auto\BerkeleyDB\.packlist:backslash
