@@ -56,7 +56,7 @@ perl\lib\CPAN\Config.pm:url
 perl\lib\perllocal.pod:backslash
 perl\bin\cpandb:backslash
 perl\bin\cpandb.bat:backslash
-perl\vendor\lib\auto\File\Slurp\.packlist:backslash
+perl\vendor\lib\auto\App\local\lib\Win32Helper\.packlist:backslash
 perl\vendor\lib\auto\Archive\Zip\.packlist:backslash
 perl\vendor\lib\auto\BerkeleyDB\.packlist:backslash
 perl\vendor\lib\auto\common\sense\.packlist:backslash
@@ -65,6 +65,7 @@ perl\vendor\lib\auto\CPAN\Checksums\.packlist:backslash
 perl\vendor\lib\auto\CPAN\DistnameInfo\.packlist:backslash
 perl\vendor\lib\auto\CPAN\Inject\.packlist:backslash
 perl\vendor\lib\auto\CPAN\SQLite\.packlist:backslash
+perl\vendor\lib\auto\Compress\Raw\Lzma\.packlist:backslash
 perl\vendor\lib\auto\Digest\SHA1\.packlist:backslash
 perl\vendor\lib\auto\Data\Compare\.packlist:backslash
 perl\vendor\lib\auto\DBD\ODBC\.packlist:backslash
@@ -73,16 +74,20 @@ perl\vendor\lib\auto\DBI\.packlist:backslash
 perl\vendor\lib\auto\DBIx\Simple\.packlist:backslash
 perl\vendor\lib\auto\DBM\Deep\.packlist:backslash
 perl\vendor\lib\auto\DB_File\.packlist:backslash
+perl\vendor\lib\auto\DBD\Pg\.packlist:backslash
 perl\vendor\lib\auto\FCGI\.packlist:backslash
 perl\vendor\lib\auto\File\chmod\.packlist:backslash
 perl\vendor\lib\auto\File\Find\Rule\.packlist:backslash
 perl\vendor\lib\auto\File\HomeDir\.packlist:backslash
 perl\vendor\lib\auto\File\pushd\.packlist:backslash
 perl\vendor\lib\auto\File\Remove\.packlist:backslash
+perl\vendor\lib\auto\File\Slurp\.packlist:backslash
 perl\vendor\lib\auto\File\Which\.packlist:backslash
 perl\vendor\lib\auto\GD\.packlist:backslash
 perl\vendor\lib\auto\HTML\Parser\.packlist:backslash
 perl\vendor\lib\auto\Imager\.packlist:backslash
+perl\vendor\lib\auto\IO\Compress\Lzma\.packlist:backslash
+perl\vendor\lib\auto\IO\Interactive\.packlist:backslash
 perl\vendor\lib\auto\IO\String\.packlist:backslash
 perl\vendor\lib\auto\IO\Stringy\.packlist:backslash
 perl\vendor\lib\auto\IPC\Run3\.packlist:backslash
@@ -93,6 +98,8 @@ perl\vendor\lib\auto\local\lib\.packlist:backslash
 perl\vendor\lib\auto\LWP\.packlist:backslash
 perl\vendor\lib\auto\LWP\Online\.packlist:backslash
 perl\vendor\lib\auto\Math\BigInt\GMP\.packlist:backslash
+perl\vendor\lib\auto\Math\MPFR\.packlist:backslash
+perl\vendor\lib\auto\Math\MPC\.packlist:backslash
 perl\vendor\lib\auto\Number\Compare\.packlist:backslash
 perl\vendor\lib\auto\PAR\.packlist:backslash
 perl\vendor\lib\auto\PAR\Dist\.packlist:backslash
@@ -163,7 +170,6 @@ perl\vendor\lib\auto\Crypt\SSLeay\.packlist:backslash
 perl\vendor\lib\auto\Crypt\Twofish\.packlist:backslash
 perl\vendor\lib\auto\Data\Random\.packlist:backslash
 perl\vendor\lib\auto\Data\Buffer\.packlist:backslash
-perl\vendor\lib\auto\DBD\Pg\.packlist:backslash
 perl\vendor\lib\auto\Digest\BubbleBabble\.packlist:backslash
 perl\vendor\lib\auto\Digest\HMAC\.packlist:backslash
 perl\vendor\lib\auto\Digest\MD2\.packlist:backslash
