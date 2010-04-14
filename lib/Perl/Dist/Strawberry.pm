@@ -340,6 +340,7 @@ sub install_strawberry_c_libraries {
 		libgd
 		libfreetype
 		libxpm
+		freeglut
 	});	
 	
 	# Database Libraries

@@ -74,6 +74,7 @@ Readonly my %LIBRARIES_S => {
 		'mpc'           => '32bit-gcc4/mpc-0.8.1-bin_20100306.zip',
 		'mpfr'          => '32bit-gcc4/mpfr-2.4.2-bin_20100306.zip',
 		'libmysql'      => '32bit-gcc4/mysql-5.1.44-bin_20100304.zip',
+		'freeglut'      => '32bit-gcc4/freeglut-2.6.0-bin_20100213.zip',
 	},
 	'32bit-gcc4' => {
 		'patch'         => '32bit-gcc4/patch-2.5.9-7-bin_20100110_20100303.zip',
@@ -109,6 +110,7 @@ Readonly my %LIBRARIES_S => {
 		'mpc'           => '32bit-gcc4/mpc-0.8.1-bin_20100306.zip',
 		'mpfr'          => '32bit-gcc4/mpfr-2.4.2-bin_20100306.zip',
 		'libmysql'      => '32bit-gcc4/mysql-5.1.44-bin_20100304.zip',
+		'freeglut'      => '32bit-gcc4/freeglut-2.6.0-bin_20100213.zip',
 	},
 	'64bit-gcc4' => {
 		'patch'         => '64bit-gcc4/patch-2.5.9-7-bin_20100110_20100303.zip',
@@ -144,6 +146,7 @@ Readonly my %LIBRARIES_S => {
 		'mpc'           => '64bit-gcc4/mpc-0.8.1-bin_20100306.zip',
 		'mpfr'          => '64bit-gcc4/mpfr-2.4.2-bin_20100306.zip',
 		'libmysql'      => '64bit-gcc4/mysql-5.1.44-bin_20100304.zip',
+		'freeglut'      => '64bit-gcc4/freeglut-2.6.0-bin_20100213.zip',
 	},
 };
 
