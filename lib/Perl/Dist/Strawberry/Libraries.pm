@@ -73,6 +73,7 @@ Readonly my %LIBRARIES_S => {
 		'libxz'         => '32bit-gcc4/liblzma-xz-4.999.9beta-bin_20100308.zip',
 		'mpc'           => '32bit-gcc4/mpc-0.8.1-bin_20100306.zip',
 		'mpfr'          => '32bit-gcc4/mpfr-2.4.2-bin_20100306.zip',
+		'libmysql'      => '32bit-gcc4/mysql-5.1.44-bin_20100304.zip',
 	},
 	'32bit-gcc4' => {
 		'patch'         => '32bit-gcc4/patch-2.5.9-7-bin_20100110_20100303.zip',
@@ -107,6 +108,7 @@ Readonly my %LIBRARIES_S => {
 		'libxz'         => '32bit-gcc4/liblzma-xz-4.999.9beta-bin_20100308.zip',
 		'mpc'           => '32bit-gcc4/mpc-0.8.1-bin_20100306.zip',
 		'mpfr'          => '32bit-gcc4/mpfr-2.4.2-bin_20100306.zip',
+		'libmysql'      => '32bit-gcc4/mysql-5.1.44-bin_20100304.zip',
 	},
 	'64bit-gcc4' => {
 		'patch'         => '64bit-gcc4/patch-2.5.9-7-bin_20100110_20100303.zip',
@@ -138,9 +140,10 @@ Readonly my %LIBRARIES_S => {
 		'libdb'         => '64bit-gcc4/db-4.8.24-bin_20100110.zip',
 		'libgdbm'       => '64bit-gcc4/gdbm-1.8.3-bin_20100112.zip',
 		'libxpm'        => '64bit-gcc4/libXpm-3.5.8-bin_20100110.zip',
-		'libxz'         => undef,
-		'mpc'           => undef,
-		'mpfr'          => undef,
+		'libxz'         => '64bit-gcc4/liblzma-xz-4.999.9beta-bin_20100308.zip',
+		'mpc'           => '64bit-gcc4/mpc-0.8.1-bin_20100306.zip',
+		'mpfr'          => '64bit-gcc4/mpfr-2.4.2-bin_20100306.zip',
+		'libmysql'      => '64bit-gcc4/mysql-5.1.44-bin_20100304.zip',
 	},
 };
 
@@ -201,6 +204,8 @@ sub get_library_file_versioned {
 	return $package_file;
 }
 
+
+
 =pod
 
 =head2 install_patch
@@ -247,6 +252,8 @@ installed by L</install_patch>.
 sub bin_patch {
 	return $_[0]->{bin_patch};
 }
+
+
 
 =pod
 
@@ -318,6 +325,8 @@ sub install_ppm {
 	return 1;
 }
 
+
+
 =pod
 
 =head2 install_win32_manifest
@@ -373,27 +382,7 @@ END_MANIFEST
 	return 1;	
 }
 
-=pod
 
-=head2 install_dbd_mysql
-
-  $dist->install_dbd_mysql();
-
-Installs DBD::mysql from the PAR files on the Strawberry Perl web site.
-
-=cut
-
-sub install_dbd_mysql {
-	my $self = shift;
-
-	my $url = $self->get_library_file_versioned('mysql');
-
-	my $filelist = $self->install_par(
-	  name => 'DBD::mysql', 
-	  url => $self->_binary_url($url)
-	);
-		
-}
 
 =pod
 

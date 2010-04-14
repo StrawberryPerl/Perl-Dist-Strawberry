@@ -347,6 +347,7 @@ sub install_strawberry_c_libraries {
 		libdb
 		libgdbm
 		libpostgresql
+		libmysql
 	});
 
 	# Extra compression libraries
@@ -575,20 +576,22 @@ sub install_strawberry_modules_3 {
 		DBD::ADO
 	} );
 
-	if (3 == $self->gcc_version()) {
-		$self->install_dbd_mysql();
-		
-		my $install_location = $self->portable() ? q{perl\site\lib} : q{perl\vendor\lib};	
-		my $mysql_url = $self->get_library_file('mysqllib');
-		
-		my $filelist = $self->install_binary(
-			name       => 'db_libraries',
-			url        => $self->_binary_url($mysql_url),
-			install_to => $install_location
+	if ($self->portable()) {
+		$self->install_distribution(
+			name     => 'CAPTTOFU/DBD-mysql-4.013.tar.gz',
+			mod_name => 'DBD::mysql',
+			force    => 1,
+			makefilepl_param => ['INSTALLDIRS=site', '--mysql_config=mysql_config'],
 		);
-		$self->insert_fragment( 'db_libraries', $filelist );
+	} else {
+		$self->install_distribution(
+			name     => 'CAPTTOFU/DBD-mysql-4.013.tar.gz',
+			mod_name => 'DBD::mysql',
+			force    => 1,
+			makefilepl_param => ['INSTALLDIRS=vendor', '--mysql_config=mysql_config'],
+		);
 	}
-	
+			
 	$self->install_module(
 		name  => 'DBD::Pg',
 		force => 1,
