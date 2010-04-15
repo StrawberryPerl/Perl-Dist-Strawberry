@@ -887,6 +887,41 @@ sub msm_relocation_commandline_files {
 	return('relocation_info', $self->file('strawberry-merge-module.reloc.txt'));
 }
 
+sub msi_relocation_fileslist {
+	my $self = shift;
+
+	my $answer;
+	my %files = $self->msi_relocation_commandline_files();
+
+	my ( $fragment, $file, $id );
+	while ( ( $fragment, $file ) = each %files ) {
+		$id = $self->get_fragment_object($fragment)->find_file_id($file);
+		PDWiX->throw("Could not find file $file in fragment $fragment\n")
+		  if not defined $id;
+		$answer .= "[#$id]";
+	}
+
+	return $answer;
+} ## end sub msi_relocation_commandline
+
+sub msm_relocation_fileslist {
+	my $self = shift;
+
+	my $answer;
+	my %files = $self->msm_relocation_commandline_files();
+
+	my ( $fragment, $file, $id );
+	while ( ( $fragment, $file ) = each %files ) {
+		$id = $self->get_fragment_object($fragment)->find_file_id($file);
+		PDWiX->throw("Could not find file $file in fragment $fragment\n")
+		  if not defined $id;
+		$answer .= "[#$id]";
+	}
+
+	return $answer;
+} ## end sub msi_relocation_commandline
+
+
 1;
 
 =pod
