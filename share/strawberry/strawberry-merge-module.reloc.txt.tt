@@ -25,7 +25,7 @@ perl\bin\pstruct.bat:backslash
 perl\bin\s2p.bat:backslash
 perl\bin\splain.bat:backslash
 perl\bin\xsubpp.bat:backslash
-perl\lib\.packlist:slash
+perl\lib\.packlist:backslash
 perl\lib\auto\Archive\Tar\.packlist:backslash
 perl\lib\auto\autodie\.packlist:backslash
 perl\lib\auto\CGI\.packlist:backslash
