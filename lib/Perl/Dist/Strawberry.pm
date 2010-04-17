@@ -887,7 +887,7 @@ sub msm_relocation_commandline_files {
 	return('relocation_info', $self->file('strawberry-merge-module.reloc.txt'));
 }
 
-sub msi_relocation_fileslist {
+sub msi_relocation_idlist {
 	my $self = shift;
 
 	my $answer;
@@ -904,7 +904,7 @@ sub msi_relocation_fileslist {
 	return $answer;
 } ## end sub msi_relocation_commandline
 
-sub msm_relocation_fileslist {
+sub msm_relocation_idlist {
 	my $self = shift;
 
 	my $answer;
