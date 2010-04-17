@@ -4472,6 +4472,7 @@
 #define	U16TYPE		unsigned short	/**/
 #define	I32TYPE		long	/**/
 #define	U32TYPE		unsigned long	/**/
+#ifdef HAS_QUAD
 #  ifdef _MSC_VER
 #    define	I64TYPE		__int64	/**/
 #    define	U64TYPE		unsigned __int64	/**/
