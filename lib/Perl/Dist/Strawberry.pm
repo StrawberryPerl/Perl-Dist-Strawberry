@@ -181,6 +181,13 @@ sub default_machine {
 		perl_version => '5101',
 		portable     => 1,
 	);
+	$machine->add_option('version',
+		perl_version => '5120',
+		relocatable  => 1,
+		gcc_version  => 4,
+		build_number => 0,
+		download_dir => 'C:\tmp\dl-gcc4',
+	);
 
 	return $machine;
 }
