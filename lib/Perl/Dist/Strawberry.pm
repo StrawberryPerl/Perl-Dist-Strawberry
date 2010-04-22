@@ -220,7 +220,7 @@ sub new {
 		
 		# Program version.
 		build_number         => 2,
-		beta_number          => 2,
+#		beta_number          => 0,
 		
 		# New options for msi building...
 		msi_license_file     => $dist_dir->file('License-short.rtf'),
