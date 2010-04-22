@@ -7,7 +7,7 @@ Perl::Dist::Strawberry::Repository - The repository that is used for Perl::Dist:
 =head1 DESCRIPTION
 
 This documentation describes the repository that Perl::Dist::Strawberry uses, 
-and the branches that are currently being used as of March 2010.
+and the branches that are currently being used as of April 2010.
 
 =head1 REPOSITORY
 
@@ -43,11 +43,9 @@ Here are the branches:
 
 Location: L<http://svn.ali.as/cpan/trunk/Perl-Dist-Strawberry/>
 
-The trunk is currently working with Perl::Dist::WiX 1.102_101.
+The trunk is currently working with Perl::Dist::WiX 1.200.
 
-The ability to build with 5.11.5 has been added, in preparation for 5.12.0 
-release candidates, and to test the ability to relocate Strawberry Perl upon 
-installation.
+The ability to build with 5.12.0 has been added.
 
 The ability to build with the gcc 4.4.3 binaries from the mingw-w64 project
 has also been recently added, and updated libraries have been added.
