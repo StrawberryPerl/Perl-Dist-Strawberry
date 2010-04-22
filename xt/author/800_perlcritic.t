@@ -3,9 +3,10 @@
 # Test that modules pass perlcritic and perltidy.
 
 use strict;
+use Test::More;
+use English qw(-no_match_vars);
 
 BEGIN {
-	use English qw(-no_match_vars);
 	$OUTPUT_AUTOFLUSH = 1;
 	$WARNING = 1;
 }
@@ -19,12 +20,6 @@ my @MODULES = (
 	'Perl::Critic::More',
 	'Test::Perl::Critic',
 );
-
-# Don't run tests for installs
-use Test::More;
-unless ( $ENV{AUTOMATED_TESTING} or $ENV{RELEASE_TESTING} ) {
-	plan( skip_all => "Author tests not required for installation" );
-}
 
 plan( skip_all => "Not doing perlcriticism on this module yet..." );
 

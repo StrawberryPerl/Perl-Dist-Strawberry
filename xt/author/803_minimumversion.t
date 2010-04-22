@@ -3,9 +3,10 @@
 # Test that our declared minimum Perl version matches our syntax
 
 use strict;
+use Test::More;
+use English qw(-no_match_vars);
 
 BEGIN {
-	use English qw(-no_match_vars);
 	$OUTPUT_AUTOFLUSH = 1;
 	$WARNING = 1;
 }
@@ -15,25 +16,17 @@ my @MODULES = (
 	'Test::MinimumVersion 0.008',
 );
 
-# Don't run tests for installs
-use Test::More;
-unless ( $ENV{AUTOMATED_TESTING} or $ENV{RELEASE_TESTING} ) {
-	plan( skip_all => "Author tests not required for installation" );
-}
-
 # Load the testing modules
 foreach my $MODULE ( @MODULES ) {
 	eval "use $MODULE";
 	if ( $EVAL_ERROR ) {
-		$ENV{RELEASE_TESTING}
-		? BAIL_OUT( "Failed to load required release-testing module $MODULE" )
-		: plan( skip_all => "$MODULE not available for testing" );
+		BAIL_OUT( "Failed to load required release-testing module $MODULE" )
 	}
 }
 
 # Terminate leftovers with prejudice aforethought.
 require File::Remove;
-foreach my $dir ( 't\tmp50', 't\tmp900', 't\tmp904', 't\tmp901', 't\tmp902', 't\tmp903' ) {
+foreach my $dir ( 't\tmp500', 'xt\release\tmp900', 'xt\release\tmp904', 'xt\release\tmp901', 'xt\release\tmp902', 'xt\release\tmp903', 'xt\release\tmp903' ) {
 	File::Remove::remove( \1, $dir ) if -d $dir;
 }
 
