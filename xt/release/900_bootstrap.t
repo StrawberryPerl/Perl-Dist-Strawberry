@@ -13,7 +13,10 @@ use File::Spec::Functions qw(catdir);
 # Complete Generation Run
 
 # Create the dist object
-my $dist = Test::Perl::Dist->new_test_class_long(900, '5100', 'Perl::Dist::Bootstrap'), catdir(qw(xt release));
+my $dist = Test::Perl::Dist->new_test_class_long(
+	900, '5101', 'Perl::Dist::Bootstrap', catdir(qw(xt release),
+	user_agent_cache => 0,
+);
 
 test_run_dist( $dist );
 
