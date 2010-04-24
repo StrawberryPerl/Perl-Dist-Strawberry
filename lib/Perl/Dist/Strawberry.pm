@@ -586,14 +586,14 @@ sub install_strawberry_modules_3 {
 
 	if ($self->portable()) {
 		$self->install_distribution(
-			name     => 'CAPTTOFU/DBD-mysql-4.013.tar.gz',
+			name     => 'CAPTTOFU/DBD-mysql-4.014.tar.gz',
 			mod_name => 'DBD::mysql',
 			force    => 1,
 			makefilepl_param => ['INSTALLDIRS=site', '--mysql_config=mysql_config'],
 		);
 	} else {
 		$self->install_distribution(
-			name     => 'CAPTTOFU/DBD-mysql-4.013.tar.gz',
+			name     => 'CAPTTOFU/DBD-mysql-4.014.tar.gz',
 			mod_name => 'DBD::mysql',
 			force    => 1,
 			makefilepl_param => ['INSTALLDIRS=vendor', '--mysql_config=mysql_config'],
