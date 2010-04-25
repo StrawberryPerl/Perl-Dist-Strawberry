@@ -23,4 +23,4 @@ foreach my $MODULE ( @MODULES ) {
 	}
 }
 
-ok_changes();
+ok_changes(base => '..');

@@ -10,5 +10,6 @@ test_requires  URI::file        4.20
 test_requires  LWP::Online      1.07
 test_requires  Test::Perl::Dist 0.300
 install_script perldist_strawberry
+recursive_author_tests xt
 install_share
 use_ptar

@@ -14,7 +14,7 @@ use File::Spec::Functions qw(catdir);
 
 # Create the dist object
 my $dist = Test::Perl::Dist->new_test_class_long(
-	900, '5101', 'Perl::Dist::Bootstrap', catdir(qw(xt release),
+	900, '5101', 'Perl::Dist::Bootstrap', catdir(qw(xt release)),
 	user_agent_cache => 0,
 );
 

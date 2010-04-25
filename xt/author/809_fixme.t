@@ -25,6 +25,6 @@ foreach my $MODULE ( @MODULES ) {
 }
 
 run_tests(
-#	where    => catdir(qw(blib lib Perl)),  # where to find files to check
-	match    => 'TODO',                     # what to check for
+	where    => catdir(qw(blib lib Perl)),  # where to find files to check
+	match    => 'TO' . 'DO',                # what to check for
 );
