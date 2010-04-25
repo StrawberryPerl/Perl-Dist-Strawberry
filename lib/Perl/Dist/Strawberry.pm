@@ -169,13 +169,20 @@ sub default_machine {
 	    build_number => 5,
 	);
 	$machine->add_option('version',
+		perl_version => '589',
+	    build_number => 5,
+		image_dir    => 'D:\strawberry',
+		msi          => 1,
+		zip          => 0,
+	);
+	$machine->add_option('version',
 		perl_version => '5101',
 	);
 	$machine->add_option('version',
 		perl_version => '5101',
-		image_dir => 'D:\strawberry',
-		msi       => 1,
-		zip       => 0,
+		image_dir    => 'D:\strawberry',
+		msi          => 1,
+		zip          => 0,
 	);
 	$machine->add_option('version',
 		perl_version => '5101',
