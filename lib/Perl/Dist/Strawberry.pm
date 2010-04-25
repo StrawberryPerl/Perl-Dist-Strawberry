@@ -738,10 +738,8 @@ sub install_strawberry_modules_5 {
 	});
 
 	# Additional compression modules
-	$self->install_modules( qw{
-		Compress::Raw::Lzma
-		IO::Compress::Lzma
-	});
+	$self->install_module( name => 'Compress::Raw::Lzma' );
+	$self->install_module( name => 'IO::Compress::Lzma', force => 1 );
 	
 	# Additional math modules.
 	$self->install_modules( qw{
