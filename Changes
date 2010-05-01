@@ -1,6 +1,6 @@
 Changes for Perl extension Perl-Dist-Strawberry
 
-2.10 Xxx ## Xxx 2010
+2.10 Sat 01 May 2010
     - This release corresponds to Strawberry Perl April 2010.
     - Adding ability to build against 5.12.0.
     - Removing ability to build against 5.11.5 and 5.12.0-RC0.
