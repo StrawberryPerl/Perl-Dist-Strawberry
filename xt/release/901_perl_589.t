@@ -9,6 +9,10 @@ BEGIN {
 use Test::Perl::Dist 0.300;
 use File::Spec::Functions qw(catdir);
 
+unless ( $ENV{RELEASE_TESTING} ) {
+	plan( skip_all => "Release tests not required for installation" );
+}
+
 #####################################################################
 # Complete Generation Run
 
