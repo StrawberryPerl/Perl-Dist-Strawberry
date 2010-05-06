@@ -4,7 +4,7 @@ package Perl::Dist::Strawberry;
 
 =head1 NAME
 
-Perl::Dist::Strawberry - Strawberry Perl for win32
+Perl::Dist::Strawberry - Strawberry Perl for Win32
 
 =head1 DESCRIPTION
 
@@ -130,7 +130,7 @@ use Perl::Dist::WiX::Util::Machine   qw();
 use File::List::Object               qw();
 use Path::Class::Dir                 qw();
 
-our $VERSION = '2.10';
+our $VERSION = '2.1001';
 $VERSION =~ s/_//ms;
 
 #####################################################################
@@ -164,17 +164,6 @@ sub default_machine {
 
 	# Set the different versions
 	$machine->add_dimension('version');
-	$machine->add_option('version',
-		perl_version => '589',
-	    build_number => 5,
-	);
-	$machine->add_option('version',
-		perl_version => '589',
-	    build_number => 5,
-		image_dir    => 'D:\strawberry',
-		msi          => 1,
-		zip          => 0,
-	);
 	$machine->add_option('version',
 		perl_version => '5101',
 	);
@@ -258,7 +247,6 @@ sub new {
 			'install_strawberry_modules_4',
 			'install_strawberry_modules_5',
 			'install_strawberry_files',
-			'add_forgotten_files',
 			'install_relocatable',
 			'regenerate_fragments',
 			'find_relocatable_fields',
@@ -454,7 +442,6 @@ sub install_strawberry_modules_1 {
 		File::Remove
 		Win32::File::Object
 		Parse::Binary
-		Win32::Exe
 		Win32::EventLog
 	} );
 	$self->install_modules('Win32::API') if not 64 == $self->bits();
@@ -501,6 +488,12 @@ sub install_strawberry_modules_1 {
 		$self->add_to_fragment('XML_SAX', [ $ini_file ]);
 	}
 	
+	# Apparently Win32::Exe now requires XML::Simple and XML::Parser
+	$self->install_modules( qw{
+		XML::Simple
+		Win32::Exe
+	} );
+
 	return 1;
 }
 
@@ -535,8 +528,10 @@ sub install_strawberry_modules_2 {
 		PAR::Repository::Query
 		PAR::Repository::Client
 	} );
-	$self->install_ppm();
-
+	if (32 == $self->bits()) {
+		$self->install_ppm();
+	}
+	
 	my $cpan_sources = catdir($self->image_dir, 'cpan', 'sources');
 	unless (-d $cpan_sources) {
 		require File::Path;

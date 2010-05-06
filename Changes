@@ -1,5 +1,16 @@
 Changes for Perl extension Perl-Dist-Strawberry
 
+2.1001 Thu 06 May 2010
+    - This release corresponds to Bootstrap Perl "April" 2010 
+      (which will be the last version of Bootstrap built 
+       against 5.10.1)
+    - This release ALSO corresponds to Strawberry Perl 5.12.0.1 
+      (the May 2009 rebuild) 
+    - Updated Bootstrap's list of modules.
+    - Fixed bugs #43243 and #57205 in preparation for rebuild.
+    - Removed 5.8.9 from default machine.
+    - Added XML::Simple to Strawberry (Win32::Exe 0.13+ requires it)
+
 2.10 Sat 01 May 2010
     - This release corresponds to Strawberry Perl April 2010.
     - Adding ability to build against 5.12.0.

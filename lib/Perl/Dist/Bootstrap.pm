@@ -24,7 +24,7 @@ use parent                  qw( Perl::Dist::Strawberry );
 use File::Spec::Functions   qw( catfile catdir         );
 use File::ShareDir          qw();
 
-our $VERSION = '2.10';
+our $VERSION = '2.1001';
 $VERSION =~ s/_//ms;
 
 
@@ -48,6 +48,7 @@ sub new {
 		app_publisher     => 'Vanilla Perl Project',
 		app_publisher_url => 'http://vanillaperl.org/',
 		image_dir         => 'C:\\bootperl',
+		perl_version      => '5101',
 
 		# Tasks to complete to create Bootstrap
 		tasklist => [
@@ -63,9 +64,9 @@ sub new {
 			'install_strawberry_modules_2',
 			'install_strawberry_modules_3',
 			'install_strawberry_modules_4',
+			'install_strawberry_modules_5',
 			'install_bootstrap_modules_1',
 			'install_bootstrap_modules_2',
-			'add_forgotten_files',
 			'install_win32_extras',
 			'install_strawberry_extras',
 			'remove_waste',
@@ -145,8 +146,9 @@ sub install_bootstrap_modules_1 {
 		Test::LongString
 		Module::ScanDeps
 		Module::Install
+		Module::Install::AuthorTests
+		Module::Install::PerlTar
 		Tie::Slurp
-		File::Slurp
 		File::IgnoreReadonly
 		Portable::Dist
 		List::MoreUtils
@@ -154,9 +156,10 @@ sub install_bootstrap_modules_1 {
 		Template
 	) );
 	
-	# Data::UUID needs to have a temp directory set.
+	# Data::UUID needs to have a temp directory set that will
+	# exist in the installation image.
 	{
-		local $ENV{'TMPDIR'} = $self->image_dir;
+		local $ENV{'TMPDIR'} = $self->image_dir();
 		$self->install_module( name => 'Data::UUID', );
 	}
 
@@ -178,7 +181,6 @@ sub install_bootstrap_modules_2 {
 		Exception::Class
 		Test::UseAllModules
 		ExtUtils::Depends
-		Task::Weaken
 		B::Utils
 		PadWalker
 		Data::Dump::Streamer
@@ -199,12 +201,18 @@ sub install_bootstrap_modules_2 {
 		File::List::Object
 		Params::Validate
 		MooseX::Singleton
+		MooseX::NonMoose
 		Variable::Magic
 		B::Hooks::EndOfScope
 		Sub::Identify
 		namespace::clean
 		Carp::Clan
 		MooseX::Types
+		Path::Class
+		MooseX::Types::Path::Class
+		URI::FromHash
+		Test::use::ok
+		MooseX::Types::URI
 		Email::Date::Format
 		Date::Format
 		Test::Pod
@@ -218,18 +226,84 @@ sub install_bootstrap_modules_2 {
 		force => 1,
 	);
 	$self->install_modules( qw(
+		Clone
+		Digest::CRC
 		WiX3
 		CPAN::Mini
 		CPAN::Mini::Devel
 	) );
 
+	# Since we're using the "fake" Alien::WiX, we have to force here.
 	$self->install_distribution(
-		name     => 'CSJEWELL/Perl-Dist-WiX-1.102001.tar.gz',
+		name     => 'CSJEWELL/Perl-Dist-WiX-1.200.tar.gz',
 		mod_name => 'Perl::Dist::WiX',
 		force    => 1,
 		makefilepl_param => ['INSTALLDIRS=vendor'],
 	);
 
+	# Install stuff required to test Perl::Dist::Strawberry and 
+	# Perl::Dist::WiX in author mode.
+	$self->install_module(
+		name => 'File::Finder',
+		force => 1,	# fails tests.
+	);
+	$self->install_distribution(
+		name     => 'GAM/Test-CheckChanges-0.14.tar.gz', # CPAN cannot extract.
+		mod_name => 'Test::CheckChanges',
+		force    => 1,
+		makefilepl_param => ['INSTALLDIRS=vendor'],
+	);
+	$self->install_modules( qw(
+		File::Find::Rule::Perl
+		Test::Object
+		Hook::LexWrap
+		Test::SubCalls
+	) );
+	$self->install_distribution(
+		name     => 'ADAMK/PPI-1.211_01.tar.gz',
+		mod_name => 'PPI',
+		makefilepl_param => ['INSTALLDIRS=vendor'],
+	);		
+	$self->install_modules( qw(
+		Module::Manifest
+		Module::Info
+		Perl::Tidy
+		PPIx::Regexp
+		Email::Address
+		B::Keywords
+		Pod::Spell
+		Pod::Spell::CommonMistakes
+		String::Format
+		PPIx::Utilities
+		Config::Tiny
+		Devel::Symdump
+		Pod::Coverage
+	) );
+	$self->install_distribution(
+		name     => 'GAM/Test-CheckChanges-0.14.tar.gz', # CPAN cannot extract.
+		mod_name => 'Test::CheckChanges',
+		force    => 1,
+		makefilepl_param => ['INSTALLDIRS=vendor'],
+	);
+	$self->install_distribution(
+		name     => 'THALJEF/Perl-Critic-1.105_03.tar.gz',
+		mod_name => 'Perl::Critic',
+		buildpl_param => ['--installdirs', 'vendor'],
+	);
+	$self->install_modules( qw(
+		Perl::MinimumVersion
+		Perl::Critic::More
+		Test::Perl::Critic
+		Test::Pod::Coverage
+		Test::MinimumVersion
+		Test::Fixme
+		Test::HasVersion
+		Test::CPAN::Meta
+		Test::DistManifest
+		Test::Prereq
+		Test::Pod::Spelling::CommonMistakes
+	) );
+	
 	return 1;
 }
 

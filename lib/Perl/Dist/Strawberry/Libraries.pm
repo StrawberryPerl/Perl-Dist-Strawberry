@@ -36,7 +36,7 @@ use warnings;
 use File::Spec::Functions qw( catfile catdir );
 use Readonly;
 
-our $VERSION = '2.10';
+our $VERSION = '2.1001';
 $VERSION =~ s/_//ms;
 
 Readonly my %LIBRARIES_S => {
@@ -308,13 +308,13 @@ sub install_ppm {
 		if ($self->portable()) {
 			$self->install_distribution_from_file(
 				mod_name      => 'PPM',
-				file          => catfile($share, 'modules', 'PPM-0.01_02.tar.gz'),
+				file          => catfile($share, 'modules', 'PPM-0.01_03.tar.gz'),
 				makefilepl_param => ['INSTALLDIRS=site'],
 			);		
 		} else {
 			$self->install_distribution_from_file(
 				mod_name      => 'PPM',
-				file          => catfile($share, 'modules', 'PPM-0.01_02.tar.gz'),
+				file          => catfile($share, 'modules', 'PPM-0.01_03.tar.gz'),
 				makefilepl_param => ['INSTALLDIRS=vendor'],
 			);		
 		}
