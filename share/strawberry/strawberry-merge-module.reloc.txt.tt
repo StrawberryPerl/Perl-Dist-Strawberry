@@ -112,7 +112,6 @@ perl\vendor\lib\auto\Params\Util\.packlist:backslash
 perl\vendor\lib\auto\Parse\Binary\.packlist:backslash
 perl\vendor\lib\auto\pip\.packlist:backslash
 perl\vendor\lib\auto\pler\.packlist:backslash
-perl\vendor\lib\auto\PPM\.packlist:backslash
 perl\vendor\lib\auto\Probe\Perl\.packlist:backslash
 perl\vendor\lib\auto\SOAP\Lite\.packlist:backslash
 perl\vendor\lib\auto\Sub\Uplevel\.packlist:backslash
@@ -145,6 +144,7 @@ perl\vendor\lib\auto\YAML\Tiny\.packlist:backslash
 perl\vendor\lib\ppm.xml:backslash
 [% IF 589 != self.perl_version %]perl\lib\CPANPLUS\Config.pm:backslash[% END %]
 [% IF 64 != self.bits %]
+perl\vendor\lib\auto\PPM\.packlist:backslash
 perl\vendor\lib\auto\Algorithm\Diff\.packlist:backslash
 perl\vendor\lib\auto\Class\ErrorHandler\.packlist:backslash
 perl\vendor\lib\auto\Class\Loader\.packlist:backslash
