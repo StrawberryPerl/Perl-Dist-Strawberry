@@ -624,12 +624,27 @@ sub install_strawberry_modules_3 {
 
 sub install_strawberry_modules_4 {
 	my $self = shift;
-
-	# This is due to RT #52408.
-	return 1 if 64 == $self->bits();
 	
+	if ($self->portable()) {
+		$self->install_distribution( 
+			mod_name => 'Crypt::OpenSSL::Random',
+			name     => 'IROBERTS/Crypt-SSLeay-0.04.tar.gz',
+			makefilepl_param => [
+				'LIBS="-lssl32 -leay32"' ,
+			],
+		);
+	} else {
+		$self->install_distribution( 
+			mod_name => 'Crypt::OpenSSL::Random',
+			name     => 'IROBERTS/Crypt-SSLeay-0.04.tar.gz',
+			makefilepl_param => [
+				'INSTALLDIRS=vendor', 'LIBS="-lssl32 -leay32"' ,
+			],
+		);
+	}
+
 	# Required for Net::SSLeay.
-	local $ENV{'OPENSSL_PREFIX'} = catdir($self->image_dir, 'c');
+	local $ENV{'OPENSSL_PREFIX'} = catdir($self->image_dir(), 'c');
 	# This is required for IO::Socket::SSL.
 	local $ENV{'SKIP_RNG_TEST'} = 1;
 
@@ -654,12 +669,16 @@ sub install_strawberry_modules_4 {
 	}
 	
 	$self->install_modules( qw{
-		Net::SSLeay
 		Digest::HMAC
-		IO::Socket::SSL
-		Net::SMTP::TLS
 	});
 
+	# Net::SSLeay crashes at present on 64-bit during testing.
+	$self->install_modules( qw{	
+		Net::SSLeay
+		IO::Socket::SSL
+		Net::SMTP::TLS
+	}) if 32 == $self->bits();
+	
 	# The rest of the Net::SSH::Perl toolchain.
 	$self->install_module(
 		name  => 'Data::Random',
@@ -668,7 +687,12 @@ sub install_strawberry_modules_4 {
 	$self->install_modules( qw{
 		Math::GMP
 		Data::Buffer
+	});
+	# Check why this one isn't working.
+	$self->install_modules( qw{
 		Crypt::DSA
+	}) if 32 == $self->bits();
+	$self->install_modules( qw{
 		Class::ErrorHandler
 		Convert::ASN1
 		Crypt::CBC
@@ -685,14 +709,29 @@ sub install_strawberry_modules_4 {
 		Crypt::Blowfish
 		Tie::EncryptedHash
 		Class::Loader
+	});
+	# Requires Math::Pari.
+	$self->install_modules( qw{
 		Crypt::Random
+	}) if 32 == $self->bits();
+	$self->install_modules( qw{
 		Convert::ASCII::Armour
 		Digest::MD2
 		Sort::Versions
+	});
+	# These two require Crypt::Random. See above.
+	$self->install_modules( qw{
 		Crypt::Primes
 		Crypt::RSA
+	}) if 32 == $self->bits();
+	$self->install_modules( qw{
 		Digest::BubbleBabble
+	});
+	# Does not build 64-bit yet.
+	$self->install_modules( qw{
 		Crypt::IDEA
+	}) if 32 == $self->bits();
+	$self->install_modules( qw{
 		String::CRC32
 	});
 
@@ -707,11 +746,20 @@ sub install_strawberry_modules_4 {
 		Crypt::CAST5_PP
 		Crypt::RIPEMD160
 		Crypt::Twofish
+	});
+	# Requires Crypt::DSA, Crypt::IDEA, 
+	# Crypt::RSA, Crypt::Twofish, and Math::Pari.
+	$self->install_modules( qw{
 		Crypt::OpenPGP
+	}) if 32 == $self->bits();
+	$self->install_modules( qw{
 		Algorithm::Diff
 		Text::Diff
-		Module::Signature
 	});
+	# Requires Crypt::OpenPGP - see above.
+	$self->install_modules( qw{
+		Module::Signature
+	}) if 32 == $self->bits();
 	
 	return 1;
 }
