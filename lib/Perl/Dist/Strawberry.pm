@@ -748,7 +748,7 @@ sub install_strawberry_modules_4 {
 		Crypt::Twofish
 	});
 	# Requires Crypt::DSA, Crypt::IDEA, 
-	# Crypt::RSA, Crypt::Twofish, and Math::Pari.
+	# Crypt::RSA, and Math::Pari.
 	$self->install_modules( qw{
 		Crypt::OpenPGP
 	}) if 32 == $self->bits();
