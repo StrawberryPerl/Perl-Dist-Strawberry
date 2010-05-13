@@ -1,5 +1,8 @@
 Changes for Perl extension Perl-Dist-Strawberry
 
+2.10_10 Xxx ## Xxx 2010
+    - 5.12.1 support added. 
+
 2.1001 Thu 06 May 2010
     - This release corresponds to Bootstrap Perl "April" 2010 
       (which will be the last version of Bootstrap built 

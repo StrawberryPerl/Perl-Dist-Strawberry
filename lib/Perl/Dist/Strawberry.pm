@@ -130,7 +130,7 @@ use Perl::Dist::WiX::Util::Machine   qw();
 use File::List::Object               qw();
 use Path::Class::Dir                 qw();
 
-our $VERSION = '2.1001';
+our $VERSION = '2.10_10';
 $VERSION =~ s/_//ms;
 
 #####################################################################
@@ -178,7 +178,7 @@ sub default_machine {
 		portable     => 1,
 	);
 	$machine->add_option('version',
-		perl_version => '5120',
+		perl_version => '5121',
 		relocatable  => 1,
 		gcc_version  => 4,
 		build_number => 0,
