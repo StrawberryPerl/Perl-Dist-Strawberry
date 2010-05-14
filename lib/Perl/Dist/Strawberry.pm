@@ -628,7 +628,7 @@ sub install_strawberry_modules_4 {
 	if ($self->portable()) {
 		$self->install_distribution( 
 			mod_name => 'Crypt::OpenSSL::Random',
-			name     => 'IROBERTS/Crypt-SSLeay-0.04.tar.gz',
+			name     => 'IROBERTS/Crypt-OpenSSL-Random-0.04.tar.gz',
 			makefilepl_param => [
 				'LIBS="-lssl32 -leay32"' ,
 			],
@@ -636,7 +636,7 @@ sub install_strawberry_modules_4 {
 	} else {
 		$self->install_distribution( 
 			mod_name => 'Crypt::OpenSSL::Random',
-			name     => 'IROBERTS/Crypt-SSLeay-0.04.tar.gz',
+			name     => 'IROBERTS/Crypt-OpenSSL-Random-0.04.tar.gz',
 			makefilepl_param => [
 				'INSTALLDIRS=vendor', 'LIBS="-lssl32 -leay32"' ,
 			],
