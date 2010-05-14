@@ -200,7 +200,7 @@ sub new {
 	my $dist_dir = Path::Class::Dir->new(File::ShareDir::dist_dir('Perl-Dist-Strawberry'));
 	my $class = shift;
 	
-	if ($Perl::Dist::WiX::VERSION < '1.102102') {
+	if ($Perl::Dist::WiX::VERSION < '1.200100') {
 		PDWiX->throw('Perl::Dist::WiX version is not high enough.')
 	}
 
