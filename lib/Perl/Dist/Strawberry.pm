@@ -824,7 +824,7 @@ sub install_strawberry_files {
 
 	if ($self->relocatable()) {
 		# Copy the relocation information in.
-		$self->patch_file('strawberry-merge-module.reloc.txt', $self->image_dir());
+		$self->make_relocation_file('strawberry-merge-module.reloc.txt');
 		
 		# Make sure it gets installed.
 		$self->insert_fragment('relocation_info',
@@ -898,7 +898,7 @@ sub install_strawberry_extras {
 
 	if ($self->relocatable()) {
 		# Copy the relocation information in.
-		$self->patch_file('strawberry-ui.reloc.txt', $self->image_dir());
+		$self->make_relocation_file('strawberry-ui.reloc.txt', 'strawberry-merge-module.reloc.txt');
 		
 		# Make sure it gets installed.
 		$self->insert_fragment('relocation_ui_info',
