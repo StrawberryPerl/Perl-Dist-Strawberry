@@ -650,25 +650,28 @@ sub install_strawberry_modules_4 {
 
 	# We have to tell the Makefile.PL where the OpenSSL 
 	# libraries are by passing a parameter for Crypt::SSLeay.
-	if ($self->portable()) {
-		$self->install_distribution( 
-			mod_name => 'Crypt::SSLeay',
-			name     => 'DLAND/Crypt-SSLeay-0.57.tar.gz',
-			makefilepl_param => [
-				'--lib', $ENV{'OPENSSL_PREFIX'} ,
-			],
-		);
-	} else {
-		$self->install_distribution( 
-			mod_name => 'Crypt::SSLeay',
-			name     => 'DLAND/Crypt-SSLeay-0.57.tar.gz',
-			makefilepl_param => [
-				'INSTALLDIRS=vendor', '--lib', $ENV{'OPENSSL_PREFIX'} ,
-			],
-		);
-	}
-	
+#	if ($self->portable()) {
+#		$self->install_distribution( 
+#			mod_name => 'Crypt::SSLeay',
+#			name     => 'DLAND/Crypt-SSLeay-0.57.tar.gz',
+#			makefilepl_param => [
+#				'--lib', $ENV{'OPENSSL_PREFIX'} ,
+#			],
+#		);
+#	} else {
+#		$self->install_distribution( 
+#			mod_name => 'Crypt::SSLeay',
+#			name     => 'DLAND/Crypt-SSLeay-0.57.tar.gz',
+#			makefilepl_param => [
+#				'INSTALLDIRS=vendor', '--lib', $ENV{'OPENSSL_PREFIX'} ,
+#			],
+#		);
+#	}
+
+	# Crypt::SSLeay has been distropref'd to use the same environment
+	# variable that Net::SSLeay uses in order to make building easier.
 	$self->install_modules( qw{
+		Crypt::SSLeay
 		Digest::HMAC
 	});
 
