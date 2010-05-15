@@ -625,23 +625,23 @@ sub install_strawberry_modules_3 {
 sub install_strawberry_modules_4 {
 	my $self = shift;
 	
-	if ($self->portable()) {
-		$self->install_distribution( 
-			mod_name => 'Crypt::OpenSSL::Random',
-			name     => 'IROBERTS/Crypt-OpenSSL-Random-0.04.tar.gz',
-			makefilepl_param => [
-				'LIBS="-lssl32 -leay32"' ,
-			],
-		);
-	} else {
-		$self->install_distribution( 
-			mod_name => 'Crypt::OpenSSL::Random',
-			name     => 'IROBERTS/Crypt-OpenSSL-Random-0.04.tar.gz',
-			makefilepl_param => [
-				'INSTALLDIRS=vendor', 'LIBS="-lssl32 -leay32"' ,
-			],
-		);
-	}
+#	if ($self->portable()) {
+#		$self->install_distribution( 
+#			mod_name => 'Crypt::OpenSSL::Random',
+#			name     => 'IROBERTS/Crypt-OpenSSL-Random-0.04.tar.gz',
+#			makefilepl_param => [
+#				'LIBS="-lssl32 -leay32"' ,
+#			],
+#		);
+#	} else {
+#		$self->install_distribution( 
+#			mod_name => 'Crypt::OpenSSL::Random',
+#			name     => 'IROBERTS/Crypt-OpenSSL-Random-0.04.tar.gz',
+#			makefilepl_param => [
+#				'INSTALLDIRS=vendor', 'LIBS="-lssl32 -leay32"' ,
+#			],
+#		);
+#	}
 
 	# Required for Net::SSLeay.
 	local $ENV{'OPENSSL_PREFIX'} = catdir($self->image_dir(), 'c');
