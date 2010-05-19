@@ -143,13 +143,13 @@ $VERSION =~ s/_//ms;
   Perl::Dist::Strawberry->default_machine(...)->run();
   
 The C<default_machine> class method is used to setup the most common
-machine for building Strawberry Perl.
+'machine' for building Strawberry Perl.
 
 The machine provided creates a standard 5.8.9 distribution (.zip and .msi),
 a standard 5.10.1 distribution (.zip and .msi) and a Portable-enabled 5.10.1 
 distribution (.zip only).
 
-Returns a L<Perl::Dist::WiX::Util::Machine> object.
+Returns a L<Perl::Dist::WiX::Util::Machine|Perl::Dist::WiX::Util::Machine> object.
 
 =cut
 
@@ -176,6 +176,7 @@ sub default_machine {
 	$machine->add_option('version',
 		perl_version => '5121',
 		portable     => 1,
+		build_number => 0,
 	);
 	$machine->add_option('version',
 		perl_version => '5121',
@@ -212,7 +213,7 @@ sub new {
 		image_dir            => 'C:\strawberry',
 
 		# Perl version
-		perl_version         => '5101',
+		perl_version         => '5121',
 		
 		# Program version.
 		build_number         => 2,
@@ -422,7 +423,7 @@ sub install_strawberry_modules_1 {
 	my $self = shift;
 
 	# Install LWP::Online so our custom minicpan code works
-	if ($self->portable()) {
+	if ($self->portable() && (12 < $self->perl_major_version()) ) {
 		$self->install_distribution(
 			name     => 'ADAMK/LWP-Online-1.07.tar.gz',
 			mod_name => 'LWP::Online',
@@ -453,7 +454,7 @@ sub install_strawberry_modules_1 {
 	} );
 	
 	# XML Modules
-	if ($self->portable()) {
+	if ($self->portable() && (12 < $self->perl_major_version()) ) {
 		$self->install_distribution(
 			name             => 'MSERGEANT/XML-Parser-2.36.tar.gz',
 			mod_name         => 'XML::Parser',
@@ -482,7 +483,7 @@ sub install_strawberry_modules_1 {
 		XML::LibXSLT
 	} );
 	
-	unless ($self->portable()) {
+	unless ($self->portable() && (12 < $self->perl_major_version()) ) {
 		# Insert ParserDetails.ini
 		my $ini_file = catfile($self->image_dir(), qw(perl vendor lib XML SAX ParserDetails.ini));
 		$self->add_to_fragment('XML_SAX', [ $ini_file ]);
@@ -586,7 +587,7 @@ sub install_strawberry_modules_3 {
 		DBD::ADO
 	} );
 
-	if ($self->portable()) {
+	if ($self->portable() && (12 < $self->perl_major_version()) ) {
 		$self->install_distribution(
 			name     => 'CAPTTOFU/DBD-mysql-4.014.tar.gz',
 			mod_name => 'DBD::mysql',
@@ -625,7 +626,7 @@ sub install_strawberry_modules_3 {
 sub install_strawberry_modules_4 {
 	my $self = shift;
 	
-#	if ($self->portable()) {
+#	if ($self->portable() && (12 < $self->perl_major_version()) ) {
 #		$self->install_distribution( 
 #			mod_name => 'Crypt::OpenSSL::Random',
 #			name     => 'IROBERTS/Crypt-OpenSSL-Random-0.04.tar.gz',
@@ -647,26 +648,6 @@ sub install_strawberry_modules_4 {
 	local $ENV{'OPENSSL_PREFIX'} = catdir($self->image_dir(), 'c');
 	# This is required for IO::Socket::SSL.
 	local $ENV{'SKIP_RNG_TEST'} = 1;
-
-	# We have to tell the Makefile.PL where the OpenSSL 
-	# libraries are by passing a parameter for Crypt::SSLeay.
-#	if ($self->portable()) {
-#		$self->install_distribution( 
-#			mod_name => 'Crypt::SSLeay',
-#			name     => 'DLAND/Crypt-SSLeay-0.57.tar.gz',
-#			makefilepl_param => [
-#				'--lib', $ENV{'OPENSSL_PREFIX'} ,
-#			],
-#		);
-#	} else {
-#		$self->install_distribution( 
-#			mod_name => 'Crypt::SSLeay',
-#			name     => 'DLAND/Crypt-SSLeay-0.57.tar.gz',
-#			makefilepl_param => [
-#				'INSTALLDIRS=vendor', '--lib', $ENV{'OPENSSL_PREFIX'} ,
-#			],
-#		);
-#	}
 
 	# Crypt::SSLeay has been distropref'd to use the same environment
 	# variable that Net::SSLeay uses in order to make building easier.

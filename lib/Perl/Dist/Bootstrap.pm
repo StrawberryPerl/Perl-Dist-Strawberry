@@ -8,11 +8,8 @@ Perl::Dist::Bootstrap - A Perl distribution for building Perl distributions
 
 =head1 DESCRIPTION
 
-Bootstrap Perl is a subclass and variant of Strawberry Perl that installs
-into a different directory (C:\bootperl) than Strawberry Perl so that
-it won't be "in the way" when building Strawberry and other Perls.
-
-It also comes prepackaged with a number of additional modules that are
+Bootstrap Perl is a subclass and variant of Strawberry Perl that 
+also installs a number of additional modules that are
 dependencies of Perl::Dist and Perl::Dist::WiX.
 
 =cut
@@ -24,7 +21,7 @@ use parent                  qw( Perl::Dist::Strawberry );
 use File::Spec::Functions   qw( catfile catdir         );
 use File::ShareDir          qw();
 
-our $VERSION = '2.1001';
+our $VERSION = '2.10_10';
 $VERSION =~ s/_//ms;
 
 
@@ -35,10 +32,10 @@ $VERSION =~ s/_//ms;
 # Apply some default paths
 sub new {
 
-	if ($Perl::Dist::Strawberry::VERSION < 2.10) {
+	if ($Perl::Dist::Strawberry::VERSION < 2.1010) {
 		PDWiX->throw('Perl::Dist::Strawberry version is not high enough.')
 	}
-	if ($Perl::Dist::WiX::VERSION < 1.200) {
+	if ($Perl::Dist::WiX::VERSION < 1.200100) {
 		PDWiX->throw('Perl::Dist::WiX version is not high enough.')
 	}
 
@@ -47,8 +44,8 @@ sub new {
 		app_name          => 'Bootstrap Perl',
 		app_publisher     => 'Vanilla Perl Project',
 		app_publisher_url => 'http://vanillaperl.org/',
-		image_dir         => 'C:\\bootperl',
-		perl_version      => '5101',
+		image_dir         => 'C:\\strawberry',
+		perl_version      => '5121',
 
 		# Tasks to complete to create Bootstrap
 		tasklist => [
@@ -279,12 +276,6 @@ sub install_bootstrap_modules_2 {
 		Devel::Symdump
 		Pod::Coverage
 	) );
-	$self->install_distribution(
-		name     => 'GAM/Test-CheckChanges-0.14.tar.gz', # CPAN cannot extract.
-		mod_name => 'Test::CheckChanges',
-		force    => 1,
-		makefilepl_param => ['INSTALLDIRS=vendor'],
-	);
 	$self->install_distribution(
 		name     => 'THALJEF/Perl-Critic-1.105_03.tar.gz',
 		mod_name => 'Perl::Critic',
