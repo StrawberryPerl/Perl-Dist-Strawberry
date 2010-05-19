@@ -174,7 +174,7 @@ sub default_machine {
 		zip          => 0,
 	);
 	$machine->add_option('version',
-		perl_version => '5101',
+		perl_version => '5121',
 		portable     => 1,
 	);
 	$machine->add_option('version',
@@ -216,7 +216,7 @@ sub new {
 		
 		# Program version.
 		build_number         => 2,
-#		beta_number          => 0,
+		beta_number          => 1,
 		
 		# New options for msi building...
 		msi_license_file     => $dist_dir->file('License-short.rtf'),
