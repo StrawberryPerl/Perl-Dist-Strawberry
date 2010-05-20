@@ -225,6 +225,9 @@ sub new {
 		msi_help_url         => 'http://www.strawberryperl.com/support.html',
 		msi_banner_top       => $dist_dir->file('StrawberryBanner.bmp'),
 		msi_banner_side      => $dist_dir->file('StrawberryDialog.bmp'),
+		msi_exit_text        => <<'EOT';
+Before you start using Strawberry Perl, read the Release Notes and the README file.  These are both available from the start menu under "Strawberry Perl".
+EOT
 
 		# Set e-mail to something Strawberry-specific.
 		perl_config_cf_email => 'win32-vanilla@perl.org',
