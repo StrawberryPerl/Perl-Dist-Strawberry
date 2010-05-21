@@ -837,6 +837,7 @@ sub install_strawberry_extras {
 	# Links to the Strawberry Perl website.
 	# Don't include this for non-Strawberry sub-classes
 	if ( ref($self) eq 'Perl::Dist::Strawberry' ) {
+		$self->patch_file( 'README.txt' => $self->image_dir(), { dist => $self } );
 		if (not $self->portable()) {
 			$self->install_launcher(
 				name => 'Check installed versions of modules',
@@ -852,9 +853,20 @@ sub install_strawberry_extras {
 				icon_file  => _dist_file('strawberry.ico')
 			);
 			$self->install_website(
-				name       => 'Strawberry Perl Release Notes',
-				url        => $self->strawberry_release_notes_url(),
-				icon_file  => _dist_file('strawberry.ico')
+				name         => 'Strawberry Perl Release Notes',
+				url          => $self->strawberry_release_notes_url(),
+				icon_file    => _dist_file('strawberry.ico')
+				directory_id => 'App_Menu',
+			);
+			$self->install_website(
+				name         => 'learn.perl.org (tutorials, links)',
+				url          => 'http://learn.perl.org/',
+				icon_file    => _dist_file('perlhelp.ico')
+			);
+			$self->install_website(
+				name         => 'Beginning Perl (online book)',
+				url          => 'http://learn.perl.org/books/beginning-perl/',
+				icon_file    => _dist_file('perlhelp.ico')
 			);
 			# Link to IRC.
 			$self->install_website(
@@ -862,8 +874,12 @@ sub install_strawberry_extras {
 				url        => 'http://widget.mibbit.com/?server=irc.perl.org&channel=%23win32',
 				icon_file  => _dist_file('onion.ico')
 			);
+			$self->add_icon(
+				name         => 'Strawberry Perl README',
+				directory_id => 'App_Menu',
+				filename     => $self->image_dir()->file('README.txt')->stringify(),
+			);
 		}
-		$self->patch_file( 'README.txt' => $self->image_dir(), { dist => $self } );
 	}
 
 	my $license_file_from = catfile($dist_dir, 'License.rtf');
