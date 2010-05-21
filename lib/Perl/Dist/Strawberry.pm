@@ -758,6 +758,7 @@ sub install_strawberry_modules_5 {
 		File::Slurp
 		Task::Weaken
 		SOAP::Lite
+		Alien::Tidyp
 	});
 	
 	# For the local-lib script.
