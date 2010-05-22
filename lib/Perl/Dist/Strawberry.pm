@@ -360,7 +360,10 @@ sub install_strawberry_c_libraries {
 	$self->install_librarypack('libxz');
 
 	# Crypto libraries
-	$self->install_librarypack('libopenssl');
+	$self->install_librarypacks(qw{
+		libopenssl
+		libssh2
+	});
 
 	return 1;
 }
@@ -719,6 +722,7 @@ sub install_strawberry_modules_4 {
 	}) if 32 == $self->bits();
 	$self->install_modules( qw{
 		String::CRC32
+		Net::SSH2
 	});
 
 	# Since	Net::SSH::Perl does not work under Win32 yet, it
