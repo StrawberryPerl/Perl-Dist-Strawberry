@@ -856,18 +856,18 @@ sub install_strawberry_extras {
 			$self->install_website(
 				name         => 'Strawberry Perl Release Notes',
 				url          => $self->strawberry_release_notes_url(),
-				icon_file    => _dist_file('strawberry.ico')
+				icon_file    => _dist_file('strawberry.ico'),
 				directory_id => 'App_Menu',
 			);
 			$self->install_website(
 				name         => 'learn.perl.org (tutorials, links)',
 				url          => 'http://learn.perl.org/',
-				icon_file    => _dist_file('perlhelp.ico')
+				icon_file    => _dist_file('perlhelp.ico'),
 			);
 			$self->install_website(
 				name         => 'Beginning Perl (online book)',
 				url          => 'http://learn.perl.org/books/beginning-perl/',
-				icon_file    => _dist_file('perlhelp.ico')
+				icon_file    => _dist_file('perlhelp.ico'),
 			);
 			# Link to IRC.
 			$self->install_website(
