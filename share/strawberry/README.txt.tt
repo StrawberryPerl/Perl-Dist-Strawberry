@@ -21,29 +21,24 @@ Installation instructions: (.zip distribution only)
 
   cd <directory>
   perl\bin\perl.exe relocation.pl
-  set PATH=%PATH%;<directory>\c\bin;<directory>\perl\site\bin;<directory>\perl\bin
-  set TERM=dumb
+  perl\bin\perl.exe update_env.pl
 
-  (You probably should set the last two entries in your environment 
-  permanently by going to the System icon on the Control Panel, selecting
-  the Advanced Tab, then clicking on the Environment button and adding the 
-  environment entries.)
-  
+  (You can specify " --nosystem" after update_env.pl to install Strawberry 
+  Perl's environment variables for the current user only.)
+
 * If having a fixed installation path does not suit you, go to
   http://strawberryperl.com/releases.html and try "Strawberry Perl Portable 
   Edition"
 [% ELSE %]
 * If installing this version from a .zip file, you MUST install it to
-  [% dist.image_dir %]\ and then manually set some environment variables:
+  [% dist.image_dir %]\ and then run some commands:
 
-  set PATH=%PATH%;[% dist.image_dir %]\c\bin;[% dist.image_dir %]\perl\site\bin;[% dist.image_dir %]\perl\bin
-  set TERM=dumb
+  cd [% dist.image_dir %]
+  perl\bin\perl.exe update_env.pl
+   
+  (You can specify " --nosystem" after update_env.pl to install Strawberry 
+  Perl's environment variables for the current user only.)
 
-  (You probably should set the last two entries in your environment 
-  permanently by going to the System icon on the Control Panel, selecting
-  the Advanced Tab, then clicking on the Environment button and adding the 
-  environment entries.)
-  
 * If the fixed installation path [% dist.image_dir %]\ does not suit you, go
   to http://strawberryperl.com/releases.html and try "Strawberry Perl Portable 
   Edition"
