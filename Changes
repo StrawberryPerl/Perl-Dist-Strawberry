@@ -1,48 +1,51 @@
 Changes for Perl extension Perl-Dist-Strawberry
 
 2.10_10 Xxx ## Xxx 2010
-    - 5.12.1 support added. 
+    * This release corresponds to Strawberry Perl July 2010 Beta 1. 
+    + 5.12.1 support added. 
+    o Split start menu.
+    + Added Alien::Tidyp and Net::SSH2 to Strawberry.
 
 2.1001 Thu 06 May 2010
-    - This release corresponds to Bootstrap Perl "April" 2010 
+    * This release corresponds to Bootstrap Perl "April" 2010 
       (which will be the last version of Bootstrap built 
        against 5.10.1)
-    - This release ALSO corresponds to Strawberry Perl 5.12.0.1 
+    * This release ALSO corresponds to Strawberry Perl 5.12.0.1 
       (the May 2009 rebuild) 
-    - Updated Bootstrap's list of modules.
-    - Fixed bugs #43243 and #57205 in preparation for rebuild.
+    + Updated Bootstrap's list of modules.
+    + Fixed bugs #43243 and #57205 in preparation for rebuild.
     - Removed 5.8.9 from default machine.
-    - Added XML::Simple to Strawberry (Win32::Exe 0.13+ requires it)
+    + Added XML::Simple to Strawberry (Win32::Exe 0.13+ requires it)
 
 2.10 Sat 01 May 2010
-    - This release corresponds to Strawberry Perl April 2010.
-    - Adding ability to build against 5.12.0.
+    * This release corresponds to Strawberry Perl April 2010.
+    + Adding ability to build against 5.12.0.
     - Removing ability to build against 5.11.5 and 5.12.0-RC0.
 
 2.02_05 Thu 25 Mar 2010
-    - This release corresponds to the 5.12.0-RC0 builds of
+    * This release corresponds to the 5.12.0-RC0 builds of
       Strawberry Perl April 2010 Beta 1.
-    - Adding ability to build against 5.12.0-RC0.
+    + Adding ability to build against 5.12.0-RC0.
 
 2.02_04 Sat 20 Mar 2010
-    - This release corresponds to Strawberry Perl April 2010 Beta 1.
-    - Changing $Config{installsitebin} to perl/site/bin directory.
-    - Installing updated version of PPM that fixes bug RT#44584,
+    * This release corresponds to Strawberry Perl April 2010 Beta 1.
+    o Changing $Config{installsitebin} to perl/site/bin directory.
+    + Installing updated version of PPM that fixes bug RT#44584,
       and a site/lib dependency for the ppm.xml file.
-    - Adding module-version script.
-    - Adding ability to relocate (only works with 5.11.5 so far)
-    - Adding ability to build against 5.11.5.
-    - Updating to new versions of most libraries.
+    + Adding module-version script.
+    + Adding ability to relocate (only works with 5.11.5 so far)
+    + Adding ability to build against 5.11.5.
+    + Updating to new versions of most libraries.
 
 2.02_03 Fri 19 Feb 2010
-	- Release script is locking up.  Changed it and trying again.
+	= Release script is locking up.  Changed it and trying again.
 
 2.02_02 Fri 19 Feb 2010
-	- Messed up uploading to PAUSE. Re-uploading.
+	= Messed up uploading to PAUSE. Re-uploading.
 
 2.02_01 Fri 19 Feb 2010
-	- This release corresponds to Strawberry Perl Professional 5.10.1.1 Alpha 1.
-    - Adding SOAP::Lite and Task::Weaken.
+	* This release corresponds to Strawberry Perl Professional 5.10.1.1 Alpha 1.
+    + Adding SOAP::Lite and Task::Weaken.
 	
 2.02 Fri 29 Jan 2010
 	- This release corresponds to Strawberry Perl January 2010.
