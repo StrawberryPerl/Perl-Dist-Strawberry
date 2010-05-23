@@ -166,23 +166,25 @@ sub default_machine {
 	$machine->add_dimension('version');
 	$machine->add_option('version',
 		perl_version => '5101',
+		build_number => 3,
 	);
 	$machine->add_option('version',
 		perl_version => '5101',
+		build_number => 3,
 		image_dir    => 'D:\strawberry',
 		msi          => 1,
 		zip          => 0,
 	);
 	$machine->add_option('version',
 		perl_version => '5121',
-		portable     => 1,
 		build_number => 0,
+		portable     => 1,
 	);
 	$machine->add_option('version',
 		perl_version => '5121',
+		build_number => 0,
 		relocatable  => 1,
 		gcc_version  => 4,
-		build_number => 0,
 		download_dir => 'C:\tmp\dl-gcc4',
 	);
 
@@ -216,7 +218,7 @@ sub new {
 		perl_version         => '5121',
 		
 		# Program version.
-		build_number         => 2,
+		build_number         => 0,
 		beta_number          => 1,
 		
 		# New options for msi building...
@@ -762,6 +764,7 @@ sub install_strawberry_modules_5 {
 		File::Slurp
 		Task::Weaken
 		SOAP::Lite
+		Class::Inspector
 		File::ShareDir
 		Alien::Tidyp
 	});
