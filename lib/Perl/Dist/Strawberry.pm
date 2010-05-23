@@ -762,6 +762,7 @@ sub install_strawberry_modules_5 {
 		File::Slurp
 		Task::Weaken
 		SOAP::Lite
+		File::ShareDir
 		Alien::Tidyp
 	});
 	
