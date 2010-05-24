@@ -3,6 +3,7 @@ Strawberry Perl [% dist.distribution_version_human %] README
 
 What is Strawberry Perl?
 ------------------------
+
 * 'Perl' is a programming language suitable for writing simple scripts as well
   as complex applications. See http://perldoc.perl.org/perlintro.html
 
@@ -12,7 +13,6 @@ What is Strawberry Perl?
 
 Installation instructions: (.zip distribution only)
 ---------------------------------------------------
-
 [% IF dist.relocatable %]
 * If installing this version from a .zip file, you MUST extract it to a 
   directory that does not have spaces in it (referred to as <directory> 
