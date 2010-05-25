@@ -885,11 +885,11 @@ sub install_strawberry_extras {
 				url        => 'http://widget.mibbit.com/?server=irc.perl.org&channel=%23win32',
 				icon_file  => _dist_file('onion.ico')
 			);
-			$self->add_icon(
-				name         => 'Strawberry Perl README',
-				directory_id => 'App_Menu',
-				filename     => $self->image_dir()->file('README.txt')->stringify(),
-			);
+#			$self->add_icon(
+#				name         => 'Strawberry Perl README',
+#				directory_id => 'App_Menu',
+#				filename     => $self->image_dir()->file('README.txt')->stringify(),
+#			);
 		}
 	}
 
