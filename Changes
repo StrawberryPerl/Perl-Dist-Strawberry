@@ -1,10 +1,11 @@
 Changes for Perl extension Perl-Dist-Strawberry
 
-2.10_10 Xxx ## Xxx 2010
+2.10_10 Fri 28 May 2010
     * This release corresponds to Strawberry Perl July 2010 Beta 1. 
     + 5.12.1 support added. 
     o Split start menu.
     + Added Alien::Tidyp and Net::SSH2 to Strawberry.
+    + Added more modules to 64-bit Strawberry.
 
 2.1001 Thu 06 May 2010
     * This release corresponds to Bootstrap Perl "April" 2010 
