@@ -20,10 +20,10 @@ Installation instructions: (.zip distribution only)
   variables:
 
   cd <directory>
-  perl\bin\perl.exe relocation.pl
-  perl\bin\perl.exe update_env.pl
+  perl\bin\perl.exe relocation.pl.bat
+  perl\bin\perl.exe update_env.pl.bat
 
-  (You can specify " --nosystem" after update_env.pl to install Strawberry 
+  (You can specify " --nosystem" after update_env.pl.bat to install Strawberry 
   Perl's environment variables for the current user only.)
 
 * If having a fixed installation path does not suit you, go to
@@ -34,9 +34,9 @@ Installation instructions: (.zip distribution only)
   [% dist.image_dir %]\ and then run some commands:
 
   cd [% dist.image_dir %]
-  perl\bin\perl.exe update_env.pl
+  perl\bin\perl.exe update_env.pl.bat
    
-  (You can specify " --nosystem" after update_env.pl to install Strawberry 
+  (You can specify " --nosystem" after update_env.pl.bat to install Strawberry 
   Perl's environment variables for the current user only.)
 
 * If the fixed installation path [% dist.image_dir %]\ does not suit you, go
