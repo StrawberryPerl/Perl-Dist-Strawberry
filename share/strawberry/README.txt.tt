@@ -49,7 +49,7 @@ How to use Strawberry Perl?
 
 * In the command prompt window you can:
 
-  1. run any perl script by launching
+  1. run any perl script by launching (from the command prompt)
   
      c:\> perl c:\path\to\script.pl
 
@@ -58,3 +58,9 @@ How to use Strawberry Perl?
      c:\> cpan Module::Name
   
   3. run other tools included in Strawberry Perl like: perldoc, gcc, dmake ...
+
+* You'll need a text editor to create perl scripts.  One is NOT included with 
+Strawberry Perl.  A few options are Padre (which can be installed by running 
+"cpan Padre" from the command prompt for 32-bit versions) and Notepad++ 
+(which is downloadable at notepad-plus.sourceforge.net), which both include 
+syntax highlighting for perl scripts.  You can even use Notepad, if you wish.
