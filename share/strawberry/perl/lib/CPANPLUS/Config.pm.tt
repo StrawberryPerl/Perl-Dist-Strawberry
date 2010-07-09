@@ -130,13 +130,13 @@ An example entry would like this:
             },
             {
                 'scheme' => 'ftp',
-                'path' => '/pub/CPAN/',
-                'host' => 'ftp.nl.uu.net'
+                'path' => '/',
+                'host' => 'cpan.hexten.net'
             },
             {
                 'scheme' => 'ftp',
-                'path' => '/pub/CPAN/',
-                'host' => 'cpan.valueclick.com'
+                'path' => '/CPAN/',
+                'host' => 'cpan.cpantesters.org'
             },
             {
                 'scheme' => 'ftp',
@@ -214,7 +214,7 @@ Defaults to ~/.cpanplus.
 
 =cut
 
-       $Conf->{'conf'}->{'base'} = File::Spec->catdir('[% self.image_drive %]', 'cpanplus');
+       $Conf->{'conf'}->{'base'} = File::Spec->catdir('[% self.image_dir.stringify %]', 'cpanplus');
 
 =item buildflags
 
@@ -551,7 +551,7 @@ $ENV{EDITOR}, $ENV{VISUAL}, 'vi' or 'pico' programs, in that order.
 
         $Conf->{'program'}->{'editor'} = do {
             $ENV{'EDITOR'}  || $ENV{'VISUAL'} ||
-            can_run('vi')   || can_run('pico')
+            can_run('vi')   || can_run('pico') || can_run('notepad')
         };
 
 =item make
