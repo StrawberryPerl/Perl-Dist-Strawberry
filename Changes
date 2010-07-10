@@ -1,5 +1,10 @@
 Changes for Perl extension Perl-Dist-Strawberry
 
+2.10_11 Xxx ## Jul 2010
+    * This release corresponds to Strawberry Perl July 2010 Beta 2.
+    * RT#57929 fixed (C:\cpanplus\ rather than C:\strawberry\cpanplus 
+      used)
+
 2.10_10 Fri 28 May 2010
     * This release corresponds to Strawberry Perl July 2010 Beta 1. 
     + 5.12.1 support added. 
