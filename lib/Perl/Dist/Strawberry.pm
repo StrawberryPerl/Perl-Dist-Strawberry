@@ -233,6 +233,8 @@ sub new {
 		msi_exit_text        => <<'EOT',
 Before you start using Strawberry Perl, read the Release Notes and the README file.  These are both available from the start menu under "Strawberry Perl".
 EOT
+		msi_run_readme_txt   => 1,
+		
 		# Set e-mail to something Strawberry-specific.
 		perl_config_cf_email => 'win32-vanilla@perl.org',
 
