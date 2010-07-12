@@ -599,14 +599,14 @@ sub install_strawberry_modules_3 {
 
 	if ($self->portable() && (12 < $self->perl_major_version()) ) {
 		$self->install_distribution(
-			name     => 'CAPTTOFU/DBD-mysql-4.014.tar.gz',
+			name     => 'CAPTTOFU/DBD-mysql-4.016.tar.gz',
 			mod_name => 'DBD::mysql',
 			force    => 1,
 			makefilepl_param => ['INSTALLDIRS=site', '--mysql_config=mysql_config'],
 		);
 	} else {
 		$self->install_distribution(
-			name     => 'CAPTTOFU/DBD-mysql-4.014.tar.gz',
+			name     => 'CAPTTOFU/DBD-mysql-4.016.tar.gz',
 			mod_name => 'DBD::mysql',
 			force    => 1,
 			makefilepl_param => ['INSTALLDIRS=vendor', '--mysql_config=mysql_config'],
@@ -868,7 +868,7 @@ sub install_strawberry_extras {
 				name         => 'Strawberry Perl Release Notes',
 				url          => $self->strawberry_release_notes_url(),
 				icon_file    => _dist_file('strawberry.ico'),
-				directory_id => 'App_Menu',
+				directory_id => 'D_App_Menu',
 			);
 			$self->install_website(
 				name         => 'learn.perl.org (tutorials, links)',
@@ -888,7 +888,7 @@ sub install_strawberry_extras {
 			);
 			$self->add_icon(
 				name         => 'Strawberry Perl README',
-				directory_id => 'App_Menu',
+				directory_id => 'D_App_Menu',
 				filename     => $self->image_dir()->file('README.txt')->stringify(),
 			);
 		}
