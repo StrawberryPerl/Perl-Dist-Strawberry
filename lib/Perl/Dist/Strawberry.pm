@@ -360,8 +360,8 @@ sub install_strawberry_c_libraries {
 		libdb
 		libgdbm
 		libpostgresql
-		libmysql
 	});
+	$self->install_libmysql();
 
 	# Extra compression libraries
 	$self->install_librarypack('libxz');
