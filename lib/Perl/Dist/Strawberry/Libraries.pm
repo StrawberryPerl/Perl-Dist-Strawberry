@@ -461,14 +461,13 @@ C<%Perl::Dist::Strawberry::LIBRARIES_S>.
 
 sub install_libmysql {
 	my $self = shift;
-	my $library = shift;
 	
 	my $filelist = $self->install_binary(
 		name       => 'libmysql',
 		url        => $self->_binary_url($self->get_library_file('libmysql')),
 		install_to => q{.}
 	);
-	$self->insert_fragment($library, $filelist);
+	$self->insert_fragment('libmysql', $filelist);
 
 	# Fix RT#58079.
 	my $destination = $self->file(qw(perl vendor lib auto DBD mysql libmysql_.dll));
