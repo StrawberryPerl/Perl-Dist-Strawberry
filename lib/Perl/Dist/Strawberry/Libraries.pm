@@ -470,8 +470,13 @@ sub install_libmysql {
 	$self->insert_fragment('libmysql', $filelist);
 
 	# Fix RT#58079.
+	my $source = $self->file(qw(c bin libmysql_.dll));
 	my $destination = $self->file(qw(perl vendor lib auto DBD mysql libmysql_.dll));
-	$self->copy_file($self->file(qw(c bin libmysql_.dll)), $destination);
+	if (! -f $source) { # 64-bit package has __ instead of _...
+		$source = $self->file(qw(c bin libmysql__.dll));
+		$destination = $self->file(qw(perl vendor lib auto DBD mysql libmysql__.dll));
+	}
+	$self->copy_file($source, $destination);
 	$self->add_file(source => $destination, fragment => 'libmysql');
 	
 	return 1;
