@@ -882,6 +882,12 @@ sub install_strawberry_extras {
 				url          => 'http://learn.perl.org/books/beginning-perl/',
 				icon_file    => _dist_file('perlhelp.ico'),
 			);
+			$self->install_website(
+				name         => 'Ovid\'s CGI Course',
+				url          => 'http://jdporter.perlmonk.org/cgi_course/',
+				icon_file    => _dist_file('perlhelp.ico'),
+			);
+			
 			# Link to IRC.
 			$self->install_website(
 				name       => 'Live Support',
