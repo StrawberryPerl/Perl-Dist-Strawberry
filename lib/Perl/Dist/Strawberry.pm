@@ -130,7 +130,7 @@ use Perl::Dist::WiX::Util::Machine   qw();
 use File::List::Object               qw();
 use Path::Class::Dir                 qw();
 
-our $VERSION = '2.10_11';
+our $VERSION = '2.11';
 $VERSION =~ s/_//ms;
 
 #####################################################################

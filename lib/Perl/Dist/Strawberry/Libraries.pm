@@ -36,7 +36,7 @@ use warnings;
 use File::Spec::Functions qw( catfile catdir );
 use Readonly;
 
-our $VERSION = '2.10_10';
+our $VERSION = '2.11';
 $VERSION =~ s/_//ms;
 
 Readonly my %LIBRARIES_S => {
