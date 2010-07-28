@@ -411,12 +411,15 @@ This method should only be called at during the install_modules phase.
 
 sub install_pari {
 	my $self = shift;
-	
-	my $url = $self->get_library_file_versioned('pari');
+
+	my $file = $self->get_library_file_versioned('pari');
+
+	my ($version) = $file =~ m{-(2 [.] \d+)-}msx;
 	
 	my $filelist = $self->install_par(
-	  name => 'Math::Pari', 
-	  url => $self->_binary_url($url)
+	  name      => 'Math::Pari', 
+	  url       => $self->_binary_url($file),
+	  dist_info => "ILYAZ/modules/Math-Pari-$version.tar.gz",
 	);
 
 	return 1;

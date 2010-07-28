@@ -883,7 +883,7 @@ sub install_strawberry_extras {
 				icon_file    => _dist_file('perlhelp.ico'),
 			);
 			$self->install_website(
-				name         => 'Ovid\'s CGI Course',
+				name         => q{Ovid's CGI Course},
 				url          => 'http://jdporter.perlmonk.org/cgi_course/',
 				icon_file    => _dist_file('perlhelp.ico'),
 			);

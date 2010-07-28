@@ -1,9 +1,13 @@
 Changes for Perl extension Perl-Dist-Strawberry
-    * Link to "Ovid's CGI Course"
+
+2.11 Xxx ## Jul 2010
+    * This release corresponds to Strawberry Perl July 2010.
+    + Added link to "Ovid's CGI Course"
+    + Added links to CPAN modules in the release notes.
 
 2.10_11 Mon 19 Jul 2010
     * This release corresponds to Strawberry Perl July 2010 Beta 2.
-    * RT#57929 fixed (C:\cpanplus\ rather than C:\strawberry\cpanplus 
+    o RT#57929 fixed (C:\cpanplus\ rather than C:\strawberry\cpanplus 
       used)
 
 2.10_10 Fri 28 May 2010
@@ -45,10 +49,10 @@ Changes for Perl extension Perl-Dist-Strawberry
     + Updating to new versions of most libraries.
 
 2.02_03 Fri 19 Feb 2010
-	= Release script is locking up.  Changed it and trying again.
+	* Release script is locking up.  Changed it and trying again.
 
 2.02_02 Fri 19 Feb 2010
-	= Messed up uploading to PAUSE. Re-uploading.
+	* Messed up uploading to PAUSE. Re-uploading.
 
 2.02_01 Fri 19 Feb 2010
 	* This release corresponds to Strawberry Perl Professional 5.10.1.1 Alpha 1.
@@ -177,3 +181,9 @@ Changes for Perl extension Perl-Dist-Strawberry
     
 0.000001 Sun  9 Jul 2006  
 	- Initial Alpha 1 release of Strawberry Perl
+
+Notes:
+ + = something got added.
+ - = something got removed.
+ o = something got done.
+ * = Informational.
