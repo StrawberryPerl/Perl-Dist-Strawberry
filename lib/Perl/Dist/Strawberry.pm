@@ -206,7 +206,7 @@ sub new {
 	my $dist_dir = Path::Class::Dir->new(File::ShareDir::dist_dir('Perl-Dist-Strawberry'));
 	my $class = shift;
 	
-	if ($Perl::Dist::WiX::VERSION < '1.200101') {
+	if ($Perl::Dist::WiX::VERSION < '1.250') {
 		PDWiX->throw('Perl::Dist::WiX version is not high enough.')
 	}
 
@@ -222,7 +222,7 @@ sub new {
 		
 		# Program version.
 		build_number         => 0,
-		beta_number          => 2,
+#		beta_number          => 2,
 		
 		# New options for msi building...
 		msi_license_file     => $dist_dir->file('License-short.rtf'),
