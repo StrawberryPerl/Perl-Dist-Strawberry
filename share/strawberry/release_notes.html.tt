@@ -42,7 +42,7 @@
 <hr /></h3>
 <div id="distlist" class="unhidden">
 <table>
-<tr><td><b>Distribution</b></td><td><b>Version</b></td></tr>
+<tr><td><b>Distribution</b></td><td><b>Version</b></td><td><b>Link</b></td></tr>
 [% dist_list %]
 </table>
 
