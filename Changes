@@ -9,6 +9,9 @@ Changes for Perl extension Perl-Dist-Strawberry
     * This release corresponds to Strawberry Perl July 2010 Beta 2.
     o RT#57929 fixed (C:\cpanplus\ rather than C:\strawberry\cpanplus 
       used)
+    + RT#58079 fixed (could not find libmysql_.dll)
+    + Added link to README.txt in start menu, and checkbox in .msi
+	  to read it at end of installation.
 
 2.10_10 Fri 28 May 2010
     * This release corresponds to Strawberry Perl July 2010 Beta 1. 
