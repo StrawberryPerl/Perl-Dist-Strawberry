@@ -312,18 +312,22 @@ sub install_ppm {
 			die("Failed to create '$ppmdir' directory");
 		}
 
-		# Install PPM itself
+		# Install PPM itself.
+		# See http://www.perhammer.com/2008/07/subversion-in-url-revision-browsing.html
+		# for description of strange URL.
 		my $share = $self->dist_dir();
 		if ($self->portable() && (12 < $self->perl_major_version()) ) {
 			$self->install_distribution_from_file(
 				mod_name      => 'PPM',
 				file          => catfile($share, 'modules', 'PPM-0.01_03.tar.gz'),
+				url           => 'http://svn.ali.as/cpan/!svn/bc/12117/trunk/' . 'Perl-Dist-Strawberry/share/modules/PPM-0.01_03.tar.gz',
 				makefilepl_param => ['INSTALLDIRS=site'],
 			);		
 		} else {
 			$self->install_distribution_from_file(
 				mod_name      => 'PPM',
 				file          => catfile($share, 'modules', 'PPM-0.01_03.tar.gz'),
+				url           => 'http://svn.ali.as/cpan/!svn/bc/12117/trunk/' . 'Perl-Dist-Strawberry/share/modules/PPM-0.01_03.tar.gz',
 				makefilepl_param => ['INSTALLDIRS=vendor'],
 			);		
 		}
