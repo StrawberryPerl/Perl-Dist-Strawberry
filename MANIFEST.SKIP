@@ -21,6 +21,7 @@
 # Avoid Module::Build generated and utility files.
 \bBuild$
 \b_build/
+^MYMETA.yml$
 
 # Avoid temp and backup files.
 ~$
