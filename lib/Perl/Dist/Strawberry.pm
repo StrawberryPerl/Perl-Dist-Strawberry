@@ -182,14 +182,14 @@ sub default_machine {
 		zip          => 0,
 	);
 	$machine->add_option('version',
-		perl_version => '5121',
+		perl_version => '5122',
 		build_number => 0,
 		portable     => 1,
 		gcc_version  => 4,
 		download_dir => 'C:\tmp\dl-gcc4',
 	);
 	$machine->add_option('version',
-		perl_version       => '5121',
+		perl_version       => '5122',
 		build_number       => 0,
 		relocatable        => 1,
 		use_dll_relocation => 1,
@@ -435,7 +435,7 @@ sub install_strawberry_modules_1 {
 	# XML Modules
 	if ($self->portable() && (12 < $self->perl_major_version()) ) {
 		$self->install_distribution(
-			name             => 'MSERGEANT/XML-Parser-2.36.tar.gz',
+			name             => 'CHORNY/XML-Parser-2.40.tar.gz',
 			mod_name         => 'XML::Parser',
 			makefilepl_param => [
 				'INSTALLDIRS=site',
@@ -445,7 +445,7 @@ sub install_strawberry_modules_1 {
 		);
 	} else {
 		$self->install_distribution(
-			name             => 'MSERGEANT/XML-Parser-2.36.tar.gz',
+			name             => 'CHORNY/XML-Parser-2.40.tar.gz',
 			mod_name         => 'XML::Parser',
 			makefilepl_param => [
 				'INSTALLDIRS=vendor',
@@ -568,14 +568,14 @@ sub install_strawberry_modules_3 {
 
 	if ($self->portable() && (12 < $self->perl_major_version()) ) {
 		$self->install_distribution(
-			name     => 'CAPTTOFU/DBD-mysql-4.016.tar.gz',
+			name     => 'CAPTTOFU/DBD-mysql-4.017.tar.gz',
 			mod_name => 'DBD::mysql',
 			force    => 1,
 			makefilepl_param => ['INSTALLDIRS=site', '--mysql_config=mysql_config'],
 		);
 	} else {
 		$self->install_distribution(
-			name     => 'CAPTTOFU/DBD-mysql-4.016.tar.gz',
+			name     => 'CAPTTOFU/DBD-mysql-4.017.tar.gz',
 			mod_name => 'DBD::mysql',
 			force    => 1,
 			makefilepl_param => ['INSTALLDIRS=vendor', '--mysql_config=mysql_config'],

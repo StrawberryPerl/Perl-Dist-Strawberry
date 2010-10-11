@@ -36,7 +36,7 @@ use warnings;
 use File::Spec::Functions qw( catfile catdir );
 use Readonly;
 
-our $VERSION = '2.11';
+our $VERSION = '2.11_10';
 $VERSION =~ s/_//ms;
 
 Readonly my %LIBRARIES_S => {
@@ -48,6 +48,7 @@ Readonly my %LIBRARIES_S => {
 		'mysql5115'     => undef,
 		'mysql5120'     => undef,
 		'mysql5121'     => undef,
+		'mysql5122'     => undef,
 		'mysqllib'      => '32bit-gcc3/MySQLLibraries-20100121.zip',
 		'pari589'       => 'Math-Pari-2.010801-MSWin32-x86-multi-thread-5.8.9.par',
 		'pari5100'      => '32bit-gcc3/Math-Pari-2.01080603-MSWin32-x86-multi-thread-5.10.1.par',
@@ -55,6 +56,7 @@ Readonly my %LIBRARIES_S => {
 		'pari5115'      => '32bit-gcc3/Math-Pari-2.01080603-MSWin32-x86-multi-thread-5.11.5.par',
 		'pari5120'      => undef,
 		'pari5121'      => undef,
+		'pari5122'      => undef,
 		'zlib'          => '32bit-gcc4/zlib-1.2.3-bin_20091126.zip',
 		'libiconv'      => '32bit-gcc4/libiconv-1.13.1-bin_20091126.zip',
 		'libxml2'       => '32bit-gcc4/libxml2-2.7.3-bin_20091126.zip',
@@ -94,6 +96,7 @@ Readonly my %LIBRARIES_S => {
 		'pari5115'      => '32bit-gcc4/Math-Pari-2.01080604-MSWin32-x86-multi-thread-5.11.5.par',
 		'pari5120'      => '32bit-gcc4/Math-Pari-2.01080604-MSWin32-x86-multi-thread-5.12.0.par',
 		'pari5121'      => '32bit-gcc4/Math-Pari-2.01080604-MSWin32-x86-multi-thread-5.12.0.par',
+		'pari5122'      => '32bit-gcc4/Math-Pari-2.01080604-MSWin32-x86-multi-thread-5.12.0.par',
 		'zlib'          => '32bit-gcc4/zlib-1.2.3-bin_20091126.zip',
 		'libiconv'      => '32bit-gcc4/libiconv-1.13.1-bin_20091126.zip',
 		'libxml2'       => '32bit-gcc4/libxml2-2.7.3-bin_20091126.zip',
@@ -126,6 +129,7 @@ Readonly my %LIBRARIES_S => {
 		'mysql5115'     => undef,
 		'mysql5120'     => undef,
 		'mysql5121'     => undef,
+		'mysql5122'     => undef,
 		'mysqllib'      => undef,
 		'pari589'       => undef,
 		'pari5100'      => undef,
@@ -133,6 +137,7 @@ Readonly my %LIBRARIES_S => {
 		'pari5115'      => undef,
 		'pari5120'      => undef,
 		'pari5121'      => undef,
+		'pari5122'      => undef,
 		'zlib'          => '64bit-gcc4/zlib-1.2.3-bin_20100110.zip',
 		'libiconv'      => '64bit-gcc4/libiconv-1.13.1-bin_20100110.zip',
 		'libxml2'       => '64bit-gcc4/libxml2-2.7.3-bin_20100110.zip',
@@ -320,7 +325,9 @@ sub install_ppm {
 			$self->install_distribution_from_file(
 				mod_name      => 'PPM',
 				file          => catfile($share, 'modules', 'PPM-0.01_03.tar.gz'),
-				url           => 'http://svn.ali.as/cpan/!svn/bc/12117/trunk/' . 'Perl-Dist-Strawberry/share/modules/PPM-0.01_03.tar.gz',
+				url           => 'http://svn.ali.as/cpan/!svn/bc/12117/' . 
+				                 'trunk/Perl-Dist-Strawberry/share/' . 
+								 'modules/PPM-0.01_03.tar.gz',
 				makefilepl_param => ['INSTALLDIRS=site'],
 			);		
 		} else {
