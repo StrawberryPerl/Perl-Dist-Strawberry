@@ -137,7 +137,7 @@ our $VERSION = '2.11_10';
 $VERSION =~ s/_//ms;
 
 extends 'Perl::Dist::WiX'                   => { -version => '1.250_100', },
-        'Perl::Dist::Strawberry::Libraries' => { -version => '2.11', };
+        'Perl::Dist::Strawberry::Libraries' => { -version => '2.11_10', };
 
 #####################################################################
 # Build Machine Generator
@@ -203,11 +203,11 @@ sub default_machine {
 has '+app_id'            => ( default => 'strawberryperl' );
 has '+app_name'          => ( default => 'Strawberry Perl' );
 has '+app_publisher'     => ( default => 'Vanilla Perl Project' );
-has '+app_publisher_url' => ( default => sub { URI->new('http://www.strawberryperl.com') } );
+has '+app_publisher_url' => ( default => sub { URI->new('http://www.strawberryperl.com/') } );
 has '+image_dir'         => ( default => sub { Path::Class::Dir->new('C:\strawberry') } );
 
 # Strawberry Perl version.
-has '+perl_version' => ( default => '5121' );
+has '+perl_version' => ( default => '5122' );
 has '+build_number' => ( default => 1 );
 has '+beta_number'  => ( default => 1 );
 
