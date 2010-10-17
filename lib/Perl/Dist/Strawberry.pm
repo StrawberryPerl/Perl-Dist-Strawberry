@@ -529,8 +529,11 @@ sub install_strawberry_modules_2 {
 		CPAN::Inject
 		File::pushd
 		pler
-		pip
 	} );
+	$self->install_module( 
+		name => 'pip', 
+		force => $self->offline(), 
+	);
 	
 	return 1;
 }
