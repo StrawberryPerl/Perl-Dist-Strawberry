@@ -200,27 +200,51 @@ sub default_machine {
 	return $machine;
 }
 
-has '+app_id'            => ( default => 'strawberryperl' );
-has '+app_name'          => ( default => 'Strawberry Perl' );
-has '+app_publisher'     => ( default => 'Vanilla Perl Project' );
-has '+app_publisher_url' => ( default => sub { URI->new('http://www.strawberryperl.com/') } );
-has '+image_dir'         => ( default => sub { Path::Class::Dir->new('C:\strawberry') } );
+sub BUILDARGS {
+	my $class = shift;
+	my %args;
+
+	if ( @_ == 1 && 'HASH' eq ref $_[0] ) {
+		%args = %{ $_[0] };
+	} elsif ( 0 == @_ % 2 ) {
+		%args = (@_);
+	} else {
+		PDWiX->throw( 'Parameters incorrect (not a hashref or hash)'
+			  . 'for Perl::Dist::Strawberry' );
+	}
+
+	$args{app_id}            //= 'strawberryperl';
+	$args{app_name}          //= 'Strawberry Perl';
+	$args{app_publisher}     //= 'Vanilla Perl Project';
+	$args{app_publisher_url} //= URI->new('http://www.strawberryperl.com/');
+	$args{image_dir}         //= Path::Class::Dir->new('C:\strawberry');
 
 # Strawberry Perl version.
-has '+perl_version' => ( default => '5122' );
-has '+build_number' => ( default => 1 );
-has '+beta_number'  => ( default => 1 );
+	$args{perl_version} //= '5122';
+	$args{build_number} //= 1;
+	$args{beta_number}  //= 1;
 
 # New options for msi building...
-has '+msi_product_icon'   => ( default => sub { File::ShareDir::PathClass->dist_dir('Perl-Dist-WiX')->file('win32.ico') } );
-has '+msi_license_file'   => ( default => sub { dist_dir()->file('License-short.rtf') } );
-has '+msi_banner_top'     => ( default => sub { dist_dir()->file('StrawberryBanner.bmp') } );
-has '+msi_banner_side'    => ( default => sub { dist_dir()->file('StrawberryDialog.bmp') } );
-has '+msi_run_readme_txt' => ( default => 1 );
-has '+msi_help_url'       => ( default => 'http://www.strawberryperl.com/support.html' );
-has '+msi_exit_text'      => ( default => <<'EOT' );
+	$args{msi_product_icon}   //= File::ShareDir::PathClass->dist_dir('Perl-Dist-WiX')->file('win32.ico');
+	$args{msi_license_file}   //= dist_dir()->file('License-short.rtf');
+	$args{msi_banner_top}     //= dist_dir()->file('StrawberryBanner.bmp');
+	$args{msi_banner_side}    //= dist_dir()->file('StrawberryDialog.bmp');
+	$args{msi_run_readme_txt} //= 1;
+	$args{msi_help_url}       //= 'http://www.strawberryperl.com/support.html';
+	$args{msi_exit_text}      //= <<'EOT';
 Before you start using Strawberry Perl, read the Release Notes and the README file.  These are both available from the start menu under "Strawberry Perl".
 EOT
+
+# Set e-mail to something Strawberry-specific.
+	$args{perl_config_cf_email} //= 'win32-vanilla@perl.org';
+
+# Build both msi and zip versions
+	$args{msi} //= 1;
+	$args{zip} //= 1;
+
+	return \%args;
+} ## end sub BUILDARGS
+
 
 sub _build_tasklist { return [
 	'final_initialization',
@@ -250,13 +274,6 @@ sub _build_tasklist { return [
 	'create_release_notes',
 	];
 }
-
-# Set e-mail to something Strawberry-specific.
-has '+perl_config_cf_email' => ( default => 'win32-vanilla@perl.org' );
-
-# Build both msi and zip versions
-has '+msi' => ( default => 1 );
-has '+zip' => ( default => 1 );
 
 #####################################################################
 # Configuration
