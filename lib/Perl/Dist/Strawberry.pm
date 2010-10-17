@@ -200,7 +200,8 @@ sub default_machine {
 	return $machine;
 }
 
-sub BUILDARGS {
+around BUILDARGS => sub {
+	my $orig = shift;
 	my $class = shift;
 	my %args;
 
@@ -242,8 +243,8 @@ EOT
 	$args{msi} //= 1;
 	$args{zip} //= 1;
 
-	return \%args;
-} ## end sub BUILDARGS
+	return $class->$orig(\%args);
+}; ## end sub BUILDARGS
 
 
 sub _build_tasklist { return [
