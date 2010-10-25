@@ -1,6 +1,10 @@
 Changes for Perl extension Perl-Dist-Strawberry
 
-2.11 Xxx ## Jul 2010
+2.11_10 Sun 24 Oct 2010
+    * This release corresponds to Strawberry Perl October 2010 Beta 1.
+    + Now uses pluggable perl version framework.
+
+2.11 Xxx 01 Aug 2010
     * This release corresponds to Strawberry Perl July 2010.
     + Added link to "Ovid's CGI Course"
     + Added links to CPAN modules in the release notes.
