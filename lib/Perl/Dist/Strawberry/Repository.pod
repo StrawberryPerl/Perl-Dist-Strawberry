@@ -7,7 +7,7 @@ Perl::Dist::Strawberry::Repository - The repository that is used for Perl::Dist:
 =head1 DESCRIPTION
 
 This documentation describes the repository that Perl::Dist::Strawberry uses, 
-and the branches that are currently being used as of May 2010.
+and the branches that are currently being used as of November 2010.
 
 =head1 REPOSITORY
 
@@ -43,24 +43,20 @@ Here are the branches:
 
 Location: L<http://svn.ali.as/cpan/trunk/Perl-Dist-Strawberry/>
 
-The trunk is currently working with Perl::Dist::WiX 1.200001.
+The trunk is currently working with Perl::Dist::WiX 1.500.
 
-The ability to build with 5.12.0 has been added.
-
-The ability to build with the gcc 4.4.3 binaries from the mingw-w64 project
-has also been recently added, and updated libraries have been added.
+Pluggability has been added. Because of this, the Perl patches are in separate 
+distributions now, in the Perl::Dist::Strawberry::BuildPerl:: namespace.
 
 =head2 Maintenance 
 
-Location: L<http://svn.ali.as/cpan/branches/Perl-Dist-Strawberry/April-2010-maintenance/>
+Location: L<http://svn.ali.as/cpan/branches/Perl-Dist-Strawberry/October-2010-maintenance/>
 
 This is a maintenance branch for use only if there is a major bug that 
-requires a re-release of the April 2010 version of Strawberry Perl.
+requires a re-release of the October 2010 version of Strawberry Perl.
 
-This branch will be deleted once the July 2010 version is released, 
+This branch will be deleted once the January 2011 version is released, 
 and a new maintenance branch will be created at that time.
-
-5.12.0.1 was such a re-release, and was built off of this branch.
 
 =head1 AUTHORS
 

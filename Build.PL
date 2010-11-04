@@ -58,7 +58,7 @@ my $builder = $class->new(
 	},
 	requires => {
 		'perl'                       => '5.010',
-		'Perl::Dist::WiX'            => '1.250_100',
+		'Perl::Dist::WiX'            => '1.500',
 		'File::ShareDir::PathClass'  => '1.101620',
 	},
 	build_requires => {

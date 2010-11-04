@@ -133,11 +133,11 @@ use Perl::Dist::WiX::Util::Machine   qw();
 use File::List::Object               qw();
 use Path::Class::Dir                 qw();
 
-our $VERSION = '2.11_10';
+our $VERSION = '2.50';
 $VERSION =~ s/_//ms;
 
-extends 'Perl::Dist::WiX'                   => { -version => '1.250_100', },
-        'Perl::Dist::Strawberry::Libraries' => { -version => '2.11_10', };
+extends 'Perl::Dist::WiX'                   => { -version => '1.500', },
+        'Perl::Dist::Strawberry::Libraries' => { -version => '2.50', };
 
 #####################################################################
 # Build Machine Generator
@@ -223,7 +223,7 @@ around BUILDARGS => sub {
 # Strawberry Perl version.
 	$args{perl_version} //= '5122';
 	$args{build_number} //= 1;
-	$args{beta_number}  //= 1;
+#	$args{beta_number}  //= 1;
 
 # New options for msi building...
 	$args{msi_product_icon}   //= File::ShareDir::PathClass->dist_dir('Perl-Dist-WiX')->file('win32.ico');
@@ -1007,7 +1007,6 @@ configuration should be reported to RT. Bugs in individual modules
 should be reported to their respective distributions.
 
 For more support information and places for discussion, see the
-Strawberry Perl Support page L<http://strawberryperl.com/support.html>.
 Strawberry Perl Support page L<http://strawberryperl.com/support.html>.
 
 =head1 AUTHOR
