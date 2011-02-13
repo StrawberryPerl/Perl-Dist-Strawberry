@@ -26,7 +26,7 @@ my $OUTPUT       = undef;
 my $FORCE        = 0;
 my $TRACE        = undef;
 my $OFFLINE      = 0;
-my @SKIP         = undef;
+my @SKIP         = ();
 my $result       = Getopt::Long::GetOptions(
 	"cpan=s"         => \$CPAN,
 	"output=s"       => \$OUTPUT,
@@ -73,11 +73,11 @@ if ( defined $OFFLINE ) {
 if ( defined $TRACE ) {
 	$options{trace} = $TRACE;
 }
-if ( 1 < scalar @SKIP ) {
-	push @SKIP, 6;
-} else {
-	@SKIP = ( 6 );
-}
+#if ( 1 < scalar @SKIP ) {
+#	push @SKIP, 6;
+#} else {
+#	@SKIP = ( 6 );
+#}
 
 # Create the machine
 my $machine = Perl::Dist::Strawberry->default_machine( 
@@ -163,7 +163,6 @@ This script builds Strawberry Perl.
     --cpan <URL>      Specifies the CPAN mirror to download to.
                       Defaults to http://cpan.strawberryperl.com/.
     --skip <NUM>...   Specifies a list of which builds need skipped.
-                      6 (D-drive & portable) is added automatically.
     --trace <NUM>     Specifies the trace level.
                       Defaults to 1, range is between 0 and 5.
 
@@ -259,7 +258,7 @@ execution of this script.
 
 =head1 DEPENDENCIES
 
-Perl 5.8.1 is the mimimum version of perl that this script will run on.
+Perl 5.10.0 is the mimimum version of perl that this script will run on.
 
 Other modules that this script depends on are L<File::HomeDir|File::HomeDir> 
 L<URI|URI>, and L<Perl::Dist::Strawberry|Perl::Dist::Strawberry>.
