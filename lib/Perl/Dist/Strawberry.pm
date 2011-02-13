@@ -221,9 +221,9 @@ around BUILDARGS => sub {
 	$args{image_dir}         //= Path::Class::Dir->new('C:\strawberry');
 
 # Strawberry Perl version.
-	$args{perl_version} //= '5122';
-	$args{build_number} //= 1;
-#	$args{beta_number}  //= 1;
+	$args{perl_version} //= '5123';
+	$args{build_number} //= 0;
+	$args{beta_number}  //= 1;
 
 # New options for msi building...
 	$args{msi_product_icon}   //= File::ShareDir::PathClass->dist_dir('Perl-Dist-WiX')->file('win32.ico');
