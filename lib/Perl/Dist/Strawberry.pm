@@ -446,9 +446,19 @@ sub install_strawberry_modules_1 {
 
 	# Install additional math modules
 	$self->install_pari() if not 64 == $self->bits();
-	$self->install_modules( qw{
-		Math::BigInt::GMP
-	} );
+	if ($self->portable() && (12 < $self->perl_major_version()) ) {
+		$self->install_distribution(
+			name     => 'FLORA/Math-BigInt-GMP-1.32.tar.gz',
+			mod_name => 'Math::BigInt::GMP',
+			makefilepl_param => ['INSTALLDIRS=site'],
+		);
+	} else {
+		$self->install_distribution(
+			name     => 'FLORA/Math-BigInt-GMP-1.32.tar.gz',
+			mod_name => 'Math::BigInt::GMP',
+			makefilepl_param => ['INSTALLDIRS=vendor'],
+		);
+	}
 	
 	# XML Modules
 	if ($self->portable() && (12 < $self->perl_major_version()) ) {
