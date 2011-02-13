@@ -616,6 +616,9 @@ sub install_strawberry_modules_3 {
 		local::lib
 	} );	
 
+	# Now that we have JSON::XS, use it as Parse::CPAN::Meta's JSON backend.
+	$self->add_env('PERL_JSON_BACKEND', 'JSON::XS');
+	
 	# Graphics module installation.
 	$self->install_module( name => 'Imager' );
 	$self->install_module( name => 'GD' );
