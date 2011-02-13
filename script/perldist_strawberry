@@ -2,20 +2,20 @@
 
 # A copy of perldist that does some strawberry-specific actions
 
-use 5.008001;
+use 5.010;
 use strict;
 use warnings;
 use Pod::Usage;
-use File::HomeDir                 qw();
-use Getopt::Long                  qw();
-use URI                           qw();
-use Perl::Dist::Strawberry 2.0001 qw();
-use English                       qw( -no_match_vars );
-use Carp                          qw( croak          );
+use File::HomeDir               qw();
+use Getopt::Long                qw();
+use URI                         qw();
+use Perl::Dist::Strawberry 2.50 qw();
+use English                     qw( -no_match_vars );
+use Carp                        qw( croak          );
 
-our $VERSION = '2.01';
+our $VERSION = '2.50';
 our $VERSION_STRING = $VERSION;
-$VERSION = eval $VERSION_STRING;
+$VERSION =~ s/_//ms;
 
 
 #####################################################################
@@ -202,15 +202,13 @@ Specifies which builds need skipped from the list below:
 
 =over
 
-=item 1. 5.8.9 C: drive (.msi & .zip)
+=item 1. 5.10.1 C: drive (.msi & .zip)
 
-=item 2. 5.10.1 C: drive (.msi & .zip)
+=item 2. 5.10.1 D: drive (.msi)
 
-=item 3. 5.10.1 Portable (.zip)
+=item 3. 5.12.3 relocatable (.msi & .zip)
 
-=item 4. 5.8.9 D: drive (.msi)
-
-=item 5. 5.10.1 D: drive (.msi)
+=item 4. 5.12.3 portable (.zip)
 
 =back
 
