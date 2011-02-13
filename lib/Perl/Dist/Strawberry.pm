@@ -1019,7 +1019,7 @@ Curtis Jewell E<lt>csjewell@cpan.orgE<gt>
 
 Copyright 2007 - 2009 Adam Kennedy.  
 
-Copyright 2009 - 2010 Curtis Jewell.
+Copyright 2009 - 2011 Curtis Jewell.
 
 This program is free software; you can redistribute
 it and/or modify it under the same terms as Perl itself.

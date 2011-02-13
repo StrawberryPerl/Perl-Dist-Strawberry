@@ -105,7 +105,7 @@ sub version {
 This is $PROGRAM_NAME, version $VERSION_STRING, a distribution builder 
 for Perl::Dist::Strawberry.
 
-Copyright 2009 Curtis Jewell and Adam Kennedy.
+Copyright 2007-2009, 2011 Curtis Jewell and Adam Kennedy.
 
 This script may be copied only under the terms of either the Artistic License
 or the GNU General Public License, which may be found in the Perl 5 
@@ -144,7 +144,7 @@ perldist_strawberry - a distribution builder for Perl::Dist::Strawberry.
 
 =head1 VERSION
 
-This document describes perldist_strawberry version 2.00_01.
+This document describes perldist_strawberry version 2.50.
 
 =head1 DESCRIPTION
 
@@ -278,7 +278,7 @@ Adam Kennedy, E<lt>adamk@cpan.orgE<gt>
 
 =head1 COPYRIGHT & LICENSE
 
-Copyright 2009 Curtis Jewell.
+Copyright 2009, 2011 Curtis Jewell.
 
 Copyright 2007-2009 Adam Kennedy.
 
