@@ -446,19 +446,10 @@ sub install_strawberry_modules_1 {
 
 	# Install additional math modules
 	$self->install_pari() if not 64 == $self->bits();
-	if ($self->portable() && (12 < $self->perl_major_version()) ) {
-		$self->install_distribution(
-			name     => 'FLORA/Math-BigInt-GMP-1.32.tar.gz',
-			mod_name => 'Math::BigInt::GMP',
-			makefilepl_param => ['INSTALLDIRS=site'],
-		);
-	} else {
-		$self->install_distribution(
-			name     => 'FLORA/Math-BigInt-GMP-1.32.tar.gz',
-			mod_name => 'Math::BigInt::GMP',
-			makefilepl_param => ['INSTALLDIRS=vendor'],
-		);
-	}
+	# Math::BigInt::GMP is currently ABENDing. Will try and fix post-Beta-1.
+#	$self->install_modules( qw{
+#		Math::BigInt::GMP
+#	} );
 	
 	# XML Modules
 	if ($self->portable() && (12 < $self->perl_major_version()) ) {
