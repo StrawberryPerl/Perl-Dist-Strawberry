@@ -447,10 +447,9 @@ sub install_strawberry_modules_1 {
 
 	# Install additional math modules
 	$self->install_pari() if not 64 == $self->bits();
-	# Math::BigInt::GMP is currently ABENDing. Will try and fix post-Beta-1.
-#	$self->install_modules( qw{
-#		Math::BigInt::GMP
-#	} );
+	$self->install_modules( qw{
+		Math::BigInt::GMP
+	} );
 	
 	# XML Modules
 	if ($self->portable() && (12 < $self->perl_major_version()) ) {
