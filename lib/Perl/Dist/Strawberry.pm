@@ -930,7 +930,7 @@ sub install_strawberry_extras {
 	return 1;
 }
  
-+sub install_relocation_information {
+sub install_relocation_information {
 	my $self = shift;
 
 	return 1 if not $self->relocatable();
