@@ -7,3 +7,5 @@ glob:README
 glob:_build/*
 glob:blib/*
 glob:MYMETA.*
+glob:.build/*
+glob:Perl-Dist-Strawberry-*
