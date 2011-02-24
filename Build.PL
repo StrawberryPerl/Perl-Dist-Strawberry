@@ -74,7 +74,7 @@ my $builder = $class->new(
 		resources => {
 			homepage    => 'http://csjewell.comyr.com/perl/',
 			bugtracker  => 'http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Perl-Dist-Strawberry',
-			repository  => 'http://svn.ali.as/cpan/trunk/Perl-Dist-Strawberry/',
+			repository  => 'http://hg.curtisjewell.name/Perl-Dist-Strawberry/',
 			IRC         => 'irc://irc.perl.org/#win32',
 		},
 	},
