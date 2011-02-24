@@ -460,6 +460,9 @@ BEGIN {
 	$Test->plan( skip_all => "META.yml could not be found" )
 	  unless -f 'META.yml' and -r _;
 
+	$Test->plan( skip_all => "Not automated testing" )
+	  unless $ENV{'AUTOMATED_TESTING'};
+
 	my $meta = ( Local::YAML::Tiny->read('META.yml') )->[0];
 	my %requires;
 	for my $require_key ( grep {/requires/} keys %$meta ) {
