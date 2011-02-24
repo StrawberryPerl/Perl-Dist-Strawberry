@@ -1,0 +1,9 @@
+glob:META.*
+glob:Build
+glob:Build.bat
+glob:LICENSE
+glob:MANIFEST
+glob:README
+glob:_build/*
+glob:blib/*
+glob:MYMETA.*

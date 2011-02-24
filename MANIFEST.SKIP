@@ -6,6 +6,9 @@
 \B\.svn\b
 \B\.git\b
 \B\.gitignore\b
+\B\.hg\b
+\B\.hgtags\b
+\B\.hgignore\b
 \b_darcs\b
 
 # Avoid Makemaker generated and utility files.
@@ -21,7 +24,9 @@
 # Avoid Module::Build generated and utility files.
 \bBuild$
 \b_build/
-^MYMETA.yml$
+\B\.build/
+^MYMETA\.yml$
+^MYMETA\.json$
 
 # Avoid temp and backup files.
 ~$
