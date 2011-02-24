@@ -1,18 +1,20 @@
-#!/usr/bin/perl
+#!perl
 
 # Test that our META.yml file matches the specification
 
 use strict;
 use Test::More;
-use English qw(-no_match_vars);
 
 BEGIN {
+	BAIL_OUT ('Perl version unacceptably old.') if ($] < 5.008001);
+	use English qw(-no_match_vars);
 	$OUTPUT_AUTOFLUSH = 1;
 	$WARNING = 1;
 }
 
 my @MODULES = (
-	'Test::CPAN::Meta 0.12',
+    'Parse::CPAN::Meta 1.4401',
+	'Test::CPAN::Meta::JSON 0.10',
 );
 
 # Load the testing modules
@@ -23,4 +25,5 @@ foreach my $MODULE ( @MODULES ) {
 	}
 }
 
-meta_yaml_ok();
+meta_json_ok();
+
