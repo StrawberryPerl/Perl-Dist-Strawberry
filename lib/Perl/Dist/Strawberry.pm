@@ -584,9 +584,14 @@ sub install_strawberry_modules_3 {
 		name  => 'DB_File',
 		force => 1,
 	); 
+
+	#problems on Russian Windows, RT#67609 and #67611
+	$self->install_module(
+		name  => 'Win32::OLE',
+		force => 1,
+	); 
 	$self->install_modules( qw{
 		BerkeleyDB
-		Win32::OLE
 		DBD::ODBC
 		DBD::ADO
 	} );
