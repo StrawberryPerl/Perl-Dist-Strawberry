@@ -554,7 +554,7 @@ sub install_strawberry_modules_2 {
 	} );
 	$self->install_module( 
 		name => 'pip', 
-		force => $self->offline(), 
+		force => $self->offline() || 0,
 	);
 	
 	return 1;
