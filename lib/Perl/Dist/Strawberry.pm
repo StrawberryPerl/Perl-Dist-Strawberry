@@ -441,8 +441,11 @@ sub install_strawberry_modules_1 {
 		File::Remove
 		Win32::File::Object
 		Parse::Binary
-		Win32::EventLog
 	} );
+	$self->install_module(
+		name => 'Win32::EventLog',
+		force => 1, # Tests fail on only one computer, will be reported later
+	);
 	$self->install_modules('Win32::API') if not 64 == $self->bits();
 
 	# Install additional math modules
