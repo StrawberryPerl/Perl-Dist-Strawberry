@@ -24,6 +24,7 @@
 # Avoid Module::Build generated and utility files.
 \bBuild$
 \b_build/
+\bBuild.bat$
 \B\.build/
 ^MYMETA\.yml$
 ^MYMETA\.json$
