@@ -753,10 +753,15 @@ sub install_strawberry_modules_4 {
 		Algorithm::Diff
 		Text::Diff
 	});
+
 	# Requires Crypt::OpenPGP - see above.
-	$self->install_modules( qw{
-		Module::Signature
-	}) if 32 == $self->bits();
+	$self->install_distribution(
+		name     => 'FLORA/Module-Signature-0.66.tar.gz',
+		mod_name => 'Module::Signature',
+	) if 32 == $self->bits();
+	# version 0.67 of Module::Signature can have serious problems on Windows
+	# See https://rt.cpan.org/Ticket/Display.html?id=46339
+	# IPC::Run is a prereq only for 0.67
 	
 	return 1;
 }
