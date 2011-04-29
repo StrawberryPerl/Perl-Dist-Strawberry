@@ -758,6 +758,7 @@ sub install_strawberry_modules_4 {
 	$self->install_distribution(
 		name     => 'FLORA/Module-Signature-0.66.tar.gz',
 		mod_name => 'Module::Signature',
+		makefilepl_param => [ 'INSTALLDIRS=vendor', ],
 	) if 32 == $self->bits();
 	# version 0.67 of Module::Signature can have serious problems on Windows
 	# See https://rt.cpan.org/Ticket/Display.html?id=46339
