@@ -136,7 +136,7 @@ use Path::Class::Dir                 qw();
 our $VERSION = '2.50';
 $VERSION =~ s/_//ms;
 
-extends 'Perl::Dist::WiX'                   => { -version => '1.500', },
+extends 'Perl::Dist::WiX'                   => { -version => '1.500001', },
         'Perl::Dist::Strawberry::Libraries' => { -version => '2.50', };
 
 #####################################################################
@@ -255,6 +255,7 @@ sub _build_tasklist { return [
 	'install_perl',
 	'install_perl_toolchain',
 	'install_cpan_upgrades',
+	'verify_msi_file_contents',
 	'install_strawberry_modules_1',
 	'install_strawberry_modules_2',
 	'install_strawberry_modules_3',
@@ -264,6 +265,7 @@ sub _build_tasklist { return [
 	'install_relocatable',
 	'regenerate_fragments',
 	'find_relocatable_fields',
+	'verify_msi_file_contents',
 	'write_merge_module',
 	'install_win32_extras',
 	'install_strawberry_extras',
@@ -272,6 +274,7 @@ sub _build_tasklist { return [
 	'remove_waste',
 	'create_distribution_list',
 	'regenerate_fragments',
+	'verify_msi_file_contents',
 	'write',
 	'create_release_notes',
 	];
