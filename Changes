@@ -1,5 +1,11 @@
 Changes for Perl extension Perl-Dist-Strawberry
 
+2.5001 (TRIAL) To be released
+    * This release corresponds to Strawberry Perl 'February' (5.12.3) Beta 2.
+    + Added 5.12.3 plugin to use in testing to start with. Other plugins are
+      available from CPAN or from Strawberry Perl source control.
+    + Uses installed-file-checking routine to avoid crashes during relocation.
+
 2.50 Wed 23 Feb 2011
     * This release corresponds to Strawberry Perl February 2011 Beta 1.
 

@@ -76,7 +76,7 @@ construction toolkit works.
 =head1 CHANGES FROM CORE PERL
 
 Strawberry Perl is and will continue to be based on the latest "stable"
-releases of Perl, currently 5.8.9, and 5.10.0.
+releases of Perl, currently 5.10.1, and 5.12.3.
 
 Some additional modifications are included that improve general
 compatibility with the Win32 platform or improve "turnkey" operation on
@@ -101,7 +101,7 @@ perl.exe binary.
 =head1 CONFIGURATION
 
 At present, Strawberry Perl 5.10.1 must be installed in C:\strawberry.
-5.12.1 is relocatable, and can be installed anywhere.
+5.12.3 is relocatable, and can be installed anywhere.
 
 The executable installer adds the following environment variable changes:
 
@@ -133,7 +133,7 @@ use Perl::Dist::WiX::Util::Machine   qw();
 use File::List::Object               qw();
 use Path::Class::Dir                 qw();
 
-our $VERSION = '2.50';
+our $VERSION = '2.5001';
 $VERSION =~ s/_//ms;
 
 extends 'Perl::Dist::WiX'                   => { -version => '1.500001', },
