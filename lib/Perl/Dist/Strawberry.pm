@@ -170,17 +170,17 @@ sub default_machine {
 
 	# Set the different versions
 	$machine->add_dimension('version');
-	$machine->add_option('version',
-		perl_version => '5101',
-		build_number => 5,
-	);
-	$machine->add_option('version',
-		perl_version => '5101',
-		build_number => 5,
-		image_dir    => 'D:\strawberry',
-		msi          => 1,
-		zip          => 0,
-	);
+#	$machine->add_option('version',
+#		perl_version => '5101',
+#		build_number => 5,
+#	);
+#	$machine->add_option('version',
+#		perl_version => '5101',
+#		build_number => 5,
+#		image_dir    => 'D:\strawberry',
+#		msi          => 1,
+#		zip          => 0,
+#	);
 	$machine->add_option('version',
 		perl_version => '5123',
 		build_number => 0,
