@@ -310,7 +310,7 @@ sub _build_output_base_filename {
 	my $self = shift;
 	return 'strawberry-perl'
 		. '-' . $self->perl_version_human() . q{.}
-		. ($self->smoketest() ? 'smoketest' : $self->build_number())
+		. ($self->smoketest() ? 'smoketest-' . $self->output_date_string() : $self->build_number())
 		. ($self->image_dir() =~ /^d:/i ? '-ddrive' : q{})
 		. ($self->portable() ? '-portable' : q{})
 		. (( 64 == $self->bits() ) ? q{-64bit} : q{})
