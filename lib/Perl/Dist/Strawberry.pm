@@ -309,8 +309,8 @@ sub add_forgotten_files {
 sub _build_output_base_filename {
 	my $self = shift;
 	return 'strawberry-perl'
-		. '-' . $self->perl_version_human()
-		. '.' . $self->build_number()
+		. '-' . $self->perl_version_human() . q{.}
+		. ($self->smoketest() ? 'smoketest' : $self->build_number())
 		. ($self->image_dir() =~ /^d:/i ? '-ddrive' : q{})
 		. ($self->portable() ? '-portable' : q{})
 		. (( 64 == $self->bits() ) ? q{-64bit} : q{})
