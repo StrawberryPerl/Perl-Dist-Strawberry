@@ -170,17 +170,17 @@ sub default_machine {
 
 	# Set the different versions
 	$machine->add_dimension('version');
-#	$machine->add_option('version',
-#		perl_version => '5101',
-#		build_number => 5,
-#	);
-#	$machine->add_option('version',
-#		perl_version => '5101',
-#		build_number => 5,
-#		image_dir    => 'D:\strawberry',
-#		msi          => 1,
-#		zip          => 0,
-#	);
+	$machine->add_option('version',
+		perl_version => '5101',
+		build_number => 5,
+	);
+	$machine->add_option('version',
+		perl_version => '5101',
+		build_number => 5,
+		image_dir    => 'D:\strawberry',
+		msi          => 1,
+		zip          => 0,
+	);
 	$machine->add_option('version',
 		perl_version => '5123',
 		build_number => 0,
@@ -223,7 +223,7 @@ around BUILDARGS => sub {
 # Strawberry Perl version.
 	$args{perl_version} //= '5123';
 	$args{build_number} //= 0;
-	$args{beta_number}  //= 1;
+	$args{beta_number}  //= 0;
 
 # New options for msi building...
 	$args{msi_product_icon}   //= File::ShareDir::PathClass->dist_dir('Perl-Dist-WiX')->file('win32.ico');
