@@ -185,15 +185,15 @@ sub get_library_file {
 
 	if ( not exists $LIBRARIES_S{$toolchain}{$package} ) {
 		PDWiX->throw(
-			'get_library_file was called on a package that was not defined.'
+			"get_library_file was called on a package '$package' that was not defined."
 		);
 	}
 
 	my $package_file = $LIBRARIES_S{$toolchain}{$package};
 	if (defined $package_file) {
-		$self->trace_line( 3, "Pachage $package is in $package_file\n" );
+		$self->trace_line( 3, "Package $package is in $package_file\n" );
 	} else {
-		$self->trace_line( 1, "Pachage $package does not exist for this toolchain.\n" );
+		$self->trace_line( 1, "Package $package does not exist for this toolchain.\n" );
 	}
 	
 	return $package_file;
@@ -214,15 +214,15 @@ sub get_library_file_versioned {
 
 	if ( not exists $LIBRARIES_S{$toolchain}{$package_v} ) {
 		PDWiX->throw(
-			'get_library_file was called on a package that was not defined.'
+			"get_library_file was called on a package '$package' that was not defined."
 		);
 	}
 
 	my $package_file = $LIBRARIES_S{$toolchain}{$package_v};
 	if (defined $package_file) {
-		$self->trace_line( 3, "Pachage $package is in $package_file\n" );
+		$self->trace_line( 3, "Package $package is in $package_file\n" );
 	} else {
-		$self->trace_line( 1, "Pachage $package does not exist for this toolchain.\n" );
+		$self->trace_line( 1, "Package $package does not exist for this toolchain.\n" );
 	}
 	
 	return $package_file;
