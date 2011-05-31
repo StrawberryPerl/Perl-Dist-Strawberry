@@ -137,7 +137,7 @@ our $VERSION = '2.5001';
 $VERSION =~ s/_//ms;
 
 extends 'Perl::Dist::WiX'                   => { -version => '1.500001', },
-        'Perl::Dist::Strawberry::Libraries' => { -version => '2.50', };
+        'Perl::Dist::Strawberry::Libraries' => { -version => '2.5001', };
 
 #####################################################################
 # Build Machine Generator
