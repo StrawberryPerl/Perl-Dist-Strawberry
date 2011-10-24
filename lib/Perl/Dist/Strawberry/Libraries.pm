@@ -36,198 +36,139 @@ use warnings;
 use File::Spec::Functions qw( catfile catdir );
 use Readonly;
 
-our $VERSION = '2.5001';
-$VERSION =~ s/_//ms;
+our $VERSION = '2.5900';
 
-Readonly my %LIBRARIES_S => {
-	'32bit-gcc3' => { # The 32bit-gcc4 libraries can be used, but not par files.
-		'patch'         => '32bit-gcc3/patch-2.5.9-7-bin_20100110_20100303.zip',
-		'mysql589'      => 'DBD-mysql-4.012-MSWin32-x86-multi-thread-5.8.9.par',
-		'mysql5100'     => 'DBD-mysql-4.012-MSWin32-x86-multi-thread-5.10.0.par',
-		'mysql5101'     => 'DBD-mysql-4.012-MSWin32-x86-multi-thread-5.10.0.par',
-		'mysql5115'     => undef,
-		'mysql5120'     => undef,
-		'mysql5121'     => undef,
-		'mysql5122'     => undef,
-		'mysql5123'     => undef,
-		'mysqllib'      => '32bit-gcc3/MySQLLibraries-20100121.zip',
-		'pari589'       => 'Math-Pari-2.010801-MSWin32-x86-multi-thread-5.8.9.par',
-		'pari5100'      => '32bit-gcc3/Math-Pari-2.01080603-MSWin32-x86-multi-thread-5.10.1.par',
-		'pari5101'      => '32bit-gcc3/Math-Pari-2.01080603-MSWin32-x86-multi-thread-5.10.1.par',
-		'pari5115'      => '32bit-gcc3/Math-Pari-2.01080603-MSWin32-x86-multi-thread-5.11.5.par',
-		'pari5120'      => undef,
-		'pari5121'      => undef,
-		'pari5122'      => undef,
-		'pari5123'      => undef,
-		'zlib'          => '32bit-gcc4/zlib-1.2.3-bin_20091126.zip',
-		'libiconv'      => '32bit-gcc4/libiconv-1.13.1-bin_20091126.zip',
-		'libxml2'       => '32bit-gcc4/libxml2-2.7.3-bin_20091126.zip',
-		'libexpat'      => '32bit-gcc4/expat-2.0.1-bin_20091126.zip',
-		'gmp'           => '32bit-gcc4/gmp-5.0.1-419f6a4cc606-bin_20110218.zip',
-		'libxslt'       => '32bit-gcc4/libxslt-1.1.26-bin_20091126.zip',
-		'libjpeg'       => '32bit-gcc4/jpeg-6b-gnuwin32-bin_20091126.zip',
-		'libgif'        => '32bit-gcc4/giflib-4.1.6-bin_20091126.zip',
-		'libpng'        => '32bit-gcc4/libpng-1.2.40-bin_20091126.zip',
-		'libtiff'       => '32bit-gcc4/tiff-3.9.1-bin_20091126.zip',
-		'libgd'         => '32bit-gcc4/gd-2.0.35-bin_20091126.zip',
-		'libfreetype'   => '32bit-gcc4/freetype-2.3.11-bin_20091126.zip',
-		'libopenssl'    => '32bit-gcc4/openssl-0.9.8l-bin_20091126.zip',
-		'libpostgresql' => '32bit-gcc4/postgresql-8.4.1-bin_20091126.zip',
-		'libdb'         => '32bit-gcc4/db-4.8.24-bin_20091126.zip',
-		'libgdbm'       => '32bit-gcc4/gdbm-1.8.3-bin_20100112.zip',
-		'libxpm'        => '32bit-gcc4/libXpm-3.5.8-bin_20091126.zip',
-		'libxz'         => '32bit-gcc4/liblzma-xz-4.999.9beta-bin_20100308.zip',
-		'mpc'           => '32bit-gcc4/mpc-0.8.1-bin_20100306.zip',
-		'mpfr'          => '32bit-gcc4/mpfr-2.4.2-bin_20100306.zip',
-		'libmysql'      => '32bit-gcc4/mysql-5.1.44-bin_20100304.zip',
-		'freeglut'      => '32bit-gcc4/freeglut-2.6.0-bin_20100213.zip',
-		'libssh2'       => '32bit-gcc4/libssh2-1.2.5-bin_20100520.zip',
-	},
-	'32bit-gcc4' => {
-		'patch'         => '32bit-gcc4/patch-2.5.9-7-bin_20100110_20100303.zip',
-		'mysql589'      => undef,
-		'mysql5100'     => undef,
-		'mysql5101'     => undef,
-		'mysql5115'     => undef,
-		'mysql5120'     => undef,
-		'mysql5121'     => undef,
-		'mysql5122'     => undef,
-		'mysql5123'     => undef,
-		'mysqllib'      => '32bit-gcc4/mysql-5.1.44-bin_20100304.zip',
-		'pari589'       => undef,
-		'pari5100'      => undef,
-		'pari5101'      => undef,
-		'pari5115'      => '32bit-gcc4/Math-Pari-2.01080604-MSWin32-x86-multi-thread-5.11.5.par',
-		'pari5120'      => '32bit-gcc4/Math-Pari-2.01080604-MSWin32-x86-multi-thread-5.12.0.par',
-		'pari5121'      => '32bit-gcc4/Math-Pari-2.01080604-MSWin32-x86-multi-thread-5.12.0.par',
-		'pari5122'      => '32bit-gcc4/Math-Pari-2.01080604-MSWin32-x86-multi-thread-5.12.0.par',
-		'pari5123'      => '32bit-gcc4/Math-Pari-2.01080604-MSWin32-x86-multi-thread-5.12.3.par',
-		'pari5140'      => '32bit-gcc4/Math-Pari-2.01080605-MSWin32-x86-multi-thread-5.14.0.par',
-		'zlib'          => '32bit-gcc4/zlib-1.2.3-bin_20091126.zip',
-		'libiconv'      => '32bit-gcc4/libiconv-1.13.1-bin_20091126.zip',
-		'libxml2'       => '32bit-gcc4/libxml2-2.7.3-bin_20091126.zip',
-		'libexpat'      => '32bit-gcc4/expat-2.0.1-bin_20091126.zip',
-		'gmp'           => '32bit-gcc4/gmp-5.0.1-419f6a4cc606-bin_20110218.zip',
-		'libxslt'       => '32bit-gcc4/libxslt-1.1.26-bin_20091126.zip',
-		'libjpeg'       => '32bit-gcc4/jpeg-6b-gnuwin32-bin_20091126.zip',
-		'libgif'        => '32bit-gcc4/giflib-4.1.6-bin_20091126.zip',
-		'libpng'        => '32bit-gcc4/libpng-1.2.40-bin_20091126.zip',
-		'libtiff'       => '32bit-gcc4/tiff-3.9.1-bin_20091126.zip',
-		'libgd'         => '32bit-gcc4/gd-2.0.35-bin_20091126.zip',
-		'libfreetype'   => '32bit-gcc4/freetype-2.3.11-bin_20091126.zip',
-		'libopenssl'    => '32bit-gcc4/openssl-0.9.8l-bin_20091126.zip',
-		'libpostgresql' => '32bit-gcc4/postgresql-8.4.1-bin_20091126.zip',
-		'libdb'         => '32bit-gcc4/db-4.8.24-bin_20091126.zip',
-		'libgdbm'       => '32bit-gcc4/gdbm-1.8.3-bin_20100112.zip',
-		'libxpm'        => '32bit-gcc4/libXpm-3.5.8-bin_20091126.zip',
-		'libxz'         => '32bit-gcc4/liblzma-xz-4.999.9beta-bin_20100308.zip',
-		'mpc'           => '32bit-gcc4/mpc-0.8.1-bin_20100306.zip',
-		'mpfr'          => '32bit-gcc4/mpfr-2.4.2-bin_20100306.zip',
-		'libmysql'      => '32bit-gcc4/mysql-5.1.44-bin_20100304.zip',
-		'freeglut'      => '32bit-gcc4/freeglut-2.6.0-bin_20100213.zip',
-		'libssh2'       => '32bit-gcc4/libssh2-1.2.5-bin_20100520.zip',
-	},
-	'64bit-gcc4' => {
-		'patch'         => '64bit-gcc4/patch-2.5.9-7-bin_20100110_20100303.zip',
-		'mysql589'      => undef,
-		'mysql5100'     => undef,
-		'mysql5101'     => undef,
-		'mysql5115'     => undef,
-		'mysql5120'     => undef,
-		'mysql5121'     => undef,
-		'mysql5122'     => undef,
-		'mysql5123'     => undef,
-		'mysqllib'      => undef,
-		'pari589'       => undef,
-		'pari5100'      => undef,
-		'pari5101'      => undef,
-		'pari5115'      => undef,
-		'pari5120'      => undef,
-		'pari5121'      => undef,
-		'pari5122'      => undef,
-		'pari5123'      => undef,
-		'zlib'          => '64bit-gcc4/zlib-1.2.3-bin_20100110.zip',
-		'libiconv'      => '64bit-gcc4/libiconv-1.13.1-bin_20100110.zip',
-		'libxml2'       => '64bit-gcc4/libxml2-2.7.3-bin_20100110.zip',
-		'libexpat'      => '64bit-gcc4/expat-2.0.1-bin_20100110.zip',
-		'gmp'           => '64bit-gcc4/gmp-5.0.1-419f6a4cc606-bin_20100306.zip',
-		'libxslt'       => '64bit-gcc4/libxslt-1.1.26-bin_20100111.zip',
-		'libjpeg'       => '64bit-gcc4/jpeg-6b-gnuwin32-bin_20100110.zip',
-		'libgif'        => '64bit-gcc4/giflib-4.1.6-bin_20100110.zip',
-		'libpng'        => '64bit-gcc4/libpng-1.2.40-bin_20100110.zip',
-		'libtiff'       => '64bit-gcc4/tiff-3.9.1-bin_20100110.zip',
-		'libgd'         => '64bit-gcc4/gd-2.0.35-bin_20100110.zip',
-		'libfreetype'   => '64bit-gcc4/freetype-2.3.11-bin_20100110.zip',
-		'libopenssl'    => '64bit-gcc4/openssl-1.0.0-beta4-bin_20100110.zip',
-		'libpostgresql' => '64bit-gcc4/postgresql-8.4.1-bin_20100110.zip',
-		'libdb'         => '64bit-gcc4/db-4.8.24-bin_20100110.zip',
-		'libgdbm'       => '64bit-gcc4/gdbm-1.8.3-bin_20100112.zip',
-		'libxpm'        => '64bit-gcc4/libXpm-3.5.8-bin_20100110.zip',
-		'libxz'         => '64bit-gcc4/liblzma-xz-4.999.9beta-bin_20100308.zip',
-		'mpc'           => '64bit-gcc4/mpc-0.8.1-bin_20100306.zip',
-		'mpfr'          => '64bit-gcc4/mpfr-2.4.2-bin_20100306.zip',
-		'libmysql'      => '64bit-gcc4/mysql-5.1.44-bin_20100304.zip',
-		'freeglut'      => '64bit-gcc4/freeglut-2.6.0-bin_20100213.zip',
-		'libssh2'       => '64bit-gcc4/libssh2-1.2.5-bin_20100520.zip',
-	},
-};
-
-sub get_library_file {
-	my $self = shift;
-	my $package = shift;
-
-	my $toolchain = $self->library_directory();
-
-	$self->trace_line( 3, "Searching for $package in $toolchain\n" );
-
-	if ( not exists $LIBRARIES_S{$toolchain} ) {
-		PDWiX->throw('Can only build 32 or 64-bit versions of perl');
-	}
-
-	if ( not exists $LIBRARIES_S{$toolchain}{$package} ) {
-		PDWiX->throw(
-			"get_library_file was called on a package '$package' that was not defined."
-		);
-	}
-
-	my $package_file = $LIBRARIES_S{$toolchain}{$package};
-	if (defined $package_file) {
-		$self->trace_line( 3, "Package $package is in $package_file\n" );
-	} else {
-		$self->trace_line( 1, "Package $package does not exist for this toolchain.\n" );
-	}
-	
-	return $package_file;
-}
-
-sub get_library_file_versioned {
-	my $self = shift;
-	my $package = shift;
-
-	my $toolchain = $self->library_directory();
-	my $package_v = $package . $self->perl_version();
-	
-	$self->trace_line( 3, "Searching for $package in $toolchain\n" );
-
-	if ( not exists $LIBRARIES_S{$toolchain} ) {
-		PDWiX->throw('Can only build 32 or 64-bit versions of perl');
-	}
-
-	if ( not exists $LIBRARIES_S{$toolchain}{$package_v} ) {
-		PDWiX->throw(
-			"get_library_file was called on a package '$package' that was not defined."
-		);
-	}
-
-	my $package_file = $LIBRARIES_S{$toolchain}{$package_v};
-	if (defined $package_file) {
-		$self->trace_line( 3, "Package $package is in $package_file\n" );
-	} else {
-		$self->trace_line( 1, "Package $package does not exist for this toolchain.\n" );
-	}
-	
-	return $package_file;
-}
+# Readonly my %LIBRARIES_S => {
+	# '32bit-gcc3' => { # The 32bit-gcc4 libraries can be used, but not par files.
+		# 'patch'         => '32bit-gcc3/patch-2.5.9-7-bin_20100110_20100303.zip',
+		# 'mysql589'      => 'DBD-mysql-4.012-MSWin32-x86-multi-thread-5.8.9.par',
+		# 'mysql5100'     => 'DBD-mysql-4.012-MSWin32-x86-multi-thread-5.10.0.par',
+		# 'mysql5101'     => 'DBD-mysql-4.012-MSWin32-x86-multi-thread-5.10.0.par',
+		# 'mysql5115'     => undef,
+		# 'mysql5120'     => undef,
+		# 'mysql5121'     => undef,
+		# 'mysql5122'     => undef,
+		# 'mysql5123'     => undef,
+		# 'mysqllib'      => '32bit-gcc3/MySQLLibraries-20100121.zip',
+		# 'pari589'       => 'Math-Pari-2.010801-MSWin32-x86-multi-thread-5.8.9.par',
+		# 'pari5100'      => '32bit-gcc3/Math-Pari-2.01080603-MSWin32-x86-multi-thread-5.10.1.par',
+		# 'pari5101'      => '32bit-gcc3/Math-Pari-2.01080603-MSWin32-x86-multi-thread-5.10.1.par',
+		# 'pari5115'      => '32bit-gcc3/Math-Pari-2.01080603-MSWin32-x86-multi-thread-5.11.5.par',
+		# 'pari5120'      => undef,
+		# 'pari5121'      => undef,
+		# 'pari5122'      => undef,
+		# 'pari5123'      => undef,
+		# 'zlib'          => '32bit-gcc4/zlib-1.2.3-bin_20091126.zip',
+		# 'libiconv'      => '32bit-gcc4/libiconv-1.13.1-bin_20091126.zip',
+		# 'libxml2'       => '32bit-gcc4/libxml2-2.7.3-bin_20091126.zip',
+		# 'libexpat'      => '32bit-gcc4/expat-2.0.1-bin_20091126.zip',
+		# 'gmp'           => '32bit-gcc4/gmp-5.0.1-419f6a4cc606-bin_20110218.zip',
+		# 'libxslt'       => '32bit-gcc4/libxslt-1.1.26-bin_20091126.zip',
+		# 'libjpeg'       => '32bit-gcc4/jpeg-6b-gnuwin32-bin_20091126.zip',
+		# 'libgif'        => '32bit-gcc4/giflib-4.1.6-bin_20091126.zip',
+		# 'libpng'        => '32bit-gcc4/libpng-1.2.40-bin_20091126.zip',
+		# 'libtiff'       => '32bit-gcc4/tiff-3.9.1-bin_20091126.zip',
+		# 'libgd'         => '32bit-gcc4/gd-2.0.35-bin_20091126.zip',
+		# 'libfreetype'   => '32bit-gcc4/freetype-2.3.11-bin_20091126.zip',
+		# 'libopenssl'    => '32bit-gcc4/openssl-0.9.8l-bin_20091126.zip',
+		# 'libpostgresql' => '32bit-gcc4/postgresql-8.4.1-bin_20091126.zip',
+		# 'libdb'         => '32bit-gcc4/db-4.8.24-bin_20091126.zip',
+		# 'libgdbm'       => '32bit-gcc4/gdbm-1.8.3-bin_20100112.zip',
+		# 'libxpm'        => '32bit-gcc4/libXpm-3.5.8-bin_20091126.zip',
+		# 'libxz'         => '32bit-gcc4/liblzma-xz-4.999.9beta-bin_20100308.zip',
+		# 'mpc'           => '32bit-gcc4/mpc-0.8.1-bin_20100306.zip',
+		# 'mpfr'          => '32bit-gcc4/mpfr-2.4.2-bin_20100306.zip',
+		# 'libmysql'      => '32bit-gcc4/mysql-5.1.44-bin_20100304.zip',
+		# 'freeglut'      => '32bit-gcc4/freeglut-2.6.0-bin_20100213.zip',
+		# 'libssh2'       => '32bit-gcc4/libssh2-1.2.5-bin_20100520.zip',
+	# },
+	# '32bit-gcc4' => {
+		# 'patch'         => '32bit-gcc4/patch-2.5.9-7-bin_20100110_20100303.zip',
+		# 'mysql589'      => undef,
+		# 'mysql5100'     => undef,
+		# 'mysql5101'     => undef,
+		# 'mysql5115'     => undef,
+		# 'mysql5120'     => undef,
+		# 'mysql5121'     => undef,
+		# 'mysql5122'     => undef,
+		# 'mysql5123'     => undef,
+		# 'mysqllib'      => '32bit-gcc4/mysql-5.1.44-bin_20100304.zip',
+		# 'pari589'       => undef,
+		# 'pari5100'      => undef,
+		# 'pari5101'      => undef,
+		# 'pari5115'      => '32bit-gcc4/Math-Pari-2.01080604-MSWin32-x86-multi-thread-5.11.5.par',
+		# 'pari5120'      => '32bit-gcc4/Math-Pari-2.01080604-MSWin32-x86-multi-thread-5.12.0.par',
+		# 'pari5121'      => '32bit-gcc4/Math-Pari-2.01080604-MSWin32-x86-multi-thread-5.12.0.par',
+		# 'pari5122'      => '32bit-gcc4/Math-Pari-2.01080604-MSWin32-x86-multi-thread-5.12.0.par',
+		# 'pari5123'      => '32bit-gcc4/Math-Pari-2.01080604-MSWin32-x86-multi-thread-5.12.3.par',
+		# 'zlib'          => '32bit-gcc4/zlib-1.2.3-bin_20091126.zip',
+		# 'libiconv'      => '32bit-gcc4/libiconv-1.13.1-bin_20091126.zip',
+		# 'libxml2'       => '32bit-gcc4/libxml2-2.7.3-bin_20091126.zip',
+		# 'libexpat'      => '32bit-gcc4/expat-2.0.1-bin_20091126.zip',
+		# 'gmp'           => '32bit-gcc4/gmp-5.0.1-419f6a4cc606-bin_20110218.zip',
+		# 'libxslt'       => '32bit-gcc4/libxslt-1.1.26-bin_20091126.zip',
+		# 'libjpeg'       => '32bit-gcc4/jpeg-6b-gnuwin32-bin_20091126.zip',
+		# 'libgif'        => '32bit-gcc4/giflib-4.1.6-bin_20091126.zip',
+		# 'libpng'        => '32bit-gcc4/libpng-1.2.40-bin_20091126.zip',
+		# 'libtiff'       => '32bit-gcc4/tiff-3.9.1-bin_20091126.zip',
+		# 'libgd'         => '32bit-gcc4/gd-2.0.35-bin_20091126.zip',
+		# 'libfreetype'   => '32bit-gcc4/freetype-2.3.11-bin_20091126.zip',
+		# 'libopenssl'    => '32bit-gcc4/openssl-0.9.8l-bin_20091126.zip',
+		# 'libpostgresql' => '32bit-gcc4/postgresql-8.4.1-bin_20091126.zip',
+		# 'libdb'         => '32bit-gcc4/db-4.8.24-bin_20091126.zip',
+		# 'libgdbm'       => '32bit-gcc4/gdbm-1.8.3-bin_20100112.zip',
+		# 'libxpm'        => '32bit-gcc4/libXpm-3.5.8-bin_20091126.zip',
+		# 'libxz'         => '32bit-gcc4/liblzma-xz-4.999.9beta-bin_20100308.zip',
+		# 'mpc'           => '32bit-gcc4/mpc-0.8.1-bin_20100306.zip',
+		# 'mpfr'          => '32bit-gcc4/mpfr-2.4.2-bin_20100306.zip',
+		# 'libmysql'      => '32bit-gcc4/mysql-5.1.44-bin_20100304.zip',
+		# 'freeglut'      => '32bit-gcc4/freeglut-2.6.0-bin_20100213.zip',
+		# 'libssh2'       => '32bit-gcc4/libssh2-1.2.5-bin_20100520.zip',
+	# },
+	# '64bit-gcc4' => {
+		# 'patch'         => '64bit-gcc4/patch-2.5.9-7-bin_20100110_20100303.zip',
+		# 'mysql589'      => undef,
+		# 'mysql5100'     => undef,
+		# 'mysql5101'     => undef,
+		# 'mysql5115'     => undef,
+		# 'mysql5120'     => undef,
+		# 'mysql5121'     => undef,
+		# 'mysql5122'     => undef,
+		# 'mysql5123'     => undef,
+		# 'mysqllib'      => undef,
+		# 'pari589'       => undef,
+		# 'pari5100'      => undef,
+		# 'pari5101'      => undef,
+		# 'pari5115'      => undef,
+		# 'pari5120'      => undef,
+		# 'pari5121'      => undef,
+		# 'pari5122'      => undef,
+		# 'pari5123'      => undef,
+		# 'zlib'          => '64bit-gcc4/zlib-1.2.3-bin_20100110.zip',
+		# 'libiconv'      => '64bit-gcc4/libiconv-1.13.1-bin_20100110.zip',
+		# 'libxml2'       => '64bit-gcc4/libxml2-2.7.3-bin_20100110.zip',
+		# 'libexpat'      => '64bit-gcc4/expat-2.0.1-bin_20100110.zip',
+		# 'gmp'           => '64bit-gcc4/gmp-5.0.1-419f6a4cc606-bin_20100306.zip',
+		# 'libxslt'       => '64bit-gcc4/libxslt-1.1.26-bin_20100111.zip',
+		# 'libjpeg'       => '64bit-gcc4/jpeg-6b-gnuwin32-bin_20100110.zip',
+		# 'libgif'        => '64bit-gcc4/giflib-4.1.6-bin_20100110.zip',
+		# 'libpng'        => '64bit-gcc4/libpng-1.2.40-bin_20100110.zip',
+		# 'libtiff'       => '64bit-gcc4/tiff-3.9.1-bin_20100110.zip',
+		# 'libgd'         => '64bit-gcc4/gd-2.0.35-bin_20100110.zip',
+		# 'libfreetype'   => '64bit-gcc4/freetype-2.3.11-bin_20100110.zip',
+		# 'libopenssl'    => '64bit-gcc4/openssl-1.0.0-beta4-bin_20100110.zip',
+		# 'libpostgresql' => '64bit-gcc4/postgresql-8.4.1-bin_20100110.zip',
+		# 'libdb'         => '64bit-gcc4/db-4.8.24-bin_20100110.zip',
+		# 'libgdbm'       => '64bit-gcc4/gdbm-1.8.3-bin_20100112.zip',
+		# 'libxpm'        => '64bit-gcc4/libXpm-3.5.8-bin_20100110.zip',
+		# 'libxz'         => '64bit-gcc4/liblzma-xz-4.999.9beta-bin_20100308.zip',
+		# 'mpc'           => '64bit-gcc4/mpc-0.8.1-bin_20100306.zip',
+		# 'mpfr'          => '64bit-gcc4/mpfr-2.4.2-bin_20100306.zip',
+		# 'libmysql'      => '64bit-gcc4/mysql-5.1.44-bin_20100304.zip',
+		# 'freeglut'      => '64bit-gcc4/freeglut-2.6.0-bin_20100213.zip',
+		# 'libssh2'       => '64bit-gcc4/libssh2-1.2.5-bin_20100520.zip',
+	# },
+# };
 
 
 
@@ -250,7 +191,7 @@ sub install_patch {
 	my $filelist = $self->install_binary(
 		name       => 'patch',
 		install_to => q{.},
-		url        => $self->_binary_url($self->get_library_file('patch')),
+		url        => $self->_binary_url('patch'),
 	);
 	$self->{bin_patch} = $self->file(qw(c bin patch.exe));
 
@@ -431,13 +372,13 @@ This method should only be called at during the install_modules phase.
 sub install_pari {
 	my $self = shift;
 
-	my $file = $self->get_library_file_versioned('pari');
+	my $url = $self->_binary_url('pari');
 
-	my ($version) = $file =~ m{-(2 [.] \d+)-}msx;
+	my ($version) = $url =~ m{-(2 [.] \d+)-}msx;
 	
 	my $filelist = $self->install_par(
 	  name      => 'Math::Pari', 
-	  url       => $self->_binary_url($file),
+	  url       => $url,
 	  dist_info => "ILYAZ/modules/Math-Pari-$version.tar.gz",
 	);
 
@@ -453,7 +394,7 @@ sub install_pari {
   $dist->install_librarypack('zlib')
 
 The C<install_librarypack> method installs a library defined in 
-C<%Perl::Dist::Strawberry::LIBRARIES_S>.
+the C<Perl::Dist::Strawberry::BuildPerl::$version> plugins.
 
 =cut
 
@@ -463,7 +404,7 @@ sub install_librarypack {
 	
 	my $filelist = $self->install_binary(
 		name       => $library,
-		url        => $self->_binary_url($self->get_library_file($library)),
+		url        => $self->_binary_url($library),
 		install_to => q{.}
 	);
 	$self->insert_fragment($library, $filelist);
@@ -476,8 +417,8 @@ sub install_librarypack {
 
   $dist->install_libmysql()
 
-The C<install_libmysql> method installs a library defined in 
-C<%Perl::Dist::Strawberry::LIBRARIES_S>.
+The C<install_librarypack> method installs a library defined in 
+the C<Perl::Dist::Strawberry::BuildPerl::$version> plugins.
 
 =cut
 
@@ -486,7 +427,7 @@ sub install_libmysql {
 	
 	my $filelist = $self->install_binary(
 		name       => 'libmysql',
-		url        => $self->_binary_url($self->get_library_file('libmysql')),
+		url        => $self->_binary_url('libmysql'),
 		install_to => q{.}
 	);
 	$self->insert_fragment('libmysql', $filelist);
@@ -511,8 +452,8 @@ sub install_libmysql {
 
   $dist->install_librarypacks(qw{zlib libiconv})
 
-The C<install_librarypacks> method installs a list of libraries defined 
-in C<%Perl::Dist::Strawberry::LIBRARIES_S>.
+The C<install_librarypack> method installs a list of libraries defined in 
+the C<Perl::Dist::Strawberry::BuildPerl::$version> plugins.
 
 =cut
 
@@ -523,7 +464,7 @@ sub install_librarypacks {
 		$self->install_librarypack( $library );
 	}
 
-	return $1;
+	return 1;
 }
 
 1;

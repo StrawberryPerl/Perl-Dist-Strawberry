@@ -9,3 +9,5 @@ glob:blib/*
 glob:MYMETA.*
 glob:.build/*
 glob:Perl-Dist-Strawberry-*
+syntax: glob
+*.orig

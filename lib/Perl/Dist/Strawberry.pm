@@ -133,11 +133,10 @@ use Perl::Dist::WiX::Util::Machine   qw();
 use File::List::Object               qw();
 use Path::Class::Dir                 qw();
 
-our $VERSION = '2.5001';
-$VERSION =~ s/_//ms;
+our $VERSION = '2.5900';
 
-extends 'Perl::Dist::WiX'                   => { -version => '1.500001', },
-        'Perl::Dist::Strawberry::Libraries' => { -version => '2.5001', };
+extends 'Perl::Dist::WiX'                   => { -version => '1.550', },
+        'Perl::Dist::Strawberry::Libraries' => { -version => '2.5900', };
 
 #####################################################################
 # Build Machine Generator
@@ -170,17 +169,17 @@ sub default_machine {
 
 	# Set the different versions
 	$machine->add_dimension('version');
-	$machine->add_option('version',
-		perl_version => '5101',
-		build_number => 5,
-	);
-	$machine->add_option('version',
-		perl_version => '5101',
-		build_number => 5,
-		image_dir    => 'D:\strawberry',
-		msi          => 1,
-		zip          => 0,
-	);
+	# $machine->add_option('version',
+		# perl_version => '5101',
+		# build_number => 5,
+	# );
+	# $machine->add_option('version',
+		# perl_version => '5101',
+		# build_number => 5,
+		# image_dir    => 'D:\strawberry',
+		# msi          => 1,
+		# zip          => 0,
+	# );
 	$machine->add_option('version',
 		perl_version => '5123',
 		build_number => 0,
@@ -223,7 +222,7 @@ around BUILDARGS => sub {
 # Strawberry Perl version.
 	$args{perl_version} //= '5123';
 	$args{build_number} //= 0;
-	$args{beta_number}  //= 0;
+	$args{beta_number}  //= 1;
 
 # New options for msi building...
 	$args{msi_product_icon}   //= File::ShareDir::PathClass->dist_dir('Perl-Dist-WiX')->file('win32.ico');
@@ -426,13 +425,13 @@ sub install_strawberry_modules_1 {
 	# Install LWP::Online so our custom minicpan code works
 	if ($self->portable() && (12 < $self->perl_major_version()) ) {
 		$self->install_distribution(
-			name     => 'ADAMK/LWP-Online-1.07.tar.gz',
+			name     => 'ADAMK/LWP-Online-1.08.tar.gz',
 			mod_name => 'LWP::Online',
 			makefilepl_param => ['INSTALLDIRS=site'],
 		);
 	} else {
 		$self->install_distribution(
-			name     => 'ADAMK/LWP-Online-1.07.tar.gz',
+			name     => 'ADAMK/LWP-Online-1.08.tar.gz',
 			mod_name => 'LWP::Online',
 			makefilepl_param => ['INSTALLDIRS=vendor'],
 		);
@@ -449,7 +448,7 @@ sub install_strawberry_modules_1 {
 		name => 'Win32::EventLog',
 		force => 1, # Tests fail on only one computer, will be reported later
 	);
-	$self->install_modules('Win32::API') if not 64 == $self->bits();
+	$self->install_modules('Win32::API');
 
 	# Install additional math modules
 	$self->install_pari() if not 64 == $self->bits();
@@ -460,7 +459,7 @@ sub install_strawberry_modules_1 {
 	# XML Modules
 	if ($self->portable() && (12 < $self->perl_major_version()) ) {
 		$self->install_distribution(
-			name             => 'CHORNY/XML-Parser-2.40.tar.gz',
+			name             => 'TODDR/XML-Parser-2.41.tar.gz',
 			mod_name         => 'XML::Parser',
 			makefilepl_param => [
 				'INSTALLDIRS=site',
@@ -470,7 +469,7 @@ sub install_strawberry_modules_1 {
 		);
 	} else {
 		$self->install_distribution(
-			name             => 'CHORNY/XML-Parser-2.40.tar.gz',
+			name             => 'TODDR/XML-Parser-2.41.tar.gz',
 			mod_name         => 'XML::Parser',
 			makefilepl_param => [
 				'INSTALLDIRS=vendor',
@@ -533,7 +532,7 @@ sub install_strawberry_modules_2 {
 		PAR::Repository::Query
 		PAR::Repository::Client
 	} );
-	if (32 == $self->bits()) {
+	if (32 == $self->bits() && $self->perl_version lt '5140') {
 		$self->install_ppm();
 	}
 	
