@@ -68,6 +68,7 @@ my $builder = $class->new(
 		'File::Spec'                => '3.2701',
 		'File::Path'                => '2.04',
 		'File::Remove'              => '1.42',
+                'File::HomeDir'             => '0.98',
 		'URI::file'                 => '4.20',
 		'LWP::Online'               => '1.07',
 	},

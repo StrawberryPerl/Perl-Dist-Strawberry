@@ -169,31 +169,59 @@ sub default_machine {
 
 	# Set the different versions
 	$machine->add_dimension('version');
-	# $machine->add_option('version',
-		# perl_version => '5101',
-		# build_number => 5,
-	# );
-	# $machine->add_option('version',
-		# perl_version => '5101',
-		# build_number => 5,
-		# image_dir    => 'D:\strawberry',
-		# msi          => 1,
-		# zip          => 0,
-	# );
-	$machine->add_option('version',
-		perl_version => '5123',
-		build_number => 0,
-		portable     => 1,
-		gcc_version  => 4,
-		download_dir => 'C:\tmp\dl-gcc4',
-	);
-	$machine->add_option('version',
-		perl_version       => '5123',
+#	$machine->add_option('version',
+#		perl_version => '5123',
+#		build_number => 0,
+#		portable     => 1,
+#		gcc_version  => 4,
+#		download_dir => 'C:\tmp\dl-gcc4',
+#	);
+#	$machine->add_option('version',
+#		perl_version       => '5123',
+#		build_number       => 0,
+#		relocatable        => 1,
+#		use_dll_relocation => 1,
+#		gcc_version        => 4,
+#		download_dir       => 'C:\tmp\dl-gcc4',
+#	);
+
+	#### 1 = 5.14.2 - MSI/ZIP - 32bit
+        $machine->add_option('version',
+		perl_version       => '5142',
 		build_number       => 0,
 		relocatable        => 1,
 		use_dll_relocation => 1,
 		gcc_version        => 4,
+                bits               => 32,
 		download_dir       => 'C:\tmp\dl-gcc4',
+	);
+	#### 2 = 15.14.2. - MSI/ZIP - 64bit
+        $machine->add_option('version',
+		perl_version       => '5142',
+		build_number       => 0,
+		relocatable        => 1,
+		use_dll_relocation => 1,
+		gcc_version        => 4,
+                bits               => 64,
+		download_dir       => 'C:\tmp\dl-gcc4',
+	);
+        #### 3 = portable - 32bit
+        $machine->add_option('version',
+		perl_version => '5142',
+		build_number => 0,
+		portable     => 1,
+		gcc_version  => 4,
+                bits         => 32,
+		download_dir => 'C:\tmp\dl-gcc4',
+	);
+        #### 4 = portable - 64bit
+        $machine->add_option('version',
+		perl_version => '5142',
+		build_number => 0,
+		portable     => 1,
+		gcc_version  => 4,
+                bits         => 64,
+		download_dir => 'C:\tmp\dl-gcc4',
 	);
 
 	return $machine;
@@ -212,17 +240,30 @@ around BUILDARGS => sub {
 		PDWiX->throw( 'Parameters incorrect (not a hashref or hash)'
 			  . 'for Perl::Dist::Strawberry' );
 	}
-
+        
 	$args{app_id}            //= 'strawberryperl';
 	$args{app_name}          //= 'Strawberry Perl';
-	$args{app_publisher}     //= 'Vanilla Perl Project';
-	$args{app_publisher_url} //= URI->new('http://www.strawberryperl.com/');
+	$args{app_publisher}     //= 'strawberryperl.com project';
+	$args{app_publisher_url} //= URI->new('http://strawberryperl.com/');
 	$args{image_dir}         //= Path::Class::Dir->new('C:\strawberry');
-
+        
+        #checkpoints:
+        #- install_perl (step 5)
+        #- install_cpan_upgrades (step 7)
+        #- install_strawberry_modules_5 (step 13)
+        #- write_merge_module (step 19)
+        
+        #XXX-FIXME kmx hack
+        #$args{checkpoint_after}  = [ 5, 7, 10, 13 ],
+        $args{checkpoint_after}  = [ 13, 19 ],
+        $args{checkpoint_before} = 12;                        
+        #$args{checkpoint_stop}   = 0;
+        
 # Strawberry Perl version.
-	$args{perl_version} //= '5123';
+	$args{perl_version} //= '5142';
 	$args{build_number} //= 0;
-	$args{beta_number}  //= 1;
+	$args{beta_number}  //= 0;
+        $args{bits} //= 32;
 
 # New options for msi building...
 	$args{msi_product_icon}   //= File::ShareDir::PathClass->dist_dir('Perl-Dist-WiX')->file('win32.ico');
@@ -230,9 +271,9 @@ around BUILDARGS => sub {
 	$args{msi_banner_top}     //= dist_dir()->file('StrawberryBanner.bmp');
 	$args{msi_banner_side}    //= dist_dir()->file('StrawberryDialog.bmp');
 	$args{msi_run_readme_txt} //= 1;
-	$args{msi_help_url}       //= 'http://www.strawberryperl.com/support.html';
+	$args{msi_help_url}       //= 'http://strawberryperl.com/support.html';
 	$args{msi_exit_text}      //= <<'EOT';
-Before you start using Strawberry Perl, read the Release Notes and the README file.  These are both available from the start menu under "Strawberry Perl".
+Before you start using Strawberry Perl, read the Release Notes and the README file. These are both available from the start menu under "Strawberry Perl".
 EOT
 
 # Set e-mail to something Strawberry-specific.
@@ -260,7 +301,7 @@ sub _build_tasklist { return [
 	'install_strawberry_modules_3',
 	'install_strawberry_modules_4',
 	'install_strawberry_modules_5',
-	'install_strawberry_files',
+	'install_strawberry_files',        
 	'install_relocatable',
 	'regenerate_fragments',
 	'find_relocatable_fields',
@@ -312,7 +353,7 @@ sub _build_output_base_filename {
 		. ($self->smoketest() ? 'smoketest-' . $self->output_date_string() : $self->build_number())
 		. ($self->image_dir() =~ /^d:/i ? '-ddrive' : q{})
 		. ($self->portable() ? '-portable' : q{})
-		. (( 64 == $self->bits() ) ? q{-64bit} : q{})
+		. (( 64 == $self->bits() ) ? q{-64bit} : q{-32bit})
 		. ($self->beta_number() ? '-beta-' . $self->beta_number() : q{})
 }
 
@@ -451,9 +492,14 @@ sub install_strawberry_modules_1 {
 	$self->install_modules('Win32::API');
 
 	# Install additional math modules
-	$self->install_pari() if not 64 == $self->bits();
+
+	# Math::Pari does not work on 64bit
 	$self->install_modules( qw{
-		Math::BigInt::GMP
+		Math::Pari
+        } ) if 32 == $self->bits();
+        
+        $self->install_modules( qw{
+                Math::BigInt::GMP
 	} );
 	
 	# XML Modules
@@ -479,8 +525,10 @@ sub install_strawberry_modules_1 {
 		);
 	}
 
-	$self->install_modules( qw{
+	# XML::SAX::Exception - added before XML::SAX as it is needed but not declared as rereq
+        $self->install_modules( qw{
 		XML::NamespaceSupport
+                XML::SAX::Exception
 		XML::SAX
 		XML::LibXML
 		XML::LibXSLT
@@ -565,6 +613,9 @@ sub install_strawberry_modules_2 {
 sub install_strawberry_modules_3 {
 	my $self = shift;
 
+	# Find the share path for this distribution
+	my $share = File::ShareDir::dist_dir('Perl-Dist-Strawberry');
+
 	# CPAN::SQLite Modules
 	$self->install_modules( qw{
 		DBI
@@ -592,33 +643,26 @@ sub install_strawberry_modules_3 {
 		name  => 'Win32::OLE',
 		force => 1,
 	); 
-	$self->install_modules( qw{
+	
+        $self->install_modules( qw{
 		BerkeleyDB
 		DBD::ODBC
-		DBD::ADO
+		DBD::ADO                
 	} );
-
-	if ($self->portable() && (12 < $self->perl_major_version()) ) {
-		$self->install_distribution(
-			name     => 'CAPTTOFU/DBD-mysql-4.018.tar.gz',
-			mod_name => 'DBD::mysql',
-			force    => 1,
-			makefilepl_param => ['INSTALLDIRS=site', '--mysql_config=mysql_config'],
-		);
-	} else {
-		$self->install_distribution(
-			name     => 'CAPTTOFU/DBD-mysql-4.018.tar.gz',
-			mod_name => 'DBD::mysql',
-			force    => 1,
-			makefilepl_param => ['INSTALLDIRS=vendor', '--mysql_config=mysql_config'],
-		);
-	}
-			
+			        
 	$self->install_module(
 		name  => 'DBD::Pg',
 		force => 1,
 	);
 	
+        $self->install_distribution_from_file(
+                mod_name  => 'DBD::mysql',
+                file      => catfile($share, 'modules', 'DBD-mysql-4.020_patched.tar.gz'),
+                url       => 'http://strawberryperl.com/package/kmx/perl-modules-patched/DBD-mysql-4.020_patched.tar.gz',
+                force     => 1,
+                makefilepl_param => ['INSTALLDIRS=vendor', '--mysql_config=mysql_config'],
+        );
+        
 	# JSON and local library installation
 	$self->install_modules( qw{
 		common::sense
@@ -632,14 +676,45 @@ sub install_strawberry_modules_3 {
 	
 	# Graphics module installation.
 	$self->install_module( name => 'Imager' );
-	$self->install_module( name => 'GD' );
+	
+        #GD fails on 64bit
+        #$self->install_module( name => 'GD' );        
+        $self->install_distribution_from_file(
+                mod_name  => 'GD',
+                file      => catfile($share, 'modules', 'GD-2.46_patched.tar.gz'),
+                url       => 'http://strawberryperl.com/package/kmx/perl-modules-patched/GD-2.46_patched.tar.gz',
+                force     => 1,
+                makefilepl_param => ['INSTALLDIRS=vendor'],
+        );
 	
 	return 1;
 }
 
 sub install_strawberry_modules_4 {
 	my $self = shift;
+
+	# Find the share path for this distribution
+	my $share = File::ShareDir::dist_dir('Perl-Dist-Strawberry');
 	
+	# Required for Net::SSLeay.
+	local $ENV{'OPENSSL_PREFIX'} = catdir($self->image_dir(), 'c');
+	# This is required for IO::Socket::SSL.
+	local $ENV{'SKIP_RNG_TEST'} = 1;
+
+	# Crypt::IDEA Crypt::Blowfish do not build on 64-bit
+        $self->install_distribution_from_file(
+                mod_name  => 'Crypt::IDEA',
+                file      => catfile($share, 'modules', 'Crypt-IDEA-1.08_patched.tar.gz'),
+                url       => 'http://strawberryperl.com/package/kmx/perl-modules-patched/Crypt-IDEA-1.08_patched.tar.gz',
+                makefilepl_param => ['INSTALLDIRS=vendor'],
+        );
+        $self->install_distribution_from_file(
+                mod_name  => 'Crypt::Blowfish',
+                file      => catfile($share, 'modules', 'Crypt-Blowfish-2.12_patched.tar.gz'),
+                url       => 'http://strawberryperl.com/package/kmx/perl-modules-patched/Crypt-Blowfish-2.12_patched.tar.gz',
+                makefilepl_param => ['INSTALLDIRS=vendor'],
+        );
+
 #	if ($self->portable() && (12 < $self->perl_major_version()) ) {
 #		$self->install_distribution( 
 #			mod_name => 'Crypt::OpenSSL::Random',
@@ -658,11 +733,6 @@ sub install_strawberry_modules_4 {
 #		);
 #	}
 
-	# Required for Net::SSLeay.
-	local $ENV{'OPENSSL_PREFIX'} = catdir($self->image_dir(), 'c');
-	# This is required for IO::Socket::SSL.
-	local $ENV{'SKIP_RNG_TEST'} = 1;
-
 	# Crypt::SSLeay has been distropref'd to use the same environment
 	# variable that Net::SSLeay uses in order to make building easier.
 	$self->install_modules( qw{
@@ -670,12 +740,11 @@ sub install_strawberry_modules_4 {
 		Digest::HMAC
 	});
 
-	# Net::SSLeay crashes at present on 64-bit during testing.
 	$self->install_modules( qw{	
 		Net::SSLeay
 		IO::Socket::SSL
 		Net::SMTP::TLS
-	}) if 32 == $self->bits();
+	});
 	
 	# The rest of the Net::SSH::Perl toolchain.
 	$self->install_module(
@@ -686,10 +755,6 @@ sub install_strawberry_modules_4 {
 		Math::GMP
 		Data::Buffer
 	});
-	# Check why this one isn't working.
-	$self->install_modules( qw{
-		Crypt::DSA
-	}) if 32 == $self->bits();
 	$self->install_modules( qw{
 		Class::ErrorHandler
 		Convert::ASN1
@@ -704,31 +769,37 @@ sub install_strawberry_modules_4 {
 	);
 	$self->install_modules( qw{
 		Crypt::DH
-		Crypt::Blowfish
+                Crypt::DSA		
 		Tie::EncryptedHash
 		Class::Loader
 	});
-	# Requires Math::Pari.
+        
+        # Crypt::RSA prereqs - KMX NOTE: no idea why I need to specify them explicitely
+        $self->install_modules( qw{
+                Convert::ASCII::Armour
+                Digest::MD2
+                Sort::Versions
+        });
+
+	# Crypt::Random needs - Math::Pari.
+        # Crypt::Primes needs - Crypt::Random
+        # Crypt::RSA    needs - Crypt::Random
 	$self->install_modules( qw{
 		Crypt::Random
+		Crypt::Primes
+		Crypt::RSA
 	}) if 32 == $self->bits();
+
 	$self->install_modules( qw{
 		Convert::ASCII::Armour
 		Digest::MD2
 		Sort::Versions
 	});
-	# These two require Crypt::Random. See above.
-	$self->install_modules( qw{
-		Crypt::Primes
-		Crypt::RSA
-	}) if 32 == $self->bits();
+
 	$self->install_modules( qw{
 		Digest::BubbleBabble
 	});
-	# Does not build 64-bit yet.
-	$self->install_modules( qw{
-		Crypt::IDEA
-	}) if 32 == $self->bits();
+        
 	$self->install_modules( qw{
 		String::CRC32
 		Net::SSH2
@@ -746,26 +817,21 @@ sub install_strawberry_modules_4 {
 		Crypt::RIPEMD160
 		Crypt::Twofish
 	});
-	# Requires Crypt::DSA, Crypt::IDEA, 
-	# Crypt::RSA, and Math::Pari.
-	$self->install_modules( qw{
-		Crypt::OpenPGP
-	}) if 32 == $self->bits();
-	$self->install_modules( qw{
+
+        # Module::Signature prereqs
+        $self->install_modules( qw{
 		Algorithm::Diff
 		Text::Diff
+                IPC::Run
 	});
 
-	# Requires Crypt::OpenPGP - see above.
-	$self->install_distribution(
-		name     => 'FLORA/Module-Signature-0.66.tar.gz',
-		mod_name => 'Module::Signature',
-		makefilepl_param => [ 'INSTALLDIRS=vendor', ],
-	) if 32 == $self->bits();
-	# version 0.67 of Module::Signature can have serious problems on Windows
-	# See https://rt.cpan.org/Ticket/Display.html?id=46339
-	# IPC::Run is a prereq only for 0.67
-	
+	# Crypt::OpenPGP    needs - Crypt::RSA, and Math::Pari.
+        # Module::Signature needs - Crypt::OpenPGP
+	$self->install_modules( qw{
+		Crypt::OpenPGP
+                Module::Signature
+	}) if 32 == $self->bits();
+	        
 	return 1;
 }
 

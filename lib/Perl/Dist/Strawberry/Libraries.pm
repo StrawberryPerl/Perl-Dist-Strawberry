@@ -373,7 +373,7 @@ sub install_pari {
 	my $self = shift;
 
 	my $url = $self->_binary_url('pari');
-
+	
 	my ($version) = $url =~ m{-(2 [.] \d+)-}msx;
 	
 	my $filelist = $self->install_par(
