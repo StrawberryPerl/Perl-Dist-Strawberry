@@ -169,21 +169,6 @@ sub default_machine {
 
 	# Set the different versions
 	$machine->add_dimension('version');
-#	$machine->add_option('version',
-#		perl_version => '5123',
-#		build_number => 0,
-#		portable     => 1,
-#		gcc_version  => 4,
-#		download_dir => 'C:\tmp\dl-gcc4',
-#	);
-#	$machine->add_option('version',
-#		perl_version       => '5123',
-#		build_number       => 0,
-#		relocatable        => 1,
-#		use_dll_relocation => 1,
-#		gcc_version        => 4,
-#		download_dir       => 'C:\tmp\dl-gcc4',
-#	);
 
 	#### 1 = 5.14.2 - MSI/ZIP - 32bit
         $machine->add_option('version',
@@ -195,7 +180,7 @@ sub default_machine {
                 bits               => 32,
 		download_dir       => 'C:\tmp\dl-gcc4',
 	);
-	#### 2 = 15.14.2. - MSI/ZIP - 64bit
+	#### 2 = 5.14.2 - MSI/ZIP - 64bit
         $machine->add_option('version',
 		perl_version       => '5142',
 		build_number       => 0,
@@ -205,7 +190,27 @@ sub default_machine {
                 bits               => 64,
 		download_dir       => 'C:\tmp\dl-gcc4',
 	);
-        #### 3 = portable - 32bit
+	#### 3 = 5.12.4 - MSI/ZIP - 32bit
+        $machine->add_option('version',
+		perl_version       => '5124',
+		build_number       => 0,
+		relocatable        => 1,
+		use_dll_relocation => 1,
+		gcc_version        => 4,
+                bits               => 32,
+		download_dir       => 'C:\tmp\dl-gcc4',
+	);
+	#### 4 = 5.12.4 - MSI/ZIP - 64bit
+        $machine->add_option('version',
+		perl_version       => '5124',
+		build_number       => 0,
+		relocatable        => 1,
+		use_dll_relocation => 1,
+		gcc_version        => 4,
+                bits               => 64,
+		download_dir       => 'C:\tmp\dl-gcc4',
+	);
+        #### 5 = 5.14.2 - portable - 32bit
         $machine->add_option('version',
 		perl_version => '5142',
 		build_number => 0,
@@ -214,9 +219,27 @@ sub default_machine {
                 bits         => 32,
 		download_dir => 'C:\tmp\dl-gcc4',
 	);
-        #### 4 = portable - 64bit
+        #### 6 = 5.14.2 - portable - 64bit
         $machine->add_option('version',
 		perl_version => '5142',
+		build_number => 0,
+		portable     => 1,
+		gcc_version  => 4,
+                bits         => 64,
+		download_dir => 'C:\tmp\dl-gcc4',
+	);
+        #### 7 = 5.12.4 - portable - 32bit
+        $machine->add_option('version',
+		perl_version => '5124',
+		build_number => 0,
+		portable     => 1,
+		gcc_version  => 4,
+                bits         => 32,
+		download_dir => 'C:\tmp\dl-gcc4',
+	);
+        #### 8 = 5.12.4 - portable - 64bit
+        $machine->add_option('version',
+		perl_version => '5124',
 		build_number => 0,
 		portable     => 1,
 		gcc_version  => 4,
@@ -247,15 +270,14 @@ around BUILDARGS => sub {
 	$args{app_publisher_url} //= URI->new('http://strawberryperl.com/');
 	$args{image_dir}         //= Path::Class::Dir->new('C:\strawberry');
         
-        #XXX-FIXME kmx hack with checkpoints
-        #checkpoints:
+        #XXX-FIXME using checkpoints - would be nice to have some commandline options for this:
         #- install_perl (step 5)
         #- install_cpan_upgrades (step 7)
         #- install_strawberry_modules_5 (step 13)
         #- write_merge_module (step 19)
         #        
-        #$args{checkpoint_after}  = [ 5, 7, 10, 13 ],
-        #$args{checkpoint_before} = 12;                        
+        $args{checkpoint_after}  = [ 5, 7, 10, 13 ],
+        #$args{checkpoint_before} = 14;
         #$args{checkpoint_stop}   = 0;
         
 # Strawberry Perl version.
