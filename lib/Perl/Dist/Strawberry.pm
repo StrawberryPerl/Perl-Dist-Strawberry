@@ -276,7 +276,7 @@ around BUILDARGS => sub {
         #- install_strawberry_modules_5 (step 13)
         #- write_merge_module (step 19)
         #        
-        $args{checkpoint_after}  = [ 5, 7, 10, 13 ],
+        #$args{checkpoint_after}  = [ 5, 7, 10, 13 ],
         #$args{checkpoint_before} = 14;
         #$args{checkpoint_stop}   = 0;
         
