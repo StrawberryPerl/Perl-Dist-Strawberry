@@ -247,16 +247,15 @@ around BUILDARGS => sub {
 	$args{app_publisher_url} //= URI->new('http://strawberryperl.com/');
 	$args{image_dir}         //= Path::Class::Dir->new('C:\strawberry');
         
+        #XXX-FIXME kmx hack with checkpoints
         #checkpoints:
         #- install_perl (step 5)
         #- install_cpan_upgrades (step 7)
         #- install_strawberry_modules_5 (step 13)
         #- write_merge_module (step 19)
-        
-        #XXX-FIXME kmx hack
+        #        
         #$args{checkpoint_after}  = [ 5, 7, 10, 13 ],
-        $args{checkpoint_after}  = [ 13, 19 ],
-        $args{checkpoint_before} = 12;                        
+        #$args{checkpoint_before} = 12;                        
         #$args{checkpoint_stop}   = 0;
         
 # Strawberry Perl version.
