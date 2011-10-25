@@ -1,5 +1,7 @@
 Changes for Perl extension Perl-Dist-Strawberry
 
+NEXT    2011-10-24 used by KMX for building 5.14.2.0 RC
+
 2.5001 (TRIAL) To be released
     * This release corresponds to Strawberry Perl 'February' (5.12.3) Beta 2.
     + Added 5.12.3 plugin to use in testing to start with. Other plugins are
