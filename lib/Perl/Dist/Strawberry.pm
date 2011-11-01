@@ -173,18 +173,18 @@ sub default_machine {
 	#### 1 = 5.14.2 - MSI/ZIP - 32bit
         $machine->add_option('version',
 		perl_version       => '5142',
-		build_number       => 0,
-		relocatable        => 1,
+		build_number       => 1,
+		beta_number        => 1,		relocatable        => 1,
 		use_dll_relocation => 1,
 		gcc_version        => 4,
-                bits               => 32,
+		bits               => 32,
 		download_dir       => 'C:\tmp\dl-gcc4',
 	);
 	#### 2 = 5.14.2 - MSI/ZIP - 64bit
         $machine->add_option('version',
 		perl_version       => '5142',
-		build_number       => 0,
-		relocatable        => 1,
+		build_number       => 1,
+		beta_number        => 1,
 		use_dll_relocation => 1,
 		gcc_version        => 4,
                 bits               => 64,
@@ -213,8 +213,8 @@ sub default_machine {
         #### 5 = 5.14.2 - portable - 32bit
         $machine->add_option('version',
 		perl_version => '5142',
-		build_number => 0,
-		portable     => 1,
+		build_number       => 1,
+		beta_number        => 1,		portable     => 1,
 		gcc_version  => 4,
                 bits         => 32,
 		download_dir => 'C:\tmp\dl-gcc4',
@@ -222,8 +222,8 @@ sub default_machine {
         #### 6 = 5.14.2 - portable - 64bit
         $machine->add_option('version',
 		perl_version => '5142',
-		build_number => 0,
-		portable     => 1,
+		build_number       => 1,
+		beta_number        => 1,		portable     => 1,
 		gcc_version  => 4,
                 bits         => 64,
 		download_dir => 'C:\tmp\dl-gcc4',
@@ -286,7 +286,9 @@ around BUILDARGS => sub {
 	$args{beta_number}  //= 0;
         $args{bits} //= 32;
 
-# New options for msi building...
+	#32bit app_name = 'Strawberry Perl'
+	#64bit app_name = 'Strawberry Perl (64-bit)'
+	$args{app_name} .= ' (64-bit)' if $args{bits} == 64;# New options for msi building...
 	$args{msi_product_icon}   //= File::ShareDir::PathClass->dist_dir('Perl-Dist-WiX')->file('win32.ico');
 	$args{msi_license_file}   //= dist_dir()->file('License-short.rtf');
 	$args{msi_banner_top}     //= dist_dir()->file('StrawberryBanner.bmp');
@@ -999,12 +1001,12 @@ sub install_strawberry_extras {
 			url          => 'http://learn.perl.org/books/beginning-perl/',
 			icon_file    => _dist_file('perlhelp.ico'),
 		);
-		$self->install_website(
-			name         => q{Ovid's CGI Course},
-			url          => 'http://jdporter.perlmonk.org/cgi_course/',
-			icon_file    => _dist_file('perlhelp.ico'),
-		);
-		
+		#XXX-FIXME removed by kmx
+		#$self->install_website(
+		#	name         => q{Ovid's CGI Course},
+		#	url          => 'http://jdporter.perlmonk.org/cgi_course/',
+		#	icon_file    => _dist_file('perlhelp.ico'),
+		#);		
 		# Link to IRC.
 		$self->install_website(
 			name       => 'Live Support',

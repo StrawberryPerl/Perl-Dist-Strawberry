@@ -11,17 +11,19 @@ What is Strawberry Perl?
   you need to run and develop perl applications. It is designed to be as close
   as possible to perl enviroment on UNIX systems. See http://strawberryperl.com/
 
+* If you are completely new to perl consider visiting http://learn.perl.org/
+[% IF dist.relocatable %]
 Installation instructions: (.zip distribution only)
 ---------------------------------------------------
-[% IF dist.relocatable %]
+
 * If installing this version from a .zip file, you MUST extract it to a 
   directory that does not have spaces in it (referred to as <directory> 
   below) and then run some commands and manually set some environment 
   variables:
 
   cd <directory>
-  perl\bin\perl.exe relocation.pl.bat
-  perl\bin\perl.exe update_env.pl.bat
+  relocation.pl.bat
+  update_env.pl.bat
 
   (You can specify " --nosystem" after update_env.pl.bat to install Strawberry 
   Perl's environment variables for the current user only.)
@@ -29,21 +31,7 @@ Installation instructions: (.zip distribution only)
 * If having a fixed installation path does not suit you, go to
   http://strawberryperl.com/releases.html and try "Strawberry Perl Portable 
   Edition"
-[% ELSE %]
-* If installing this version from a .zip file, you MUST install it to
-  [% dist.image_dir %]\ and then run some commands:
-
-  cd [% dist.image_dir %]
-  perl\bin\perl.exe update_env.pl.bat
-   
-  (You can specify " --nosystem" after update_env.pl.bat to install Strawberry 
-  Perl's environment variables for the current user only.)
-
-* If the fixed installation path [% dist.image_dir %]\ does not suit you, go
-  to http://strawberryperl.com/releases.html and try "Strawberry Perl Portable 
-  Edition"
 [% END %]
-
 How to use Strawberry Perl?
 ---------------------------
 
@@ -60,7 +48,7 @@ How to use Strawberry Perl?
   3. run other tools included in Strawberry Perl like: perldoc, gcc, dmake ...
 
 * You'll need a text editor to create perl scripts.  One is NOT included with 
-Strawberry Perl.  A few options are Padre (which can be installed by running 
-"cpan Padre" from the command prompt for 32-bit versions) and Notepad++ 
-(which is downloadable at notepad-plus.sourceforge.net), which both include 
-syntax highlighting for perl scripts.  You can even use Notepad, if you wish.
+Strawberry Perl. A few options are Padre (which can be installed by running 
+"cpan Padre" from the command prompt) and Notepad++ (which is downloadable at
+http://notepad-plus.sourceforge.net), which both include syntax highlighting
+for perl scripts. You can even use Notepad, if you wish.
