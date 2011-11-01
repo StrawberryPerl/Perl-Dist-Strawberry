@@ -174,7 +174,8 @@ sub default_machine {
         $machine->add_option('version',
 		perl_version       => '5142',
 		build_number       => 1,
-		beta_number        => 1,		relocatable        => 1,
+		beta_number        => 1,
+		relocatable        => 1,
 		use_dll_relocation => 1,
 		gcc_version        => 4,
 		bits               => 32,
@@ -214,7 +215,8 @@ sub default_machine {
         $machine->add_option('version',
 		perl_version => '5142',
 		build_number       => 1,
-		beta_number        => 1,		portable     => 1,
+		beta_number        => 1,
+		portable     => 1,
 		gcc_version  => 4,
                 bits         => 32,
 		download_dir => 'C:\tmp\dl-gcc4',
@@ -223,7 +225,8 @@ sub default_machine {
         $machine->add_option('version',
 		perl_version => '5142',
 		build_number       => 1,
-		beta_number        => 1,		portable     => 1,
+		beta_number        => 1,
+		portable     => 1,
 		gcc_version  => 4,
                 bits         => 64,
 		download_dir => 'C:\tmp\dl-gcc4',
@@ -276,8 +279,8 @@ around BUILDARGS => sub {
         #- install_strawberry_modules_5 (step 13)
         #- write_merge_module (step 19)
         #        
-        #$args{checkpoint_after}  = [ 5, 7, 10, 13 ],
-        #$args{checkpoint_before} = 14;
+        #$args{checkpoint_after}  = [ 7, 13, 19 ],
+        #$args{checkpoint_before} = 6;
         #$args{checkpoint_stop}   = 0;
         
 # Strawberry Perl version.
@@ -288,7 +291,9 @@ around BUILDARGS => sub {
 
 	#32bit app_name = 'Strawberry Perl'
 	#64bit app_name = 'Strawberry Perl (64-bit)'
-	$args{app_name} .= ' (64-bit)' if $args{bits} == 64;# New options for msi building...
+	$args{app_name} .= ' (64-bit)' if $args{bits} == 64;
+
+# New options for msi building...
 	$args{msi_product_icon}   //= File::ShareDir::PathClass->dist_dir('Perl-Dist-WiX')->file('win32.ico');
 	$args{msi_license_file}   //= dist_dir()->file('License-short.rtf');
 	$args{msi_banner_top}     //= dist_dir()->file('StrawberryBanner.bmp');
@@ -1006,7 +1011,8 @@ sub install_strawberry_extras {
 		#	name         => q{Ovid's CGI Course},
 		#	url          => 'http://jdporter.perlmonk.org/cgi_course/',
 		#	icon_file    => _dist_file('perlhelp.ico'),
-		#);		
+		#);
+		
 		# Link to IRC.
 		$self->install_website(
 			name       => 'Live Support',
