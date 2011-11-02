@@ -772,6 +772,8 @@ sub install_strawberry_modules_4 {
 		Net::SSLeay
 		IO::Socket::SSL
 		Net::SMTP::TLS
+		Mozilla::CA
+		LWP::Protocol::https
 	});
 	
 	# The rest of the Net::SSH::Perl toolchain.
