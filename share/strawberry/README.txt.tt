@@ -7,30 +7,27 @@ What is Strawberry Perl?
 * 'Perl' is a programming language suitable for writing simple scripts as well
   as complex applications. See http://perldoc.perl.org/perlintro.html
 
-* 'Strawberry Perl' is a perl enviroment for Microsoft Windows containing all
+* 'Strawberry Perl' is a perl environment for Microsoft Windows containing all
   you need to run and develop perl applications. It is designed to be as close
-  as possible to perl enviroment on UNIX systems. See http://strawberryperl.com/
+  as possible to perl environment on UNIX systems. See http://strawberryperl.com/
 
 * If you are completely new to perl consider visiting http://learn.perl.org/
 [% IF dist.relocatable %]
-Installation instructions: (.zip distribution only)
----------------------------------------------------
+Installation instructions: (.ZIP distribution only, not .MSI installer)
+-----------------------------------------------------------------------
 
 * If installing this version from a .zip file, you MUST extract it to a 
-  directory that does not have spaces in it (referred to as <directory> 
-  below) and then run some commands and manually set some environment 
-  variables:
+  directory that does not have spaces in it - e.g. c:\myperl\
+  and then run some commands and manually set some environment variables:
 
-  cd <directory>
-  relocation.pl.bat
-  update_env.pl.bat
+  c:\myperl\relocation.pl.bat         ... this is REQUIRED!
+  c:\myperl\update_env.pl.bat         ... this is OPTIONAL
 
-  (You can specify " --nosystem" after update_env.pl.bat to install Strawberry 
-  Perl's environment variables for the current user only.)
+  You can specify " --nosystem" after update_env.pl.bat to install Strawberry 
+  Perl's environment variables for the current user only.
 
-* If having a fixed installation path does not suit you, go to
-  http://strawberryperl.com/releases.html and try "Strawberry Perl Portable 
-  Edition"
+* If having a fixed installation path does not suit you, try "Strawberry Perl
+  Portable Edition" from http://strawberryperl.com/releases.html
 [% END %]
 How to use Strawberry Perl?
 ---------------------------
@@ -48,7 +45,7 @@ How to use Strawberry Perl?
   3. run other tools included in Strawberry Perl like: perldoc, gcc, dmake ...
 
 * You'll need a text editor to create perl scripts.  One is NOT included with 
-Strawberry Perl. A few options are Padre (which can be installed by running 
-"cpan Padre" from the command prompt) and Notepad++ (which is downloadable at
-http://notepad-plus.sourceforge.net), which both include syntax highlighting
-for perl scripts. You can even use Notepad, if you wish.
+  Strawberry Perl. A few options are Padre (which can be installed by running 
+  "cpan Padre" from the command prompt) and Notepad++ (which is downloadable at
+  http://notepad-plus.sourceforge.net), which both include syntax highlighting
+  for perl scripts. You can even use Notepad, if you wish.
