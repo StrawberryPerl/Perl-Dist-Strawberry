@@ -29,7 +29,7 @@ BEGIN {
 
 	# Error storage
 	$YAML::Tiny::errstr = '';
-} ## end BEGIN
+}
 
 # Printable characters for escapes
 my %UNESCAPES = (
@@ -78,7 +78,7 @@ sub read {
 	}
 
 	$class->read_string($contents);
-} ## end sub read
+}
 
 # Create an object from a string
 sub read_string {
@@ -161,10 +161,10 @@ sub read_string {
 		} else {
 			croak("YAML::Tiny failed to classify the line '$lines[0]'");
 		}
-	} ## end while (@lines)
+	}
 
 	$self;
-} ## end sub read_string
+}
 
 # Deparse a scalar string to the actual scalar
 sub _read_scalar {
@@ -227,7 +227,7 @@ s/\\([never\\fartz]|x([0-9a-fA-F]{2}))/(length($1)>1)?pack("H2",$2):$UNESCAPES{$
 	my $j = ( substr( $string, 0, 1 ) eq '>' ) ? ' ' : "\n";
 	my $t = ( substr( $string, 1, 1 ) eq '-' ) ? ''  : "\n";
 	return join( $j, @multiline ) . $t;
-} ## end sub _read_scalar
+}
 
 # Parse an array
 sub _read_array {
@@ -311,10 +311,10 @@ sub _read_array {
 		} else {
 			croak("YAML::Tiny failed to classify line '$lines->[0]'");
 		}
-	} ## end while (@$lines)
+	}
 
 	return 1;
-} ## end sub _read_array
+}
 
 # Parse an array
 sub _read_hash {
@@ -379,12 +379,12 @@ sub _read_hash {
 					$self->_read_hash( $hash->{$key},
 						[ @$indent, length($1) ], $lines );
 				}
-			} ## end elsif ( $lines->[0] =~ /^(\s*)./)
-		} ## end else [ if ( length $lines->[0...])]
-	} ## end while (@$lines)
+			}
+		}
+	}
 
 	return 1;
-} ## end sub _read_hash
+}
 
 # Set error
 sub _error {
@@ -424,7 +424,7 @@ END_PERL
 	} else {
 		Scalar::Util->import('refaddr');
 	}
-} ## end BEGIN
+}
 
 
 #####################################################################
@@ -484,4 +484,4 @@ BEGIN {
 		diag("    $module version is $version");
 	}
 	done_testing;
-} ## end BEGIN
+}

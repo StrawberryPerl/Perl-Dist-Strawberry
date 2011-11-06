@@ -284,7 +284,7 @@ around BUILDARGS => sub {
         #$args{checkpoint_before} = 6;
         #$args{checkpoint_stop}   = 0;
         
-# Strawberry Perl version.
+	# Strawberry Perl version.
 	$args{perl_version} //= '5142';
 	$args{build_number} //= 0;
 	$args{beta_number}  //= 0;
@@ -294,7 +294,7 @@ around BUILDARGS => sub {
 	#64bit app_name = 'Strawberry Perl (64-bit)'
 	$args{app_name} .= ' (64-bit)' if $args{bits} == 64;
 
-# New options for msi building...
+	# New options for msi building...
 	$args{msi_product_icon}   //= File::ShareDir::PathClass->dist_dir('Perl-Dist-WiX')->file('win32.ico');
 	$args{msi_license_file}   //= dist_dir()->file('License-short.rtf');
 	$args{msi_banner_top}     //= dist_dir()->file('StrawberryBanner.bmp');
@@ -305,15 +305,15 @@ around BUILDARGS => sub {
 Before you start using Strawberry Perl, read the Release Notes and the README file. These are both available from the start menu under "Strawberry Perl".
 EOT
 
-# Set e-mail to something Strawberry-specific.
+	# Set e-mail to something Strawberry-specific.
 	$args{perl_config_cf_email} //= 'win32-vanilla@perl.org';
 
-# Build both msi and zip versions
+	# Build both msi and zip versions
 	$args{msi} //= 1;
 	$args{zip} //= 1;
 
 	return $class->$orig(\%args);
-}; ## end sub BUILDARGS
+};
 
 
 sub _build_tasklist { return [
@@ -1110,7 +1110,7 @@ sub msi_relocation_idlist {
 	}
 
 	return $answer;
-} ## end sub msi_relocation_commandline
+}
 
 sub msm_relocation_idlist {
 	my $self = shift;
@@ -1127,7 +1127,7 @@ sub msm_relocation_idlist {
 	}
 
 	return $answer;
-} ## end sub msi_relocation_commandline
+}
 
 
 1;

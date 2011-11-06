@@ -383,7 +383,7 @@ sub install_pari {
 	);
 
 	return 1;
-} ## end sub install_pari
+}
 
 
 
