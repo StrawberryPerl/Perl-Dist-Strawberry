@@ -979,10 +979,13 @@ sub install_strawberry_extras {
 	$self->patch_file( 'README.txt' => $self->image_dir(), { dist => $self } );
 
 	if (not $self->portable()) {
-		$self->install_launcher(
-			name => 'Check installed versions of modules',
-			bin  => 'module-version',
-		);
+		#XXX-FIXME removed by KMX as running "module-version <module>" from 
+		#command lineis IMHO more user friendly than this startmenu item
+		#it will make sense once we have a kind of GUI app for this
+		#$self->install_launcher(
+		#	name => 'Check installed versions of modules',
+		#	bin  => 'module-version',
+		#);
 		$self->install_launcher(
 			name => 'Create local library areas',
 			bin  => 'llw32helper',
