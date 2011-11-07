@@ -208,8 +208,6 @@ sub install_bootstrap_modules_2 {
 		Path::Class
 		MooseX::Types::Path::Class
 		URI::FromHash
-		Test::use::ok
-		MooseX::Types::URI
 		Email::Date::Format
 		Date::Format
 		Test::Pod
