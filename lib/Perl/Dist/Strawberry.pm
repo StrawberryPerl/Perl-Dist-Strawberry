@@ -174,7 +174,7 @@ sub default_machine {
         $machine->add_option('version',
 		perl_version       => '5142',
 		build_number       => 1,
-		beta_number        => 2,
+		beta_number        => 3,
 		relocatable        => 1,
 		use_dll_relocation => 1,
 		gcc_version        => 4,
@@ -185,7 +185,7 @@ sub default_machine {
         $machine->add_option('version',
 		perl_version       => '5142',
 		build_number       => 1,
-		beta_number        => 2,
+		beta_number        => 3,
 		relocatable        => 1,
 		use_dll_relocation => 1,
 		gcc_version        => 4,
@@ -216,7 +216,7 @@ sub default_machine {
         $machine->add_option('version',
 		perl_version => '5142',
 		build_number       => 1,
-		beta_number        => 2,
+		beta_number        => 3,
 		portable     => 1,
 		gcc_version  => 4,
                 bits         => 32,
@@ -226,7 +226,7 @@ sub default_machine {
         $machine->add_option('version',
 		perl_version => '5142',
 		build_number       => 1,
-		beta_number        => 2,
+		beta_number        => 3,
 		portable     => 1,
 		gcc_version  => 4,
                 bits         => 64,
@@ -364,7 +364,8 @@ sub _build_app_ver_name {
 		. ($self->portable() ? ' Portable' : '')
 		. ' ' . $self->perl_version_human()
 		. '.' . $self->build_number()
-		. ($self->beta_number() ? ' Beta ' . $self->beta_number() : '');
+		#. '-' . $self->bits . 'bit' # not needed as bitness already in app_name
+		. ($self->beta_number() ? ' Beta' . $self->beta_number() : '');
 }
 
 sub add_forgotten_files {
@@ -380,13 +381,11 @@ sub _build_output_base_filename {
 	return 'strawberry-perl'
 		. '-' . $self->perl_version_human() . q{.}
 		. ($self->smoketest() ? 'smoketest-' . $self->output_date_string() : $self->build_number())
-		. ($self->image_dir() =~ /^d:/i ? '-ddrive' : q{})
-		. ($self->portable() ? '-portable' : q{})
-		. (( 64 == $self->bits() ) ? q{-64bit} : q{-32bit})
-		. ($self->beta_number() ? '-beta-' . $self->beta_number() : q{})
+		#. ($self->image_dir() =~ /^d:/i ? '-ddrive' : q{}) # d-drive days are over
+		. '-' . $self->bits . 'bit'
+                . ($self->portable ? '-portable' : '')
+                . ($self->beta_number>0 ? '-beta' . $self->beta_number : '')
 }
-
-
 
 
 #####################################################################
@@ -1003,15 +1002,16 @@ sub install_strawberry_extras {
 			directory_id => 'D_App_Menu',
 		);
 		$self->install_website(
-			name         => 'learn.perl.org (tutorials, links)',
+			name         => 'Learning Perl (tutorials, examples)',
 			url          => 'http://learn.perl.org/',
 			icon_file    => _dist_file('perlhelp.ico'),
 		);
-		$self->install_website(
-			name         => 'Beginning Perl (online book)',
-			url          => 'http://learn.perl.org/books/beginning-perl/',
-			icon_file    => _dist_file('perlhelp.ico'),
-		);
+		#XXX-FIXME removed by kmx
+                #$self->install_website(
+		#	name         => 'Beginning Perl (online book)',
+		#	url          => 'http://learn.perl.org/books/beginning-perl/',
+		#	icon_file    => _dist_file('perlhelp.ico'),
+		#);
 		#XXX-FIXME removed by kmx
 		#$self->install_website(
 		#	name         => q{Ovid's CGI Course},
@@ -1021,7 +1021,7 @@ sub install_strawberry_extras {
 		
 		# Link to IRC.
 		$self->install_website(
-			name       => 'Live Support',
+			name       => 'Live Support (chat)',
 			url        => 'http://widget.mibbit.com/?server=irc.perl.org&channel=%23win32',
 			icon_file  => _dist_file('onion.ico')
 		);
@@ -1080,8 +1080,10 @@ sub strawberry_url {
 sub strawberry_release_notes_url {
 	my $self = shift;
 	my $path = $self->perl_version_human()
-		. q{.} . $self->build_number()
-		. ($self->beta_number() ? '.beta-' . $self->beta_number() : '');
+		. '.' . $self->build_number
+		. '-' . $self->bits . 'bit'
+		. ($self->portable ? '-portable' : '')
+		. ($self->beta_number>0 ? '-beta' . $self->beta_number : '');
 
 	return "http://strawberryperl.com/release-notes/$path.html";
 }

@@ -90,7 +90,7 @@ sub output_base_filename {
 	'bootstrap-perl' 
 	. '-' . $_[0]->perl_version_human() 
 	. '.' . $_[0]->build_number()
-	. ($_[0]->beta_number() ? '-beta-' . $_[0]->beta_number : '');
+	. ($_[0]->beta_number() ? '-beta' . $_[0]->beta_number : '');
 }
 
 
