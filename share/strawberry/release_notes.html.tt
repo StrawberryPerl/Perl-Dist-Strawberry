@@ -50,7 +50,7 @@
 
 <table>
 <tr><td><b>Package</b></td><td><b>Homepage</b></td><td><b>Link</b></td><td><b>Comment</b></td></tr>
-<tr><td>pkg-1.2.3</td><td><a href='http://sf.net/project/'>http://sf.net/project/</a></td><td><a href='http://sf.net/project/files/src.tar.gz'>Source</a></td><td>FIXME-update this table manually</td></tr>
+[% dist_pkgs %]
 </table>
 
 </div>
