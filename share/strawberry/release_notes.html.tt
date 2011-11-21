@@ -46,7 +46,13 @@
 [% dist_list %]
 </table>
 
-<p>The list of packages used in the toolchain is available <a href="http://strawberryperl.com/release-notes/toolchain-july2009.html">here</a>.</p>
+<p>The list of packages related to gcc-toolchain and external libraries included in Strawberry Perl:</p>
+
+<table>
+<tr><td><b>Package</b></td><td><b>Homepage</b></td><td><b>Link</b></td><td><b>Comment</b></td></tr>
+<tr><td>pkg-1.2.3</td><td><a href='http://sf.net/project/'>http://sf.net/project/</a></td><td><a href='http://sf.net/project/files/src.tar.gz'>Source</a></td><td>FIXME-update this table manually</td></tr>
+</table>
+
 </div>
 <script type="text/javascript">
 function unhide(divID, switchID) {
