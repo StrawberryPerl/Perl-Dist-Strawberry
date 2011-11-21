@@ -872,8 +872,8 @@ sub install_strawberry_modules_5 {
 	my $self = shift;
 
 	# These are common requests.
-	$self->install_modules( qw{
-		File::Slurp
+	$self->install_module( name => 'File::Slurp', force => 1 ); #sometimes fails during t/handle.t (Failed tests:  5-6)
+	$self->install_modules( qw{		
 		Task::Weaken
 		Class::Inspector
 		SOAP::Lite
