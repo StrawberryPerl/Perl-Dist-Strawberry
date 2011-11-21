@@ -269,7 +269,8 @@ sub install_ppm {
 		# Install PPM itself.
 		# See http://www.perhammer.com/2008/07/subversion-in-url-revision-browsing.html
 		# for description of strange URL.
-		my $share = $self->dist_dir();
+		#XXX-FIXME KMX NOTE: why portable and 5.13+ is handled differently
+        	my $share = $self->dist_dir();
 		if ($self->portable() && (12 < $self->perl_major_version()) ) {
 			$self->install_distribution_from_file(
 				mod_name      => 'PPM',

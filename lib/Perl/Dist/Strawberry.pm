@@ -491,7 +491,8 @@ sub patch_include_path {
 sub install_strawberry_modules_1 {
 	my $self = shift;
 
-	# Install LWP::Online so our custom minicpan code works
+	#XXX-FIXME KMX NOTE: why portable and 5.13+ is handled differently
+        # Install LWP::Online so our custom minicpan code works
 	if ($self->portable() && (12 < $self->perl_major_version()) ) {
 		$self->install_distribution(
 			name     => 'ADAMK/LWP-Online-1.08.tar.gz',
@@ -530,7 +531,8 @@ sub install_strawberry_modules_1 {
                 Math::BigInt::GMP
 	} );
 	
-	# XML Modules
+	#XXX-FIXME KMX NOTE: why portable and 5.13+ is handled differently
+        # XML Modules
 	if ($self->portable() && (12 < $self->perl_major_version()) ) {
 		$self->install_distribution(
 			name             => 'TODDR/XML-Parser-2.41.tar.gz',
@@ -562,6 +564,7 @@ sub install_strawberry_modules_1 {
 		XML::LibXSLT
 	} );
 	
+	#XXX-FIXME KMX NOTE: why portable and 5.13+ is handled differently
 	unless ($self->portable() && (12 < $self->perl_major_version()) ) {
 		# Insert ParserDetails.ini
 		my $ini_file = catfile($self->image_dir(), qw(perl vendor lib XML SAX ParserDetails.ini));
