@@ -175,80 +175,64 @@ sub default_machine {
 		perl_version       => '5142',
 		build_number       => 1,
 		#beta_number        => 5,
-		relocatable        => 1,
-		use_dll_relocation => 1,
-		gcc_version        => 4,
 		bits               => 32,
-		download_dir       => 'C:\tmp\dl-gcc4',
 	);
 	#### 2 = 5.14.2 - MSI/ZIP - 64bit
         $machine->add_option('version',
 		perl_version       => '5142',
 		build_number       => 1,
 		#beta_number        => 5,
-		relocatable        => 1,
-		use_dll_relocation => 1,
-		gcc_version        => 4,
                 bits               => 64,
-		download_dir       => 'C:\tmp\dl-gcc4',
 	);
 	#### 3 = 5.12.4 - MSI/ZIP - 32bit
         $machine->add_option('version',
 		perl_version       => '5124',
 		build_number       => 0,
-		relocatable        => 1,
-		use_dll_relocation => 1,
-		gcc_version        => 4,
                 bits               => 32,
-		download_dir       => 'C:\tmp\dl-gcc4',
 	);
 	#### 4 = 5.12.4 - MSI/ZIP - 64bit
         $machine->add_option('version',
 		perl_version       => '5124',
 		build_number       => 0,
-		relocatable        => 1,
-		use_dll_relocation => 1,
-		gcc_version        => 4,
                 bits               => 64,
-		download_dir       => 'C:\tmp\dl-gcc4',
 	);
         #### 5 = 5.14.2 - portable - 32bit
         $machine->add_option('version',
 		perl_version => '5142',
 		build_number       => 1,
 		#beta_number        => 5,
-		portable     => 1,
-		gcc_version  => 4,
-                bits         => 32,
-		download_dir => 'C:\tmp\dl-gcc4',
+		portable           => 1,
+		relocatable        => 0,
+		use_dll_relocation => 0,
+		bits               => 32,
 	);
         #### 6 = 5.14.2 - portable - 64bit
         $machine->add_option('version',
 		perl_version => '5142',
 		build_number       => 1,
 		#beta_number        => 5,
-		portable     => 1,
-		gcc_version  => 4,
-                bits         => 64,
-		download_dir => 'C:\tmp\dl-gcc4',
+		portable           => 1,
+		relocatable        => 0,
+		use_dll_relocation => 0,
+		bits               => 64,
 	);
         #### 7 = 5.12.4 - portable - 32bit
         $machine->add_option('version',
-		perl_version => '5124',
-		build_number => 0,
-		portable     => 1,
-		gcc_version  => 4,
-                bits         => 32,
-		download_dir => 'C:\tmp\dl-gcc4',
+		perl_version       => '5124',
+		build_number       => 0,
+		portable           => 1,
+		relocatable        => 0,
+		use_dll_relocation => 0,
+		bits               => 32,
 	);
         #### 8 = 5.12.4 - portable - 64bit
         $machine->add_option('version',
 		perl_version => '5124',
-		build_number => 0,
-		portable     => 1,
-		gcc_version  => 4,
-                bits         => 64,
-		download_dir => 'C:\tmp\dl-gcc4',
+		build_number       => 0,
+		portable           => 1,
+		relocatable        => 0,
+		use_dll_relocation => 0,
+		bits               => 64,
 	);
 
 	return $machine;
@@ -288,7 +272,12 @@ around BUILDARGS => sub {
 	$args{perl_version} //= '5142';
 	$args{build_number} //= 0;
 	$args{beta_number}  //= 0;
-        $args{bits} //= 32;
+	$args{bits} //= 32;
+
+	#set defaults
+	$args{relocatable} //= 1;
+	$args{use_dll_relocation} //= 1;
+	$args{gcc_version} //= 4;
 
 	#32bit app_name = 'Strawberry Perl'
 	#64bit app_name = 'Strawberry Perl (64-bit)'
@@ -973,8 +962,7 @@ sub install_strawberry_extras {
 	# can avoid it.
 	my $class = $self->_original_class_name();
 	if ('Perl::Dist::Strawberry' ne $class) {
-		$self->trace_line(2, 
-		  "Did not install the Strawberry extras in a $class");
+		$self->trace_line(2, "Did not install the Strawberry extras in a $class\n");
 		return 1;
 	}
 	
