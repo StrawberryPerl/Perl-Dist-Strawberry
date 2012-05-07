@@ -1,0 +1,6 @@
+[%app_fullname%] [%app_version%]-[%bits%]bit includes these distributions installed
+on top of perl [%output.perl_version%]:
+
+[%-FOREACH item = output.distributions.sort.unique%]
+[%loop.count%]/[%loop.size%]: [%item%]
+[%-END%]

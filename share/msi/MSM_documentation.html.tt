@@ -1,0 +1,19 @@
+<head>
+<title>Merge Module Documentation</title>
+</head>
+<body>
+<p>To use this merge module, your Perl::Dist::WiX subclass has to use these parameters to new():</p>
+
+<pre style="margin-left: 0.25in;">...
+msm_to_use           => '<i>&lt;URL location of [% dist.output_base_filename %].msm&gt;</i>',
+msm_zip              => '<i>&lt;URL location of [% dist.output_base_filename %].zip&gt;</i>',
+msm_code             => '[% dist.msm_package_id %]',
+[% IF dist.relocatable %]
+fileid_perl          => '[% dist.fileid_perl %]',
+fileid_relocation_pl => '[% dist.fileid_relocation_pl %]',
+[% END %]...</pre>
+
+<p>In addition, your 'tasklist' parameter has to use 'initialize_using_msm' as its second entry (right after 'final_initialization'.)</p>
+
+</body>
+</html>

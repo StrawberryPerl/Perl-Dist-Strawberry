@@ -1,0 +1,18 @@
+; HelperCA.def: Clear Folder Custom Action for Perl::Dist::WiX
+;
+; Copyright (c) Curtis Jewell 2009.
+;
+; This code is free software; you can redistribute it and/or modify it
+; under the same terms as Perl itself.
+
+LIBRARY	"HelperCA"
+VERSION 1.200 ; 1.200_100
+EXPORTS
+    ClearFoldersSlow
+    ClearFoldersFast
+	ClearSiteFolder
+	CheckForSpaces
+	RelocateMSI
+	RelocateMSM
+	SpecialRefresh
+    

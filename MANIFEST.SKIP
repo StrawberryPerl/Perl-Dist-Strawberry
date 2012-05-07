@@ -37,6 +37,13 @@
 \.bak$
 \btmp[0-9][0-9][0-9]\b
 \bdownload\b
+^tmp
+^devel
+^HelperCA.dll_src/Debug
+^HelperCA.dll_src/Release
+\.ncb$
+\.suo$
+\.user$
 
 # Avoid Devel::Cover files.
 \bcover_db\b

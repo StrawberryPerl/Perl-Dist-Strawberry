@@ -1,0 +1,29 @@
+--- C:\strawberry_build\build\perl_core\perl-2653c1e\win32\config_H.gc.backup	Wed Apr 11 15:20:53 2012
++++ C:\strawberry_build\build\perl_core\perl-2653c1e\win32\config_H.gc	Wed Apr 11 23:00:58 2012
+@@ -645,7 +645,7 @@
+  *	This symbol, if defined, indicates that <rpcsvc/dbm.h> exists and
+  *	should be included.
+  */
+-/*#define I_DBM	/ **/
++#define I_DBM	/**/
+ #define I_RPCSVC_DBM	/**/
+ 
+ /* I_DLFCN:
+@@ -670,7 +670,7 @@
+  *	This symbol, if defined, indicates that <gdbm.h> exists and should
+  *	be included.
+  */
+-/*#define I_GDBM	/ **/
++#define I_GDBM	/**/
+ 
+ /* I_LIMITS:
+  *	This symbol, if defined, indicates to the C program that it should
+@@ -2955,7 +2955,7 @@
+  *	parameter information. While ANSI C prototypes are supported in C++,
+  *	K&R style function declarations will yield errors.
+  */
+-/*#define I_NDBM	/ **/
++#define I_NDBM	/**/
+ /*#define I_GDBMNDBM	/ **/
+ /*#define I_GDBM_NDBM	/ **/
+ /*#define NDBM_H_USES_PROTOTYPES	/ **/

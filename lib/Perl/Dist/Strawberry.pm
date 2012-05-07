@@ -1,10 +1,550 @@
 package Perl::Dist::Strawberry;
 
+use 5.012;
+use warnings;
+
+use Data::Dump            qw(pp);
+use Getopt::Long          qw();
+use ExtUtils::MakeMaker   qw();
+use File::Path            qw(make_path remove_tree);
+use File::Slurp           qw(read_file write_file append_file);
+use File::Spec::Functions qw(catfile catdir canonpath splitpath);
+use File::Find::Rule;
+use File::Glob            qw(:glob);
+use Archive::Zip          qw(:ERROR_CODES :CONSTANTS);
+use URI::file             qw();
+use File::ShareDir        qw();
+use Pod::Usage            qw(pod2usage);
+use LWP::UserAgent;
+
+# following recommendation from http://www.dagolden.com/index.php/369/version-numbers-should-be-boring/
+our $VERSION = "3.002";
+$VERSION = eval $VERSION;
+
+sub new {
+  my $class = shift;
+  return bless {
+    global => {
+        # set defaults
+        target        => 'msi+zip+portable',
+        working_dir   => 'c:\strawberry_build',
+        image_dir     => 'c:\strawberry',
+        cpan_url      => 'http://cpan.strawberryperl.com',
+        package_url   => 'http://strawberryperl.com/package/',
+        test_modules  => 1,
+        test_core     => 0,
+        offline       => 0,
+        perl_debug    => 0,
+        verbosity     => 3,
+        interactive   => 1,
+        restorepoints => 0,
+        output        => {}, #globally storing outputs from each step
+        @_,
+    } }, $class;
+}
+
+sub parse_options {
+  my $self = shift;
+
+  $self->global->{argv} = [@_]; #keep original parameters
+  local @ARGV = @_;
+
+  Getopt::Long::GetOptions(
+    'j|job=s'           => \$self->global->{job},
+    'working_dir=s'     => \$self->global->{working_dir},   #<dir>    default: c:\buildtmp
+    'wixbin_dir=s'      => \$self->global->{wixbin_dir},    #<dir>    default: undef
+    'image_dir=s'       => \$self->global->{image_dir},     #<dir>    default: c:\strawberry (BEWARE: dir will be destroyed!!)
+    'cpan_url=s'        => \$self->global->{cpan_url},      #<url>    default: http://cpan.strawberryperl.com (or use e.g. file://C|/cpanmirror/)
+    'test_modules!'     => \$self->global->{test_modules},  #<flag>   default: 1 (0 = skip tests when installing perl modules)
+    'test_core!'        => \$self->global->{test_core},     #<flag>   default: 0 (0 = skip tests when installing perl core)
+    'offline=s'         => \$self->global->{offline},       #<flag>   default: 0 (1 = internet connection unavailable during build)
+    'perl_debug=s'      => \$self->global->{perl_debug},    #<flag>   default: 0 (1 = build perl core with debug enabled)
+    'verbosity=s'       => \$self->global->{verbosity},     #<level>  default: 2 (you can use values 1/silent to 5/verbose)
+    'package_url=s'     => \$self->global->{package_url},   #<url>    default: http://strawberryperl.com/package/ (or use e.g. file://C|/pkgmirror/)
+    'interactive!'      => \$self->global->{interactive},   #<flag>   default: 1 (0 = no interactive questions)
+    'restorepoints!'    => \$self->global->{restorepoints}, #<flag>   default: 0 (1 = create restorepoint after each finished step)
+    'h|help'            => sub { pod2usage(-exitstatus=>0, -verbose=>2) },
+  ) or pod2usage(-verbose=>2);
+  
+  # set other computed values
+  (my $idq = $self->global->{image_dir}) =~ s|\\|\\\\|g;
+  (my $idu = $self->global->{image_dir}) =~ s|\\|/|g;
+  $self->global->{image_dir_quotemeta} = $idq;
+  $self->global->{image_dir_url}       = "file:///$idu";
+
+  $self->global->{working_dir}     = canonpath($self->global->{working_dir});
+  $self->global->{image_dir}       = canonpath($self->global->{image_dir});
+  $self->global->{dist_sharedir}   = canonpath(File::ShareDir::dist_dir('Perl-Dist-Strawberry'));
+  $self->global->{build_dir}       = canonpath(catdir($self->global->{working_dir}, "build"));
+  $self->global->{debug_dir}       = canonpath(catdir($self->global->{working_dir}, "debug"));
+  $self->global->{download_dir}    = canonpath(catdir($self->global->{working_dir}, "download"));
+  $self->global->{env_dir}         = canonpath(catdir($self->global->{working_dir}, "env"));
+  $self->global->{output_dir}      = canonpath(catdir($self->global->{working_dir}, "output"));
+  $self->global->{restore_dir}     = canonpath(catdir($self->global->{working_dir}, "restore"));
+  
+  if (defined $self->global->{wixbin_dir}) {
+    my $d = $self->global->{wixbin_dir};
+    unless (-f "$d/candle.exe" && -f "$d/light.exe") {
+      die "ERROR: invalid wixbin_dir '$d' (candle.exe+light.exe not found)\n";
+    }
+  }
+
+}
+
+sub global { # accessor to global data
+  return shift->{global};
+}
+
+sub do_job {
+  my $self = shift;
+  my $i;
+
+  my $job = $self->load_jobfile();
+  # now we have parsed all commandline params + jobfile options
+  
+  #ask user couple of questions
+  $self->ask_about_dirs; # only ask, die if user do not want to continue
+  my $restorepoint = $self->ask_about_restorepoint($self->global->{image_dir}, $job->{bits}); # only ask user, no real restore yet
+  $self->ask_about_build_details($restorepoint);
+  
+  warn "\n### STARTING THE JOB (long running task, go for a coffee) ###\n\n";
+
+  #now long running tasks may start (no user questions anymore)
+  $self->create_dirs();
+  $self->message(0, "preparing build machine");
+  $self->create_buildmachine($job, $restorepoint);
+  $self->prepare_build_ENV();
+
+  #check
+  $self->message(0, "starting global check");
+  $i = 0;
+  for (@{$self->{build_job_steps}}) {    
+    $self->message(1, "checking [step:$i] ".ref($_));
+    $_->check unless $_->{data}->{done}; # dies on error
+    $i++;
+  }; 
+
+  #run
+  $self->message(0, "starting the build");
+  write_file(catfile($self->global->{debug_dir}, "global_dump_INITIAL.txt"), pp($self->global)); #debug dump
+  $self->build_job_pre(); # dies on error
+  $i = 0;
+  for (@{$self->{build_job_steps}}) {
+    my $me = ref($_);
+    $me =~ s/^Perl::Dist::Strawberry::Step:://;
+    if ($_->{data}->{done}) {
+      # loaded from restorepoint
+      $self->message(0, "[step:$i] no need to run '$me'");
+    }
+    else {
+      $self->message(0, "[step:$i] starting '$me'");
+      $_->run;  # dies on error
+      $_->test; # dies on error
+      $_->{data}->{done} = 1; # mark as sucessfully finished      
+      $self->message(0, "[step:$i] finished '$me'");
+      $self->make_restorepoint("[step:$i/".$self->global->{bits}."bit] $me") if $self->global->{restorepoints};
+      $self->message(0, "[step:$i] restorepoint saved");
+      write_file(catfile($self->global->{debug_dir}, "global_dump_".time.".txt"), pp($self->global)); #debug dump
+    }
+    $self->merge_output_into_global($_->{data}); #merge for both restorepoint and really executed step
+    $i++;
+  }
+  $self->build_job_post(); # dies on error
+  write_file(catfile($self->global->{debug_dir}, "global_dump_FINAL.txt"), pp($self->global)); #debug dump
+  $self->message(0, "build finished");
+}
+
+sub build_job_pre {
+  my $self = shift;  
+  
+  if ($self->global->{bits} != 32 && $self->global->{bits} != 64) {
+    die "ERROR: invalid 'bits' value [".$self->global->{bits}."]\n";
+  }
+  #XXX-FIXME maybe add more checks
+}
+
+sub build_job_post {
+  my $self = shift;
+}
+
+sub ask_about_dirs {
+  my $self = shift;
+  my $idir = $self->global->{image_dir};
+  my $wdir = $self->global->{working_dir};
+  my $idir_exists = -d $idir ? " - !!!ALREADY EXISTS AND WILL BE REMOVED!!!" : "";
+  my $wdir_exists = -d $wdir ? " - already exists and will be reused" : "";  
+  my $continue = lc $self->prompt("We are gonna use the following directories during build:\n".
+                                  " * $idir$idir_exists\n".
+                                  " * $wdir$wdir_exists\n".
+                                  "Do you want to continue?", 'y');
+  die "QUITTING\n" unless $continue eq 'y';
+}
+
+sub ask_about_build_details {
+  my ($self, $restorepoint) = @_;
+  my ($note1, $note2) = ('', '');
+  $note1 = "NOTE: use -restorepoints to enable" if !$self->global->{restorepoints};
+  $note2 = "NOTE: use -nointeractive to disable" if $self->global->{interactive};
+  my $continue = lc $self->prompt("Important job details:\n".
+                                  " * job=".$self->global->{job}."\n".
+                                  " * verbosity=".$self->global->{verbosity}."\n".
+                                  " * restorepoints=".$self->global->{restorepoints}." $note1\n".
+                                  " * interactive=".$self->global->{interactive}."   $note2\n".
+                                  " * test_modules=".$self->global->{test_modules}."\n".
+                                  " * test_core=".$self->global->{test_core}."\n".
+                                  "Do you want to continue?", 'y');
+  die "QUITTING\n" unless $continue eq 'y';
+}
+
+sub create_dirs {
+  my $self = shift;
+
+  my $idir = $self->global->{image_dir};
+  if (-d $idir) {
+    remove_tree($idir) or die "ERROR: cannot delete '$idir'\n";
+  }
+  make_path($idir) or die "ERROR: cannot create '$idir'\n";
+
+  my $wdir = $self->global->{working_dir};
+  if (!-d $wdir) {
+    make_path($wdir) or die "ERROR: cannot create '$wdir'\n";
+  }
+
+  #clean other working directories
+  !-d $self->global->{build_dir}     or remove_tree($self->global->{build_dir})     or die "ERROR: cannot delete '".$self->global->{build_dir}."'\n";
+  !-d $self->global->{debug_dir}     or remove_tree($self->global->{debug_dir})     or die "ERROR: cannot delete '".$self->global->{debug_dir}."'\n";
+  !-d $self->global->{env_dir}       or remove_tree($self->global->{env_dir})       or die "ERROR: cannot delete '".$self->global->{env_dir}."'\n";  #XXX-FIXME maybe only warn not die
+  make_path($self->global->{build_dir})     or die "ERROR: cannot create '".$self->global->{build_dir}."'\n";
+  make_path($self->global->{debug_dir})     or die "ERROR: cannot create '".$self->global->{debug_dir}."'\n";
+  make_path(catdir($self->global->{env_dir}, 'temp'));
+  make_path(catdir($self->global->{env_dir}, 'home'));
+  make_path(catdir($self->global->{env_dir}, 'AppDataRoaming'));
+  make_path(catdir($self->global->{env_dir}, 'AppDataLocal'));
+  make_path(catdir($self->global->{env_dir}, 'UserProfile'));
+  #create only if not exists
+  -d $self->global->{restore_dir} or make_path($self->global->{restore_dir}) or die "ERROR: cannot create '".$self->global->{restore_dir}."'\n";
+  -d $self->global->{output_dir}  or make_path($self->global->{output_dir})  or die "ERROR: cannot create '".$self->global->{output_dir}."'\n";
+}
+
+sub prepare_build_ENV {
+  my $self = shift;
+
+  my ($home_d, $home_p) = splitpath(catfile($self->global->{env_dir}, qw/home fakefile/));
+  my @path = split /;/ms, $ENV{PATH};
+  my @new_path = ( catdir($self->global->{image_dir}, qw/perl site bin/),
+                   catdir($self->global->{image_dir}, qw/perl bin/),
+                   catdir($self->global->{image_dir}, qw/c bin/) );
+  foreach my $p (@path) {
+    next if not -d $p; # Strip any path that doesn't exist
+    # Strip any path outside of the windows directories. This is done by testing for kernel32.dll and win.ini
+    next if ! (-f catfile( $p, 'kernel32.dll' ) || -f catfile( $p, 'win.ini' ));
+    # Strip any path that contains either unzip or gzip.exe. These two programs cause perl to fail its own tests.
+    next if -f catfile( $p, 'unzip.exe' );
+    next if -f catfile( $p, 'gzip.exe' );
+    push @new_path, $p;
+  }
+  $self->global->{build_ENV} = {
+    LIB               => undef,
+    INCLUDE           => undef,
+    PERLLIB           => undef,
+    PERL5LIB          => undef,
+    PERL5OPT          => undef,
+    PERL5DB           => undef,
+    PERL5SHELL        => undef,
+    PERL_MM_OPT       => undef,
+    PERL_MB_OPT       => undef,
+    PERL_YAML_BACKEND => undef,
+    PERL_JSON_BACKEND => undef,
+    HOMEDRIVE         => $home_d,
+    HOMEPATH          => $home_p,
+    TEMP              => catdir($self->global->{env_dir}, 'temp'),
+    TMP               => catdir($self->global->{env_dir}, 'temp'),
+    APPDATA           => catdir($self->global->{env_dir}, 'AppDataRoaming'),
+    LOCALAPPDATA      => catdir($self->global->{env_dir}, 'AppDataLocal'),
+    USERPROFILE       => catdir($self->global->{env_dir}, 'UserProfile'),
+    COMPUTERNAME      => 'buildmachine',
+    USERNAME          => 'builduser',
+    TERM              => 'dumb',
+    PATH              => join(';', @new_path),
+  };
+  
+  # Create batch file '<debug_dir>/cmd_with_env.bat' for debugging #XXX-FIXME maybe move this somewhere else
+  my $env = $self->global->{build_ENV};
+  my $set_env = '';
+  $set_env .= "set $_=" . (defined $env->{$_} ? $env->{$_} : '') . "\n" for (sort keys %$env);
+  write_file(catfile($self->global->{debug_dir}, 'cmd_with_env.bat'), "\@echo off\n\n$set_env\ncmd /K\n");
+
+}
+
+sub create_buildmachine {
+  my ($self, $job, $restorepoint) = @_;
+  my $h;
+  my $counter = 0;
+  
+  $h = delete $job->{build_job_steps};
+  for my $s (@$h) {
+    my $p = delete $s->{plugin};
+    my $n = eval "use $p; $p->new()";
+    die "ERROR: invalid plugin '$p'\n$@" unless $n;
+    $n->{boss} = $self;
+    $n->{config} = $s;
+    $n->{data} = { done=>0, plugin=>$p, output=>undef };
+    push @{$self->{build_job_steps}}, $n;
+  }
+  $counter += scalar(@$h);
+    
+  # store remaining job data into global-hash
+  while (my ($k, $v) = each %$job) {
+    $self->global->{$k} = $v;
+  }
+  # derive output_basename and store int global-hash
+  my $basename = "$job->{app_simplename}-$job->{app_version}";
+  $basename .= "-beta$job->{beta}" if $job->{beta};
+  $basename .= "-$job->{bits}bit";
+  $self->global->{output_basename} = $basename; # e.g. strawberryperl-5.14.2.1 or strawberryperl-5.14.2.1-beta2 
+
+  if ($restorepoint) {
+    my $i;
+    my $start_time = time;
+    $self->message(0, "loading RESTOREPOINT=$restorepoint->{restorepoint_info}\n"); # will not be saved in "debug_dir/messages" !!!
+
+    $i = 0;
+    for my $data (@{$restorepoint->{build_job_steps}}) {
+      if ($data->{done}) {
+        die "ERROR: restorepoint has not compatible structure" if !$data->{plugin} || $data->{plugin} ne $self->{build_job_steps}->[$i]->{data}->{plugin};
+        $self->{build_job_steps}->[$i]->{data} = $data;
+      }
+      $i++;
+    }
+
+    $self->unzip_dir($restorepoint->{restorepoint_zip_debug_dir}, $self->global->{debug_dir});
+    $self->unzip_dir($restorepoint->{restorepoint_zip_image_dir}, $self->global->{image_dir});
+    
+    $self->message(0, sprintf("RESTOREPOINT loaded in %.2f minutes\n", (time-$start_time)/60));
+  }
+  else {
+    $self->message(0, "new build machine created, total steps=$counter");
+  }
+}
+
+sub merge_output_into_global {
+  my ($self, $data) = @_;
+  return unless defined $data && ref $data eq 'HASH';
+  return unless $data->{output};
+  while (my ($k, $v) = each %{$data->{output}}) {
+    if (exists $self->global->{output}->{$k}) {
+      if (!ref $v) {
+        $self->message(2, "WARNING: replacing global->{output}->{$k} with scalar");
+        $self->global->{output}->{$k} = $v;
+      }
+      elsif (ref $self->global->{output}->{$k} eq 'HASH' && ref $v eq 'HASH') {
+        $self->message(2, "INFO: merging hashes global->{output}->{$k}");
+        $self->global->{output}->{$k} = { %{$self->global->{output}->{$k}}, %$v };
+      }
+      elsif (ref $self->global->{output}->{$k} eq 'ARRAY' && ref $v eq 'ARRAY') {
+        $self->message(2, "INFO: merging arrays global->{output}->{$k}");
+        push @{$self->global->{output}->{$k}}, @$v;
+      }
+      else {
+        $self->message(2, "WARNING: skipping merge for global->{output}->{$k}");
+      }      
+    }
+    else {
+      $self->global->{output}->{$k} = $v;
+    }
+  }
+}
+
+sub load_jobfile {
+  my $self = shift;
+  if(!defined $self->global->{job}) {
+    warn "ERROR: undefined jobfile (probably mission -job param)\n";
+    warn "       use --help option to see more info\n\n";
+    die;
+  }
+  my $ppfile = $self->resolve_name($self->global->{job});
+  die "ERROR: non existing jobfile '$ppfile'\n" unless -f $ppfile;
+  my $job = do($ppfile);
+  die "ERROR: load jobfile '$ppfile' failed\n$@" if $@;
+  return $job;
+}
+
+sub prompt {
+  my $self = shift;
+  if ($self->global->{interactive}) {
+    return ExtUtils::MakeMaker::prompt("\n$_[0]", $_[1]); # simply proxying all calls to EU::MM's prompt
+  }
+  else {
+    print "\n$_[0]", ' ', $_[1], "\n";
+    return $_[1];
+  }
+}
+
+sub message {
+  my ($self, $level, @msg) = @_;
+  my ($sec,$min,$hour,$mday,$mon,$year,$wday,$yday,$isdst) = localtime(time);
+  my $time = sprintf("%02d/%02d/%02d-%02d:%02d:%02d",$year+1900,$mon,$mday,$hour,$min,$sec);
+  my $log = catfile($self->global->{debug_dir}, 'messages.txt');
+  write_file($log, "### log started: ".scalar(localtime)."\n\n") unless -f $log;
+  push @msg, "\n" unless $msg[$#msg] =~ /\n$/;
+  if ($level==0) {
+    # print always with timestamp
+    warn "##$time## ", @msg;
+  }
+  elsif (!defined $self->global->{verbosity} || $level <= $self->global->{verbosity}) {
+    warn "    ", @msg;
+  }
+  append_file($log, "$time\tlevel:$level\t", @msg);
+}
+
+sub resolve_name {
+  my ($self, $name) = @_;
+  if ($name =~ /^<(.*?)>/) {
+    my $r = $self->global->{$1};
+    $name =~ s/^<(.*?)>/$r/;
+  }
+  if ($name =~ m|^[a-zA-Z0-9]+://|) {
+    #url
+    $name =~ s|([^:]/)/*|$1|g; # // >>> /
+  }
+  else {
+    #filename
+    $name = canonpath($name);
+  }
+  return $name;
+}
+
+sub test_url {
+  my ($self, $url) = @_;
+  my $ua = LWP::UserAgent->new();
+  return 1 if $ua->head($url)->code == 200;
+  return 0;
+}
+
+sub mirror_url {
+  my ($self, $url, $dir) = @_;
+
+  # If our caller was install_par, don't display anything.
+  my $no_display_trace = (caller 0)[3] eq 'install_par' ? 1 : 0;
+
+  # Check if the file already is downloaded.
+  my $file = $url;
+  $file =~ s|^.+\/||;# Delete anything before the last forward slash, leaves only the filename.
+  my $target = catfile( $dir, $file );
+
+  return $target if $self->global->{offline} and -f $target;
+
+  # Error out - we can't download.
+  die "ERROR: Currently offline, cannot download '$url'\n" if $self->global->{offline} and $url !~ /^file:/;
+
+  # Create the directory to download to if required.
+  -d $dir or make_path($dir) or die "ERROR: cannot create '$dir'\n";
+
+  # Now download the file.
+  $self->message( 2, "* downloading file '$url'") unless $no_display_trace;
+  my $ua = LWP::UserAgent->new();
+  my $r = $ua->mirror( $url, $target );
+  if ( $r->is_error ) {
+    $self->message(0, "    Error getting $url:\n" . $r->as_string . "\n" );
+    return;
+  }
+  elsif ( $r->code == HTTP::Status::RC_NOT_MODIFIED ) {
+    $self->message(3, "* already up to date") unless $no_display_trace;
+  }
+
+  return $target; # downloaded file name 
+}
+
+sub zip_dir {
+  my ($self, $dir, $zip_filename, $level) = @_;
+  $level //= 1;
+  $self->message(3, "started: zip_dir('$dir', '$zip_filename', $level)\n");
+  die "ERROR: non-existing dir '$dir'" unless -d $dir;
+  my @items = File::Find::Rule->in($dir);
+  my $zip = Archive::Zip->new();
+  for my $fs_name (@items) {
+    (my $archive_name = $fs_name) =~ s|^\Q$dir\E[/\\]*||i;
+    next if $archive_name eq '';
+    my $m = $zip->addFileOrDirectory($fs_name, $archive_name);
+    $m->desiredCompressionLevel($level); # 1 = fastest compression
+  }
+  die 'ERROR: ZIP failure' unless ($zip->writeToFileNamed($zip_filename) == AZ_OK);
+}
+
+sub unzip_dir {
+  my ($self, $zip_filename, $dir) = @_;
+  $self->message(3, "started: unzip_dir('$zip_filename', '$dir')\n");
+  my $zip = Archive::Zip->new($zip_filename);
+  my $rv = $zip->extractTree('', "$dir\\"); # '\\' in the end is important
+  die 'ERROR: UNZIP failure' unless ($rv == AZ_OK);
+}
+
+sub make_restorepoint {
+  my ($self, $text) = @_;
+  $self->message(3, "gonna save restorepoint '$text'\n");
+  
+  my $start_time = time;
+  my $zip_image_dir = catfile($self->global->{restore_dir}, time."_image_dir.zip");
+  my $zip_debug_dir = catfile($self->global->{restore_dir}, time."_debug_dir.zip");
+  my $pp_name = catfile($self->global->{restore_dir}, time."_data.pp");
+  $self->zip_dir($self->global->{image_dir}, $zip_image_dir);
+  $self->zip_dir($self->global->{debug_dir}, $zip_debug_dir);
+  my $now = scalar(localtime);
+  (my $a = pp($self->global->{argv})) =~ s/[\r\n]+/\n#/g;
+  my $comment = "# time : $now\n".
+                "# stage: after '$text'\n".
+                "# argv : $a\n\n";
+
+  my %data_to_save = (
+    image_dir => $self->global->{image_dir},
+    bits => $self->global->{bits},
+    restorepoint_info => "$now - saved after '$text'",
+    restorepoint_zip_image_dir => $zip_image_dir,
+    restorepoint_zip_debug_dir => $zip_debug_dir,
+    build_job_steps      => [],
+  );
+  push @{$data_to_save{build_job_steps}},      $_->{data} for (@{$self->{build_job_steps}});
+
+  write_file($pp_name, $comment.pp(\%data_to_save));
+
+  $self->message(3, sprintf("restorepoint saved in %.2f minutes\n", (time-$start_time)/60));
+}
+
+sub ask_about_restorepoint {
+  my ($self, $image_dir, $bits) = @_;
+  my @points;
+  my $list;
+  my $i = 0;
+  for my $pp (sort(bsd_glob($self->global->{restore_dir}."/*.pp"))) {
+    my $d = eval { do($pp) };
+    warn "SKIPPING/1 $pp\n" and next unless defined $d && ref($d) eq 'HASH';
+    warn "SKIPPING/2 $pp\n" and next unless defined $d->{build_job_steps};
+    warn "SKIPPING/3 $pp\n" and next unless defined $d->{restorepoint_info};
+    warn "SKIPPING/4 $pp\n" and next unless $d->{restorepoint_zip_image_dir} && -f $d->{restorepoint_zip_image_dir};
+    warn "SKIPPING/5 $pp\n" and next unless $d->{restorepoint_zip_debug_dir} && -f $d->{restorepoint_zip_debug_dir};
+    warn "SKIPPING/6 $pp\n" and next unless canonpath($d->{image_dir}) eq canonpath($image_dir);
+    warn "SKIPPING/7 $pp\n" and next unless $d->{bits} == $bits;
+    $list .= "[$i] $d->{restorepoint_info}\n";
+    push @points, $d;
+    $i++;
+  }
+  if ($i>0) {
+    my $msg = "Restorepoints available in '".$self->global->{restore_dir}."':\n$list".
+              "What restorepoint do you want to use? Enter its number:";
+    my $p = $self->prompt($msg, 'none');
+    return $points[$p] if ($p =~ /\d+/ && $p >= 0 && $p<=$i-1);
+    print "No restorepoint chosen\n";
+  }
+  return undef;
+}
+
+1;
+
 =pod
 
 =head1 NAME
 
-Perl::Dist::Strawberry - Strawberry Perl for Win32
+Perl::Dist::Strawberry - Build strawberry-perl-like distribution for MS Windows
 
 =head1 DESCRIPTION
 
@@ -12,1153 +552,13 @@ Strawberry Perl is a binary distribution of Perl for the Windows operating
 system.  It includes a bundled compiler and pre-installed modules that offer
 the ability to install XS CPAN modules directly from CPAN.
 
+You can download Strawberry Perl from L<http://strawberryperl.com|http://strawberryperl.com>
+
 The purpose of the Strawberry Perl series is to provide a practical Win32 Perl
 environment for experienced Perl developers to experiment with and test the
 installation of various CPAN modules under Win32 conditions, and to provide a
 useful platform for doing real work.
 
-Strawberry Perl includes:
-
-=over
-
-=item *
-
-Perl 5.10.0 or 5.10.1
-
-=item *
-
-MingW GCC C/C++ compiler
-
-=item *
-
-Dmake "make" tool
-
-=item *
-
-Every bundled and dual-life module upgraded to the latest version.
-
-=item *
-
-L<Bundle::CPAN>, L<Bundle::LWP> and L<CPAN::SQLite> to enhance the
-functionality of the CPAN client.
-
-=item *
-
-Additional Perl modules that enhance the stability of core Perl for
-the Win32 platform
-
-=item *
-
-Modules that enhance the ability to install non-CPAN packages such as
-L<PAR::Dist>, L<PPM> and L<pip>.
-
-=item *
-
-Prebuilt and known-good C libraries for math, crypto and XML support.
-
-=item *
-
-Additions that provide L<Portable> support.
-
-=back
-
-The B<Perl::Dist::Strawberry> module available on CPAN contains the modules
-and L<perldist_strawberry> script that are used to generate the
-Strawberry Perl installers.
-
-Please note that B<Perl::Dist::Strawberry> B<does not> include the
-resulting Strawberry Perl installer. See the Strawberry Perl website at
-L<http://strawberryperl.com/> to download the Strawberry Perl installer.
-
-See L<Perl::Dist::WiX> for details on how the underlying distribution
-construction toolkit works.
-
-=head1 CHANGES FROM CORE PERL
-
-Strawberry Perl is and will continue to be based on the latest "stable"
-releases of Perl, currently 5.10.1, and 5.12.3.
-
-Some additional modifications are included that improve general
-compatibility with the Win32 platform or improve "turnkey" operation on
-Win32.
-
-Whenever possible, these modifications will be made only by preinstalling
-additional or updated CPAN modules within Strawberry Perl, particularly
-modules that have been newly included as core Perl modules in the
-"development" branch of perl to address Win32 compatibility issues.
-
-Additionally, a stub CPAN Config.pm file is added.  This provides a
-complete zero-conf preconfiguration for CPAN, using a stable
-L<http://cpan.strawberryperl.com/> redirector to bounce to a
-known-reliable mirror.
-
-A more-thorough network-aware zero-conf capability is currently being
-developed and will be included at a later time.
-
-Strawberry has B<never> patched the Perl source code or modified the
-perl.exe binary.
-
-=head1 CONFIGURATION
-
-At present, Strawberry Perl 5.10.1 must be installed in C:\strawberry.
-5.12.3 is relocatable, and can be installed anywhere.
-
-The executable installer adds the following environment variable changes:
-
-  * Adds directories to PATH
-    - C:\strawberry\perl\bin  
-    - C:\strawberry\perl\site\bin  
-    - C:\strawberry\c\bin  
-
-Users installing Strawberry Perl without the installer will need to
-add the environment entries manually, or using the provided script.
-
-=head1 METHODS
-
-In addition to extending various underlying L<Perl::Dist::WiX> methods,
-Strawberry Perl adds some additional methods that provide installation
-support for miscellaneous tools that have not yet been promoted to the
-core.
-
-=cut
-
-use 5.010;
-use Moose;
-use strict;
-use File::Spec::Functions            qw( catfile catdir  );
-use URI::file                        qw();
-use File::ShareDir                   qw();
-use File::ShareDir::PathClass        qw();
-use Perl::Dist::WiX::Util::Machine   qw();
-use File::List::Object               qw();
-use Path::Class::Dir                 qw();
-
-our $VERSION = '2.5900';
-
-extends 'Perl::Dist::WiX'                   => { -version => '1.550', },
-        'Perl::Dist::Strawberry::Libraries' => { -version => '2.5900', };
-
-#####################################################################
-# Build Machine Generator
-
-=pod
-
-=head2 default_machine
-
-  Perl::Dist::Strawberry->default_machine(...)->run();
-  
-The C<default_machine> class method is used to setup the most common
-'machine' for building Strawberry Perl.
-
-The machine provided creates a standard 5.8.9 distribution (.zip and .msi),
-a standard 5.10.1 distribution (.zip and .msi) and a Portable-enabled 5.10.1 
-distribution (.zip only).
-
-Returns a L<Perl::Dist::WiX::Util::Machine|Perl::Dist::WiX::Util::Machine> object.
-
-=cut
-
-sub default_machine {
-	my $class = shift;
-
-	# Create the machine
-	my $machine = Perl::Dist::WiX::Util::Machine->new(
-		class => $class,
-		@_,
-	);
-
-	# Set the different versions
-	$machine->add_dimension('version');
-
-	#### 1 = 5.14.2 - MSI/ZIP - 32bit
-        $machine->add_option('version',
-		perl_version       => '5142',
-		build_number       => 1,
-		#beta_number        => 5,
-		bits               => 32,
-	);
-	#### 2 = 5.14.2 - MSI/ZIP - 64bit
-        $machine->add_option('version',
-		perl_version       => '5142',
-		build_number       => 1,
-		#beta_number        => 5,
-                bits               => 64,
-	);
-	#### 3 = 5.12.4 - MSI/ZIP - 32bit
-        $machine->add_option('version',
-		perl_version       => '5124',
-		build_number       => 0,
-                bits               => 32,
-	);
-	#### 4 = 5.12.4 - MSI/ZIP - 64bit
-        $machine->add_option('version',
-		perl_version       => '5124',
-		build_number       => 0,
-                bits               => 64,
-	);
-        #### 5 = 5.14.2 - portable - 32bit
-        $machine->add_option('version',
-		perl_version => '5142',
-		build_number       => 1,
-		#beta_number        => 5,
-		portable           => 1,
-		relocatable        => 0,
-		use_dll_relocation => 0,
-		bits               => 32,
-	);
-        #### 6 = 5.14.2 - portable - 64bit
-        $machine->add_option('version',
-		perl_version => '5142',
-		build_number       => 1,
-		#beta_number        => 5,
-		portable           => 1,
-		relocatable        => 0,
-		use_dll_relocation => 0,
-		bits               => 64,
-	);
-        #### 7 = 5.12.4 - portable - 32bit
-        $machine->add_option('version',
-		perl_version       => '5124',
-		build_number       => 0,
-		portable           => 1,
-		relocatable        => 0,
-		use_dll_relocation => 0,
-		bits               => 32,
-	);
-        #### 8 = 5.12.4 - portable - 64bit
-        $machine->add_option('version',
-		perl_version => '5124',
-		build_number       => 0,
-		portable           => 1,
-		relocatable        => 0,
-		use_dll_relocation => 0,
-		bits               => 64,
-	);
-
-	return $machine;
-}
-
-around BUILDARGS => sub {
-	my $orig = shift;
-	my $class = shift;
-	my %args;
-
-	if ( @_ == 1 && 'HASH' eq ref $_[0] ) {
-		%args = %{ $_[0] };
-	} elsif ( 0 == @_ % 2 ) {
-		%args = (@_);
-	} else {
-		PDWiX->throw( 'Parameters incorrect (not a hashref or hash)'
-			  . 'for Perl::Dist::Strawberry' );
-	}
-        
-	$args{app_id}            //= 'strawberryperl';
-	$args{app_name}          //= 'Strawberry Perl';
-	$args{app_publisher}     //= 'strawberryperl.com project';
-	$args{app_publisher_url} //= URI->new('http://strawberryperl.com/');
-	$args{image_dir}         //= Path::Class::Dir->new('C:\strawberry');
-        
-        #XXX-FIXME using checkpoints - would be nice to have some commandline options for this:
-        #- install_perl (step 5)
-        #- install_cpan_upgrades (step 7)
-        #- install_strawberry_modules_5 (step 13)
-        #- write_merge_module (step 19)
-        #        
-        #$args{checkpoint_after}  = [ 7, 13, 19 ],
-        #$args{checkpoint_before} = 6;
-        #$args{checkpoint_stop}   = 0;
-        
-	# Strawberry Perl version.
-	$args{perl_version} //= '5142';
-	$args{build_number} //= 0;
-	$args{beta_number}  //= 0;
-	$args{bits} //= 32;
-
-	#set defaults
-	$args{relocatable} //= 1;
-	$args{use_dll_relocation} //= 1;
-	$args{gcc_version} //= 4;
-
-	#32bit app_name = 'Strawberry Perl'
-	#64bit app_name = 'Strawberry Perl (64-bit)'
-	$args{app_name} .= ' (64-bit)' if $args{bits} == 64;
-
-	# New options for msi building...
-	$args{msi_product_icon}   //= File::ShareDir::PathClass->dist_dir('Perl-Dist-WiX')->file('win32.ico');
-	$args{msi_license_file}   //= dist_dir()->file('License-short.rtf');
-	$args{msi_banner_top}     //= dist_dir()->file('StrawberryBanner.bmp');
-	$args{msi_banner_side}    //= dist_dir()->file('StrawberryDialog.bmp');
-	$args{msi_run_readme_txt} //= 1;
-	$args{msi_help_url}       //= 'http://strawberryperl.com/support.html';
-	$args{msi_exit_text}      //= <<'EOT';
-Before you start using Strawberry Perl, read the Release Notes and the README file. These are both available from the start menu under "Strawberry Perl".
-EOT
-
-	# Set e-mail to something Strawberry-specific.
-	$args{perl_config_cf_email} //= 'win32-vanilla@perl.org';
-
-	# Build both msi and zip versions
-	$args{msi} //= 1;
-	$args{zip} //= 1;
-
-	return $class->$orig(\%args);
-};
-
-
-sub _build_tasklist { return [
-	'final_initialization',
-	'install_c_toolchain',
-	'install_strawberry_c_toolchain',
-	'install_strawberry_c_libraries',
-	'install_perl',
-	'install_perl_toolchain',
-	'install_cpan_upgrades',
-	'verify_msi_file_contents',
-	'install_strawberry_modules_1',
-	'install_strawberry_modules_2',
-	'install_strawberry_modules_3',
-	'install_strawberry_modules_4',
-	'install_strawberry_modules_5',
-	'install_strawberry_files',        
-	'install_relocatable',
-	'regenerate_fragments',
-	'find_relocatable_fields',
-	'verify_msi_file_contents',
-	'write_merge_module',
-	'install_win32_extras',
-	'install_strawberry_extras',
-	'install_relocation_information',
-	'install_portable',
-	'remove_waste',
-	'create_distribution_list',
-	'regenerate_fragments',
-	'verify_msi_file_contents',
-	'write',
-	'create_release_notes',
-	];
-}
-
-#####################################################################
-# Configuration
-
-sub dist_dir {
-	return File::ShareDir::PathClass::dist_dir('Perl-Dist-Strawberry');
-}
-
-# Lazily default the full name.
-# Supports building multiple versions of Perl.
-sub _build_app_ver_name {
-	my $self = shift;
-	return $self->app_name()
-		. ($self->portable() ? ' Portable' : '')
-		. ' ' . $self->perl_version_human()
-		. '.' . $self->build_number()
-		#. '-' . $self->bits . 'bit' # not needed as bitness already in app_name
-		. ($self->beta_number() ? ' Beta' . $self->beta_number() : '');
-}
-
-sub add_forgotten_files {
-	my $self = shift;
-
-	return 1;
-}
-
-# Lazily default the file name.
-# Supports building multiple versions of Perl.
-sub _build_output_base_filename {
-	my $self = shift;
-	return 'strawberry-perl'
-		. '-' . $self->perl_version_human() . q{.}
-		. ($self->smoketest() ? 'smoketest-' . $self->output_date_string() : $self->build_number())
-		#. ($self->image_dir() =~ /^d:/i ? '-ddrive' : q{}) # d-drive days are over
-		. '-' . $self->bits . 'bit'
-                . ($self->portable ? '-portable' : '')
-                . ($self->beta_number>0 ? '-beta' . $self->beta_number : '')
-}
-
-
-#####################################################################
-# Customisations for C assets
-
-sub install_strawberry_c_toolchain {
-	my $self = shift;
-
-	# Extra Binary Tools
-	$self->install_patch();
-
-	return 1;
-}
-
-sub install_strawberry_c_libraries {
-	my $self = shift;
-
-	# XML Libraries
-	$self->install_librarypacks(qw{
-		zlib
-		libiconv
-		libxml2
-		libexpat
-		libxslt
-	});
-
-	# Math Libraries
-	$self->install_librarypacks(qw{
-		gmp
-		mpc
-		mpfr
-	});
-
-	# Graphics libraries
-	$self->install_librarypacks(qw{
-		libjpeg
-		libgif
-		libtiff
-		libpng
-		libgd
-		libfreetype
-		libxpm
-		freeglut
-	});	
-	
-	# Database Libraries
-	$self->install_librarypacks(qw{
-		libdb
-		libgdbm
-		libpostgresql
-	});
-	$self->install_libmysql();
-
-	# Extra compression libraries
-	$self->install_librarypack('libxz');
-
-	# Crypto libraries
-	$self->install_librarypacks(qw{
-		libopenssl
-		libssh2
-	});
-
-	return 1;
-}
-
-
-
-
-
-
-#####################################################################
-# Customisations for Perl assets
-
-sub patch_include_path {
-	my $self  = shift;
-
-	# Find the share path for this distribution
-	my $share = File::ShareDir::dist_dir('Perl-Dist-Strawberry');
-	
-	# Verify the subdirectories we need exist.
-	my $path  = File::Spec->catdir( $share, 'strawberry' );
-	my $portable  = File::Spec->catdir( $share, 'portable' );
-	unless ( -d $path ) {
-		die("Directory $path does not exist");
-	}
-
-	if ( $self->portable() ) {
-		unless ( -d $portable ) {
-			die("Directory $portable does not exist");
-		}
-		# Prepend to the default include path
-		return [ $portable, $path,
-			@{ $self->SUPER::patch_include_path() },
-		];
-	} else {
-		# Prepend to the default include path
-		return [ $path,
-			@{ $self->SUPER::patch_include_path() },
-		];
-	}
-}
-
-sub install_strawberry_modules_1 {
-	my $self = shift;
-
-	#XXX-FIXME KMX NOTE: why portable and 5.13+ is handled differently - '12 < perl_major_version' reverted to '12 >= perl_major_version'
-        # Install LWP::Online so our custom minicpan code works
-	if ($self->portable() && (12 >= $self->perl_major_version()) ) {
-		$self->install_distribution(
-			name     => 'ADAMK/LWP-Online-1.08.tar.gz',
-			mod_name => 'LWP::Online',
-			makefilepl_param => ['INSTALLDIRS=site'],
-		);
-	} else {
-		$self->install_distribution(
-			name     => 'ADAMK/LWP-Online-1.08.tar.gz',
-			mod_name => 'LWP::Online',
-			makefilepl_param => ['INSTALLDIRS=vendor'],
-		);
-	}
-
-	# Win32 Modules
-	$self->install_modules( qw{
-		Win32::File
-		File::Remove
-		Win32::File::Object
-		Parse::Binary
-	} );
-	$self->install_module(
-		name => 'Win32::EventLog',
-		force => 1, # Tests fail on only one computer, will be reported later
-	);
-	$self->install_modules('Win32::API');
-
-	# Install additional math modules
-
-	# Math::Pari does not work on 64bit
-	$self->install_modules( qw{
-		Math::Pari
-        } ) if 32 == $self->bits();
-        
-        $self->install_modules( qw{
-                Math::BigInt::GMP
-	} );
-	
-	#XXX-FIXME KMX NOTE: why portable and 5.13+ is handled differently - '12 < perl_major_version' reverted to '12 >= perl_major_version'
-        # XML Modules
-	if ($self->portable() && (12 >= $self->perl_major_version()) ) {
-		$self->install_distribution(
-			name             => 'TODDR/XML-Parser-2.41.tar.gz',
-			mod_name         => 'XML::Parser',
-			makefilepl_param => [
-				'INSTALLDIRS=site',
-				'EXPATLIBPATH=' . $self->dir(qw{ c lib     }),
-				'EXPATINCPATH=' . $self->dir(qw{ c include }),
-			],
-		);
-	} else {
-		$self->install_distribution(
-			name             => 'TODDR/XML-Parser-2.41.tar.gz',
-			mod_name         => 'XML::Parser',
-			makefilepl_param => [
-				'INSTALLDIRS=vendor',
-				'EXPATLIBPATH=' . $self->dir(qw{ c lib     }),
-				'EXPATINCPATH=' . $self->dir(qw{ c include }),
-			],
-		);
-	}
-
-	# XML::SAX::Exception - added before XML::SAX as it is needed but not declared as rereq
-        $self->install_modules( qw{
-		XML::NamespaceSupport
-                XML::SAX::Exception
-		XML::SAX
-		XML::LibXML
-		XML::LibXSLT
-	} );
-	
-	#XXX-FIXME KMX NOTE: why portable and 5.13+ is handled differently - '12 < perl_major_version' reverted to '12 >= perl_major_version'
-	unless ($self->portable() && (12 >= $self->perl_major_version()) ) {
-		# Insert ParserDetails.ini
-		my $ini_file = catfile($self->image_dir(), qw(perl vendor lib XML SAX ParserDetails.ini));
-		$self->add_to_fragment('XML_SAX', [ $ini_file ]);
-	}
-	
-	# Apparently Win32::Exe now requires XML::Simple and XML::Parser
-	$self->install_modules( qw{
-		XML::Simple
-		Win32::Exe
-	} );
-
-	return 1;
-}
-
-sub install_strawberry_modules_2 {
-	my $self = shift;
-	
-	# Networking Enhancements
-	# All the Bundle::LWP modules are
-	# included in the toolchain or in the upgrades.
-	
-	# Binary Package Support
-	$self->install_modules( qw{
-		PAR::Dist
-		PAR::Dist::FromPPD
-		PAR::Dist::InstallPPD
-		Tree::DAG_Node
-		Sub::Uplevel
-		Test::Warn
-		Test::Tester
-		Test::NoWarnings
-		Test::Deep
-		IO::Stringy
-		Test::Exception
-	} );
-	$self->install_module(
-		name => 'DBM::Deep',
-		force => 1, # RT#56512. (missing t\lib directory) Other tests pass.
-	);
-	$self->install_modules( qw{
-		YAML::Tiny
-		PAR
-		PAR::Repository::Query
-		PAR::Repository::Client
-	} );
-	if (32 == $self->bits() && $self->perl_version lt '5140') {
-		$self->install_ppm();
-	}
-	
-	my $cpan_sources = catdir($self->image_dir, 'cpan', 'sources');
-	unless (-d $cpan_sources) {
-		require File::Path;
-		File::Path::mkpath($cpan_sources);
-	}
-	
-	# Console Utilities
-	$self->install_modules( qw{
-		Number::Compare
-		File::Find::Rule
-		Data::Compare
-		File::chmod
-		Params::Util
-		CPAN::Checksums
-		CPAN::Inject
-		File::pushd
-		pler
-	} );
-	$self->install_module( 
-		name => 'pip', 
-		force => $self->offline() || 0,
-	);
-	
-	return 1;
-}
-
-sub install_strawberry_modules_3 {
-	my $self = shift;
-
-	# Find the share path for this distribution
-	my $share = File::ShareDir::dist_dir('Perl-Dist-Strawberry');
-
-	# CPAN::SQLite Modules
-	$self->install_modules( qw{
-		DBI
-		DBD::SQLite
-		CPAN::DistnameInfo
-		CPAN::SQLite
-	} );
-	
-	# CPANPLUS::Internals::Source::SQLite 
-	# needs this module, so adding it.
-	$self->install_modules( qw{
-		DBIx::Simple
-	} ) if ($self->perl_version() >= 5100);
-	
-	# Support for other databases.
-	# DB_File had a "Permission denied" on 64-bit Win7 machine on the last test. 
-	# Could be artifact of build environment... 
-	$self->install_module(
-		name  => 'DB_File',
-		force => 1,
-	); 
-
-	#problems on Russian Windows, RT#67609 and #67611
-	$self->install_module(
-		name  => 'Win32::OLE',
-		force => 1,
-	); 
-	
-        $self->install_modules( qw{
-		BerkeleyDB
-		DBD::ODBC
-		DBD::ADO                
-	} );
-			        
-	$self->install_module(
-		name  => 'DBD::Pg',
-		force => 1,
-	);
-	
-        $self->install_distribution_from_file(
-                mod_name  => 'DBD::mysql',
-                file      => catfile($share, 'modules', 'DBD-mysql-4.020_patched.tar.gz'),
-                url       => 'http://strawberryperl.com/package/kmx/perl-modules-patched/DBD-mysql-4.020_patched.tar.gz',
-                force     => 1,
-                makefilepl_param => ['INSTALLDIRS=vendor', '--mysql_config=mysql_config'],
-        );
-        
-	# JSON and local library installation
-	$self->install_modules( qw{
-		common::sense
-		JSON::XS
-		JSON
-		local::lib
-	} );	
-
-	# Now that we have JSON::XS, use it as Parse::CPAN::Meta's JSON backend.
-	$self->add_env('PERL_JSON_BACKEND', 'JSON::XS');
-	
-	# Graphics module installation.
-	$self->install_module( name => 'Imager' );
-	
-        #GD fails on 64bit
-        #$self->install_module( name => 'GD' );        
-        $self->install_distribution_from_file(
-                mod_name  => 'GD',
-                file      => catfile($share, 'modules', 'GD-2.46_patched.tar.gz'),
-                url       => 'http://strawberryperl.com/package/kmx/perl-modules-patched/GD-2.46_patched.tar.gz',
-                force     => 1,
-                makefilepl_param => ['INSTALLDIRS=vendor'],
-        );
-	
-	return 1;
-}
-
-sub install_strawberry_modules_4 {
-	my $self = shift;
-
-	# Find the share path for this distribution
-	my $share = File::ShareDir::dist_dir('Perl-Dist-Strawberry');
-	
-	# Required for Net::SSLeay.
-	local $ENV{'OPENSSL_PREFIX'} = catdir($self->image_dir(), 'c');
-	# This is required for IO::Socket::SSL.
-	local $ENV{'SKIP_RNG_TEST'} = 1;
-
-	# Crypt::IDEA Crypt::Blowfish do not build on 64-bit
-        $self->install_distribution_from_file(
-                mod_name  => 'Crypt::IDEA',
-                file      => catfile($share, 'modules', 'Crypt-IDEA-1.08_patched.tar.gz'),
-                url       => 'http://strawberryperl.com/package/kmx/perl-modules-patched/Crypt-IDEA-1.08_patched.tar.gz',
-                makefilepl_param => ['INSTALLDIRS=vendor'],
-        );
-        $self->install_distribution_from_file(
-                mod_name  => 'Crypt::Blowfish',
-                file      => catfile($share, 'modules', 'Crypt-Blowfish-2.12_patched.tar.gz'),
-                url       => 'http://strawberryperl.com/package/kmx/perl-modules-patched/Crypt-Blowfish-2.12_patched.tar.gz',
-                makefilepl_param => ['INSTALLDIRS=vendor'],
-        );
-
-#	if ($self->portable() && (12 < $self->perl_major_version()) ) {
-#		$self->install_distribution( 
-#			mod_name => 'Crypt::OpenSSL::Random',
-#			name     => 'IROBERTS/Crypt-OpenSSL-Random-0.04.tar.gz',
-#			makefilepl_param => [
-#				'LIBS="-lssl32 -leay32"' ,
-#			],
-#		);
-#	} else {
-#		$self->install_distribution( 
-#			mod_name => 'Crypt::OpenSSL::Random',
-#			name     => 'IROBERTS/Crypt-OpenSSL-Random-0.04.tar.gz',
-#			makefilepl_param => [
-#				'INSTALLDIRS=vendor', 'LIBS="-lssl32 -leay32"' ,
-#			],
-#		);
-#	}
-
-	# Crypt::SSLeay has been distropref'd to use the same environment
-	# variable that Net::SSLeay uses in order to make building easier.
-	$self->install_modules( qw{
-		Crypt::SSLeay
-		Digest::HMAC
-	});
-
-	$self->install_modules( qw{	
-		Net::SSLeay
-		IO::Socket::SSL
-		Net::SMTP::TLS
-		Mozilla::CA
-		LWP::Protocol::https
-	});
-	
-	# The rest of the Net::SSH::Perl toolchain.
-	$self->install_module(
-		name  => 'Data::Random',
-		force => 1, # Timing-dependent test.
-	);
-	$self->install_modules( qw{
-		Math::GMP
-		Data::Buffer
-	});
-	$self->install_modules( qw{
-		Class::ErrorHandler
-		Convert::ASN1
-		Crypt::CBC
-		Crypt::DES
-		Crypt::DES_EDE3
-	});
-	# Has what appears to be a timing-dependent test.
-	$self->install_module(
-		name => 'Convert::PEM',
-		force => 1,
-	);
-	$self->install_modules( qw{
-		Crypt::DH
-                Crypt::DSA		
-		Tie::EncryptedHash
-		Class::Loader
-	});
-        
-        # Crypt::RSA prereqs - KMX NOTE: no idea why I need to specify them explicitely
-        $self->install_modules( qw{
-                Convert::ASCII::Armour
-                Digest::MD2
-                Sort::Versions
-        });
-
-	# Crypt::Random needs - Math::Pari.
-        # Crypt::Primes needs - Crypt::Random
-        # Crypt::RSA    needs - Crypt::Random
-	$self->install_modules( qw{
-		Crypt::Random
-		Crypt::Primes
-		Crypt::RSA
-	}) if 32 == $self->bits();
-
-	$self->install_modules( qw{
-		Convert::ASCII::Armour
-		Digest::MD2
-		Sort::Versions
-	});
-
-	$self->install_modules( qw{
-		Digest::BubbleBabble
-	});
-        
-	$self->install_modules( qw{
-		String::CRC32
-		Net::SSH2
-	});
-
-	# Since	Net::SSH::Perl does not work under Win32 yet, it
-	# is not being installed.  When it does, add it to the end
-	# of the previous install_modules call.
-
-	# Module::Signature toolchain.
-	$self->install_modules( qw{
-		Test::Manifest
-		Crypt::Rijndael
-		Crypt::CAST5_PP
-		Crypt::RIPEMD160
-		Crypt::Twofish
-	});
-
-        # Module::Signature prereqs
-        $self->install_modules( qw{
-		Algorithm::Diff
-		Text::Diff
-                IPC::Run
-	});
-
-	# Crypt::OpenPGP    needs - Crypt::RSA, and Math::Pari.
-        # Module::Signature needs - Crypt::OpenPGP
-	$self->install_modules( qw{
-		Crypt::OpenPGP
-                Module::Signature
-	}) if 32 == $self->bits();
-	        
-	return 1;
-}
-
-sub install_strawberry_modules_5 {
-	my $self = shift;
-
-	# These are common requests.
-	$self->install_module( name => 'File::Slurp', force => 1 ); #sometimes fails during t/handle.t (Failed tests:  5-6)
-	$self->install_modules( qw{		
-		Task::Weaken
-		Class::Inspector
-		SOAP::Lite
-		File::ShareDir
-	});
-	
-	# Install this one only on 5.10 and up. 
-	# Too many modules to install otherwise.
-	$self->install_modules( qw{
-		Alien::Tidyp
-	}) if $self->perl_version !~ m{\A58}ms;
-
-	# For the local-lib script.
-	$self->install_modules( qw{
-		IO::Interactive
-		App::local::lib::Win32Helper
-	});
-
-	# Additional compression modules
-	$self->install_module( name => 'Compress::Raw::Lzma' );
-	$self->install_module( name => 'IO::Compress::Lzma', force => 1 );
-	
-	# Additional math modules.
-	$self->install_modules( qw{
-		Math::MPFR
-		Math::MPC
-	});
-	
-	# Clear things out.
-	$self->remake_path($self->dir(qw(cpan build))); 
-
-	return 1;
-}
-
-sub install_strawberry_files {
-	my $self = shift;
-	
-	## Now let's copy individual files in.
-	
-	# Copy the module-version script in, and use the runperl.bat trick on it.
-	$self->copy_file(
-		catfile($self->dist_dir(), 'module-version'), 
-		$self->file(qw(perl bin module-version))
-	);
-	$self->copy_file(
-		$self->file(qw(perl bin runperl.bat)), 
-		$self->file(qw(perl bin module-version.bat))
-	);
-	
-	# Make sure it gets installed.
-	$self->insert_fragment('module_version',
-		File::List::Object->new()->add_files(
-			$self->file(qw(perl bin module-version)),
-			$self->file(qw(perl bin module-version.bat)),				
-		),
-	);
-
-	if ($self->relocatable()) {
-		# Copy the relocation information in.
-		$self->make_relocation_file('strawberry-merge-module.reloc.txt');
-		
-		# Make sure it gets installed.
-		$self->insert_fragment('relocation_info',
-			File::List::Object->new()->add_file(
-				$self->file('strawberry-merge-module.reloc.txt'),				
-			),
-		);
-	}
-
-	return 1;
-}
-
-
-
-#####################################################################
-# Customisations to Windows assets
-
-sub _dist_file {
-	return File::ShareDir::dist_file('Perl-Dist-Strawberry', @_);
-}
-
-sub install_strawberry_extras {
-	my $self = shift;
-
-	my $dist_dir = File::ShareDir::dist_dir('Perl-Dist-Strawberry');
-
-	my $license_file_from = catfile($dist_dir, 'License.rtf');
-	my $license_file_to = catfile($self->license_dir(), 'License.rtf');
-
-	$self->copy_file($license_file_from, $license_file_to);
-	
-	if (not $self->portable()) {
-		$self->add_to_fragment( 'Win32Extras', [ $license_file_to, ] );
-	}
-	
-	# Don't include the rest of this for non-Strawberry sub-classes if we 
-	# can avoid it.
-	my $class = $self->_original_class_name();
-	if ('Perl::Dist::Strawberry' ne $class) {
-		$self->trace_line(2, "Did not install the Strawberry extras in a $class\n");
-		return 1;
-	}
-	
-	$self->patch_file( 'README.txt' => $self->image_dir(), { dist => $self } );
-
-	if (not $self->portable()) {
-		#XXX-FIXME removed by KMX as running "module-version <module>" from 
-		#command lineis IMHO more user friendly than this startmenu item
-		#it will make sense once we have a kind of GUI app for this
-		#$self->install_launcher(
-		#	name => 'Check installed versions of modules',
-		#	bin  => 'module-version',
-		#);
-		$self->install_launcher(
-			name => 'Create local library areas',
-			bin  => 'llw32helper',
-		);
-
-		$self->install_website(
-			name       => 'Strawberry Perl Website',
-			url        => $self->strawberry_url(),
-			icon_file  => _dist_file('strawberry.ico')
-		);
-		$self->install_website(
-			name         => 'Strawberry Perl Release Notes',
-			url          => $self->strawberry_release_notes_url(),
-			icon_file    => _dist_file('strawberry.ico'),
-			directory_id => 'D_App_Menu',
-		);
-		$self->install_website(
-			name         => 'Learning Perl (tutorials, examples)',
-			url          => 'http://learn.perl.org/',
-			icon_file    => _dist_file('perlhelp.ico'),
-		);
-		#XXX-FIXME removed by kmx
-                #$self->install_website(
-		#	name         => 'Beginning Perl (online book)',
-		#	url          => 'http://learn.perl.org/books/beginning-perl/',
-		#	icon_file    => _dist_file('perlhelp.ico'),
-		#);
-		#XXX-FIXME removed by kmx
-		#$self->install_website(
-		#	name         => q{Ovid's CGI Course},
-		#	url          => 'http://jdporter.perlmonk.org/cgi_course/',
-		#	icon_file    => _dist_file('perlhelp.ico'),
-		#);
-		
-		# Link to IRC.
-		$self->install_website(
-			name       => 'Live Support (chat)',
-			url        => 'http://widget.mibbit.com/?server=irc.perl.org&channel=%23win32',
-			icon_file  => _dist_file('onion.ico')
-		);
-		$self->add_icon(
-			name         => 'Strawberry Perl README',
-			directory_id => 'D_App_Menu',
-			filename     => $self->image_dir()->file('README.txt')->stringify(),
-		);
-	}
-
-	my $readme_file = $self->file('README.txt');
-
-	my $onion_ico_file = $self->file(qw(win32 onion.ico));
-	my $strawberry_ico_file = $self->file(qw(win32 strawberry.ico));
-	
-	$self->copy_file($license_file_from, $license_file_to);
-	
-	if (not $self->portable()) {
-		$self->add_to_fragment( 'Win32Extras',
-			[ $readme_file, $onion_ico_file, $strawberry_ico_file ] );
-	}
-
-	return 1;
-}
- 
-sub install_relocation_information {
-	my $self = shift;
-
-	return 1 if not $self->relocatable();
-
-	# Copy the relocation information in.
-	$self->make_relocation_file('strawberry-ui.reloc.txt', 'strawberry-merge-module.reloc.txt');
-	
-	# Make sure it gets installed.
-	$self->insert_fragment('relocation_ui_info',
-		File::List::Object->new()->add_file(
-			$self->file('strawberry-ui.reloc.txt'),				
-		),
-	);
-
-	return 1;
-}
-
-sub strawberry_url {
-	my $self = shift;
-	my $path = $self->output_base_filename();
-
-	# Strip off anything post-version
-	unless ( $path =~ s/^(strawberry-perl-\d+(?:\.\d+)+).*$/$1/ ) {
-		PDWiX->throw("Failed to generate the strawberry subpath");
-	}
-
-	return "http://strawberryperl.com/$path";
-}
-
-sub strawberry_release_notes_url {
-	my $self = shift;
-	my $path = $self->perl_version_human()
-		. '.' . $self->build_number
-		. '-' . $self->bits . 'bit'
-		. ($self->portable ? '-portable' : '')
-		. ($self->beta_number>0 ? '-beta' . $self->beta_number : '');
-
-	return "http://strawberryperl.com/release-notes/$path.html";
-}
-
-sub msi_relocation_commandline_files {
-	my $self = shift;
-	
-	return('relocation_ui_info', $self->file('strawberry-ui.reloc.txt'));
-}
-
-sub msm_relocation_commandline_files {
-	my $self = shift;
-	
-	return('relocation_info', $self->file('strawberry-merge-module.reloc.txt'));
-}
-
-sub msi_relocation_idlist {
-	my $self = shift;
-
-	my $answer;
-	my %files = $self->msi_relocation_commandline_files();
-
-	my ( $fragment, $file, $id );
-	while ( ( $fragment, $file ) = each %files ) {
-		$id = $self->get_fragment_object($fragment)->find_file_id($file);
-		PDWiX->throw("Could not find file $file in fragment $fragment\n")
-		  if not defined $id;
-		$answer .= "[#$id]";
-	}
-
-	return $answer;
-}
-
-sub msm_relocation_idlist {
-	my $self = shift;
-
-	my $answer;
-	my %files = $self->msm_relocation_commandline_files();
-
-	my ( $fragment, $file, $id );
-	while ( ( $fragment, $file ) = each %files ) {
-		$id = $self->get_fragment_object($fragment)->find_file_id($file);
-		PDWiX->throw("Could not find file $file in fragment $fragment\n")
-		  if not defined $id;
-		$answer .= "[#$id]";
-	}
-
-	return $answer;
-}
-
-
-1;
-
-=pod
-
-=head1 SUPPORT
-
-Bugs should be reported via the CPAN bug tracker at
-
-L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Perl-Dist-Strawberry>
-
-Please note that B<only> bugs in the distribution itself or the CPAN
-configuration should be reported to RT. Bugs in individual modules
-should be reported to their respective distributions.
-
-For more support information and places for discussion, see the
-Strawberry Perl Support page L<http://strawberryperl.com/support.html>.
-
-=head1 AUTHOR
-
-Adam Kennedy E<lt>adamk@cpan.orgE<gt>
-
-Curtis Jewell E<lt>csjewell@cpan.orgE<gt>
-
-=head1 COPYRIGHT
-
-Copyright 2007 - 2009 Adam Kennedy.  
-
-Copyright 2009 - 2011 Curtis Jewell.
-
-This program is free software; you can redistribute
-it and/or modify it under the same terms as Perl itself.
-
-The full text of the license can be found in the
-LICENSE file included with this module.
-
-=cut
+L<Perl::Dist::Strawberry|Perl::Dist::Strawberry> is just a helper module for 
+the main script L<perldist_strawberry|perldist_strawberry> used for building
+Strawberry perl release packages (MSI, ZIP).

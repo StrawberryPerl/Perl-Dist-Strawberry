@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<?include Variables.wxi ?>
+
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+
+  <Module Id='Perl_MM' Language='1033' Version="$(var.CurrentVersion)" >
+
+    <Package Id="$(var.MergeModuleGUID)" Description="$(var.ProductName) - Merge Module" Languages='1033' InstallerVersion='200'
+             Comments="$(var.PkgComments)" Platform="$(var.Platform)" InstallPrivileges='elevated' Manufacturer="$(var.Manufacturer)" />
+
+    <Directory Id="TARGETDIR" Name="SourceDir">
+
+      <Component Id="C_Environment" Guid="{44449F2A-33A2-34A5-BC3A-729ABFB1E490}" KeyPath="yes">
+<!-- generated ENV -->
+[%xml_env-%]
+<!-- generated ENV - END -->
+        <Environment Id="E_Env_3" Name="PATH" Value="[INSTALLDIR]c\bin"         Separator=";" Action="set" Part="last" System="yes" Permanent="no" />
+        <Environment Id="E_Env_4" Name="PATH" Value="[INSTALLDIR]perl\site\bin" Separator=";" Action="set" Part="last" System="yes" Permanent="no" />
+        <Environment Id="E_Env_5" Name="PATH" Value="[INSTALLDIR]perl\bin"      Separator=";" Action="set" Part="last" System="yes" Permanent="no" />
+      </Component>
+
+      <Directory Id="INSTALLDIR">
+<!-- generated directory tree -->
+[%xml_msm_dirtree-%]
+<!-- generated directory tree - END -->
+      </Directory>
+    </Directory>
+
+    <Binary Id='B_HelperCA_msm' SourceFile="$(var.FileHelperDLL)" />
+    <CustomAction Id="CA_ClearFolders_msm"  BinaryKey="B_HelperCA_msm" DllEntry="ClearFoldersFast" />
+    <CustomAction Id="CA_SetFileList_msm" Property="CA_Relocate_msm" Value="MSM;[INSTALLDIR];[#f_perl1_reloc_txt]" Return="check" />
+    <CustomAction Id="CA_Relocate_msm" BinaryKey="B_HelperCA_msm" DllEntry="RelocateMSM" Execute="deferred" Return="check" />
+
+    <UI>
+      <!-- <ProgressText Action="CA_ClearFolder_msm">Scanning for added files to delete... (please wait a while)</ProgressText> XXX-CHECK THIS --> 
+      <ProgressText Action="CA_Relocate_msm">Relocating ...</ProgressText>
+    </UI>
+    <InstallExecuteSequence>
+      <!-- <Custom Action='CA_ClearFolders_msm' Before='InstallInitialize'>REMOVE="ALL"</Custom> XXX-CHECK THIS not sure if we have to call ClearFoldersFast in both MSI/MSM -->
+      <Custom Action="CA_SetFileList_msm" After="InstallFiles" />
+      <Custom Action="CA_Relocate_msm"    After="CA_SetFileList_msm">NOT Installed</Custom>
+    </InstallExecuteSequence>
+
+  </Module>
+</Wix>

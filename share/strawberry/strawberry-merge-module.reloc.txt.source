@@ -1,9 +1,0 @@
-perl\lib\Config.pm:doublebackslash
-perl\lib\Config_heavy.pl:backslash
-perl\lib\CORE\config.h:doublebackslash
-perl\lib\CPAN\Config.pm:doublebackslash
-perl\lib\CPAN\Config.pm:url
-perl\lib\perllocal.pod:backslash
-perl\bin\cpandb:backslash
-perl\vendor\lib\ppm.xml:backslash
-perl\lib\CPANPLUS\Config.pm:backslash

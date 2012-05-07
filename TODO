@@ -1,0 +1,68 @@
+### MSI upgrade code
+- take values from last 5.14. releases
+- should be different for 32/64bit
+
+### add CreateReleaseNotes
+- need ttvars
+  build_date '22 Nov 2011'
+  dist_list (HTML fragment or array) - maybe ugly hack based on env\AppDataRoaming\.cpanplus\authors\id\*
+  dist_pkgs (HTML fragment or array) - see _get_dist_pkgs in old Perl-Dist-WiX\lib\Perl\Dist\WiX\Mixin\ReleaseNotes.pm
+- MSM info file
+- maybe save tool versions
+  gcc, dmake, ... version into ->{data}->{output}
+  perl -V output
+
+### test MSI major upgrade feature
+- it did not work in official 5.14.2.1 MSI (so not critical)
+
+### CPANPLUS
+- consider removing c:\strawberry\cpanplus - keep it in user profile
+
+### ppm.xml
+- old 5.12 repos
+- perhaps different xml for 32/64bit versions
+
+### Portable::Dist needs fix
+- depends on Tie-Slurp-0.03 which is not on CPAN anymore
+- pip http://backpan.perl.org/authors/id/I/IS/ISHIGAKI/Tie-Slurp-0.03.tar.gz
+
+--- LATER ---
+
+### skipping based on global->{target} is not optimal
+- it does not skip all portable-related tasks
+- we perhaps need to have a new config item e.g. 
+  required_by_targets=>'zip+msi+portable'
+  required_by_targets=>'zip'
+  required_by_targets=>'msi'
+  required_by_targets=>'portable'
+
+### CPANPLUS_install_module.pl 
+- how to pass multiple args via makefilepl_param, buildpl_param
+
+### decide about (not)including: perl/vendor/lib/auto/DBD/mysql/libmysql_.dll
+- not for now
+
+### check for XXX FIXME TODO in the code
+- ok for now
+
+##### 64bit update_env.pl.bat
+- set ENV without reboot - http://stackoverflow.com/questions/3837014/how-do-i-set-an-win32-system-environment-variable-in-perl
+- 32bit works fine (maybe a bug in Win32::API)
+
+### modules (non critical)
+- DB_File - disable in core (install later in vendor)
+- FCGI - is installed in perl/lib (during UpgradeCpanModules) as it is required by CGI
+
+### App::strawberry::ppm
+- updated ppm utility (fix to handle new repos)
+
+### improve CreateRelocFiles
+- search all in perl/bin (test for text/binary via -t)
+- search *.url in image_dir
+- search *.pm in image_dir
+
+### perltoc.pod contains hardcoded paths to build directory
+- not a new bug
+
+### something better instead of workaround_get_dist_list()
+- is kind of a hack (somehow works, not reliable)

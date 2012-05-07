@@ -1,289 +1,143 @@
-#! perl
-
-# A copy of perldist that does some strawberry-specific actions
-
-use 5.010;
-use strict;
+use 5.012;
 use warnings;
-use Pod::Usage;
-use File::HomeDir               qw();
-use Getopt::Long                qw();
-use URI                         qw();
-use Perl::Dist::Strawberry 2.50 qw();
-use English                     qw( -no_match_vars );
-use Carp                        qw( croak          );
 
-our $VERSION = '2.50';
-our $VERSION_STRING = $VERSION;
-$VERSION =~ s/_//ms;
+use Perl::Dist::Strawberry;
 
-
-#####################################################################
-# Handle Options
-
-my $CPAN         = undef;
-my $OUTPUT       = undef;
-my $FORCE        = 0;
-my $TRACE        = undef;
-my $OFFLINE      = 0;
-my @SKIP         = ();
-my $result       = Getopt::Long::GetOptions(
-	"cpan=s"         => \$CPAN,
-	"output=s"       => \$OUTPUT,
-	"force!"         => \$FORCE,
-	"trace=i"        => \$TRACE,
-	"offline!"       => \$OFFLINE,
-	"skip=i{,}"      => \@SKIP,
-	"help|?"         => sub { pod2usage(-exitstatus => 1, -verbose => 0); },
-	"man"            => sub { pod2usage(-exitstatus => 1, -verbose => 2); },
-	"usage"          => sub { usage(); },
-	"version"        => sub { version(); }
-);
-
-# Get the distribution class name
-my $class = 'Perl::Dist::Strawberry';
-unless ( $class->isa('Perl::Dist::WiX') ) {
-	die "$class is not a Perl::Dist::WiX subclass";
-}
-
-
-
-
-
-# Generate options and hand off to the class
-my %options = (
-	# 5.8.8 may not build properly under
-	# a directory with spaces in it.
-	temp_dir => 'C:\\tmp',
-	# Force perl only by default.
-	forceperl => 1,
-);
-if ( defined $CPAN ) {
-	$options{cpan} = URI->new( $CPAN );
-}
-if ( not defined $OUTPUT ) {
-	$OUTPUT = File::HomeDir->my_desktop();
-}
-if ( defined $FORCE ) {
-	$options{force} = $FORCE;
-}
-if ( defined $OFFLINE ) {
-	$options{offline} = $OFFLINE;
-}
-if ( defined $TRACE ) {
-	$options{trace} = $TRACE;
-}
-#if ( 1 < scalar @SKIP ) {
-#	push @SKIP, 6;
-#} else {
-#	@SKIP = ( 6 );
-#}
-
-# Create the machine
-my $machine = Perl::Dist::Strawberry->default_machine( 
-	skip => \@SKIP, 
-	common => \%options,
-	output => $OUTPUT,
-);
-unless ( $machine ) {
-	croak("Failed to create default machine");
-}
-
-my $start = time;
-unless ( $machine->run() ) {
-	croak 'Failed to run';
-}
-my $t = time - $start;
-print "Completed full generation run in $t seconds\n";
-
-chdir $machine->_get_output();
-
-exit(0);
-
-sub version {
-	print <<"EOF";
-This is $PROGRAM_NAME, version $VERSION_STRING, a distribution builder 
-for Perl::Dist::Strawberry.
-
-Copyright 2007-2009, 2011 Curtis Jewell and Adam Kennedy.
-
-This script may be copied only under the terms of either the Artistic License
-or the GNU General Public License, which may be found in the Perl 5 
-distribution or the distribution containing this script.
-EOF
-
-	exit(1);
-	
-}
-
-sub usage {
-	my $error = shift;
-
-	print "Error: $error\n\n" if (defined $error);
-
-	print <<"EOF";
-This is $PROGRAM_NAME, version $VERSION_STRING, a distribution builder 
-for Perl::Dist::Strawberry.
-
-Usage: $PROGRAM_NAME [ --output <DIRECTORY> ] [ --skip <NUM>[,<NUM>...] ]
-                     [ --trace <NUM> ] [ --cpan <URL> ] [ --[no]force ]
-                     [ --[no]offline ]
-                     [ --help ] [ --usage ] [ --man ] [ --version ] [ -? ]
-
-For more assistance, run $PROGRAM_NAME --help.
-EOF
-
-	exit(1);	
-}
+my $app = Perl::Dist::Strawberry->new();
+$app->parse_options(@ARGV);
+$app->do_job or exit 1;
 
 __END__
 
 =head1 NAME
 
-perldist_strawberry - a distribution builder for Perl::Dist::Strawberry.
-
-=head1 VERSION
-
-This document describes perldist_strawberry version 2.50.
+perldist_strawberry - Build strawberry-perl-like distribution for MS Windows
 
 =head1 DESCRIPTION
 
-This script builds Strawberry Perl.
+This script is used by Strawberry Perl [L<http://strawberryperl.com|http://strawberryperl.com>]
+project for building release packages (MSI, MSM, ZIP, portable/ZIP).
 
 =head1 SYNOPSIS
 
-  perldist_strawberry [ --output <DIR> ] [ --skip <NUM>[,<NUM>...] ]
-                 [ --trace <NUM> ] [ --cpan <URL> ] [ --[no]force ]
-                 [ --[no]verbose ]
-                 [ --help ] [ --usage ] [ --man ] [ --version ] [ -? ]
-				 
-  Options:
-    --output <DIR>    The directory to copy distributions to.
-                      Defaults to the current user's desktop.
-    --cpan <URL>      Specifies the CPAN mirror to download to.
-                      Defaults to http://cpan.strawberryperl.com/.
-    --skip <NUM>...   Specifies a list of which builds need skipped.
-    --trace <NUM>     Specifies the trace level.
-                      Defaults to 1, range is between 0 and 5.
+To build strawberry-perl-like distribution you will need to prepare a build environment:
 
-    --offline         Does not download files.
-    --nooffline       Downloads files as required. (default)
-	
-    --force           Skips testing of all modules installed.
-    --noforce         Only skips testing of modules specified 
-                      in Strawberry.pm. (default)
+=over
 
-    --usage           Gives a minimum amount of aid and comfort.
-    --help            Gives aid and comfort.
-    -?                Gives aid and comfort.
-    --man             Gives maximum aid and comfort.	
-	
-    --version         Gives the name, version and copyright of the script.
-	
+=item * Install any version of Strawberry Perl 5.12.x (or higher)
+
+We recommend using portable edition. B<BEWARE> You'll need to install Strawberry Perl to a directory B<OTHER THAN> C:\strawberry.
+
+=item * Install Perl::Dist::Strawberry module
+
+Take this module either from CPAN or the latest version from 
+SVN [L<http://svn.ali.as/cpan/trunk/Perl-Dist-Strawberry/|http://svn.ali.as/cpan/trunk/Perl-Dist-Strawberry/>]
+
+=item * Install Windows Installer XML (WiX) toolset
+
+We recommend using version 3.5. Download WiX from [L<http://wix.sourceforge.net|http://wix.sourceforge.net>].
+No need to install WiX via MSI installer, you can only download/unpack ZIPped WiX binaries and use option C<-wixbin_dir=(dirname)>.
+
+=back
+
+The build process can be launched by:
+
+  c:\> perldist_strawberry -job "<dist_sharedir>/32bit-5.14.2.1.pp"
+  or
+  c:\> perldist_strawberry -job "<dist_sharedir>/64bit-5.14.2.1.pp"
+
+The whole build process uses only 2 directories:
+
+  c:\strawberry
+  c:\strawberry_build
+
+Check options C<-image_dir> and C<-working_dir> to change the defaults.
+
+The results of the build process (*.MSI, *.MSM, *.ZIP) can be found in:
+
+  c:\strawberry_build\output
+
+If you are about to try to build your own distribution you probably want to create a new
+job desription file (e.g. by cloning any of share/*.pp files distributed with this module).
+
+Then you will run:
+
+  c:\> perldist_strawberry -job c:\buildperl\myperl-32bit.pp
+
+When debugging your own build you should investigate some of the additional options e.g. C<-restorepoints>,
+C<-verbosity> etc.
+
 =head1 OPTIONS
 
 =over
 
-=item B<--output>
+=item B<-job=(filename)> [REQUIRED]
 
-Specifies where the distributions that are created should be copied to.
-Defaults to the user's desktop directory.
+filename sould contain build job description, you can use placeholder 'E<lt>dist_sharedirE<gt>' to choose
+predefined jobs which are distributed with this module (check 'share' folder in this module tarball)
 
-=item B<--cpan>
+=item B<-image_dir=(dirname)>
 
-Specifies the CPAN mirror to use.
+default: c:\strawberry (BEWARE: dir will be destroyed during build!!)
 
-Defaults to L<http://cpan.strawberryperl.com/>.
+=item B<-working_dir=(dirname)>
 
-=item B<--skip>
+default: c:\strawberry_build
 
-Specifies which builds need skipped from the list below:
+=item B<-wixbin_dir=(dirname)>
 
-=over
+default: autodetect WiX toolkit install directory
 
-=item 1. 5.10.1 C: drive (.msi & .zip)
+=item B<-cpan_url=(url)>
 
-=item 2. 5.10.1 D: drive (.msi)
+default: http://cpan.strawberryperl.com (or use local mirror e.g. file://C|/cpanmirror/)
 
-=item 3. 5.12.3 relocatable (.msi & .zip)
+=item B<-package_url=(url)>
 
-=item 4. 5.12.3 portable (.zip)
+default: http://strawberryperl.com/package/ (or use local mirror e.g. file://C|/pkgmirror/)
 
-=back
+=item B<-test_modules>, B<-notest_modules>
 
-=item B<--trace>
+flag - default: 1 (0 = skip tests when installing perl modules)
 
-Sets the trace level to be used when building.  The level can be between 
-0 and 5, where 0 means print only the most mandatory information, while 5 
-prints B<EVERYTHING>.  Levels beyond 2 are only useful for debugging.
+=item B<-test_core>, B<-notest_core>
 
-Defaults to 1.
+flag - default: 0 (0 = skip tests when installing perl core)
 
-=item B<--offline>/B<--nooffline>
+=item B<-verbosity=(level)>
 
-Specifies whether the files and modules required can or should be downloaded 
-from the internet.
+level - default: 3 (you can use values 1/silent to 5/verbose)
 
-Defaults to B<--nooffline>.
+=item B<-interactive>, B<-nointeractive>,
 
-=item B<--force>/B<--noforce>
+flag - default: 1 (0 = no interactive questions)
 
-Specifies whether all modules installed should not be tested.
-This is useful when debugging, or for increased speed.
+=item B<-restorepoints>, B<-norestorepoints>
 
-Defaults to B<--noforce>.
+flag - default: 0 (1 = create restorepoint after each finished step, in the next run you will be offered to continue from any of the saved restorepoints)
 
-=item B<--usage>
+=item XXX-NOT USED: B<-offline>, B<-nooffline>
 
-Print a brief usage message and exits.
+flag - default: 0 (1 = internet connection unavailable during build)
 
-=item B<--help> or B<-?>
+=item XXX-NOT USED: B<-perl_debug>, B<-noperl_debug>
 
-Print a short help message and exits.
+flag - default: 0 (1 = build perl core with debug enabled)
 
-=item B<--man>
+=item B<-h>, B<-help>
 
-Prints the POD documentation contained in the script and exits.
-
-=item B<--version>
-
-Prints the script name, version, and copyright and exits.
+Show this usage info.
 
 =back
-
-=head1 CONFIGURATION
-
-No environment variables or configuration files are used during the 
-execution of this script.
-
-=head1 DEPENDENCIES
-
-Perl 5.10.0 is the mimimum version of perl that this script will run on.
-
-Other modules that this script depends on are L<File::HomeDir|File::HomeDir> 
-L<URI|URI>, and L<Perl::Dist::Strawberry|Perl::Dist::Strawberry>.
-  
-=head1 SUPPORT
-
-No support is provided for this script.
 
 =head1 AUTHOR
 
-Curtis Jewell, E<lt>csjewell@cpan.orgE<gt>
+2011+ KMX, E<lt>kmx@cpan.orgE<gt>
 
-Adam Kennedy, E<lt>adamk@cpan.orgE<gt>
+2009-2011 Curtis Jewell, E<lt>csjewell@cpan.orgE<gt>
 
-=head1 COPYRIGHT & LICENSE
+2007-2009 Adam Kennedy, E<lt>adamk@cpan.orgE<gt>
 
-Copyright 2009, 2011 Curtis Jewell.
+=head1 LICENSE
 
-Copyright 2007-2009 Adam Kennedy.
-
-This program is free software; you can redistribute
-it and/or modify it under the same terms as Perl itself.
-
-The full text of the license can be found in the
-LICENSE file included with this distribution.
-
-=cut
-
+This program is free software; you can redistribute it and/or modify it under the same terms as Perl itself.
