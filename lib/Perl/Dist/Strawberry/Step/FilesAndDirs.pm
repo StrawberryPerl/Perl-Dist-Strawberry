@@ -84,7 +84,7 @@ sub _do_job {
 
       my $template = Template->new();
       write_file(catfile($self->global->{debug_dir}, 'TTvars_FileAndDirs_'.time.'.txt'), pp(\%tt)); #debug dump
-      $template->process(\$indata, \%tt, \$outdata);
+      $template->process(\$indata, \%tt, \$outdata) || die $template->error();
       my $r = $self->_unset_ro($dst);
       write_file($dst, $outdata);
       $self->_restore_ro($dst, $r);

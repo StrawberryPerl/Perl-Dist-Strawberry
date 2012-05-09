@@ -301,7 +301,7 @@ sub _patch_file {
     my $outdata = '';
     my $template = Template->new();
     write_file(catfile($self->global->{debug_dir}, 'TTvars_patch_file_'.time.'.txt'), pp($tt_vars)); #debug dump
-    $template->process(\$indata, $tt_vars, \$outdata);
+    $template->process(\$indata, $tt_vars, \$outdata) || die $template->error();
     
     my $r = $self->_unset_ro($dst);
     write_file($dst, $outdata);

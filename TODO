@@ -1,6 +1,18 @@
+### portable
+- delete c:\strawberry\perl\site\bin 
+
+### ICE61: Upgrade.VersionMax cannot be equal to Upgrade.VersionMin unless both Min and Max are inclusive, otherwise no version will match. (OLDERVERSIONBEINGUPGRADED)
+<?define CurrentVersion    = "5.16.0" ?> <!-- e.g. "5.14.2001" -->
+<?define MinCanUpgradeVer  = "5.16.0" ?> <!-- e.g. "5.14.0" -->
+<UpgradeVersion Property="OLDERVERSIONBEINGUPGRADED" Minimum="$(var.MinCanUpgradeVer)" IncludeMinimum='yes' Maximum="$(var.CurrentVersion)" IncludeMaximum='no' />  
+5.14.2.1        5.14.2001
+5.14.1.1        5.14.1001
+5.14.1.0        5.14.1000
+5.14.0.1        5.14.1
+5.14.0.0        5.14.0
+
 ### MSI upgrade code
-- take values from last 5.14. releases
-- should be different for 32/64bit
+- maybe use somethig else for beta releases
 
 ### add CreateReleaseNotes
 - need ttvars
@@ -16,25 +28,14 @@
 - it did not work in official 5.14.2.1 MSI (so not critical)
 
 ### CPANPLUS
-- consider removing c:\strawberry\cpanplus - keep it in user profile
+- consider removing c:\strawberry\cpanplus - keep it in user profile/homedir
 
 ### ppm.xml
 - old 5.12 repos
 - perhaps different xml for 32/64bit versions
-
-### Portable::Dist needs fix
-- depends on Tie-Slurp-0.03 which is not on CPAN anymore
-- pip http://backpan.perl.org/authors/id/I/IS/ISHIGAKI/Tie-Slurp-0.03.tar.gz
+- maybe App::Strawberry::ppm  + switch to (using File::HomeDir->my_home . "/.ppm")
 
 --- LATER ---
-
-### skipping based on global->{target} is not optimal
-- it does not skip all portable-related tasks
-- we perhaps need to have a new config item e.g. 
-  required_by_targets=>'zip+msi+portable'
-  required_by_targets=>'zip'
-  required_by_targets=>'msi'
-  required_by_targets=>'portable'
 
 ### CPANPLUS_install_module.pl 
 - how to pass multiple args via makefilepl_param, buildpl_param
@@ -52,9 +53,6 @@
 ### modules (non critical)
 - DB_File - disable in core (install later in vendor)
 - FCGI - is installed in perl/lib (during UpgradeCpanModules) as it is required by CGI
-
-### App::strawberry::ppm
-- updated ppm utility (fix to handle new repos)
 
 ### improve CreateRelocFiles
 - search all in perl/bin (test for text/binary via -t)

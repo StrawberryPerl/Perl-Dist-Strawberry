@@ -1,10 +1,10 @@
-[%-IF beta==0 %]
+[%-IF beta==0 -%]
 [%app_fullname%] [%app_version%]-[%bits%]bit README
 =====================================
-[-%ELSE]
-[%app_fullname%] [%app_version%]-beta[%beta]-[%bits%]bit README
+[%-ELSE%]
+[%app_fullname%] [%app_version%]-beta[%beta%]-[%bits%]bit README
 ===========================================
-[-%END]
+[%-END%]
 
 What is Strawberry Perl?
 ------------------------
