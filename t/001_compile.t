@@ -11,6 +11,7 @@ END { BAIL_OUT "Could not load all modules" unless $ok }
 use Perl::Dist::Strawberry;
 use Perl::Dist::Strawberry::Step;
 use Perl::Dist::Strawberry::Step::BinaryToolsAndLibs;
+use Perl::Dist::Strawberry::Step::CreateReleaseNotes;
 use Perl::Dist::Strawberry::Step::CreateRelocationFile;
 use Perl::Dist::Strawberry::Step::FilesAndDirs;
 use Perl::Dist::Strawberry::Step::InstallModules;

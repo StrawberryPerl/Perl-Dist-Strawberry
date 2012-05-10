@@ -1,9 +1,13 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+ <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html><!-- InstanceBegin template="/Templates/main.dwt" codeOutsideHTMLIsLocked="false" -->
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <!-- InstanceBeginEditable name="title" -->
+[%-IF beta==0 -%]
 <title>Strawberry Perl for Windows - [%app_version%]-[%bits%]bit Release Notes</title>
+[%-ELSE%]
+<title>Strawberry Perl for Windows - [%app_version%]-beta[%beta%]-[%bits%]bit Release Notes</title>
+[%-END%]
 <!-- InstanceEndEditable -->
 <link rel="shortcut icon" type="image/vnd.microsoft.icon" href="http://strawberryperl.com/favicon.ico">
 <link rel="stylesheet" type="text/css" href="http://strawberryperl.com/common.css">
@@ -20,40 +24,72 @@
 <body class="releasenotes">
 <!-- InstanceBeginEditable name="body" -->
 <img src="http://strawberryperl.com/images/320554_9491.jpg" alt="strawberries" width="357" height="728" border="0" align="right">
-<br /><h2>Strawberry Perl Release Notes</h2>
-<p><i>Version [%app_version%]-[%bits%]bit, released [%build_date_XXX%]</i></p>
+<br />
+[%-IF beta==0 -%]
+<h2>Strawberry Perl ([%app_version%]-[%bits%]bit) Release Notes</h2>
+[%-ELSE%]
+<h2>Strawberry Perl ([%app_version%]-beta[%beta%]-[%bits%]bit) Release Notes</h2>
+[%-END%]
+<p><i>Released: [%release_date%]</i></p>
 <p>Check out what is new, what known issues there are, and frequently asked questions about this version of Strawberry Perl. As always, you're encouraged to tell us what you think.</p>
 
-<h3>What's new in Strawberry Perl [%app_version%]-[%bits%]bit: <span class="switch"><a href="javascript:unhide('whatsnew', 'whatsnew_switch')" id="whatsnew_switch">Collapse</a><br /></span>
+<h3>What's new in this Strawberry Perl release: <span class="switch"><a href="javascript:unhide('whatsnew', 'whatsnew_switch')" id="whatsnew_switch">Collapse</a><br /></span>
 <hr /></h3>
 <div id="whatsnew">
-<!-- p>Put blurb here and uncomment.</p -->
+<p>XXX-TODO Put blurb here.</p>
+<p>XXX-TODO Put blurb here.</p>
 </div>
-<br />
+
 <h3>Known issues: <span class="switch"><a href="javascript:unhide('issues', 'issues_switch')" id="issues_switch">Collapse</a></span>
 <hr /></h3>
 <div id="issues">
-<!-- ul>
-<li>Put issues here, uncommenting the ul's around this html code.</li>
-</ul -->
+<ul>
+<li>XXX-TODO Put issues here.</li>
+<li>XXX-TODO Put issues here.</li>
+</ul>
 </div>
-<br />
-<h3>List of distributions added to Perl [%app_version%]-[%bits%]bit: <span class="switch"><a href="javascript:unhide('distlist', 'distlist_switch')" id="distlist_switch">Collapse</a></span>
+
+<h3>List of distributions installed on top of Perl [%output.perl_version%]: <span class="switch"><a href="javascript:unhide('distlist', 'distlist_switch')" id="distlist_switch">Collapse</a></span>
 <hr /></h3>
 <div id="distlist" class="unhidden">
 <table>
-<tr><td><b>Distribution</b></td><td><b>Version</b></td><td><b>Link</b></td></tr>
-[% dist_list_XXX %]
+<tr><td><b>ID</b></td><td><b>Distribution</b></td><td><b>Version</b></td><td><b>Note</b></td></tr>
+[%-FOREACH item = distributions%]
+<tr><td>[%loop.count%].</td><td>[%item.dist%]</td><td>[%item.ver%]</td><td></tr>
+[%-END%]
 </table>
-
-<p>The list of packages related to gcc-toolchain and external libraries included in Strawberry Perl:</p>
-
-<table>
-<tr><td><b>Package</b></td><td><b>Homepage</b></td><td><b>Link</b></td><td><b>Comment</b></td></tr>
-[% dist_pkgs_XXX %]
-</table>
-
 </div>
+
+<h3>List of external tools and libraries included in Strawberry Perl: <span class="switch"><a href="javascript:unhide('pkglist', 'pkglist_switch')" id="pkglist_switch">Collapse</a></span>
+<hr /></h3>
+<div id="pkglist" class="unhidden">
+<table>
+<tr><td><b>ID</b></td><td><b>Package</b></td><td><b>Homepage</b></td><td><b>Note</b></td></tr>
+[%-FOREACH item = packages%]
+<tr><td>[%loop.count%].</td><td>[%item.pkg%]</td><td>[%item.homepage%]</td><td></td></tr>
+[%-END%]
+</table>
+</div>
+
+<h3>Version details: <span class="switch"><a href="javascript:unhide('verlist', 'verlist_switch')" id="verlist_switch">Collapse</a></span>
+<hr /></h3>
+<div id="verlist" class="unhidden">
+
+<h4>Perl version details:</h4>
+<pre>
+[%version.perl%]
+</pre>
+<h4>Gcc version details:</h4>
+<pre>
+[%version.gcc%]
+</pre>
+<h4>OpenSSL version details:</h4>
+<pre>
+[%version.openssl%]
+</pre>
+</div>
+<br />
+
 <script type="text/javascript">
 function unhide(divID, switchID) {
   // Hide or unhide the available item.
@@ -78,7 +114,10 @@ function unhide(divID, switchID) {
   // Shrink others.
   unhide('issues', 'issues_switch');
   unhide('distlist', 'distlist_switch');
+  unhide('pkglist', 'pkglist_switch');
+  unhide('verlist', 'verlist_switch');
 </script>
+
 <!-- Start Quantcast tag -->
 <script type="text/javascript">
 _qoptions={
@@ -93,4 +132,5 @@ qacct:"p-44rvHMFUvK7tg"
 
 <!-- InstanceEndEditable -->
 </body>
-<!-- InstanceEnd --></html>
+<!-- InstanceEnd -->
+</html>

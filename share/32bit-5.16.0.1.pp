@@ -83,6 +83,7 @@
           { install_to=>'perl', module=>'<package_url>/kmx/perl-modules-patched/Compress-Raw-Zlib-2.053_fixed_rt77030.tar.gz' },
         ],
     },
+    ### STEP 4 ###########################
     {
         plugin => 'Perl::Dist::Strawberry::Step::UpgradeCpanModules',
         exceptions => [ # match: version distribution cpan_file
@@ -93,7 +94,7 @@
           { do=>'ignore_testfailure', distribution => 'IPC-Cmd' },  #XXX-TODO: IPC-Cmd-0.78 has test failure
         ]
     },
-    ### STEP 4 ###########################
+    ### STEP 5 ###########################
     {
         plugin => 'Perl::Dist::Strawberry::Step::InstallModules',
         modules => [
@@ -182,7 +183,7 @@
             qw/ App-module-version /,
         ],
     },
-    ### STEP 5 ###########################
+    ### STEP 6 ###########################
     {
        plugin => 'Perl::Dist::Strawberry::Step::FilesAndDirs',
        commands => [
@@ -224,7 +225,7 @@
          #{ do=>'copyfile', args=>[ '<image_dir>\c\bin\libmysql_.dll', '<image_dir>\perl\vendor\lib\auto\DBD\mysql\libmysql_.dll' ] }, 
        ],
     },
-    ### STEP 6 ###########################
+    ### STEP 7 ###########################
     {
        plugin => 'Perl::Dist::Strawberry::Step::CreateRelocationFile',
        reloc1_in  => '<dist_sharedir>/relocation/perl1.reloc.txt.initial',
@@ -232,11 +233,11 @@
        reloc2_in  => '<dist_sharedir>/relocation/perl2.reloc.txt.initial',
        reloc2_out => '<image_dir>/perl2.reloc.txt',
     },
-    ### STEP 7 ###########################
+    ### STEP 8 ###########################
     {
        plugin => 'Perl::Dist::Strawberry::Step::OutputZIP', # no options needed
     },
-    ### STEP 8 ###########################
+    ### STEP 9 ###########################
     {
        plugin => 'Perl::Dist::Strawberry::Step::OutputMSM_MSI',
        exclude  => [ # do not include neither to MSM nor to MSI
@@ -287,16 +288,16 @@
        },
 
     },
-    ### STEP 9 ###########################
+    ### STEP 10 ###########################
     {
         plugin => 'Perl::Dist::Strawberry::Step::InstallModules',
         modules => [ 'Portable' ], # modules specific to portable edition
     },
-    ### STEP 10 ###########################
+    ### STEP 11 ###########################
     {
        plugin => 'Perl::Dist::Strawberry::Step::SetupPortablePerl', # no options needed
     },
-    ### STEP 11 ###########################
+    ### STEP 12 ###########################
     {
        plugin => 'Perl::Dist::Strawberry::Step::FilesAndDirs',
        commands => [ # files and dirs specific to portable edition
@@ -308,9 +309,13 @@
          { do=>'apply_tt',   args=>[ '<dist_sharedir>/portable/README.portable.txt.tt', '<image_dir>/README.portable.txt' ] },
        ],
     },
-    ### STEP 12 ###########################
+    ### STEP 13 ###########################
     {
        plugin => 'Perl::Dist::Strawberry::Step::OutputPortableZIP', # no options needed
     },
+    ### STEP 14 ###########################
+    {
+       plugin => 'Perl::Dist::Strawberry::Step::CreateReleaseNotes', # no options needed
+    }
   ],
 }

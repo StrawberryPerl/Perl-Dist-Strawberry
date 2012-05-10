@@ -1,17 +1,5 @@
-### missing URLs in _INFO_ files
-
 ### MSI upgrade code
 - maybe use somethig else for beta releases
-
-### add CreateReleaseNotes
-- need ttvars
-  build_date '22 Nov 2011'
-  dist_list (HTML fragment or array) - maybe ugly hack based on env\AppDataRoaming\.cpanplus\authors\id\*
-  dist_pkgs (HTML fragment or array) - see _get_dist_pkgs in old Perl-Dist-WiX\lib\Perl\Dist\WiX\Mixin\ReleaseNotes.pm
-- MSM info file
-- maybe save tool versions
-  gcc, dmake, ... version into ->{data}->{output}
-  perl -V output
 
 ### test MSI major upgrade feature
 - it did not work in official 5.14.2.1 MSI (so not critical)
@@ -20,6 +8,11 @@
 - consider removing c:\strawberry\cpanplus - keep it in user profile/homedir
 
 --- LATER ---
+
+### missing URLs in _INFO_ files
+- rebuild packs
+
+### generate MSM info file
 
 ### CPANPLUS_install_module.pl 
 - how to pass multiple args via makefilepl_param, buildpl_param

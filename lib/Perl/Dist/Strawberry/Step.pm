@@ -284,7 +284,7 @@ sub backup_file {
   my ($v, $d, $f) = splitpath(canonpath($file));
   my $now = time;
   my $new = File::Spec->catpath($v, $d, "OLD_$now.$f");
-  $self->boss->message(3, "backup_file '$file' > '$new'");
+  $self->boss->message(3, "backup_file '$new'");
   rename($file, $new);
 }
 

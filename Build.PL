@@ -52,6 +52,7 @@ my $builder = $class->new(
         'File::Spec'            => '3.2701',
         'File::pushd'           => 0,
         'Getopt::Long'          => 0,
+        'HTML::Entities'        => 0,
         'IO::Capture'           => 0,
         'IPC::Run3'             => 0,
         'LWP::UserAgent'        => 0,

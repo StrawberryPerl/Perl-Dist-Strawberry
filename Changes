@@ -1,5 +1,8 @@
 Changes for Perl extension Perl-Dist-Strawberry
 
+3.003   2012/05/XXX
+        - used for building strawberry perl 5.16.0.1
+
 3.002   2012/05/07
         - completely new build system
         - capable of building 5.14.2.1/64bit (MSI,ZIP,Portable/ZIP)
