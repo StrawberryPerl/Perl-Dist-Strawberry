@@ -75,13 +75,15 @@ sub _install_module {
   #my $dumper_file = catfile($self->global->{debug_dir}, "cpan_install.dumper.txt");
   #my $nstore_file = catfile($self->global->{debug_dir}, "cpan_install.nstore.txt");
 
-  # Execute the module install script
   my $env = { PERL_MM_USE_DEFAULT=>1, AUTOMATED_TESTING=>undef, RELEASE_TESTING=>undef };
+  # resolve macros in env{}
   if (defined $args{env} && ref $args{env} eq 'HASH') {
     for my $var (keys %{$args{env}}) { 
       $env->{$var} = $self->boss->resolve_name($args{env}->{$var});
     }
   }
+  # resolve macros in module name
+  $args{module} = $self->boss->resolve_name($args{module});
   my %params = ( '-url' => $self->global->{cpan_url}, '-install_to' => 'vendor', '-module' => $args{module} ); #XXX-TODO multiple modules?
   $params{'-install_to'}         = $args{install_to}         if defined $args{install_to};
   $params{'-verbose'}            = $args{verbose}            if defined $args{verbose};
@@ -94,6 +96,7 @@ sub _install_module {
   $params{'-buildpl_param'}      = $args{buildpl_param}      if defined $args{buildpl_param};    #XXX-TODO multiple args?
   # handle global test skip
   $params{'-skiptest'} = 1 unless $self->global->{test_modules};
+  # Execute the module install script
   my $rv = $self->execute_special(['perl', $script_pl, %params], $log, $log, $env);
   unless(defined $rv && $rv == 0) {
     rename $log, catfile($self->global->{debug_dir}, "mod_install_FAIL_".$now."_".$shortname.".log.txt");

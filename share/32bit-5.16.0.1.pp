@@ -8,7 +8,7 @@
 {
   app_version     => '5.16.0.1', #BEWARE: do not use '.0.0' in the last two version digits
   bits            => 32,
-  beta            => 2,
+  beta            => 3,
   app_fullname    => 'Strawberry Perl',
   app_simplename  => 'strawberry-perl',
   build_job_steps => [
@@ -21,9 +21,11 @@
             'mingw-make'    => '<package_url>/kmx/32_tools/32bit_gmake-3.82-bin_20110503.zip',
             'pexports'      => '<package_url>/kmx/32_tools/32bit_pexports-0.44-bin_20100110.zip',
             'patch'         => '<package_url>/kmx/32_tools/32bit_patch-2.5.9-7-bin_20100110_UAC.zip',
+            'gendef'        => '<package_url>/kmx/32_tools/32bit_gendef-rev4724-bin_20120411.zip',
             #gcc
             'gcc-toolchain' => { url=>'<package_url>/kmx/32_gcctoolchain/mingw64-w32-gcc4.6.3_20120411.zip', install_to=>'c' },
             'gcc-license'   => '<package_url>/kmx/32_gcctoolchain/mingw64-w32-gcc4.6.3_20120411-lic.zip',
+            'gfortran'      => '<package_url>/kmx/32_gcctoolchain/mingw64-w32-gfortran4.6.3_20120411.zip',
             #libs
             'libdb'         => '<package_url>/kmx/32_libs/gcc46-2012/32bit_db-5.3.15-bin_20120509.zip',
             'libexpat'      => '<package_url>/kmx/32_libs/gcc46-2012/32bit_expat-2.1.0-bin_20120509.zip',
@@ -43,19 +45,21 @@
             'libtiff'       => '<package_url>/kmx/32_libs/gcc46-2012/32bit_tiff-4.0.1-bin_20120509.zip',
             'libxz'         => '<package_url>/kmx/32_libs/gcc46-2012/32bit_xz-5.0.3-bin_20120509.zip',
             'zlib'          => '<package_url>/kmx/32_libs/gcc46-2012/32bit_zlib-1.2.7-bin_20120509.zip',
+            'pthreads'      => '<package_url>/kmx/32_libs/gcc46-2012/32bit_pthreads-2.9.0-bin_20120411.zip',
             #special cases
             'libgd'         => '<package_url>/kmx/32_libs/gcc46-2012/32bit_gd-2.0.35(OLD-jpg-png)-bin_20120508.zip',
             'libxml2'       => '<package_url>/kmx/32_libs/gcc44-2011/32bit_libxml2-2.7.8-bin_20110506.zip',
             'libxslt'       => '<package_url>/kmx/32_libs/gcc44-2011/32bit_libxslt-1.1.26-bin_20110506.zip',
             'libgdbm'       => '<package_url>/kmx/32_libs/gcc44-2011/32bit_gdbm-1.8.3-bin_20110506.zip',
             'libmysql'      => '<package_url>/kmx/32_libs/gcc44-2011/32bit_mysql-5.1.44-bin_20100304.zip',
-            #XXX-FIXME: gendef + fortran + pthreads + gsl
+            #XXX-MAYBE ADD IN THE FUTURE:
+            #'gsl'           => '<package_url>/kmx/32_libs/gcc46-2012/32bit_gsl-1.15-bin_20120509.zip',
         },
     },
     ### STEP 2 ###########################
     {
         plugin   => 'Perl::Dist::Strawberry::Step::InstallPerlCore',
-        url      => 'http://perl5.git.perl.org/perl.git/snapshot/ad6e49a4fa69a5853518d08234bc05711a6f8bb9.tar.gz',
+        url      => 'http://perl5.git.perl.org/perl.git/snapshot/be109f01e91266a4cf170323c0a8f0d915bae205.tar.gz',
         cf_email => 'strawberry-perl@project',
         patch    => { #DST paths are relative to the perl src root
             '<dist_sharedir>/perl-5.16/win32_config.gc.tt'      => 'win32/config.gc',
@@ -76,7 +80,7 @@
     {
         plugin => 'Perl::Dist::Strawberry::Step::InstallModules',
         modules => [ 
-          { install_to=>'perl', module=>'http://strawberryperl.com/package/kmx/perl-modules-patched/Compress-Raw-Zlib-2.053_fixed_rt77030.tar.gz' },
+          { install_to=>'perl', module=>'<package_url>/kmx/perl-modules-patched/Compress-Raw-Zlib-2.053_fixed_rt77030.tar.gz' },
         ],
     },
     {
@@ -94,7 +98,7 @@
         plugin => 'Perl::Dist::Strawberry::Step::InstallModules',
         modules => [
             # term related
-            'http://strawberryperl.com/package/kmx/perl-modules-patched/TermReadKey-2.30.02.tar.gz', # special version needed
+            '<package_url>/kmx/perl-modules-patched/TermReadKey-2.30.02.tar.gz', # special version needed
             { module=>'Term::ReadLine::Perl', env=>{ PERL_MM_NONINTERACTIVE=>1 } },
         
             # compression
@@ -109,9 +113,9 @@
             qw/ DBI DBD-ODBC DBD-SQLite DBD-Pg DBIx-Simple /,
             { module=>'DBD-ADO', ignore_testfailure=>1 }, #XXX-TODO: DBD-ADO-2.99 test FAILS
             { 
-              module => 'http://strawberryperl.com/package/kmx/perl-modules-patched/DBD-mysql-4.020_patched_h.tar.gz', 
+              module => '<package_url>/kmx/perl-modules-patched/DBD-mysql-4.020_patched_h.tar.gz', 
               #the following does not work
-              #module => 'http://strawberryperl.com/package/kmx/perl-modules-patched/DBD-mysql-4.020_patched.tar.gz', 
+              #module => '<package_url>/kmx/perl-modules-patched/DBD-mysql-4.020_patched.tar.gz', 
               #makefilepl_param => '--mysql_config=mysql_config',
             },
 
@@ -119,8 +123,8 @@
             qw/ Math-BigInt-GMP Math-GMP Math-MPC Math-MPFR Math-Pari /,
 
             # crypto
-            'http://strawberryperl.com/package/kmx/perl-modules-patched/Crypt-IDEA-1.08_patched.tar.gz',
-            'http://strawberryperl.com/package/kmx/perl-modules-patched/Crypt-Blowfish-2.12_patched.tar.gz',
+            '<package_url>/kmx/perl-modules-patched/Crypt-IDEA-1.08_patched.tar.gz',
+            '<package_url>/kmx/perl-modules-patched/Crypt-Blowfish-2.12_patched.tar.gz',
             { module =>'Convert-PEM', ignore_testfailure=>1 }, #XXX-TODO: Convert-PEM-0.08 test FAILS
             qw/ Crypt-OpenPGP Crypt-DH /,
             { module =>'Module-Signature', ignore_testfailure=>1 }, #XXX-TODO: Module-Signature-0.68 makes trouble
@@ -141,7 +145,7 @@
                 Win32-Process           Win32-WinError          Win32-File-Object       Win32-UTCFileTime /,
 
             # graphics
-            'http://strawberryperl.com/package/kmx/perl-modules-patched/GD-2.46_patched.tar.gz',
+            '<package_url>/kmx/perl-modules-patched/GD-2.46_patched.tar.gz',
             qw/ Imager                  Imager-File-GIF         Imager-File-JPEG        Imager-File-PNG
                 Imager-File-TIFF        Imager-Font-FT2         Imager-Font-W32 /,
 
@@ -159,11 +163,12 @@
             qw/ pler App-local-lib-Win32Helper /,
             { module=>'pip', ignore_testfailure=>1 }, #XXX-TODO: test fails - The directory 'C:\strawberry\cpan\sources' does not exist
 
-            # par & ppm
-            qw/ PAR PAR::Dist::FromPPD PAR::Dist::InstallPPD PAR::Repository::Client/,
+            # par & ppm &cpanm
+            qw/ PAR PAR::Dist::FromPPD PAR::Dist::InstallPPD PAR::Repository::Client /,
             # The build path in ppm.xml is derived from $ENV{TMP}. So set TMP to a dedicated location inside of the
             # distribution root to prevent it being locked to the temp directory of the build machine.
-            { module=>'http://strawberryperl.com/package/kmx/perl-modules-patched/PPM-0.01_03.tar.gz', env=>{ TMP=>'<image_dir>\ppm' } }, #XXX-fixme
+            { module=>'<package_url>/kmx/perl-modules-patched/PPM-0.01_04.tar.gz', env=>{ TMP=>'<image_dir>\ppm' } },
+            { module=>'<package_url>/kmx/perl-modules-patched/App-cpanminus-1.5011_fixed_issue132.tar.gz' },
             
             # tiny
             qw/ Capture-Tiny /,
@@ -184,13 +189,13 @@
          # directories
          { do=>'createdir', args=>[ '<image_dir>/cpan' ] },
          { do=>'createdir', args=>[ '<image_dir>/cpan/sources' ] },
-         { do=>'createdir', args=>[ '<image_dir>/cpanplus' ] },
+         #XXX-NOT_NEEDED:{ do=>'createdir', args=>[ '<image_dir>/cpanplus' ] },
          { do=>'createdir', args=>[ '<image_dir>/ppm' ] },
          { do=>'createdir', args=>[ '<image_dir>/win32' ] },
          # templated files
          # XXX-TODO: not tested enough
          { do=>'apply_tt', args=>[ '<dist_sharedir>/config-files/CPAN_Config.pm.tt', '<image_dir>/perl/lib/CPAN/Config.pm', {}, 1 ] }, #XXX-temporary empty tt_vars, no_backup=1
-         { do=>'apply_tt', args=>[ '<dist_sharedir>/config-files/CPANPLUS_Config.pm.tt', '<image_dir>/perl/lib/CPANPLUS/Config.pm', {}, 1 ] }, #XXX-temporary empty tt_vars, no_backup=1
+         #XXX-NOT_NEEDED: { do=>'apply_tt', args=>[ '<dist_sharedir>/config-files/CPANPLUS_Config.pm.tt', '<image_dir>/perl/lib/CPANPLUS/Config.pm', {}, 1 ] }, #XXX-temporary empty tt_vars, no_backup=1
          { do=>'apply_tt', args=>[ '<dist_sharedir>/extra-files/README.txt.tt', '<image_dir>/README.txt' ] },
          { do=>'apply_tt', args=>[ '<dist_sharedir>/extra-files/DISTRIBUTIONS.txt.tt', '<image_dir>/DISTRIBUTIONS.txt' ] },
          # fixed files
@@ -297,6 +302,7 @@
        commands => [ # files and dirs specific to portable edition
          { do=>'removefile', args=>[ '<image_dir>/README.txt', '<image_dir>/perl2.reloc.txt', '<image_dir>/perl1.reloc.txt', '<image_dir>/update_env.pl.bat', '<image_dir>/relocation.pl.bat' ] },
          { do=>'createdir',  args=>[ '<image_dir>/data' ] },
+         { do=>'removedir',  args=>[ '<image_dir>/perl/site/bin' ] },
          { do=>'copyfile',   args=>[ '<dist_sharedir>/portable/portable.perl.32',    '<image_dir>/portable.perl' ] }, # take portable.perl.32 or portable.perl.64
          { do=>'copyfile',   args=>[ '<dist_sharedir>/portable/portableshell.bat',   '<image_dir>/portableshell.bat' ] },
          { do=>'apply_tt',   args=>[ '<dist_sharedir>/portable/README.portable.txt.tt', '<image_dir>/README.portable.txt' ] },

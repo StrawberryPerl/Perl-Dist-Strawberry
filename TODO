@@ -1,16 +1,3 @@
-### portable
-- delete c:\strawberry\perl\site\bin 
-
-### ICE61: Upgrade.VersionMax cannot be equal to Upgrade.VersionMin unless both Min and Max are inclusive, otherwise no version will match. (OLDERVERSIONBEINGUPGRADED)
-<?define CurrentVersion    = "5.16.0" ?> <!-- e.g. "5.14.2001" -->
-<?define MinCanUpgradeVer  = "5.16.0" ?> <!-- e.g. "5.14.0" -->
-<UpgradeVersion Property="OLDERVERSIONBEINGUPGRADED" Minimum="$(var.MinCanUpgradeVer)" IncludeMinimum='yes' Maximum="$(var.CurrentVersion)" IncludeMaximum='no' />  
-5.14.2.1        5.14.2001
-5.14.1.1        5.14.1001
-5.14.1.0        5.14.1000
-5.14.0.1        5.14.1
-5.14.0.0        5.14.0
-
 ### missing URLs in _INFO_ files
 
 ### MSI upgrade code
@@ -31,17 +18,6 @@
 
 ### CPANPLUS
 - consider removing c:\strawberry\cpanplus - keep it in user profile/homedir
-
-### ppm.xml
-- old 5.12 repos
-- perhaps different xml for 32/64bit versions
-- maybe App::Strawberry::ppm  + switch to (using File::HomeDir->my_home . "/.ppm")
-
-### ppm repos
-    http://ppm4.activestate.com/MSWin32-x86/5.14/1400/package.xml (ppm4)
-    http://trouchelle.com/ppm14/package.xml (ppm4)
-    http://www.bribes.org/perl/ppm/package.xml
-    http://www.sisyphusion.tk/ppm/package.xml
 
 --- LATER ---
 
@@ -72,9 +48,6 @@
 
 ### something better instead of workaround_get_dist_list()
 - is kind of a hack (somehow works, not reliable)
---- TROUBLE MAKING MODULES ---
 
-### failing tests:
-Test::TCP (sometimes fails)
-Prima (does not work with latest tiff-4.x)
-
+### PPM
+- maybe App::Strawberry::PPM
