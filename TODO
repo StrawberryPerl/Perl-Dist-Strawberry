@@ -11,6 +11,8 @@
 5.14.0.1        5.14.1
 5.14.0.0        5.14.0
 
+### missing URLs in _INFO_ files
+
 ### MSI upgrade code
 - maybe use somethig else for beta releases
 
@@ -34,6 +36,12 @@
 - old 5.12 repos
 - perhaps different xml for 32/64bit versions
 - maybe App::Strawberry::ppm  + switch to (using File::HomeDir->my_home . "/.ppm")
+
+### ppm repos
+    http://ppm4.activestate.com/MSWin32-x86/5.14/1400/package.xml (ppm4)
+    http://trouchelle.com/ppm14/package.xml (ppm4)
+    http://www.bribes.org/perl/ppm/package.xml
+    http://www.sisyphusion.tk/ppm/package.xml
 
 --- LATER ---
 
@@ -64,3 +72,9 @@
 
 ### something better instead of workaround_get_dist_list()
 - is kind of a hack (somehow works, not reliable)
+--- TROUBLE MAKING MODULES ---
+
+### failing tests:
+Test::TCP (sometimes fails)
+Prima (does not work with latest tiff-4.x)
+

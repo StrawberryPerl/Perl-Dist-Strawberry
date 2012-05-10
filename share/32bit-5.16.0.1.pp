@@ -6,7 +6,7 @@
 # <image_dir>     is placeholder for c:\strawberry
 
 {
-  app_version     => '5.16.0.1', #BEWARE: do not use '0' in the last (4th) version digit
+  app_version     => '5.16.0.1', #BEWARE: do not use '.0.0' in the last two version digits
   bits            => 32,
   beta            => 2,
   app_fullname    => 'Strawberry Perl',
@@ -24,11 +24,6 @@
             #gcc
             'gcc-toolchain' => { url=>'<package_url>/kmx/32_gcctoolchain/mingw64-w32-gcc4.6.3_20120411.zip', install_to=>'c' },
             'gcc-license'   => '<package_url>/kmx/32_gcctoolchain/mingw64-w32-gcc4.6.3_20120411-lic.zip',
-            #XXX-FIXME: 
-            #add gendef
-            #add fortran
-            #add pthreads
-            #add gsl
             #libs
             'libdb'         => '<package_url>/kmx/32_libs/gcc46-2012/32bit_db-5.3.15-bin_20120509.zip',
             'libexpat'      => '<package_url>/kmx/32_libs/gcc46-2012/32bit_expat-2.1.0-bin_20120509.zip',
@@ -50,10 +45,11 @@
             'zlib'          => '<package_url>/kmx/32_libs/gcc46-2012/32bit_zlib-1.2.7-bin_20120509.zip',
             #special cases
             'libgd'         => '<package_url>/kmx/32_libs/gcc46-2012/32bit_gd-2.0.35(OLD-jpg-png)-bin_20120508.zip',
-            'libxml2'       => '<package_url>/kmx/32_libs/5.14/32bit_libxml2-2.7.8-bin_20110506.zip',
-            'libxslt'       => '<package_url>/kmx/32_libs/5.14/32bit_libxslt-1.1.26-bin_20110506.zip',
-            'libgdbm'       => '<package_url>/kmx/32_libs/5.14/32bit_gdbm-1.8.3-bin_20110506.zip',
-            'libmysql'      => '<package_url>/kmx/32_libs/5.14/32bit_mysql-5.1.44-bin_20100304.zip',
+            'libxml2'       => '<package_url>/kmx/32_libs/gcc44-2011/32bit_libxml2-2.7.8-bin_20110506.zip',
+            'libxslt'       => '<package_url>/kmx/32_libs/gcc44-2011/32bit_libxslt-1.1.26-bin_20110506.zip',
+            'libgdbm'       => '<package_url>/kmx/32_libs/gcc44-2011/32bit_gdbm-1.8.3-bin_20110506.zip',
+            'libmysql'      => '<package_url>/kmx/32_libs/gcc44-2011/32bit_mysql-5.1.44-bin_20100304.zip',
+            #XXX-FIXME: gendef + fortran + pthreads + gsl
         },
     },
     ### STEP 2 ###########################
