@@ -245,7 +245,7 @@
        exclude_msm => [ # do not include these to MSM but to MSI
            #qr/^win32\\.*?\.url$/,
            'win32',
-           'strawberry2.reloc.txt',
+           'perl2.reloc.txt',
            'README.txt'
        ],
        msi_upgrade_code    => '45F906A2-F86E-335B-992F-990E8BEABC13', #BEWARE: fixed value for all 32bit releases (for ever)

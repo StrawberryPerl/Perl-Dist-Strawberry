@@ -1,8 +1,8 @@
 ### MSI upgrade code
 - maybe use somethig else for beta releases
 
-### test MSI major upgrade feature
-- it did not work in official 5.14.2.1 MSI (so not critical)
+### MSI major upgrade feature
+- did not work (site is always deleted)
 
 ### CPANPLUS
 - consider removing c:\strawberry\cpanplus - keep it in user profile/homedir
