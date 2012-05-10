@@ -80,7 +80,8 @@
     {
         plugin => 'Perl::Dist::Strawberry::Step::InstallModules',
         modules => [ 
-          { install_to=>'perl', module=>'<package_url>/kmx/perl-modules-patched/Compress-Raw-Zlib-2.053_fixed_rt77030.tar.gz' },
+          #Compress-Raw-Zlib-2.053 was buggy, now we have 2.054
+          #{ install_to=>'perl', module=>'<package_url>/kmx/perl-modules-patched/Compress-Raw-Zlib-2.053_fixed_rt77030.tar.gz' },
         ],
     },
     ### STEP 4 ###########################
