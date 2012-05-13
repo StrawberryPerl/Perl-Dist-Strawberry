@@ -365,12 +365,13 @@ sub workaround_get_dist_list {
 # used by UpgradeCpanModules and InstallModules
 # implement something more clever in the future
   my $self = shift;
+  my $env = { PERL5_CPANPLUS_HOME=>$self->global->{build_ENV}->{APPDATA} }; #workaround for CPANPLUS
   my $script_pl = $self->boss->resolve_name("<dist_sharedir>/utils/CPANPLUS_list_build_cache.pl");
   my $prefix = "cpan_dist_list.".time;
   my $log = catfile($self->global->{debug_dir}, "$prefix.log.txt");
   my $dumper = catfile($self->global->{debug_dir}, "$prefix.dumper.txt");
   my $nstore = catfile($self->global->{debug_dir}, "$prefix.nstore.txt");
-  my $rv = $self->execute_special(['perl', $script_pl, '-out_nstore', $nstore, '-out_dumper', $dumper ], $log);
+  my $rv = $self->execute_special(['perl', $script_pl, '-out_nstore', $nstore, '-out_dumper', $dumper ], $log, $log, $env);
   die "ERROR: exec '$script_pl' failed" unless defined $rv && $rv == 0;
   die "ERROR: missing file '$nstore'" unless -f $nstore;
   my $data = retrieve($nstore) or die "ERROR: retrieve failed, probably error while executing '$script_pl'";

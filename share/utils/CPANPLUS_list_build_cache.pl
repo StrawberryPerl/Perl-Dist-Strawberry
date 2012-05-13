@@ -42,6 +42,7 @@ sub save_output {
 my $cb = CPANPLUS::Backend->new();
 my $conf = $cb->configure_object();
 my $base = $conf->get_conf('base');
+warn ">> using base='$base'\n";
 my $perl_ver = sprintf "%vd", $^V;
 my @dirs = map { basename($_) } grep { -d $_ } bsd_glob("$base/$perl_ver/build/*");
 save_output(\@dirs, $a{out_nstore}, $a{out_dumper});
