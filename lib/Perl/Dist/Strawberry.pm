@@ -217,7 +217,6 @@ sub create_dirs {
   make_path($self->global->{build_dir})     or die "ERROR: cannot create '".$self->global->{build_dir}."'\n";
   make_path($self->global->{debug_dir})     or die "ERROR: cannot create '".$self->global->{debug_dir}."'\n";
   make_path(catdir($self->global->{env_dir}, 'temp'));
-  make_path(catdir($self->global->{env_dir}, 'home'));
   make_path(catdir($self->global->{env_dir}, 'AppDataRoaming'));
   make_path(catdir($self->global->{env_dir}, 'AppDataLocal'));
   make_path(catdir($self->global->{env_dir}, 'UserProfile'));
@@ -229,7 +228,7 @@ sub create_dirs {
 sub prepare_build_ENV {
   my $self = shift;
 
-  my ($home_d, $home_p) = splitpath(catfile($self->global->{env_dir}, qw/home fakefile/));
+  my ($home_d, $home_p) = splitpath(catfile($self->global->{env_dir}, qw/UserProfile fakefile/));
   my @path = split /;/ms, $ENV{PATH};
   my @new_path = ( catdir($self->global->{image_dir}, qw/perl site bin/),
                    catdir($self->global->{image_dir}, qw/perl bin/),

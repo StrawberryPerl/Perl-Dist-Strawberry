@@ -75,7 +75,10 @@ sub _install_module {
   #my $dumper_file = catfile($self->global->{debug_dir}, "cpan_install.dumper.txt");
   #my $nstore_file = catfile($self->global->{debug_dir}, "cpan_install.nstore.txt");
 
-  my $env = { PERL_MM_USE_DEFAULT=>1, AUTOMATED_TESTING=>undef, RELEASE_TESTING=>undef };
+  my $env = {
+    PERL_MM_USE_DEFAULT=>1, AUTOMATED_TESTING=>undef, RELEASE_TESTING=>undef,
+    PERL5_CPANPLUS_HOME=>$self->global->{build_ENV}->{APPDATA}, #workaround for CPANPLUS
+  };
   # resolve macros in env{}
   if (defined $args{env} && ref $args{env} eq 'HASH') {
     for my $var (keys %{$args{env}}) { 

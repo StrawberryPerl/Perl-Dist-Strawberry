@@ -5,7 +5,8 @@
 # /.cpan/CPAN/MyConfig.pm.
 
 my @urllist = (
-  q[http://cpan.strawberryperl.com/],
+  'http://cpan.strawberryperl.com/',
+  'http://www.cpan.org/',
 );
 
 if ( -d '[%image_dir_quotemeta%]\\minicpan' ) {

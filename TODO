@@ -1,11 +1,7 @@
-### MSI upgrade code
-- maybe use somethig else for beta releases
+### dmake MAXLINELENGTH
 
 ### MSI major upgrade feature
 - did not work (site is always deleted)
-
-### CPANPLUS
-- consider removing c:\strawberry\cpanplus - keep it in user profile/homedir
 
 --- LATER ---
 

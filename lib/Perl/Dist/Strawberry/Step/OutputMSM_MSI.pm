@@ -88,6 +88,7 @@ sub run {
     # the following items are computed
     msi_product_guid => $msi_guid,
     msm_package_guid => $msm_guid,
+    msi_random_upgrade_code => $self->{data_uuid}->create_str(), # get random GUID
     msm_package_id   => $msm_id,
     msi_version      => sprintf("%d.%d.%d", $v1, $v2, $v3), # e.g. 5.12.2001
     msi_upgr_version => sprintf("%d.%d.%d", $v1, $v2, 0),   # e.g. 5.12.0
