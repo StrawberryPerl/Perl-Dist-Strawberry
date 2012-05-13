@@ -122,13 +122,16 @@
             },
 
             # math related
-            qw/ Math-Round Math-BigInt-GMP Math-GMP Math-MPC Math-MPFR Math-Pari /,
+            qw/ Math-Round Math-BigInt-GMP Math-GMP Math-MPC Math-MPFR /,
+            qw/ Math-Pari /, #fails on 64bit
 
             # crypto
             '<package_url>/kmx/perl-modules-patched/Crypt-IDEA-1.08_patched.tar.gz',
             '<package_url>/kmx/perl-modules-patched/Crypt-Blowfish-2.12_patched.tar.gz',
             { module =>'Convert-PEM', ignore_testfailure=>1 }, #XXX-TODO: Convert-PEM-0.08 test FAILS
-            qw/ Crypt-OpenPGP Crypt-DH /,
+            qw/ Crypt-DH /,
+
+            { module =>'Crypt-OpenPGP' }, #XXX-TODO: needs Math::PARI (fails on 64bit)
             { module =>'Module-Signature', ignore_testfailure=>1 }, #XXX-TODO: Module-Signature-0.68 makes trouble
            
             # digests
@@ -185,7 +188,7 @@
             # new modules added to 5.16
             qw/ Moose MooseX::Declare MooseX::Types MooseX::Types::Structured MooseX::ClassAttribute MooseX::Role::Parameterized MooseX::NonMoose Any::Moose /,
             qw/ WWW::Mechanize Net::Telnet Class::Accessor Date::Format Template-Toolkit /,
-            { module=>'<package_url>/kmx/perl-modules-patched/App-cpanminus-1.5012_fixed_issue132.tar.gz' },
+            { module=>'<package_url>/kmx/perl-modules-patched/App-cpanminus-1.5013_fixed_issue132.tar.gz' },
 
             #XXX-MAYBE LATER:
             #qw/ DateTime /, #XXX-TODO too big size
