@@ -58,10 +58,11 @@
     },
     ### STEP 2 ###########################
     {
-        plugin   => 'Perl::Dist::Strawberry::Step::InstallPerlCore',
-        url      => 'http://search.cpan.org/CPAN/authors/id/R/RJ/RJBS/perl-5.16.0-RC0.tar.gz',
-        cf_email => 'strawberry-perl@project',
-        patch    => { #DST paths are relative to the perl src root
+        plugin     => 'Perl::Dist::Strawberry::Step::InstallPerlCore',
+        url        => 'http://search.cpan.org/CPAN/authors/id/R/RJ/RJBS/perl-5.16.0-RC0.tar.gz',
+        cf_email   => 'strawberry-perl@project',
+        perl_debug => 0,
+        patch => { #DST paths are relative to the perl src root
             '<dist_sharedir>/perl-5.16/win32_config.gc.tt'      => 'win32/config.gc',
             '<dist_sharedir>/perl-5.16/win32_config.gc64nox.tt' => 'win32/config.gc64nox',
             '<dist_sharedir>/perl-5.16/win32_config_H.gc'       => 'win32/config_H.gc',
