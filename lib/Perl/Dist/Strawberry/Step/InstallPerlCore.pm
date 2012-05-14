@@ -106,9 +106,8 @@ sub run {
     my @make_args = ("INST_DRV=$INST_DRV", "INST_TOP=$INST_TOP", "CCHOME=$CCHOME", "EMAIL=$cf_email");
     push @make_args, 'GCC_4XX=define', 'GCCHELPERDLL=$(CCHOME)\bin\libgcc_s_sjlj-1.dll'; #perl-5.12/14 only
 
-    #XXX-FIXME remove debug stuff
-    #push @make_args, 'CFG=Debug' if $self->{xxx_fixme};
-    #push @make_args, "EMAIL=xxx" if $self->{xxx_fixme};
+    # enable debug build
+    push @make_args, 'CFG=Debug' if $self->{config}->{perl_debug};
 
     $new_env->{USERNAME} = (split /@/, $cf_email)[0]; # trick to set cotrect cf_by
     if ($self->global->{bits} == 64) {
