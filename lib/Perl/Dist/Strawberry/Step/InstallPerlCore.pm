@@ -133,7 +133,7 @@ sub run {
     $log = catfile($self->global->{debug_dir}, 'perl_dmake_all.log.txt');
 
     #$rv = $self->execute_special(['dmake', @make_args, 'all'], $log, $log, $new_env);
-    #XXX-FIXME - DEBUG ONLY
+    #XXX-FIXME - DEBUG ONLY XXX 'dmake all' seems to not for for 64bit build via IPC::Run3
     $rv = $self->execute_special(['dmake', @make_args, 'all'], undef, undef, $new_env);
 
     die "FATAL: dmake all FAILED!" unless(defined $rv && $rv == 0);

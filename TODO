@@ -5,8 +5,7 @@
 
 --- LATER ---
 
-### missing URLs in _INFO_ files
-- rebuild packs
+### IPC::Run3 is not able to handle 'dmake all' for 64bit build !!!
 
 ### generate MSM info file
 
