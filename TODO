@@ -1,4 +1,10 @@
-### dmake MAXLINELENGTH
+### portable32/64: cpan -fi GD >> crash during tests
+
+### Bug in EU::MM - dmake MAXLINELENGTH
+
+### add ExtUtils::F77
+
+
 
 ### MSI major upgrade feature
 - did not work (site is always deleted)

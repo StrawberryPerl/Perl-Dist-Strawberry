@@ -10,7 +10,7 @@
   bits            => 32,
   beta            => 1,
   app_fullname    => 'Strawberry Perl',
-  app_simplename  => 'strawberry-perl',
+  app_simplename  => 'spp-spec-64int',
   build_job_steps => [
     ### STEP 1 ###########################
     {
@@ -59,13 +59,15 @@
     ### STEP 2 ###########################
     {
         plugin     => 'Perl::Dist::Strawberry::Step::InstallPerlCore',
-        url        => 'http://search.cpan.org/CPAN/authors/id/R/RJ/RJBS/perl-5.16.0-RC0.tar.gz',
+        url        => 'http://search.cpan.org/CPAN/authors/id/R/RJ/RJBS/perl-5.16.0-RC1.tar.gz',
         cf_email   => 'strawberry-perl@project',
         perl_debug => 0,
         patch => { #DST paths are relative to the perl src root
-            '<dist_sharedir>/perl-5.16/win32_config.gc.tt'      => 'win32/config.gc',
+            #'<dist_sharedir>/perl-5.16/win32_config.gc.tt'      => 'win32/config.gc',
+            #'<dist_sharedir>/perl-5.16/win32_config_H.gc'       => 'win32/config_H.gc',
+            '<dist_sharedir>/perl-5.16-x86-64int/win32_config.gc.tt'      => 'win32/config.gc',
+            '<dist_sharedir>/perl-5.16-x86-64int/win32_config_H.gc'       => 'win32/config_H.gc',
             '<dist_sharedir>/perl-5.16/win32_config.gc64nox.tt' => 'win32/config.gc64nox',
-            '<dist_sharedir>/perl-5.16/win32_config_H.gc'       => 'win32/config_H.gc',
             '<dist_sharedir>/perl-5.16/win32_config_H.gc64nox'  => 'win32/config_H.gc64nox',
             '<dist_sharedir>/perl-5.16/win32_FindExt.pm'        => 'win32/FindExt.pm',
             '<dist_sharedir>/perl-5.16/NDBM_MSWin32.pl'         => 'ext/NDBM_File/hints/MSWin32.pl',
@@ -88,10 +90,9 @@
     ### STEP 4 ###########################
     {
         plugin => 'Perl::Dist::Strawberry::Step::UpgradeCpanModules',
-        exceptions => [ # match: version distribution cpan_file
-          #{ do=>'ignore_testfailure', distribution => 'HTTP-Tiny', version=>'0.018' },
-          #{ do=>'skiptest',           distribution => qr/IPC-.*/ },
-          #{ do=>'skip',               distribution => 'Compress-Raw-Zlib' },
+        exceptions => [ 
+          # match: version=>... distribution=>... cpan_file=>...
+          # possible 'do' options: ignore_testfailure | skiptest | skip
           { do=>'ignore_testfailure', distribution => 'CPANPLUS' }, #XXX-TODO: CPANPLUS-0.9128 has test failure
           { do=>'ignore_testfailure', distribution => 'IPC-Cmd' },  #XXX-TODO: IPC-Cmd-0.78 has test failure
         ]
@@ -195,6 +196,9 @@
             #XXX-MAYBE LATER:
             #qw/ DateTime /, #XXX-TODO too big size
             #qw/ Date::Manip /, #XXX-TODO too big size + fails with cpanplus
+
+            # portable specific
+            'http://strawberryperl.com/package/kmx/perl-modules-patched/Portable-1.17.tar.gz',
         ],
 
     },
@@ -205,114 +209,15 @@
          # directories
          { do=>'createdir', args=>[ '<image_dir>/cpan' ] },
          { do=>'createdir', args=>[ '<image_dir>/cpan/sources' ] },
-         { do=>'createdir', args=>[ '<image_dir>/win32' ] },
          # templated files
          { do=>'apply_tt', args=>[ '<dist_sharedir>/config-files/CPAN_Config.pm.tt', '<image_dir>/perl/lib/CPAN/Config.pm', {}, 1 ] }, #XXX-temporary empty tt_vars, no_backup=1
-         { do=>'apply_tt', args=>[ '<dist_sharedir>/extra-files/README.txt.tt', '<image_dir>/README.txt' ] },
          { do=>'apply_tt', args=>[ '<dist_sharedir>/extra-files/DISTRIBUTIONS.txt.tt', '<image_dir>/DISTRIBUTIONS.txt' ] },
          # fixed files
          { do=>'copyfile', args=>[ '<dist_sharedir>/extra-files/licenses/License.rtf', '<image_dir>/licenses/License.rtf' ] },
-         { do=>'copyfile', args=>[ '<dist_sharedir>/extra-files/relocation.pl.bat',    '<image_dir>/relocation.pl.bat' ] },
-         { do=>'copyfile', args=>[ '<dist_sharedir>/extra-files/update_env.pl.bat',    '<image_dir>/update_env.pl.bat' ] },
-         { do=>'copyfile', args=>[ '<dist_sharedir>/extra-files/win32/cpan.ico',       '<image_dir>/win32/cpan.ico' ] },
-         { do=>'copyfile', args=>[ '<dist_sharedir>/extra-files/win32/onion.ico',      '<image_dir>/win32/onion.ico' ] },
-         { do=>'copyfile', args=>[ '<dist_sharedir>/extra-files/win32/perldoc.ico',    '<image_dir>/win32/perldoc.ico' ] },
-         { do=>'copyfile', args=>[ '<dist_sharedir>/extra-files/win32/perlhelp.ico',   '<image_dir>/win32/perlhelp.ico' ] },
-         { do=>'copyfile', args=>[ '<dist_sharedir>/extra-files/win32/strawberry.ico', '<image_dir>/win32/strawberry.ico' ] },
-         { do=>'copyfile', args=>[ '<dist_sharedir>/extra-files/win32/win32.ico',      '<image_dir>/win32/win32.ico' ] },
-         # URLs
-         { do=>'apply_tt', args=>[ '<dist_sharedir>/extra-files/win32/CPAN Module Search.url.tt',                  '<image_dir>/win32/CPAN Module Search.url' ] },
-         { do=>'apply_tt', args=>[ '<dist_sharedir>/extra-files/win32/Learning Perl (tutorials, examples).url.tt', '<image_dir>/win32/Learning Perl (tutorials, examples).url' ] },
-         { do=>'apply_tt', args=>[ '<dist_sharedir>/extra-files/win32/Live Support (chat).url.tt',                 '<image_dir>/win32/Live Support (chat).url' ] },
-         #{ do=>'apply_tt', args=>[ '<dist_sharedir>/extra-files/win32/Perl 5.14 Documentation.url.tt',             '<image_dir>/win32/Perl 5.14 Documentation.url' ] },
-         { do=>'apply_tt', args=>[ '<dist_sharedir>/extra-files/win32/Perl Documentation.url.tt',                   '<image_dir>/win32/Perl Documentation.url' ] },
-         { do=>'apply_tt', args=>[ '<dist_sharedir>/extra-files/win32/Strawberry Perl Release Notes.url.tt',       '<image_dir>/win32/Strawberry Perl Release Notes.url' ] },
-         { do=>'apply_tt', args=>[ '<dist_sharedir>/extra-files/win32/Strawberry Perl Website.url.tt',             '<image_dir>/win32/Strawberry Perl Website.url' ] },
-         { do=>'apply_tt', args=>[ '<dist_sharedir>/extra-files/win32/Win32 Perl Wiki.url.tt',                     '<image_dir>/win32/Win32 Perl Wiki.url' ] },
-         # XXX-TODO cleanup (remove unwanted files/dirs)
+         # cleanup (remove unwanted files/dirs)
          { do=>'removefile', args=>[ '<image_dir>/c/bin/gccbug' ] },
          { do=>'removefile_recursive', args=>[ '<image_dir>/perl', '*.dll.AAA' ] },
-         #XXX-HACK
-         #{ do=>'copyfile', args=>[ '<image_dir>\c\bin\libmysql_.dll', '<image_dir>\perl\vendor\lib\auto\DBD\mysql\libmysql_.dll' ] }, 
-       ],
-    },
-    ### STEP 7 ###########################
-    {
-       plugin => 'Perl::Dist::Strawberry::Step::CreateRelocationFile',
-       reloc1_in  => '<dist_sharedir>/relocation/perl1.reloc.txt.initial',
-       reloc1_out => '<image_dir>/perl1.reloc.txt',
-       reloc2_in  => '<dist_sharedir>/relocation/perl2.reloc.txt.initial',
-       reloc2_out => '<image_dir>/perl2.reloc.txt',
-    },
-    ### STEP 8 ###########################
-    {
-       plugin => 'Perl::Dist::Strawberry::Step::OutputZIP', # no options needed
-    },
-    ### STEP 9 ###########################
-    {
-       plugin => 'Perl::Dist::Strawberry::Step::OutputMSM_MSI',
-       exclude  => [ # do not include neither to MSM nor to MSI
-           #'dirname\subdir1\subdir2',
-           #'dirname\file.pm',
-           'relocation.pl.bat',
-           'update_env.pl.bat',
-       ],
-       exclude_msm => [ # do not include these to MSM but to MSI
-           #qr/^win32\\.*?\.url$/,
-           'win32',
-           'perl2.reloc.txt',
-           'README.txt'
-       ],
-       msi_upgrade_code    => '45F906A2-F86E-335B-992F-990E8BEABC13', #BEWARE: fixed value for all 32bit releases (for ever)
-       app_publisher       => 'strawberryperl.com project',
-       url_about           => 'http://strawberryperl.com/',
-       url_help            => 'http://strawberryperl.com/support.html',
-       msi_default_instdir => 'c:\strawberry',
-       msi_main_icon       => '<dist_sharedir>\msi\files\strawberry.ico',
-       msi_license_rtf     => '<dist_sharedir>\msi\files\License-short.rtf',
-       msi_dialog_bmp      => '<dist_sharedir>\msi\files\StrawberryDialog.bmp',
-       msi_banner_bmp      => '<dist_sharedir>\msi\files\StrawberryBanner.bmp',
-       msi_debug           => 0,
-
-       start_menu => [ # if "description" is missing it will be set to the same value as "name"
-         { type=>'shortcut', name=>'Perl (command line)', icon=>'<dist_sharedir>\msi\files\perlexe.ico', description=>'Quick way to get to the command line in order to use Perl', target=>'[SystemFolder]cmd.exe', workingdir=>'PersonalFolder' },
-         { type=>'shortcut', name=>'Strawberry Perl Release Notes', icon=>'<dist_sharedir>\msi\files\strawberry.ico', target=>'[d_win32]Strawberry Perl Release Notes.url', workingdir=>'d_win32' },
-         { type=>'shortcut', name=>'Strawberry Perl README', target=>'[INSTALLDIR]README.txt', workingdir=>'INSTALLDIR' },
-         { type=>'folder',   name=>'Tools', members=>[
-              { type=>'shortcut', name=>'CPAN Client', icon=>'<dist_sharedir>\msi\files\cpan.ico', target=>'[d_perl_bin]cpan.bat', workingdir=>'d_perl_bin' },
-              { type=>'shortcut', name=>'Create local library areas', icon=>'<dist_sharedir>\msi\files\strawberry.ico', target=>'[d_perl_bin]llw32helper.bat', workingdir=>'d_perl_bin' },
-         ] },
-         { type=>'folder', name=>'Related Websites', members=>[
-              { type=>'shortcut', name=>'CPAN Module Search', icon=>'<dist_sharedir>\msi\files\cpan.ico', target=>'[d_win32]CPAN Module Search.url', workingdir=>'d_win32' },
-              #{ type=>'shortcut', name=>'Perl 5.14 Documentation', icon=>'<dist_sharedir>\msi\files\perldoc.ico', target=>'[d_win32]Perl 5.14 Documentation.url', workingdir=>'d_win32' },
-              { type=>'shortcut', name=>'Perl Documentation', icon=>'<dist_sharedir>\msi\files\perldoc.ico', target=>'[d_win32]Perl Documentation.url', workingdir=>'d_win32' },
-              { type=>'shortcut', name=>'Win32 Perl Wiki', icon=>'<dist_sharedir>\msi\files\strawberry.ico', target=>'[d_win32]Win32 Perl Wiki.url', workingdir=>'d_win32' },
-              { type=>'shortcut', name=>'Strawberry Perl Website', icon=>'<dist_sharedir>\msi\files\strawberry.ico', target=>'[d_win32]Strawberry Perl Website.url', workingdir=>'d_win32' },
-              { type=>'shortcut', name=>'Learning Perl (tutorials, examples)', icon=>'<dist_sharedir>\msi\files\perldoc.ico', target=>'[d_win32]Learning Perl (tutorials, examples).url', workingdir=>'d_win32' },
-              { type=>'shortcut', name=>'Live Support (chat)', icon=>'<dist_sharedir>\msi\files\onion.ico', target=>'[d_win32]Live Support (chat).url', workingdir=>'d_win32' },
-         ] },       
-       ],
-       env => {
-         TERM => "dumb",
-         PERL_YAML_BACKEND => "YAML",
-         PERL_JSON_BACKEND => "JSON::XS",
-       },
-
-    },
-    ### STEP 10 ###########################
-    {
-        plugin => 'Perl::Dist::Strawberry::Step::InstallModules',
-        modules => [ 'Portable' ], # modules specific to portable edition
-    },
-    ### STEP 11 ###########################
-    {
-       plugin => 'Perl::Dist::Strawberry::Step::SetupPortablePerl', # no options needed
-    },
-    ### STEP 12 ###########################
-    {
-       plugin => 'Perl::Dist::Strawberry::Step::FilesAndDirs',
-       commands => [ # files and dirs specific to portable edition
-         { do=>'removefile', args=>[ '<image_dir>/README.txt', '<image_dir>/perl2.reloc.txt', '<image_dir>/perl1.reloc.txt', '<image_dir>/update_env.pl.bat', '<image_dir>/relocation.pl.bat' ] },
+         # portable specific
          { do=>'createdir',  args=>[ '<image_dir>/data' ] },
          { do=>'removedir',  args=>[ '<image_dir>/perl/site/bin' ] },
          { do=>'copyfile',   args=>[ '<dist_sharedir>/portable/portable.perl.32',    '<image_dir>/portable.perl' ] }, # take portable.perl.32 or portable.perl.64
@@ -320,11 +225,15 @@
          { do=>'apply_tt',   args=>[ '<dist_sharedir>/portable/README.portable.txt.tt', '<image_dir>/README.portable.txt' ] },
        ],
     },
-    ### STEP 13 ###########################
+    ### STEP 7 ###########################
+    {
+       plugin => 'Perl::Dist::Strawberry::Step::SetupPortablePerl', # no options needed
+    },
+    ### STEP 8 ###########################
     {
        plugin => 'Perl::Dist::Strawberry::Step::OutputPortableZIP', # no options needed
     },
-    ### STEP 14 ###########################
+    ### STEP 9 ###########################
     {
        plugin => 'Perl::Dist::Strawberry::Step::CreateReleaseNotes', # no options needed
     }

@@ -190,6 +190,7 @@
             qw/ App-module-version /,
             
             # new modules added to 5.16
+            qw/ ExtUtils::F77 /,
             qw/ Moose MooseX::Declare MooseX::Types MooseX::Types::Structured MooseX::ClassAttribute MooseX::Role::Parameterized MooseX::NonMoose Any::Moose /,
             qw/ WWW::Mechanize Net::Telnet Class::Accessor Date::Format Template-Toolkit /,
             { module=>'<package_url>/kmx/perl-modules-patched/App-cpanminus-1.5013_fixed_issue132.tar.gz' },
