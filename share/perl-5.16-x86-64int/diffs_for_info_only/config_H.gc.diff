@@ -1,0 +1,97 @@
+--- C:\strawberry_build\build\perl_core\perl-5.16.0-RC1\win32\config_H.gc.backup	Wed Apr 25 02:18:36 2012
++++ C:\strawberry_build\build\perl_core\perl-5.16.0-RC1\win32\config_H.gc	Tue May 15 20:41:45 2012
+@@ -645,7 +645,7 @@
+  *	This symbol, if defined, indicates that <rpcsvc/dbm.h> exists and
+  *	should be included.
+  */
+-/*#define I_DBM	/ **/
++#define I_DBM	/**/
+ #define I_RPCSVC_DBM	/**/
+ 
+ /* I_DLFCN:
+@@ -670,7 +670,7 @@
+  *	This symbol, if defined, indicates that <gdbm.h> exists and should
+  *	be included.
+  */
+-/*#define I_GDBM	/ **/
++#define I_GDBM	/**/
+ 
+ /* I_LIMITS:
+  *	This symbol, if defined, indicates to the C program that it should
+@@ -973,7 +973,7 @@
+  *	where library files may be held under a private library, for
+  *	instance.
+  */
+-#define ARCHNAME "MSWin32-x86"		/**/
++#define ARCHNAME "MSWin32-x86-64int"		/**/
+ 
+ /* BIN:
+  *	This symbol holds the path of the bin directory where the package will
+@@ -2955,7 +2955,7 @@
+  *	parameter information. While ANSI C prototypes are supported in C++,
+  *	K&R style function declarations will yield errors.
+  */
+-/*#define I_NDBM	/ **/
++#define I_NDBM	/**/
+ /*#define I_GDBMNDBM	/ **/
+ /*#define I_GDBM_NDBM	/ **/
+ /*#define NDBM_H_USES_PROTOTYPES	/ **/
+@@ -4290,8 +4290,8 @@
+  *	This symbol, if defined, indicates that a variable of type NVTYPE
+  *	stores 0.0 in memory as all bits zero.
+  */
+-#define	IVTYPE		long		/**/
+-#define	UVTYPE		unsigned long		/**/
++#define	IVTYPE		long long		/**/
++#define	UVTYPE		unsigned long long		/**/
+ #define	I8TYPE		char		/**/
+ #define	U8TYPE		unsigned char		/**/
+ #define	I16TYPE		short	/**/
+@@ -4308,8 +4308,8 @@
+ #   endif
+ #endif
+ #define	NVTYPE		double		/**/
+-#define	IVSIZE		4		/**/
+-#define	UVSIZE		4		/**/
++#define	IVSIZE		8		/**/
++#define	UVSIZE		8		/**/
+ #define	I8SIZE		1		/**/
+ #define	U8SIZE		1		/**/
+ #define	I16SIZE		2	/**/
+@@ -4321,8 +4321,8 @@
+ #define	U64SIZE		8	/**/
+ #endif
+ #define	NVSIZE		8		/**/
+-#define	NV_PRESERVES_UV
+-#define	NV_PRESERVES_UV_BITS	32
++#undef	NV_PRESERVES_UV
++#define	NV_PRESERVES_UV_BITS	53
+ #define	NV_OVERFLOWS_INTEGERS_AT	256.0*256.0*256.0*256.0*256.0*256.0*2.0*2.0*2.0*2.0*2.0
+ #define	NV_ZERO_IS_ALLBITS_ZERO
+ #if UVSIZE == 8
+@@ -4371,11 +4371,11 @@
+  *	This symbol defines the format string used for printing a Perl NV
+  *	using %g-ish floating point format.
+  */
+-#define	IVdf		"ld"		/**/
+-#define	UVuf		"lu"		/**/
+-#define	UVof		"lo"		/**/
+-#define	UVxf		"lx"		/**/
+-#define	UVXf		"lX"		/**/
++#define	IVdf		"lld"		/**/
++#define	UVuf		"llu"		/**/
++#define	UVof		"llo"		/**/
++#define	UVxf		"llx"		/**/
++#define	UVXf		"llX"		/**/
+ #define	NVef		"e"		/**/
+ #define	NVff		"f"		/**/
+ #define	NVgf		"g"		/**/
+@@ -4459,7 +4459,7 @@
+  *	you may need at least to reboot your OS to 64-bit mode.
+  */
+ #ifndef USE_64_BIT_INT
+-/*#define	USE_64_BIT_INT		/ **/
++#define	USE_64_BIT_INT		/**/
+ #endif
+ #ifndef USE_64_BIT_ALL
+ /*#define	USE_64_BIT_ALL		/ **/
