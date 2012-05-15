@@ -17,6 +17,7 @@ use Text::Diff;
 use Win32;
 use Win32::File::Object;
 use IPC::Run3;
+use Digest::SHA1;
 
 ##### manatory methods for all Step-like classess - new(), check(), run(), test()
 
