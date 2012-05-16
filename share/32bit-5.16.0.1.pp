@@ -8,7 +8,7 @@
 {
   app_version     => '5.16.0.1', #BEWARE: do not use '.0.0' in the last two version digits
   bits            => 32,
-  beta            => 1,
+  beta            => 2,
   app_fullname    => 'Strawberry Perl',
   app_simplename  => 'strawberry-perl',
   build_job_steps => [
@@ -59,7 +59,7 @@
     ### STEP 2 ###########################
     {
         plugin     => 'Perl::Dist::Strawberry::Step::InstallPerlCore',
-        url        => 'http://search.cpan.org/CPAN/authors/id/R/RJ/RJBS/perl-5.16.0-RC0.tar.gz',
+        url        => 'http://search.cpan.org/CPAN/authors/id/R/RJ/RJBS/perl-5.16.0-RC2.tar.gz',
         cf_email   => 'strawberry-perl@project',
         perl_debug => 0,
         patch => { #DST paths are relative to the perl src root
