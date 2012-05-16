@@ -1,12 +1,16 @@
+### padre crashes (reported by Alias)
+
 ### Bug in EU::MM - dmake MAXLINELENGTH
 
-### add ExtUtils::F77
-
-### padre crashes (reported by Alias)
+### IPC::Run3 is not able to handle 'dmake all' for 64bit build !!!
 
 --- LATER ---
 
-### IPC::Run3 is not able to handle 'dmake all' for 64bit build !!!
+### fix warnings - share\perl-5.16\win32_win32.h >> win32/win32.h
+C:\tmp\514\perl\lib\CORE/win32.h:393:26: warning: "/*" within comment [-Wcomment]
+C:\tmp\514\perl\lib\CORE/win32.h:394:33: warning: "/*" within comment [-Wcomment]
+/* #define USE_PERL_SBRK	/**/
+/* #define PERL_SBRK_VIA_MALLOC	/**/
 
 ### generate MSM info file
 

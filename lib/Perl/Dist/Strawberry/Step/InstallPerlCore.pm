@@ -13,7 +13,7 @@ use File::Copy             qw(copy);
 use File::Slurp;
 use Text::Patch;
 use Text::Diff;
-use Win32;
+#use Win32;
 
 sub new {
   my $class = shift;
@@ -131,8 +131,8 @@ sub run {
     $self->boss->message( 1, "Building perl $version ...\n" );
     $log = catfile($self->global->{debug_dir}, 'perl_dmake_all.log.txt');
 
+    #XXX-FIXME - DEBUG ONLY XXX 'dmake all' fails with redirected output for 64bit build via IPC::Run3
     #$rv = $self->execute_special(['dmake', @make_args, 'all'], $log, $log, $new_env);
-    #XXX-FIXME - DEBUG ONLY XXX 'dmake all' seems to not for for 64bit build via IPC::Run3
     $rv = $self->execute_special(['dmake', @make_args, 'all'], undef, undef, $new_env);
 
     die "FATAL: dmake all FAILED!" unless(defined $rv && $rv == 0);
