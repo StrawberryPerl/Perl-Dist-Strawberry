@@ -7,4 +7,3 @@ perl\lib\perllocal.pod:backslash
 perl\bin\cpandb:backslash
 perl\vendor\lib\ppm.xml:backslash
 perl\lib\CPANPLUS\Config.pm:backslash
-#comment - *.initial file should end with a newline!
