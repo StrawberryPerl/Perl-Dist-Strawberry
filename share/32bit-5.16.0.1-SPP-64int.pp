@@ -8,7 +8,7 @@
 {
   app_version     => '5.16.0.1', #BEWARE: do not use '.0.0' in the last two version digits
   bits            => 32,
-  beta            => 1,
+  beta            => 3,
   app_fullname    => 'Strawberry Perl',
   app_simplename  => 'spp-spec-64int',
   build_job_steps => [
@@ -59,16 +59,13 @@
     ### STEP 2 ###########################
     {
         plugin     => 'Perl::Dist::Strawberry::Step::InstallPerlCore',
-        url        => 'http://search.cpan.org/CPAN/authors/id/R/RJ/RJBS/perl-5.16.0-RC1.tar.gz',
+        url        => 'http://search.cpan.org/CPAN/authors/id/R/RJ/RJBS/perl-5.16.0-RC2.tar.gz',
         cf_email   => 'strawberry-perl@project',
         perl_debug => 0,
         patch => { #DST paths are relative to the perl src root
-            #'<dist_sharedir>/perl-5.16/win32_config.gc.tt'      => 'win32/config.gc',
-            #'<dist_sharedir>/perl-5.16/win32_config_H.gc'       => 'win32/config_H.gc',
-            '<dist_sharedir>/perl-5.16-x86-64int/win32_config.gc.tt'      => 'win32/config.gc',
-            '<dist_sharedir>/perl-5.16-x86-64int/win32_config_H.gc'       => 'win32/config_H.gc',
-            '<dist_sharedir>/perl-5.16/win32_config.gc64nox.tt' => 'win32/config.gc64nox',
-            '<dist_sharedir>/perl-5.16/win32_config_H.gc64nox'  => 'win32/config_H.gc64nox',
+            '<dist_sharedir>/perl-5.16-x86-64int/win32_config.gc.tt' => 'win32/config.gc',
+            '<dist_sharedir>/perl-5.16-x86-64int/win32_config_H.gc'  => 'win32/config_H.gc',
+            '<dist_sharedir>/perl-5.16-x86-64int/win32_makefile.mk'  => 'win32/makefile.mk',
             '<dist_sharedir>/perl-5.16/win32_FindExt.pm'        => 'win32/FindExt.pm',
             '<dist_sharedir>/perl-5.16/NDBM_MSWin32.pl'         => 'ext/NDBM_File/hints/MSWin32.pl',
             '<dist_sharedir>/perl-5.16/ODBM_MSWin32.pl'         => 'ext/ODBM_File/hints/MSWin32.pl',
