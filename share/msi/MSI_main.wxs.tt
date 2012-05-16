@@ -38,15 +38,15 @@
     <Binary Id="Bmp_MainBanner"  SourceFile="$(var.FileBannerBmp)" />
 
     <Upgrade Id="$(var.UpgradeCode)">
-      <UpgradeVersion Property="NEWERVERSIONDETECTED"      Minimum="$(var.CurrentVersion)" IncludeMinimum='yes' OnlyDetect="yes" />
+      <UpgradeVersion Property="NEWERVERSIONDETECTED"      Minimum="$(var.CurrentVersion)" IncludeMinimum='no' OnlyDetect="yes" />
       <UpgradeVersion Property="OLDERVERSIONBEINGUPGRADED" Minimum="$(var.MinCanUpgradeVer)" IncludeMinimum='yes' Maximum="$(var.CurrentVersion)" IncludeMaximum='no' />
-      <!-- XXX <UpgradeVersion Property="UNINSTALL_SITE"            Minimum='0.0.0'  IncludeMinimum='yes' Maximum="$(var.MaxCannotUpgradeVer)" IncludeMaximum='yes' /> -->
-      <UpgradeVersion Property="UNINSTALL_SITE"            Minimum='0.0.0'  IncludeMinimum='yes' Maximum="$(var.MinCanUpgradeVer)" IncludeMaximum='no' /> 
-      <!-- XXX <UpgradeVersion Property="SELFFOUND"            Minimum="$(var.CurrentVersion)" IncludeMinimum="yes" Maximum="$(var.CurrentVersion)" IncludeMaximum="yes" OnlyDetect="yes" /> -->
+      <UpgradeVersion Property="UPG_NOT_POSSIBLE"     Minimum='0.0.0' IncludeMinimum='yes' Maximum="$(var.MinCanUpgradeVer)" IncludeMaximum='no' OnlyDetect="yes" />
     </Upgrade>
+    <!-- http://stackoverflow.com/questions/320921/how-to-add-a-wix-custom-action-that-happens-only-on-uninstall-via-msi -->
 
     <Binary Id='B_HelperCA' SourceFile="$(var.FileHelperDLL)" />
     <CustomAction Id='PreventDowngrading'  Error='A newer version of $(var.ProductName) is already installed.' />
+    <CustomAction Id='UninstallOldVersion' Error='Already installed version of $(var.ProductName) cannot be upgraded; it has to be uninstalled first.' />
     
     <CustomAction Id="CA_GetARPInstallLoc" Property ="INSTALLDIR"         Value="[UPGRADEDIR]"  Execute="immediate"/>
     <CustomAction Id="CA_SetARPInstallLoc" Property ="ARPINSTALLLOCATION" Value="[INSTALLDIR]"  Execute="immediate"/>
@@ -60,9 +60,11 @@
     <CustomAction Id="LaunchReadmeFile"    BinaryKey="WixCA"      DllEntry="WixShellExec" Impersonate="yes" />
     
     <InstallExecuteSequence>
-      <RemoveExistingProducts After='InstallInitialize' />
+      <!-- InstallExecuteSequence is used to define Custom Actions that fire after the UI is finished and the install is starting to execute -->
+      <RemoveExistingProducts After='InstallInitialize' /> <!-- Windows Installer sets the UPGRADINGPRODUCTCODE Property when it runs this action -->
       <Custom Action='PreventDowngrading'  After ='FindRelatedProducts'>NEWERVERSIONDETECTED</Custom>
-      <Custom Action='CA_ClearSiteFolder'  Before='InstallInitialize'>UNINSTALL_SITE OR (Installed AND NOT OLDERVERSIONBEINGUPGRADED)</Custom> <!-- remove perl/site folder -->
+      <Custom Action='UninstallOldVersion' After ='FindRelatedProducts'>UPG_NOT_POSSIBLE</Custom>
+      <Custom Action='CA_ClearSiteFolder'  Before='InstallInitialize'>(Installed AND (NOT UPGRADINGPRODUCTCODE)) OR (Installed AND UPGRADINGPRODUCTCODE AND UPG_NOT_POSSIBLE)</Custom> <!-- remove perl/site folder -->
       <Custom Action='CA_ClearFolders'     Before='InstallInitialize'>REMOVE="ALL"</Custom> <!-- remove cpan/cpanplus/ppm folders -->
       <Custom Action="CA_SetARPInstallLoc" Before="RegisterProduct" />
       <Custom Action="CA_SetLocation_Perl" After ="CostFinalize"/>
@@ -72,7 +74,9 @@
     </InstallExecuteSequence>
     
     <InstallUISequence>
+      <!-- InstallUISequence is used to define a dialog or Custom Action that fires in the UI sequence of events during the install -->
       <Custom Action='PreventDowngrading'  After ='FindRelatedProducts'>NEWERVERSIONDETECTED</Custom>
+      <Custom Action='UninstallOldVersion' After ='FindRelatedProducts'>UPG_NOT_POSSIBLE</Custom>
       <Custom Action="CA_GetARPInstallLoc" Before="CostInitialize">OLDERVERSIONBEINGUPGRADED AND UPGRADEDIR</Custom>
     </InstallUISequence>
     
