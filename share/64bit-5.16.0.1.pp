@@ -266,7 +266,7 @@
            'perl2.reloc.txt',
            'README.txt'
        ],
-       msi_upgrade_code    => '45F906A2-F86E-335B-992F-990E8BEABC13', #BEWARE: fixed value for all 32bit releases (for ever)
+       msi_upgrade_code    => 'DBA41113-4E91-3FFC-B400-573BB4B80705', #BEWARE: fixed value for all 64bit releases (for ever)
        app_publisher       => 'strawberryperl.com project',
        url_about           => 'http://strawberryperl.com/',
        url_help            => 'http://strawberryperl.com/support.html',
