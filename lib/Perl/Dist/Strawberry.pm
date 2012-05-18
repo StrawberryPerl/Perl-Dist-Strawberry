@@ -466,6 +466,7 @@ sub zip_dir {
     next if $archive_name eq '';
     my $m = $zip->addFileOrDirectory($fs_name, $archive_name);
     $m->desiredCompressionLevel($level); # 1 = fastest compression
+    $m->unixFileAttributes( 0777 ) if $fs_name =~ /\.(exe|bat|dll)$/i; # necessary for correct unzipping on cygwin
   }
   die 'ERROR: ZIP failure' unless ($zip->writeToFileNamed($zip_filename) == AZ_OK);
 }

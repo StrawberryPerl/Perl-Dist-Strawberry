@@ -8,7 +8,7 @@
 {
   app_version     => '5.16.0.1', #BEWARE: do not use '.0.0' in the last two version digits
   bits            => 32,
-  beta            => 3,
+  beta            => 0,
   app_fullname    => 'Strawberry Perl',
   app_simplename  => 'spp-spec-64int',
   build_job_steps => [
@@ -235,6 +235,10 @@
     ### STEP 9 ###########################
     {
        plugin => 'Perl::Dist::Strawberry::Step::CreateReleaseNotes', # no options needed
-    }
+    },
+    ### STEP 10 ###########################
+    {
+       plugin => 'Perl::Dist::Strawberry::Step::OutputLogZIP', # no options needed
+    },
   ],
 }
