@@ -1,7 +1,4 @@
-### report by CHM
-I unzipped the SPP 32bit version to give a try but the *.dll files did not extract with their
-execute permissions set.  Once I made the DLLs executable then the portable shell worked.
-(maybe reZIP all release ZIPs)
+all blockers fixed
 
 --- LATER ---
 
