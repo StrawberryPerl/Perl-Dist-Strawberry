@@ -1,14 +1,13 @@
-### padre crashes (reported by Alias)
-
 ### report by CHM
 I unzipped the SPP 32bit version to give a try but the *.dll files did not extract with their
 execute permissions set.  Once I made the DLLs executable then the portable shell worked.
+(maybe reZIP all release ZIPs)
+
+--- LATER ---
 
 ### Bug in EU::MM - dmake MAXLINELENGTH
 
 ### IPC::Run3 is not able to handle 'dmake all' for 64bit build !!!
-
---- LATER ---
 
 ### fix warnings - share\perl-5.16\win32_win32.h >> win32/win32.h
 C:\tmp\514\perl\lib\CORE/win32.h:393:26: warning: "/*" within comment [-Wcomment]

@@ -64,8 +64,8 @@
         perl_debug => 0,
         patch => { #DST paths are relative to the perl src root
             '<dist_sharedir>/perl-5.16/win32_config.gc.tt'      => 'win32/config.gc',
-            '<dist_sharedir>/perl-5.16/win32_config.gc64nox.tt' => 'win32/config.gc64nox',
             '<dist_sharedir>/perl-5.16/win32_config_H.gc'       => 'win32/config_H.gc',
+            '<dist_sharedir>/perl-5.16/win32_config.gc64nox.tt' => 'win32/config.gc64nox',
             '<dist_sharedir>/perl-5.16/win32_config_H.gc64nox'  => 'win32/config_H.gc64nox',
             '<dist_sharedir>/perl-5.16/win32_FindExt.pm'        => 'win32/FindExt.pm',
             '<dist_sharedir>/perl-5.16/NDBM_MSWin32.pl'         => 'ext/NDBM_File/hints/MSWin32.pl',
@@ -88,10 +88,9 @@
     ### STEP 4 ###########################
     {
         plugin => 'Perl::Dist::Strawberry::Step::UpgradeCpanModules',
-        exceptions => [ # match: version distribution cpan_file
-          #{ do=>'ignore_testfailure', distribution => 'HTTP-Tiny', version=>'0.018' },
-          #{ do=>'skiptest',           distribution => qr/IPC-.*/ },
-          #{ do=>'skip',               distribution => 'Compress-Raw-Zlib' },
+        exceptions => [ 
+          # match: version=>... distribution=>... cpan_file=>...
+          # possible 'do' options: ignore_testfailure | skiptest | skip
           { do=>'ignore_testfailure', distribution => 'CPANPLUS' }, #XXX-TODO: CPANPLUS-0.9128 has test failure
           { do=>'ignore_testfailure', distribution => 'IPC-Cmd' },  #XXX-TODO: IPC-Cmd-0.78 has test failure
         ]
@@ -113,7 +112,9 @@
                 File-ShareDir           File-Which              File-Copy-Recursive /,
 
             # database stuff
-            qw/ DBI DBD-ODBC DBD-SQLite DBD-Pg DBIx-Simple /,
+            'http://search.cpan.org/CPAN/authors/id/T/TI/TIMB/DBI-1.618.tar.gz', #avoid using latest 1.620
+            #'DBI',
+            qw/ DBD-ODBC DBD-SQLite DBD-Pg DBIx-Simple /,
             { module=>'DBD-ADO', ignore_testfailure=>1 }, #XXX-TODO: DBD-ADO-2.99 test FAILS
             { 
               module => '<package_url>/kmx/perl-modules-patched/DBD-mysql-4.020_patched_h.tar.gz', 

@@ -111,7 +111,9 @@
                 File-ShareDir           File-Which              File-Copy-Recursive /,
 
             # database stuff
-            qw/ DBI DBD-ODBC DBD-SQLite DBD-Pg DBIx-Simple /,
+            'http://search.cpan.org/CPAN/authors/id/T/TI/TIMB/DBI-1.618.tar.gz', #avoid using latest 1.620
+            #'DBI',
+            qw/ DBD-ODBC DBD-SQLite DBD-Pg DBIx-Simple /,
             { module=>'DBD-ADO', ignore_testfailure=>1 }, #XXX-TODO: DBD-ADO-2.99 test FAILS
             { 
               module => '<package_url>/kmx/perl-modules-patched/DBD-mysql-4.020_patched_h.tar.gz', 
