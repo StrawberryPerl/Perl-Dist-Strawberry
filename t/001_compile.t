@@ -16,6 +16,7 @@ use Perl::Dist::Strawberry::Step::CreateRelocationFile;
 use Perl::Dist::Strawberry::Step::FilesAndDirs;
 use Perl::Dist::Strawberry::Step::InstallModules;
 use Perl::Dist::Strawberry::Step::InstallPerlCore;
+use Perl::Dist::Strawberry::Step::OutputLogZIP;
 use Perl::Dist::Strawberry::Step::OutputMSM_MSI;
 use Perl::Dist::Strawberry::Step::OutputPortableZIP;
 use Perl::Dist::Strawberry::Step::OutputZIP;
