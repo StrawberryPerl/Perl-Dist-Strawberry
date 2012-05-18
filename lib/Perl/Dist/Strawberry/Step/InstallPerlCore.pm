@@ -131,9 +131,13 @@ sub run {
     $self->boss->message( 1, "Building perl $version ...\n" );
     $log = catfile($self->global->{debug_dir}, 'perl_dmake_all.log.txt');
 
-    #XXX-FIXME - DEBUG ONLY XXX 'dmake all' fails with redirected output for 64bit build via IPC::Run3
-    #$rv = $self->execute_special(['dmake', @make_args, 'all'], $log, $log, $new_env);
-    $rv = $self->execute_special(['dmake', @make_args, 'all'], undef, undef, $new_env);
+    if ($self->global->{bits} == 64) {
+      #XXX-FIXME-XXX 'dmake all' fails with redirected output for 64bit build via IPC::Run3
+      $rv = $self->execute_special(['dmake', @make_args, 'all'], undef, undef, $new_env);
+    }
+    else {
+      $rv = $self->execute_special(['dmake', @make_args, 'all'], $log, $log, $new_env);
+    }
 
     die "FATAL: dmake all FAILED!" unless(defined $rv && $rv == 0);
 
