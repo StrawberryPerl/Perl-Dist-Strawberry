@@ -192,7 +192,8 @@
             'Moose',
             'http://search.cpan.org/CPAN/authors/id/D/DR/DROLSKY/MooseX-Types-0.31.tar.gz', #0.34 causes MooseX::Types::Structured test failure
             qw/ MooseX::Types::Structured MooseX::Declare MooseX::ClassAttribute MooseX::Role::Parameterized MooseX::NonMoose Any::Moose /,
-            qw/ WWW::Mechanize Net::Telnet Class::Accessor Date::Format Template-Toolkit /,
+            { module=>'WWW::Mechanize', ignore_testfailure=>1 },
+            qw/ Net::Telnet Class::Accessor Date::Format Template-Toolkit /,
             { module=>'<package_url>/kmx/perl-modules-patched/App-cpanminus-1.5013_fixed_issue132.tar.gz' },
 
             #XXX-MAYBE LATER:
