@@ -36,8 +36,10 @@
 <h3>What's new in this Strawberry Perl release: <span class="switch"><a href="javascript:unhide('whatsnew', 'whatsnew_switch')" id="whatsnew_switch">Collapse</a><br /></span>
 <hr /></h3>
 <div id="whatsnew">
-<p>XXX-TODO Put blurb here.</p>
-<p>XXX-TODO Put blurb here.</p>
+<ul>
+<li>XXX-TODO Put blurb here.</li>
+<li>XXX-TODO Put blurb here.</li>
+</ul>
 </div>
 
 <h3>Known issues: <span class="switch"><a href="javascript:unhide('issues', 'issues_switch')" id="issues_switch">Collapse</a></span>
@@ -55,7 +57,7 @@
 <table>
 <tr><td><b>ID</b></td><td><b>Distribution</b></td><td><b>Version</b></td><td><b>Note</b></td></tr>
 [%-FOREACH item = distributions%]
-<tr><td>[%loop.count%].</td><td>[%item.dist%]</td><td>[%item.ver%]</td><td></tr>
+<tr><td>[%loop.count%].</td><td>[%item.dist%]</td><td>[%item.ver%]</td><td></td></tr>
 [%-END%]
 </table>
 </div>
@@ -66,7 +68,7 @@
 <table>
 <tr><td><b>ID</b></td><td><b>Package</b></td><td><b>Homepage</b></td><td><b>Note</b></td></tr>
 [%-FOREACH item = packages%]
-<tr><td>[%loop.count%].</td><td>[%item.pkg%]</td><td>[%item.homepage%]</td><td></td></tr>
+<tr><td>[%loop.count%].</td><td>[%item.pkg%]</td><td><a href="[%item.homepage%]">[%item.homepage%]</a></td><td></td></tr>
 [%-END%]
 </table>
 </div>

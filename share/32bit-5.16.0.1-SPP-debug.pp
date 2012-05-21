@@ -60,7 +60,7 @@
     ### STEP 2 ###########################
     {
         plugin     => 'Perl::Dist::Strawberry::Step::InstallPerlCore',
-        url        => 'http://search.cpan.org/CPAN/authors/id/R/RJ/RJBS/perl-5.16.0-RC2.tar.gz',
+        url        => 'http://search.cpan.org/CPAN/authors/id/R/RJ/RJBS/perl-5.16.0.tar.gz',
         cf_email   => 'strawberry-perl@project',
         perl_debug => 1,
         patch => { #DST paths are relative to the perl src root
@@ -128,6 +128,9 @@
             qw/ Math-Round Math-BigInt-GMP Math-GMP Math-MPC Math-MPFR /,
             qw/ Math-Pari /, #fails on 64bit
 
+            # has to go before Module::Signature as it throws an error: Not trusting this module, aborting install
+            qw/ HTTP-Server-Simple /,
+
             # crypto
             '<package_url>/kmx/perl-modules-patched/Crypt-IDEA-1.08_patched.tar.gz',
             '<package_url>/kmx/perl-modules-patched/Crypt-Blowfish-2.12_patched.tar.gz',
@@ -193,8 +196,7 @@
             'Moose',
             'http://search.cpan.org/CPAN/authors/id/D/DR/DROLSKY/MooseX-Types-0.31.tar.gz', #0.34 causes MooseX::Types::Structured test failure
             qw/ MooseX::Types::Structured MooseX::Declare MooseX::ClassAttribute MooseX::Role::Parameterized MooseX::NonMoose Any::Moose /,
-            { module=>'WWW::Mechanize', ignore_testfailure=>1 },
-            qw/ Net::Telnet Class::Accessor Date::Format Template-Toolkit /,
+            qw/ IO::Socket::IP WWW::Mechanize Net::Telnet Class::Accessor Date::Format Template-Toolkit /,
             { module=>'<package_url>/kmx/perl-modules-patched/App-cpanminus-1.5013_fixed_issue132.tar.gz' },
 
             #XXX-MAYBE LATER:

@@ -1,5 +1,5 @@
---- C:\strawberry_build\build\perl_core\perl-2653c1e\win32\config_H.gc.backup	Wed Apr 11 15:20:53 2012
-+++ C:\strawberry_build\build\perl_core\perl-2653c1e\win32\config_H.gc	Wed Apr 11 23:00:58 2012
+--- C:\strawberry_build\build\perl_core\perl-5.16.0\win32\config_H.gc.backup	Wed Apr 25 02:18:36 2012
++++ C:\strawberry_build\build\perl_core\perl-5.16.0\win32\config_H.gc	Mon May  7 21:28:44 2012
 @@ -645,7 +645,7 @@
   *	This symbol, if defined, indicates that <rpcsvc/dbm.h> exists and
   *	should be included.

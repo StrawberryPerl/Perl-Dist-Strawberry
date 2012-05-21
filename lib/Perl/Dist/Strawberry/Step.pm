@@ -359,6 +359,7 @@ sub sha1_file {
   binmode FILE;
   $sha1->addfile(*FILE);
   close FILE;
+  return $sha1->hexdigest;
 }
 
 sub workaround_get_dist_list {

@@ -1,5 +1,5 @@
---- C:\strawberry_build\build\perl_core\perl-5.16.0-RC2\win32\makefile.mk.backup	Mon May 14 21:49:22 2012
-+++ C:\strawberry_build\build\perl_core\perl-5.16.0-RC2\win32\makefile.mk	Wed May 16 14:15:29 2012
+--- C:\strawberry_build\build\perl_core\perl-5.16.0\win32\makefile.mk.backup	Mon May 14 21:49:22 2012
++++ C:\strawberry_build\build\perl_core\perl-5.16.0\win32\makefile.mk	Wed May 16 14:15:29 2012
 @@ -72,6 +72,9 @@
  #
  USE_ITHREADS	*= define

@@ -1,4 +1,8 @@
-all blockers fixed
+### BLOCKERS
+FIXED: wrong release notes link in startmenu
+FIXED: tools menu items do not work
+FIXED: release notes - dists: </td><td></tr> >> </td><td></td></tr>
+FIXED: release notes - extlibs: Homepage not clickable
 
 --- LATER ---
 

@@ -66,12 +66,6 @@ sub parse_options {
     'h|help'            => sub { pod2usage(-exitstatus=>0, -verbose=>2) },
   ) or pod2usage(-verbose=>2);
   
-  # set other computed values
-  (my $idq = $self->global->{image_dir}) =~ s|\\|\\\\|g;
-  (my $idu = $self->global->{image_dir}) =~ s|\\|/|g;
-  $self->global->{image_dir_quotemeta} = $idq;
-  $self->global->{image_dir_url}       = "file:///$idu";
-
   $self->global->{working_dir}     = canonpath($self->global->{working_dir});
   $self->global->{image_dir}       = canonpath($self->global->{image_dir});
   $self->global->{dist_sharedir}   = canonpath(File::ShareDir::dist_dir('Perl-Dist-Strawberry'));
@@ -81,6 +75,12 @@ sub parse_options {
   $self->global->{env_dir}         = canonpath(catdir($self->global->{working_dir}, "env"));
   $self->global->{output_dir}      = canonpath(catdir($self->global->{working_dir}, "output"));
   $self->global->{restore_dir}     = canonpath(catdir($self->global->{working_dir}, "restore"));
+
+  # set other computed values
+  (my $idq = $self->global->{image_dir}) =~ s|\\|\\\\|g;
+  (my $idu = $self->global->{image_dir}) =~ s|\\|/|g;
+  $self->global->{image_dir_quotemeta} = $idq;
+  $self->global->{image_dir_url}       = "file:///$idu";
   
   if (defined $self->global->{wixbin_dir}) {
     my $d = $self->global->{wixbin_dir};

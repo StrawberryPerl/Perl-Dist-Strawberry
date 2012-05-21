@@ -1,5 +1,5 @@
---- C:\strawberry_build\build\perl_core\perl-2653c1e\win32\FindExt.pm.backup	Wed Apr 11 15:20:53 2012
-+++ C:\strawberry_build\build\perl_core\perl-2653c1e\win32\FindExt.pm	Thu Apr 12 00:34:53 2012
+--- C:\strawberry_build\build\perl_core\perl-5.16.0\win32\FindExt.pm.backup	Wed Feb 15 05:44:53 2012
++++ C:\strawberry_build\build\perl_core\perl-5.16.0\win32\FindExt.pm	Mon May  7 21:28:45 2012
 @@ -5,7 +5,7 @@
  use strict;
  use warnings;

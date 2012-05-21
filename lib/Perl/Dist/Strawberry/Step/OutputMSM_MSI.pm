@@ -49,9 +49,14 @@ sub run {
  
   my $bdir = catdir($self->global->{build_dir}, 'msm_msi');
   
+  # compute MSM id from MSM guid
+  my $msi_guid = $self->{data_uuid}->create_str(); # get random GUID
+  my $msm_guid = $self->{data_uuid}->create_str(); # get random GUID
+  (my $msm_id = $msm_guid) =~ s/-/_/g;
+
   # create WXS parts to be inserted into MSM_main.wxs.tt & MSI_main.wxs.tt 
   my $xml_env = $self->_generate_wxml_for_environment();
-  my ($xml_start_menu, $xml_start_menu_icons) = $self->_generate_wxml_for_start_menu();
+  my ($xml_start_menu, $xml_start_menu_icons) = $self->_generate_wxml_for_start_menu($msm_id);
   my ($xml_msm, $xml_msi, $id_list_msm, $id_list_msi) = $self->_generate_wxml_for_directory($self->global->{image_dir});
   #debug:
   write_file("$bdir/debug.xml_msi.xml", $xml_msi);
@@ -68,12 +73,7 @@ sub run {
   # compute msi_version which has to be 3-numbers (otherwise major upgrade feature does not work)
   my ($v1, $v2, $v3, $v4) = split /\./, $self->global->{app_version};
   $v3 = $v3*1000 + $v4 if defined $v4; #turn 5.14.2.1 to 5.12.2001
-
-  # compute MSM id from MSM guid
-  my $msi_guid = $self->{data_uuid}->create_str(); # get random GUID
-  my $msm_guid = $self->{data_uuid}->create_str(); # get random GUID
-  (my $msm_id = $msm_guid) =~ s/-/_/g;
-  
+ 
   # resolve values (only scalars) from config
   for (keys %{$self->{config}}) {
     if (!ref $self->{config}->{$_}) {
@@ -163,7 +163,7 @@ sub _generate_wxml_for_environment {
 }
 
 sub _generate_wxml_for_start_menu {
-  my ($self) = @_;
+  my ($self, $msm_id) = @_;
   my $menu_result = "";
   my $ico_result = "";
   my $id = 1;
@@ -173,8 +173,8 @@ sub _generate_wxml_for_start_menu {
   $menu_result .= "            <RemoveFolder Id='StartF_$component_id.rm' On='uninstall' />\n";
   $menu_result .= "          </Component>\n";
   for my $item (@{$self->{config}->{start_menu}}) {       
-    $menu_result .= $self->_generate_start_menu_folder($item)   if $item->{type} eq 'folder';
-    $menu_result .= $self->_generate_start_menu_shortcut($item) if $item->{type} eq 'shortcut';
+    $menu_result .= $self->_generate_start_menu_folder($item, 0, $msm_id)   if $item->{type} eq 'folder';
+    $menu_result .= $self->_generate_start_menu_shortcut($item, 0, $msm_id) if $item->{type} eq 'shortcut';
   }
   for (keys %{$self->{start_menu_icons}}) {
     $ico_result .= "    <Icon Id='$self->{start_menu_icons}->{$_}' SourceFile='$_' />\n";    
@@ -198,13 +198,18 @@ sub _generate_wxml_for_directory {
 }
 
 sub _generate_start_menu_shortcut {  # !!!BEWARE!!! this sub is called recursively
-  my ($self, $item, $depth) = @_;
+  my ($self, $item, $depth, $msm_id) = @_;
   $depth //= 0; 
   my $result = "";
   my $ident = "          " . ("  " x $depth);
   my ($component_id, $component_guid) = $self->_gen_component_id($item->{name}.$depth."start.shortcut");
   my $attr_description = defined $item->{description} ? "Description='$item->{description}'" : "Description='$item->{name}'";
   my $attr_workingdir  = defined $item->{workingdir}  ? "WorkingDirectory='$item->{workingdir}'" : "";
+  my $attr_target = $item->{target};
+  
+  $attr_workingdir =~ s/<MSMID>/$msm_id/g; #XXX-FIXME this is a hack
+  $attr_target     =~ s/<MSMID>/$msm_id/g; #XXX-FIXME this is a hack
+  
   my $attr_icon = "";
   if (defined $item->{icon}) {
     my $i_file = canonpath($self->boss->resolve_name($item->{icon}));
@@ -213,14 +218,14 @@ sub _generate_start_menu_shortcut {  # !!!BEWARE!!! this sub is called recursive
     $attr_icon = "Icon='$self->{start_menu_icons}->{$i_file}'";
   }
   $result .= "$ident<Component Id='StartS_$component_id' Guid='$component_guid' Feature='feat_StartMenu'>\n";
-  $result .= "$ident  <Shortcut Id='Short_$component_id' Name='$item->{name}' Target='$item->{target}'  $attr_description $attr_workingdir $attr_icon/>\n";
+  $result .= "$ident  <Shortcut Id='Short_$component_id' Name='$item->{name}' Target='$attr_target'  $attr_description $attr_workingdir $attr_icon/>\n";
   $result .= "$ident  <CreateFolder />\n"; # This is strange but for some reason necessary
   $result .= "$ident</Component>\n";
   return $result;
 }
 
 sub _generate_start_menu_folder {  # !!!BEWARE!!! this sub is called recursively
-  my ($self, $item, $depth) = @_;
+  my ($self, $item, $depth, $msm_id) = @_;
   $depth //= 0; 
   my $result = "";
   my $ident = "          " . ("  " x $depth);
@@ -230,8 +235,8 @@ sub _generate_start_menu_folder {  # !!!BEWARE!!! this sub is called recursively
   $result .= "$ident    <RemoveFolder Id='StartF_$component_id.rm' On='uninstall' />\n";
   $result .= "$ident  </Component>\n";
   for my $m (@{$item->{members}}) {       
-    $result .= $self->_generate_start_menu_folder($m, $depth+1)   if $m->{type} eq 'folder';
-    $result .= $self->_generate_start_menu_shortcut($m, $depth+1) if $m->{type} eq 'shortcut';
+    $result .= $self->_generate_start_menu_folder($m, $depth+1, $msm_id)   if $m->{type} eq 'folder';
+    $result .= $self->_generate_start_menu_shortcut($m, $depth+1, $msm_id) if $m->{type} eq 'shortcut';
   }
   $result .= "$ident</Directory>\n";
   return $result;
