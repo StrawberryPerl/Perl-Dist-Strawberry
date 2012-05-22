@@ -9,7 +9,7 @@
   app_version     => '5.16.0.1', #BEWARE: do not use '.0.0' in the last two version digits
   bits            => 64,
   beta            => 0,
-  app_fullname    => 'Strawberry Perl',
+  app_fullname    => 'Strawberry Perl (64-bit)',
   app_simplename  => 'strawberry-perl',
   build_job_steps => [
     ### STEP 1 ###########################
