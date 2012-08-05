@@ -219,7 +219,8 @@
          { do=>'apply_tt', args=>[ '<dist_sharedir>/extra-files/win32/Learning Perl (tutorials, examples).url.tt', '<image_dir>/win32/Learning Perl (tutorials, examples).url' ] },
          { do=>'apply_tt', args=>[ '<dist_sharedir>/extra-files/win32/Live Support (chat).url.tt',                 '<image_dir>/win32/Live Support (chat).url' ] },
          { do=>'apply_tt', args=>[ '<dist_sharedir>/extra-files/win32/Perl 5.14 Documentation.url.tt',             '<image_dir>/win32/Perl 5.14 Documentation.url' ] },
-         { do=>'apply_tt', args=>[ '<dist_sharedir>/extra-files/win32/5.14.2.1-64bit Release Notes.url.tt',        '<image_dir>/win32/Strawberry Perl Release Notes.url' ] },
+         #{ do=>'apply_tt', args=>[ '<dist_sharedir>/extra-files/win32/5.14.2.1-64bit Release Notes.url.tt',        '<image_dir>/win32/Strawberry Perl Release Notes.url' ] },
+         { do=>'apply_tt', args=>[ '<dist_sharedir>/extra-files/win32/Strawberry Perl Release Notes.url.tt',       '<image_dir>/win32/Strawberry Perl Release Notes.url' ] },
          { do=>'apply_tt', args=>[ '<dist_sharedir>/extra-files/win32/Strawberry Perl Website.url.tt',             '<image_dir>/win32/Strawberry Perl Website.url' ] },
          { do=>'apply_tt', args=>[ '<dist_sharedir>/extra-files/win32/Win32 Perl Wiki.url.tt',                     '<image_dir>/win32/Win32 Perl Wiki.url' ] },
          # XXX-TODO cleanup (remove unwanted files/dirs)

@@ -128,14 +128,8 @@ if ($changed) {
   my $SMTO_ABORTIFHUNG = 0x0002;
   my $null = pack('xxxxxxxx'); # 8 x zero byte
 
-  if ($Config{archname} =~ /MSWin32-x64/) {
-    #XXX-FIXME probably a bug in Win32::API causes a crash when calling SendMessageTimeout on x64
-    warn "\nBEWARE: You need to logout/login to make updates of environment variables effective!\n";
-  }
-  else {
-    my $SendMessageTimeout = Win32::API->new("user32", "SendMessageTimeout", 'NNNPNNP', 'N') or die "Can't import SendMessageTimeout: $!\n";  
-    $SendMessageTimeout->Call($HWND_BROADCAST,$WM_SETTINGCHANGE,0,'Environment',$SMTO_ABORTIFHUNG,5000,$null);
-  }
+  my $SendMessageTimeout = Win32::API->new("user32", "SendMessageTimeout", 'NNNPNNP', 'N') or die "Can't import SendMessageTimeout: $!\n";  
+  $SendMessageTimeout->Call($HWND_BROADCAST,$WM_SETTINGCHANGE,0,'Environment',$SMTO_ABORTIFHUNG,5000,$null);
 }
 
 exit(0);

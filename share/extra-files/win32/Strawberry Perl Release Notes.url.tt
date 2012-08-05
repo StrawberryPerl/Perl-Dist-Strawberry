@@ -1,5 +1,5 @@
 [InternetShortcut]
 
-URL=http://strawberryperl.com/release-notes/5.16.0.1-64bit.html
+URL=http://strawberryperl.com/release-notes/[%app_version%]-[%bits%]bit.html
 IconFile=[%image_dir%]\win32\strawberry.ico
 IconIndex=1

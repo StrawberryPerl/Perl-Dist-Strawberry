@@ -18,7 +18,7 @@ use Pod::Usage            qw(pod2usage);
 use LWP::UserAgent;
 
 # following recommendation from http://www.dagolden.com/index.php/369/version-numbers-should-be-boring/
-our $VERSION = "3.003";
+our $VERSION = "3.004";
 $VERSION = eval $VERSION;
 
 sub new {
@@ -125,33 +125,43 @@ sub do_job {
   }; 
 
   #run
-  $self->message(0, "starting the build");
-  write_file(catfile($self->global->{debug_dir}, "global_dump_INITIAL.txt"), pp($self->global)); #debug dump
-  $self->build_job_pre(); # dies on error
-  $i = 0;
-  for (@{$self->{build_job_steps}}) {
-    my $me = ref($_);
-    $me =~ s/^Perl::Dist::Strawberry::Step:://;
-    if ($_->{data}->{done}) {
-      # loaded from restorepoint
-      $self->message(0, "[step:$i] no need to run '$me'");
+  eval {
+    $self->message(0, "starting the build");
+    write_file(catfile($self->global->{debug_dir}, "global_dump_INITIAL.txt"), pp($self->global)); #debug dump
+    $self->build_job_pre(); # dies on error
+    $i = 0;
+    for (@{$self->{build_job_steps}}) {
+      my $me = ref($_);
+      $me =~ s/^Perl::Dist::Strawberry::Step:://;
+      if ($_->{data}->{done}) {
+        # loaded from restorepoint
+        $self->message(0, "[step:$i] no need to run '$me'");
+      }
+      else {
+        $self->message(0, "[step:$i] starting '$me'");
+        $_->run;  # dies on error
+        $_->test; # dies on error
+        $_->{data}->{done} = 1; # mark as sucessfully finished      
+        $self->message(0, "[step:$i] finished '$me'");
+        $self->make_restorepoint("[step:$i/".$self->global->{bits}."bit] $me") if $self->global->{restorepoints};
+        $self->message(0, "[step:$i] restorepoint saved");
+        write_file(catfile($self->global->{debug_dir}, "global_dump_".time.".txt"), pp($self->global)); #debug dump
+      }
+      $self->merge_output_into_global($_->{data}); #merge for both restorepoint and really executed step
+      $i++;
     }
-    else {
-      $self->message(0, "[step:$i] starting '$me'");
-      $_->run;  # dies on error
-      $_->test; # dies on error
-      $_->{data}->{done} = 1; # mark as sucessfully finished      
-      $self->message(0, "[step:$i] finished '$me'");
-      $self->make_restorepoint("[step:$i/".$self->global->{bits}."bit] $me") if $self->global->{restorepoints};
-      $self->message(0, "[step:$i] restorepoint saved");
-      write_file(catfile($self->global->{debug_dir}, "global_dump_".time.".txt"), pp($self->global)); #debug dump
-    }
-    $self->merge_output_into_global($_->{data}); #merge for both restorepoint and really executed step
-    $i++;
+    $self->build_job_post(); # dies on error
+    write_file(catfile($self->global->{debug_dir}, "global_dump_FINAL.txt"), pp($self->global)); #debug dump    
+  };  
+  if ($@) {
+    $self->message(0, "BUILD FAILURE: $@");
   }
-  $self->build_job_post(); # dies on error
-  write_file(catfile($self->global->{debug_dir}, "global_dump_FINAL.txt"), pp($self->global)); #debug dump
-  $self->message(0, "build finished");
+  else {
+    $self->message(0, "BUILD SUCCESS");
+  }
+  
+  #save debug_dir
+  $self->zip_dir($self->global->{debug_dir}, catfile($self->global->{output_dir}, time."_debug_dir.zip"));
 }
 
 sub build_job_pre {

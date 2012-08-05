@@ -8,6 +8,7 @@ use Data::Dump qw(pp);
 use Archive::Zip           qw( AZ_OK );
 use Archive::Tar           qw();
 use File::Spec::Functions  qw(catdir catfile rel2abs catpath splitpath);
+use File::Find::Rule;
 use File::Path             qw(make_path remove_tree);
 use File::Copy             qw(copy);
 use File::Slurp;
@@ -80,6 +81,16 @@ sub run {
     while (my ($new, $dst) = each %$patch) {
       $self->_patch_file($self->boss->resolve_name($new), catfile($unpack_to, $perlsrc, $dst), $tt_vars);
     }
+  }
+  
+  # keep *.diff files
+  my @items = File::Find::Rule->file->relative->name('*.diff')->in($unpack_to);
+  for (@items) {
+    my $src = catfile($unpack_to, $_);
+    my $dst = $_;
+    $dst =~ s/[\\\/]/_/g;
+    $dst = catfile($self->global->{debug_dir}, $dst);
+    copy($src, $dst) or die "ERROR: copy '$src' > '$dst' failed";
   }
 
   # Copy in licenses
