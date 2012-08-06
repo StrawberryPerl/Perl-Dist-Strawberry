@@ -64,7 +64,7 @@
         patch => { #DST paths are relative to the perl src root
             '<dist_sharedir>/perl-5.16-x86-64int/win32_config.gc.tt' => 'win32/config.gc',
             '<dist_sharedir>/perl-5.16-x86-64int/win32_config_H.gc'  => 'win32/config_H.gc',
-            '<dist_sharedir>/perl-5.16-x86-64int/win32_makefile.mk'  => 'win32/makefile.mk',
+            '<dist_sharedir>/perl-5.16-x86-64int/win32_makefile.mk.5161'  => 'win32/makefile.mk',
             '<dist_sharedir>/perl-5.16/win32_FindExt.pm'        => 'win32/FindExt.pm',
             '<dist_sharedir>/perl-5.16/NDBM_MSWin32.pl'         => 'ext/NDBM_File/hints/MSWin32.pl',
             '<dist_sharedir>/perl-5.16/ODBM_MSWin32.pl'         => 'ext/ODBM_File/hints/MSWin32.pl',
