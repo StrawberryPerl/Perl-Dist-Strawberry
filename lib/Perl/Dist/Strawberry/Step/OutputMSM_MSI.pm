@@ -116,10 +116,24 @@ sub run {
   my $candle_exe = $self->{candle_exe};
   my $light_exe = $self->{light_exe};
   
+  #XXX-FIXME -sice:ICE08|09|32|61 is a hack to handle:
+  #light.exe : error LGHT0217 : Error executing ICE action 'ICE32'. The most common cause of this kind of ICE failure is an incorrectly registered
+  #            scripting engine. See http://wix.sourceforge.net/faq.html#Error217 for details and how to solve this problem. The following string
+  #            format was not expected by the external UI message logger: "Pýi instalaci tohoto bal¡Ÿku zjistil instalaŸn¡ program neoŸek vanou
+  #            chybu. M…§e to znamenat, §e u tohoto bal¡Ÿku nastaly pot¡§e. K¢d chyby je 2738. ".
+  #light.exe : error LGHT0217 : Error executing ICE action 'ICE08'. The most common cause of this kind of ICE failure is an incorrectly registered
+  #            scripting engine. See http://wix.sourceforge.net/faq.html#Error217 for details and how to solve this problem. The following string
+  #            format was not expected by the external UI message logger: "Pýi instalaci tohoto bal¡Ÿku zjistil instalaŸn¡ program neoŸek vanou
+  #            chybu. M…§e to znamenat, §e u tohoto bal¡Ÿku nastaly pot¡§e. K¢d chyby je 2738. ".
+  #light.exe : error LGHT0217 : Error executing ICE action 'ICE61'. The most common cause of this kind of ICE failure is an incorrectly registered
+  #            scripting engine. See http://wix.sourceforge.net/faq.html#Error217 for details and how to solve this problem. The following string
+  #            format was not expected by the external UI message logger: "The installer has encountered an unexpected error installing this 
+  #            package. This may indicate a problem with this package. The error code is 2738. ".
+
   my $candle1_cmd = [$candle_exe, "$bdir\\MSM_main.wxs", '-out', "$bdir\\MSM_main.wixobj", '-v'];
-  my $light1_cmd  = [$light_exe,  "$bdir\\MSM_main.wixobj", '-out', $msm_file, '-pdbout', "$bdir\\MSM_main.wixpdb", qw/-ext WixUIExtension -ext WixUtilExtension -v/];
+  my $light1_cmd  = [$light_exe,  "$bdir\\MSM_main.wixobj", '-out', $msm_file, '-pdbout', "$bdir\\MSM_main.wixpdb", qw/-ext WixUIExtension -ext WixUtilExtension -v -sice:ICE32 -sice:ICE08/];
   my $candle2_cmd = [$candle_exe, "$bdir\\MSI_main.wxs", '-out', "$bdir\\MSI_main.wixobj", '-v'];
-  my $light2_cmd  = [$light_exe,  "$bdir\\MSI_main.wixobj", '-out', $msi_file, '-pdbout', "$bdir\\MSI_main.wixpdb", '-loc', "$bdir\\MSI_strings.wxl", qw/-ext WixUIExtension -ext WixUtilExtension -sice:ICE38 -sice:ICE43 -sice:ICE48 -sice:ICE47 -v/];
+  my $light2_cmd  = [$light_exe,  "$bdir\\MSI_main.wixobj", '-out', $msi_file, '-pdbout', "$bdir\\MSI_main.wixpdb", '-loc', "$bdir\\MSI_strings.wxl", qw/-ext WixUIExtension -ext WixUtilExtension -sice:ICE38 -sice:ICE43 -sice:ICE48 -sice:ICE47 -v -sice:ICE32 -sice:ICE08 -sice:ICE09 -sice:ICE61/];
 
   # backup already existing <output_dir>/*.msm and <output_dir>/*.msi
   $self->backup_file($msi_file);
