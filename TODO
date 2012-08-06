@@ -17,12 +17,6 @@ C:\perl\lib\CORE/win32.h:394:33: warning: "/*" within comment [-Wcomment]
 
 ### generate MSM info file
 
-### CPANPLUS_install_module.pl 
-- how to pass multiple args via makefilepl_param, buildpl_param
-
-### decide about (not)including: perl/vendor/lib/auto/DBD/mysql/libmysql_.dll
-- not for now
-
 ### check for XXX FIXME TODO in the code
 - ok for now
 
