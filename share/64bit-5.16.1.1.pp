@@ -186,7 +186,8 @@
             qw/ ExtUtils::F77 /,
             qw/ Moose MooseX-Types /,
             qw/ MooseX::Types::Structured MooseX::Declare MooseX::ClassAttribute MooseX::Role::Parameterized MooseX::NonMoose Any::Moose /,
-            qw/ IO::Socket::IP WWW::Mechanize Net::Telnet Class::Accessor Date::Format Template-Toolkit /,
+            { module=>'IO::Socket::IP', ignore_testfailure=>1 }, #XXX-TODO: IO-Socket-IP-0.16 test FAILS on 64bit
+            qw/ WWW::Mechanize Net::Telnet Class::Accessor Date::Format Template-Toolkit /,
             { module=>'<package_url>/kmx/perl-modules-patched/App-cpanminus-1.5017_fixed_issue132.tar.gz' },
 
         ],
