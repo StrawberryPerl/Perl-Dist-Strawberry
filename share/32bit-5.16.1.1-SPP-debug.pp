@@ -58,7 +58,7 @@
     ### STEP 2 ###########################
     {
         plugin     => 'Perl::Dist::Strawberry::Step::InstallPerlCore',
-        url        => 'http://www.cpan.org/authors/id/R/RJ/RJBS/perl-5.16.1-RC1.tar.gz',
+        url        => 'http://www.cpan.org/authors/id/R/RJ/RJBS/perl-5.16.1.tar.gz',
         cf_email   => 'strawberry-perl@project',
         perl_debug => 1,
         patch => { #DST paths are relative to the perl src root
