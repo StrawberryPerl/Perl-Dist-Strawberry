@@ -106,7 +106,7 @@ if (defined $env) {
                   $changed = 1;
 		}
 	}
-	$env->SetValue('Path', $path) if $changed;
+	$env->SetValue('Path', $path, 'REG_EXPAND_SZ') if $changed;
 	if( !defined($env->GetValue('TERM')) || $env->GetValue('TERM') ne 'dumb') {
 	  $env->SetValue('TERM', 'dumb');
 	  say "Adding TERM=dumb to the $location environment." unless $quiet;
