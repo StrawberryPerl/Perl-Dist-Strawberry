@@ -18,7 +18,7 @@ use Pod::Usage            qw(pod2usage);
 use LWP::UserAgent;
 
 # following recommendation from http://www.dagolden.com/index.php/369/version-numbers-should-be-boring/
-our $VERSION = "3.004";
+our $VERSION = "3.005";
 $VERSION = eval $VERSION;
 
 sub new {
