@@ -4,7 +4,7 @@
 
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
   <Product Id="$(var.ProductGUID)" UpgradeCode="$(var.UpgradeCode)"
-           Language='1033'  Codepage="1252"  Manufacturer='strawberryperl.com project'
+           Language='1033'  Codepage="1252"  Manufacturer="$(var.Manufacturer)"
            Name="$(var.ProductName)" Version="$(var.CurrentVersion)">
 
     <Package Id='*' Description='Perl for Win32 operating systems.'  
