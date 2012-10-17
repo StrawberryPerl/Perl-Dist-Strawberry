@@ -145,7 +145,8 @@
             # win32 related
             { module=>'Win32API-Registry', ignore_testfailure=>1 }, #XXX-TODO: Win32API-Registry-0.32 test FAILS
             { module=>'Win32-TieRegistry', ignore_testfailure=>1 }, #XXX-TODO: Win32-TieRegistry-0.26 test FAILS
-            qw/ Win32-API Win32-EventLog Win32-Exe Win32-OLE Win32-Process Win32-WinError Win32-File-Object Win32-UTCFileTime /,
+            '<package_url>/kmx/perl-modules-patched/Win32-API-0.68_patched.tar.gz',
+            qw/ Win32-EventLog Win32-Exe Win32-OLE Win32-Process Win32-WinError Win32-File-Object Win32-UTCFileTime /,
 
             # graphics
             '<package_url>/kmx/perl-modules-patched/GD-2.46_patched2.tar.gz',
