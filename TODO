@@ -1,10 +1,4 @@
-- 5.16.0 vs. 5.16.1 - maybe add: Test::Pod 
-- check that installer warns if running without admin privileges
-- [nice-to-have] PATH checkbox would be a nice feature for strawberry, however.
-- [nice-to-have] perl.exe icon (higher resolution)
-- [nice-to-have] perl.exe properties
-
---- FIX LATER ---
+### add link https://metacpan.org/ to startmenu
 
 ### Bug in EU::MM - dmake MAXLINELENGTH
 

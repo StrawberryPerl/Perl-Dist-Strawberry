@@ -33,7 +33,7 @@
             'libfreetype'   => '<package_url>/kmx/64_libs/gcc46-2012Q4/64bit_freetype-2.4.10-bin_20121017.zip',
             'libgdbm'       => '<package_url>/kmx/64_libs/gcc46-2012Q4/64bit_gdbm-1.8.3-bin_20121017.zip',
             'libgd'         => '<package_url>/kmx/64_libs/gcc46-2012Q4/64bit_gd-2.0.35-bin_20121017.zip',       #spec build statically linked with giflib-4.2.0
-            'libgiflib'     => '<package_url>/kmx/32_libs/gcc46-2012Q4/64bit_giflib-5.0.1-bin_20121017.zip',
+            'libgiflib'     => '<package_url>/kmx/64_libs/gcc46-2012Q4/64bit_giflib-5.0.1-bin_20121017.zip',
             'libgmp'        => '<package_url>/kmx/64_libs/gcc46-2012Q4/64bit_gmp-5.0.5-bin_20121017.zip',
             'libjpeg'       => '<package_url>/kmx/64_libs/gcc46-2012Q4/64bit_jpeg-8d-bin_20121017.zip',
             'liblibXpm'     => '<package_url>/kmx/64_libs/gcc46-2012Q4/64bit_libXpm-3.5.10-bin_20121017.zip',
