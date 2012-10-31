@@ -6,7 +6,7 @@
 # <image_dir>     is placeholder for c:\strawberry
 
 {
-  app_version     => '5.16.1.2', #BEWARE: do not use '.0.0' in the last two version digits
+  app_version     => '5.16.2.1', #BEWARE: do not use '.0.0' in the last two version digits
   bits            => 32,
   beta            => 0,
   app_fullname    => 'Strawberry Perl',
@@ -58,7 +58,7 @@
     ### STEP 2 ###########################
     {
         plugin     => 'Perl::Dist::Strawberry::Step::InstallPerlCore',
-        url        => 'http://www.cpan.org/authors/id/R/RJ/RJBS/perl-5.16.1.tar.gz',
+        url        => 'http://www.cpan.org/authors/id/R/RJ/RJBS/perl-5.16.2-RC1.tar.gz',
         cf_email   => 'strawberry-perl@project',
         perl_debug => 0,
         patch      => { #DST paths are relative to the perl src root
