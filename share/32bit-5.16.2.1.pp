@@ -58,7 +58,7 @@
     ### STEP 2 ###########################
     {
         plugin     => 'Perl::Dist::Strawberry::Step::InstallPerlCore',
-        url        => 'http://www.cpan.org/authors/id/R/RJ/RJBS/perl-5.16.2-RC1.tar.gz',
+        url        => 'http://www.cpan.org/authors/id/R/RJ/RJBS/perl-5.16.2.tar.gz',
         cf_email   => 'strawberry-perl@project',
         perl_debug => 0,
         patch      => { #DST paths are relative to the perl src root
@@ -153,7 +153,8 @@
                 Imager-File-TIFF        Imager-Font-FT2         Imager-Font-W32 /,
 
             # XML
-            qw/ XML-LibXML XML-LibXSLT XML-Parser XML-SAX XML-Simple SOAP-Lite /,
+            'http://search.cpan.org/CPAN/authors/id/S/SH/SHLOMIF/XML-LibXML-2.0007.tar.gz', #XXX-FIXME: 2.0008 fails to detect libxml2
+            qw/ XML-LibXSLT XML-Parser XML-SAX XML-Simple SOAP-Lite /,
 
             # YAML, JSON & co.
             { module=>'YAML', ignore_testfailure=>1 }, #XXX-TODO: YAML-LibYAML-0.38 test FAILS
