@@ -153,8 +153,7 @@
                 Imager-File-TIFF        Imager-Font-FT2         Imager-Font-W32 /,
 
             # XML
-            'http://search.cpan.org/CPAN/authors/id/S/SH/SHLOMIF/XML-LibXML-2.0007.tar.gz', #XXX-FIXME: 2.0008 fails to detect libxml2
-            qw/ XML-LibXSLT XML-Parser XML-SAX XML-Simple SOAP-Lite /,
+            qw/ XML-LibXML XML-LibXSLT XML-Parser XML-SAX XML-Simple SOAP-Lite /,
 
             # YAML, JSON & co.
             { module=>'YAML', ignore_testfailure=>1 }, #XXX-TODO: YAML-LibYAML-0.38 test FAILS
