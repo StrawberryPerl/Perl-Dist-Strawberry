@@ -1,5 +1,7 @@
 Changes for Perl extension Perl-Dist-Strawberry
 
+        - CPAN client will use modules for bzip unpacking
+
 3.006   2012/11/03
         - used for building strawberry perl 5.16.2.1
 
