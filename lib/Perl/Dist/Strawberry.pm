@@ -18,7 +18,7 @@ use Pod::Usage            qw(pod2usage);
 use LWP::UserAgent;
 
 # following recommendation from http://www.dagolden.com/index.php/369/version-numbers-should-be-boring/
-our $VERSION = "3.006";
+our $VERSION = "3.007";
 $VERSION = eval $VERSION;
 
 sub new {
@@ -425,7 +425,7 @@ sub resolve_name {
 
 sub test_url {
   my ($self, $url) = @_;
-  my $ua = LWP::UserAgent->new();
+  my $ua = LWP::UserAgent->new(env_proxy=>1);
   return 1 if $ua->head($url)->code == 200;
   return 0;
 }
@@ -451,7 +451,7 @@ sub mirror_url {
 
   # Now download the file.
   $self->message( 2, "* downloading file '$url'") unless $no_display_trace;
-  my $ua = LWP::UserAgent->new();
+  my $ua = LWP::UserAgent->new(env_proxy=>1);
   my $r = $ua->mirror( $url, $target );
   if ( $r->is_error ) {
     $self->message(0, "    Error getting $url:\n" . $r->as_string . "\n" );
