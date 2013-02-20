@@ -22,6 +22,7 @@ my @spec = (
     'interactivity=i',
     'makefilepl_param=s',
     'buildpl_param=s',
+    'signature=i',
 );
 my %a = ();
 GetOptions(\%a, @spec) or die ">> invalid option(s)";
@@ -38,6 +39,7 @@ $a{prereqs}            //= 1; # 0 = Do not install, 1 = Install, 2 = Ask, 3 = Ig
 $a{interactivity}      //= 0; # 1 = allow_build_interactivity
 $a{makefilepl_param}   //= '';
 $a{buildpl_param}      //= '';
+$a{signature}          //= 0; # 0 = ignore signature, 1 = check signature if available
 
 ### SUBROUTINES
 
@@ -91,6 +93,7 @@ my %cfg = (
     allow_build_interactivity => $a{interactivity},
     prereqs => $a{prereqs},
     verbose => $a{verbose},
+    signature => $s{signature},
 );
 
 my (@mm, @mb);
