@@ -93,7 +93,7 @@ my %cfg = (
     allow_build_interactivity => $a{interactivity},
     prereqs => $a{prereqs},
     verbose => $a{verbose},
-    signature => $s{signature},
+    signature => $a{signature},
 );
 
 my (@mm, @mb);
