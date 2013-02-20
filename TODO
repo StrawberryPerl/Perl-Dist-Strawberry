@@ -1,4 +1,13 @@
-### add link https://metacpan.org/ to startmenu
+ok### replace Any::Moose with Moo
+ok### IO::Socket::INET6 + IO::Socket::IP
+ok### add link https://metacpan.org/ to startmenu
+ok### remove link to http://win32.perl.org
+ok### fix buggy xsltproc
+ok### latest Socket
+### better metacpan.ico
+### better camel.ico
+### fix shebangline (1/ after-patch; 2/ set EU::MM)
+### test uninstall feature: 1/ install IUP + 2/ uninstall Alien-IUP
 
 ### Bug in EU::MM - dmake MAXLINELENGTH
 
