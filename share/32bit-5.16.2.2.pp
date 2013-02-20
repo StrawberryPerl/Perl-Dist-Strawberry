@@ -137,7 +137,8 @@
             qw/ Digest-BubbleBabble Digest-HMAC Digest-MD2 Digest-SHA1 /,
 
             # SSL & SSH
-            qw/ Net-SSLeay Crypt-SSLeay Net-SSH2 IO-Socket-SSL Net-SMTP-TLS /,
+            qw/ Net-SSLeay Crypt-SSLeay IO-Socket-SSL Net-SMTP-TLS /,
+            '<package_url>/kmx/perl-modules-patched/Net-SSH2-0.47_patched.tar.gz', #XXX-TODO Net-SSH2 0.47 has broken makefile.PL
 
             # network
             qw/ LWP::UserAgent LWP-Protocol-https /,
@@ -187,7 +188,8 @@
             qw/ ExtUtils::F77 /,
             qw/ Data::Dump Data::Printer /,
             qw/ Moose MooseX-Types MooseX::Types::Structured MooseX::Declare MooseX::ClassAttribute MooseX::Role::Parameterized MooseX::NonMoose Moo /,
-            qw/ IO::Socket::IP IO::Socket::INET6 /,
+            { module=>'IO::Socket::IP', ignore_testfailure=>1 },#XXX-TODO test failures ipv6related - https://rt.cpan.org/Ticket/Display.html?id=83485
+            qw/ IO::Socket::INET6 /,
             qw/ WWW::Mechanize Net::Telnet Class::Accessor Date::Format Template-Toolkit /,
             { module=>'<package_url>/kmx/perl-modules-patched/App-cpanminus-1.5018_fixed_issue132.tar.gz' },
             
