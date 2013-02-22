@@ -7,7 +7,8 @@ ok### latest Socket
 ### better metacpan.ico
 ### better camel.ico
 ### fix shebangline (1/ after-patch; 2/ set EU::MM)
-### test uninstall feature: 1/ install IUP + 2/ uninstall Alien-IUP
+### test uninstall feature: 1/ install IUP + 2/ uninstall Alien-IUP (update distro list)
+### App-cpanminus-1.5018_fixed_issue132
 
 ### Bug in EU::MM - dmake MAXLINELENGTH
 

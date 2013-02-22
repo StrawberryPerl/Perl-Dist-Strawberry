@@ -18,12 +18,6 @@ use Archive::Tar           qw();
 #use IO::Compress::Bzip2  2.025 qw();
 #use IO::Compress::Gzip   2.025 qw();
 
-sub new {
-  my $class = shift;
-  my $self = $class->SUPER::new(@_);
-  return $self;
-}
-
 sub check {
   my $self = shift;
     

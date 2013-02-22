@@ -8,16 +8,6 @@ use File::Find::Rule;
 use File::Spec::Functions qw(catfile catdir);
 use File::Slurp           qw(read_file write_file);
 
-sub new {
-  my $class = shift;
-  my $self = $class->SUPER::new(@_);
-  return $self;
-}
-
-sub check {
-  my $self = shift;
-}
-
 sub run {
   my $self = shift;
   my $in1  = $self->boss->resolve_name($self->{config}->{reloc1_in});
@@ -26,10 +16,6 @@ sub run {
   my $out2 = $self->boss->resolve_name($self->{config}->{reloc2_out});
   $self->_make_relocation_file1($in1, $out1); # .packlist + *.bat
   $self->_make_relocation_file2($in2, $out2); # win32/*.url
-}
-
-sub test {
-  my $self = shift;
 }
 
 #XXX-TODO implementation is ugly (but works for now)

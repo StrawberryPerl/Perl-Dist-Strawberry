@@ -8,12 +8,6 @@ use Data::Dump            qw(pp);
 use Storable              qw(retrieve);
 use File::Spec::Functions qw(catfile);
 
-sub new {
-  my $class = shift;
-  my $self = $class->SUPER::new(@_);
-  return $self;
-}
-
 sub check {
   my $self = shift;
   #XXX-TODO: exists $self->{config}->{modules} && ref $self->{config}->{modules} eq 'ARRAY'

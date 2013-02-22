@@ -17,12 +17,6 @@ use Template;
 
 ### public methods - new(), check(), run(), test()
 
-sub new {
-  my $class = shift;
-  my $self = $class->SUPER::new(@_);
-  return $self;
-}
-
 sub check {
   my $self = shift;
   $self->SUPER::check(@_);

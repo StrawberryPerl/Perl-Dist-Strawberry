@@ -11,12 +11,6 @@ use Template;
 use File::Find::Rule;
 use HTML::Entities;
 
-sub new {
-  my $class = shift;
-  my $self = $class->SUPER::new(@_);
-  return $self;
-}
-
 sub run {
   my $self = shift;
   
@@ -37,7 +31,11 @@ sub run {
   my %src = map { $_=>1 } @{$self->global->{output}->{distributions}};
   for my $i (keys %src) {
     my ($d, $v) = ($i =~ m/^(.*?)-(v?[0-9].*)$/);
-    push @computed_distributions, { dist=>$d, ver=>$v };
+    my $excluded;
+    for (@{$self->global->{output}->{distributions_removed}}) {
+      $excluded = 1 if $d eq $_;
+    }
+    push @computed_distributions, { dist=>$d, ver=>$v } unless $excluded;
   }
   @computed_distributions = sort { lc($a->{dist}) cmp lc($b->{dist}) } @computed_distributions;
 

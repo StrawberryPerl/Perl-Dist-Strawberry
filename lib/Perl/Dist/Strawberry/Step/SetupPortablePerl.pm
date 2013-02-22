@@ -7,12 +7,6 @@ use base 'Perl::Dist::Strawberry::Step';
 use File::Spec::Functions qw(catdir);
 use Portable::Dist;
 
-sub new {
-  my $class = shift;
-  my $self = $class->SUPER::new(@_);
-  return $self;
-}
-
 sub run {
   my $self = shift;
   

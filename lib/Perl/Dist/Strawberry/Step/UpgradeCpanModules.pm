@@ -8,12 +8,6 @@ use Data::Dump            qw(pp);
 use Storable              qw(retrieve);
 use File::Spec::Functions qw(catfile);
 
-sub new {
-  my $class = shift;
-  my $self = $class->SUPER::new(@_);
-  return $self;
-}
-
 sub check {
 #xxx-todo $self->{config}->{exceptions}
 }

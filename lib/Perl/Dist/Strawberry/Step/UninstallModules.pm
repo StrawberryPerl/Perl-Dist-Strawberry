@@ -8,12 +8,6 @@ use Data::Dump            qw(pp);
 use Storable              qw(retrieve);
 use File::Spec::Functions qw(catfile);
 
-sub new {
-  my $class = shift;
-  my $self = $class->SUPER::new(@_);
-  return $self;
-}
-
 sub check {
   my $self = shift;
   #XXX-TODO: exists $self->{config}->{modules} && ref $self->{config}->{modules} eq 'ARRAY'
@@ -27,6 +21,7 @@ sub run {
   my @list = @{$self->{config}->{modules}};
   my $count = scalar(@list);
   my $i = 0;
+  $self->{data}->{output}->{distributions_removed} = [];
   for my $item (@list) {
     $i++;
     $item = { module=>$item } unless ref $item; # if item is scalar we assume module name
@@ -39,19 +34,16 @@ sub run {
         $self->boss->message(1, "WARNING: non-zero exit code '$rv' - gonna continue but overall result of this task will be 'FAILED'");
         $success = 0;
       }
+      else {
+warn "XXXXXXXXXXXXXXXXXX $name";
+        push @{$self->{data}->{output}->{distributions_removed}}, $name;
+      }
     }
     else {
       $self->boss->message(1, sprintf("SKIPPING!! %2d/%d ERROR: invalid item", $i, $count));
       $success = 0;
     }
   }
-  
-  my @distlist_final = grep { !$distlist_initial{$_} } @{$self->workaround_get_dist_list()};
-  $self->boss->message(3, "INFO: distribution_list size=", scalar(@distlist_final));
-  $self->boss->message(2, "WARNING: empty distribution_list (that's not good)") unless scalar(@distlist_final)>0;
-  
-  # store some output data
-  $self->{data}->{output}->{distributions} = \@distlist_final;
 
   die "FAILED\n" unless $success;
 }
