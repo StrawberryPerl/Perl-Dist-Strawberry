@@ -10,14 +10,16 @@ use File::Spec::Functions qw(catfile);
 
 sub check {
   my $self = shift;
-  #XXX-TODO: exists $self->{config}->{modules} && ref $self->{config}->{modules} eq 'ARRAY'
+  $self->SUPER::check(@_);
+  my $m = $self->{config}->{modules};
+  die "param 'modules' not defined" unless defined $m;
+  die "param 'modules' has to be ARRAYREF" unless ref $m eq 'ARRAY';
 }
 
 sub run {
   my $self = shift;
+  
   my $success = 1;
-  my %distlist_initial = map { $_=>1 } @{$self->workaround_get_dist_list()};
-
   my @list = @{$self->{config}->{modules}};
   my $count = scalar(@list);
   my $i = 0;
@@ -35,7 +37,6 @@ sub run {
         $success = 0;
       }
       else {
-warn "XXXXXXXXXXXXXXXXXX $name";
         push @{$self->{data}->{output}->{distributions_removed}}, $name;
       }
     }

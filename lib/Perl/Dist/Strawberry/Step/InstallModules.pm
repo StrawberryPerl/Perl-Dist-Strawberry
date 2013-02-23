@@ -10,7 +10,10 @@ use File::Spec::Functions qw(catfile);
 
 sub check {
   my $self = shift;
-  #XXX-TODO: exists $self->{config}->{modules} && ref $self->{config}->{modules} eq 'ARRAY'
+  $self->SUPER::check(@_);
+  my $m = $self->{config}->{modules};
+  die "param 'modules' not defined" unless defined $m;
+  die "param 'modules' has to be ARRAYREF" unless ref $m eq 'ARRAY';
 }
 
 sub run {

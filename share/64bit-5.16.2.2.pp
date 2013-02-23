@@ -6,7 +6,7 @@
 # <image_dir>     is placeholder for c:\strawberry
 
 {
-  app_version     => '5.16.2.1', #BEWARE: do not use '.0.0' in the last two version digits
+  app_version     => '5.16.2.2', #BEWARE: do not use '.0.0' in the last two version digits
   bits            => 64,
   beta            => 0,
   app_fullname    => 'Strawberry Perl (64-bit)',
@@ -69,6 +69,7 @@
             '<dist_sharedir>/perl-5.16/win32_FindExt.pm'        => 'win32/FindExt.pm',
             '<dist_sharedir>/perl-5.16/NDBM_MSWin32.pl'         => 'ext/NDBM_File/hints/MSWin32.pl',
             '<dist_sharedir>/perl-5.16/ODBM_MSWin32.pl'         => 'ext/ODBM_File/hints/MSWin32.pl',
+            '<dist_sharedir>/msi/files/perlexe.ico'             => 'win32/perlexe.ico',
         },
         license => { #SRC paths are relative to the perl src root
             'Readme'   => '<image_dir>/licenses/perl/Readme',
@@ -140,8 +141,7 @@
             qw/ Digest-BubbleBabble Digest-HMAC Digest-MD2 Digest-SHA1 /,
 
             # SSL & SSH
-            qw/ Net-SSLeay Crypt-SSLeay IO-Socket-SSL Net-SMTP-TLS /,
-            '<package_url>/kmx/perl-modules-patched/Net-SSH2-0.47_patched.tar.gz', #XXX-TODO Net-SSH2 0.47 has broken makefile.PL
+            qw/ Net-SSLeay Crypt-SSLeay IO-Socket-SSL Net-SMTP-TLS Net-SSH2 /,
 
             # network
             qw/ LWP::UserAgent LWP-Protocol-https /,
@@ -194,7 +194,7 @@
             { module=>'IO::Socket::IP', ignore_testfailure=>1 }, #XXX-TODO test failures ipv6related - https://rt.cpan.org/Ticket/Display.html?id=83485
             qw/ IO::Socket::INET6 /,
             qw/ WWW::Mechanize Net::Telnet Class::Accessor Date::Format Template-Toolkit /,
-            { module=>'<package_url>/kmx/perl-modules-patched/App-cpanminus-1.5018_fixed_issue132.tar.gz' },
+            { module=>'<package_url>/kmx/perl-modules-patched/App-cpanminus-1.5021_fixed_issue132.tar.gz' },
 
             # trying to include some GUI tools
             #qw/IUP/,
@@ -204,7 +204,8 @@
     ### NEXT STEP ###########################
     {
         plugin => 'Perl::Dist::Strawberry::Step::UninstallModules',
-        modules => [ 'Alien-IUP' ],
+        #modules => [ 'Alien-IUP' ],
+        modules => [],
     },
     ### NEXT STEP ###########################
     {
