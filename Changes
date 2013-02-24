@@ -1,6 +1,6 @@
 Changes for Perl extension Perl-Dist-Strawberry
 
-3.008   2013/xx/xx
+3.008   2013/02/24
         - new features: FixShebang + UninstallModules
         - CPAN client will use modules for bzip unpacking
         - used for building strawberry perl 5.16.2.2
