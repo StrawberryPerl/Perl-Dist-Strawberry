@@ -5,7 +5,7 @@ use warnings;
 use base 'Perl::Dist::Strawberry::Step';
 
 use File::Slurp           qw(read_file write_file);
-use File::Copy::Recursive qw(dircopy);
+use File::Copy::Recursive;
 use File::Spec::Functions qw(splitpath catpath catfile);
 use File::Path            qw(make_path remove_tree);
 use File::Copy            qw(copy);
@@ -130,11 +130,31 @@ sub _do_job {
     elsif ($cmd eq 'copydir') {
       my ($src, $dst) = ($self->boss->resolve_name($args->[0]), $self->boss->resolve_name($args->[1]));
       $self->boss->message(4, "gonna dircopy '$src' >> '$dst'");
-      dircopy($src, $dst) or die "dircopy failed";
+      File::Copy::Recursive::dircopy($src, $dst) or die "dircopy failed [$src]>[$dst]: $!";
+    }
+    elsif ($cmd eq 'movedir') {
+      my ($src, $dst) = ($self->boss->resolve_name($args->[0]), $self->boss->resolve_name($args->[1]));
+      $self->boss->message(4, "gonna dirmove '$src' >> '$dst'");
+      File::Copy::Recursive::dirmove($src, $dst) or die "dirmove failed: [$src]>[$dst]: $!";
+    }
+    elsif ($cmd eq 'movefile') {
+      my ($src, $dst) = ($self->boss->resolve_name($args->[0]), $self->boss->resolve_name($args->[1]));
+      $self->boss->message(4, "gonna fmove '$src' >> '$dst'");
+      File::Copy::Recursive::fmove($src, $dst) or die "fmove failed: [$src]>[$dst]: $!";
+    }
+    elsif ($cmd eq 'smartcopy') {
+      my ($src, $dst) = ($self->boss->resolve_name($args->[0]), $self->boss->resolve_name($args->[1]));
+      $self->boss->message(4, "gonna smartcopy '$src' >> '$dst'");
+      File::Copy::Recursive::rcopy_glob($src, $dst) or warn "rcopy_glob failed [$src]>[$dst]: $!"; #just warn when wildcard has no match
+    }
+    elsif ($cmd eq 'smartmove') {
+      my ($src, $dst) = ($self->boss->resolve_name($args->[0]), $self->boss->resolve_name($args->[1]));
+      $self->boss->message(4, "gonna smartmove '$src' >> '$dst'");
+      File::Copy::Recursive::rmove_glob($src, $dst) or warn "rmove_glob failed [$src]>[$dst]: $!"; #just warn when wildcard has no match
     }
     else {
       #XXX-TODO
-      #die "FATAL: '$cmd' not implemented";
+      die "FATAL: '$cmd' not implemented";
     }
   }
 }
