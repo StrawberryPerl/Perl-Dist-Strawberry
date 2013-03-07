@@ -82,7 +82,7 @@
         plugin => 'Perl::Dist::Strawberry::Step::InstallModules',
         modules => [
           #here is a place to (re)install/(up/down)grade modules needed before 'Perl::Dist::Strawberry::Step::UpgradeCpanModules'
-          'http://search.cpan.org/CPAN/authors/id/M/MU/MUIR/modules/Text-Tabs%2BWrap-2012.0818.tar.gz', # minicpan related issue
+          'http://search.cpan.org/CPAN/authors/id/M/MU/MUIR/modules/Text-Tabs%2BWrap-2012.0818.tar.gz', # minicpan related issue #XXX-TODO check version
         ],
     },
     ### NEXT STEP ###########################
@@ -152,7 +152,7 @@
             qw/ Win32-API Win32-EventLog Win32-Exe Win32-OLE Win32-Process Win32-WinError Win32-File-Object Win32-UTCFileTime /,
 
             # graphics
-            '<package_url>/kmx/perl-modules-patched/GD-2.46_patched2.tar.gz',
+            { module=>'GD', ignore_testfailure=>1 }, #XXX-TODO 2.49 fails probably due to jpeg lib
             qw/ Imager                  Imager-File-GIF         Imager-File-JPEG        Imager-File-PNG
                 Imager-File-TIFF        Imager-Font-FT2         Imager-Font-W32 /,
 
@@ -194,7 +194,7 @@
             { module=>'IO::Socket::IP', ignore_testfailure=>1 }, #XXX-TODO test failures ipv6related - https://rt.cpan.org/Ticket/Display.html?id=83485
             qw/ IO::Socket::INET6 /,
             qw/ WWW::Mechanize Net::Telnet Class::Accessor Date::Format Template-Toolkit /,
-            { module=>'<package_url>/kmx/perl-modules-patched/App-cpanminus-1.5021_fixed_issue132.tar.gz' },
+            qw/ App-cpanminus /,
 
             # trying to include some GUI tools
             #qw/IUP/,
@@ -243,7 +243,6 @@
          { do=>'apply_tt', args=>[ '<dist_sharedir>/extra-files/win32/Perl Documentation.url.tt',                  '<image_dir>/win32/Perl Documentation.url' ] },
          { do=>'apply_tt', args=>[ '<dist_sharedir>/extra-files/win32/Strawberry Perl Release Notes.url.tt',       '<image_dir>/win32/Strawberry Perl Release Notes.url' ] },
          { do=>'apply_tt', args=>[ '<dist_sharedir>/extra-files/win32/Strawberry Perl Website.url.tt',             '<image_dir>/win32/Strawberry Perl Website.url' ] },
-         #XXX-REMOVED { do=>'apply_tt', args=>[ '<dist_sharedir>/extra-files/win32/Win32 Perl Wiki.url.tt',                     '<image_dir>/win32/Win32 Perl Wiki.url' ] },
          # cleanup (remove unwanted files/dirs)
          { do=>'removefile', args=>[ '<image_dir>/c/bin/gccbug' ] },
          { do=>'removefile_recursive', args=>[ '<image_dir>/perl', '*.dll.AAA' ] },
@@ -299,7 +298,6 @@
               { type=>'shortcut', name=>'CPAN Module Search', icon=>'<dist_sharedir>\msi\files\cpan.ico', target=>'[d_win32]CPAN Module Search.url', workingdir=>'d_win32' },
               { type=>'shortcut', name=>'MetaCPAN Search Engine', icon=>'<dist_sharedir>\msi\files\metacpan.ico', target=>'[d_win32]MetaCPAN Search Engine.url', workingdir=>'d_win32' },
               { type=>'shortcut', name=>'Perl Documentation', icon=>'<dist_sharedir>\msi\files\perldoc.ico', target=>'[d_win32]Perl Documentation.url', workingdir=>'d_win32' },
-              #XXX-REMOVED{ type=>'shortcut', name=>'Win32 Perl Wiki', icon=>'<dist_sharedir>\msi\files\strawberry.ico', target=>'[d_win32]Win32 Perl Wiki.url', workingdir=>'d_win32' },
               { type=>'shortcut', name=>'Strawberry Perl Website', icon=>'<dist_sharedir>\msi\files\strawberry.ico', target=>'[d_win32]Strawberry Perl Website.url', workingdir=>'d_win32' },
               { type=>'shortcut', name=>'Learning Perl (tutorials, examples)', icon=>'<dist_sharedir>\msi\files\perldoc.ico', target=>'[d_win32]Learning Perl (tutorials, examples).url', workingdir=>'d_win32' },
               { type=>'shortcut', name=>'Live Support (chat)', icon=>'<dist_sharedir>\msi\files\onion.ico', target=>'[d_win32]Live Support (chat).url', workingdir=>'d_win32' },
