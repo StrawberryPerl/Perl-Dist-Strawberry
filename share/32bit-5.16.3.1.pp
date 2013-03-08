@@ -34,7 +34,7 @@
             'libgdbm'       => '<package_url>/kmx/32_libs/gcc46-2012Q4/32bit_gdbm-1.8.3-bin_20121016.zip',
             'libgd'         => '<package_url>/kmx/32_libs/gcc46-2012Q4/32bit_gd-2.0.35-bin_20121016.zip',       #spec build statically linked with giflib-4.2.0
             'libgiflib'     => '<package_url>/kmx/32_libs/gcc46-2012Q4/32bit_giflib-5.0.1-bin_20121016.zip',
-            'libgmp'        => '<package_url>/kmx/32_libs/gcc46-2013Q1/32bit_gmp-5.1.1-bin_20130218.zip',            
+            'libgmp'        => '<package_url>/kmx/32_libs/gcc46-2013Q1/32bit_gmp-5.1.1-bin_20130218.zip',
             'libjpeg'       => '<package_url>/kmx/32_libs/gcc46-2012Q4/32bit_jpeg-8d-bin_20121016.zip',
             'liblibXpm'     => '<package_url>/kmx/32_libs/gcc46-2012Q4/32bit_libXpm-3.5.10-bin_20121016.zip',
             'liblibiconv'   => '<package_url>/kmx/32_libs/gcc46-2012Q4/32bit_libiconv-1.14-bin_20121016.zip',
@@ -192,7 +192,7 @@
             qw/ IO::Socket::INET6 /,
             qw/ WWW::Mechanize Net::Telnet Class::Accessor Date::Format Template-Toolkit /,
             qw/ App-cpanminus /,
-            
+
             # trying to include some GUI tools
             #qw/IUP/,
         ],

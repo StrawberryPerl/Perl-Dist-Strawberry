@@ -6,10 +6,10 @@
 # <image_dir>     is placeholder for c:\strawberry
 
 {
-  app_version     => '5.16.3.1', #BEWARE: do not use '.0.0' in the last two version digits
-  bits            => 64,
+  app_version     => '5.14.4.1', #BEWARE: do not use '.0.0' in the last two version digits
+  bits            => 32,
   beta            => 0,
-  app_fullname    => 'Strawberry Perl (64-bit)',
+  app_fullname    => 'Strawberry Perl',
   app_simplename  => 'strawberry-perl',
   build_job_steps => [
     ### NEXT STEP ###########################
@@ -17,59 +17,58 @@
         plugin  => 'Perl::Dist::Strawberry::Step::BinaryToolsAndLibs',
         install_packages => {
             #tools
-            'dmake'         => '<package_url>/kmx/64_tools/64bit_dmake-SVN20091127-bin_20111107.zip',
-            'mingw-make'    => '<package_url>/kmx/64_tools/64bit_gmake-3.82-bin_20110503.zip',
-            'pexports'      => '<package_url>/kmx/64_tools/64bit_pexports-0.44-bin_20100110.zip',
-            'patch'         => '<package_url>/kmx/64_tools/64bit_patch-2.5.9-7-bin_20100110_UAC.zip',
-            'gendef'        => '<package_url>/kmx/64_tools/64bit_gendef-rev4724-bin_20120411.zip',
+            'dmake'         => '<package_url>/kmx/32_tools/32bit_dmake-SVN20091127-bin_20111107.zip',
+            'mingw-make'    => '<package_url>/kmx/32_tools/32bit_gmake-3.82-bin_20110503.zip',
+            'pexports'      => '<package_url>/kmx/32_tools/32bit_pexports-0.44-bin_20100110.zip',
+            'patch'         => '<package_url>/kmx/32_tools/32bit_patch-2.5.9-7-bin_20100110_UAC.zip',
+            'gendef'        => '<package_url>/kmx/32_tools/32bit_gendef-rev4724-bin_20120411.zip',
             #gcc & co.
-            'gcc-toolchain' => { url=>'<package_url>/kmx/64_gcctoolchain/mingw64-w64-gcc4.6.3_20121012.zip', install_to=>'c' },
-            'gcc-license'   => '<package_url>/kmx/64_gcctoolchain/mingw64-w64-gcc4.6.3_20121012-lic.zip',
-            'gfortran'      => '<package_url>/kmx/64_gcctoolchain/mingw64-w64-gfortran4.6.3_20121012.zip',
+            'gcc-toolchain' => { url=>'<package_url>/kmx/32_gcctoolchain/mingw64-w32-gcc4.6.3_20121012.zip', install_to=>'c' },
+            'gcc-license'   => '<package_url>/kmx/32_gcctoolchain/mingw64-w32-gcc4.6.3_20121012-lic.zip',
+            'gfortran'      => '<package_url>/kmx/32_gcctoolchain/mingw64-w32-gfortran4.6.3_20121012.zip',
             #libs
-            'libdb'         => '<package_url>/kmx/64_libs/gcc46-2012Q4/64bit_db-5.3.21-bin_20121017.zip',
-            'libexpat'      => '<package_url>/kmx/64_libs/gcc46-2012Q4/64bit_expat-2.1.0-bin_20121017.zip',
-            'libfreeglut'   => '<package_url>/kmx/64_libs/gcc46-2012Q4/64bit_freeglut-2.8.0-bin_20121017.zip',
-            'libfreetype'   => '<package_url>/kmx/64_libs/gcc46-2012Q4/64bit_freetype-2.4.10-bin_20121017.zip',
-            'libgdbm'       => '<package_url>/kmx/64_libs/gcc46-2012Q4/64bit_gdbm-1.8.3-bin_20121017.zip',
-            'libgd'         => '<package_url>/kmx/64_libs/gcc46-2012Q4/64bit_gd-2.0.35-bin_20121017.zip',       #spec build statically linked with giflib-4.2.0
-            'libgiflib'     => '<package_url>/kmx/64_libs/gcc46-2012Q4/64bit_giflib-5.0.1-bin_20121017.zip',
-            'libgmp'        => '<package_url>/kmx/64_libs/gcc46-2013Q1/64bit_gmp-5.1.1-bin_20130218.zip',
-            'libjpeg'       => '<package_url>/kmx/64_libs/gcc46-2012Q4/64bit_jpeg-8d-bin_20121017.zip',
-            'liblibXpm'     => '<package_url>/kmx/64_libs/gcc46-2012Q4/64bit_libXpm-3.5.10-bin_20121017.zip',
-            'liblibiconv'   => '<package_url>/kmx/64_libs/gcc46-2012Q4/64bit_libiconv-1.14-bin_20121017.zip',
-            'liblibpng'     => '<package_url>/kmx/64_libs/gcc46-2012Q4/64bit_libpng-1.5.13-bin_20121017.zip',
-            'liblibssh2'    => '<package_url>/kmx/64_libs/gcc46-2013Q1/64bit_libssh2-1.4.3-bin_20130218.zip',
-            'liblibxml2'    => '<package_url>/kmx/64_libs/gcc46-2012Q4/64bit_libxml2-2.9.0-bin_20121017.zip',
-            'liblibxslt'    => '<package_url>/kmx/64_libs/gcc46-2013Q1/64bit_libxslt-1.1.28-bin_20130218.zip',
-            'libmpc'        => '<package_url>/kmx/64_libs/gcc46-2012Q4/64bit_mpc-1.0.1-bin_20121017.zip',
-            'libmpfr'       => '<package_url>/kmx/64_libs/gcc46-2012Q4/64bit_mpfr-3.1.1-bin_20121017.zip',
-            'libopenssl'    => '<package_url>/kmx/64_libs/gcc46-2013Q1/64bit_openssl-1.0.1e-bin_20130218.zip',
-            'libpostgresql' => '<package_url>/kmx/64_libs/gcc46-2012Q4/64bit_postgresql-9.2.1-bin_20121017.zip',
-            'libt1lib'      => '<package_url>/kmx/64_libs/gcc46-2012Q4/64bit_t1lib-5.1.2-bin_20121017.zip',
-            'libtiff'       => '<package_url>/kmx/64_libs/gcc46-2012Q4/64bit_tiff-4.0.3-bin_20121017.zip',
-            'libxz'         => '<package_url>/kmx/64_libs/gcc46-2012Q4/64bit_xz-5.0.4-bin_20121017.zip',
-            'libzlib'       => '<package_url>/kmx/64_libs/gcc46-2012Q4/64bit_zlib-1.2.7-bin_20121017.zip',
+            'libdb'         => '<package_url>/kmx/32_libs/gcc46-2012Q4/32bit_db-5.3.21-bin_20121016.zip',
+            'libexpat'      => '<package_url>/kmx/32_libs/gcc46-2012Q4/32bit_expat-2.1.0-bin_20121016.zip',
+            'libfreeglut'   => '<package_url>/kmx/32_libs/gcc46-2012Q4/32bit_freeglut-2.8.0-bin_20121016.zip',
+            'libfreetype'   => '<package_url>/kmx/32_libs/gcc46-2012Q4/32bit_freetype-2.4.10-bin_20121016.zip',
+            'libgdbm'       => '<package_url>/kmx/32_libs/gcc46-2012Q4/32bit_gdbm-1.8.3-bin_20121016.zip',
+            'libgd'         => '<package_url>/kmx/32_libs/gcc46-2012Q4/32bit_gd-2.0.35-bin_20121016.zip',       #spec build statically linked with giflib-4.2.0
+            'libgiflib'     => '<package_url>/kmx/32_libs/gcc46-2012Q4/32bit_giflib-5.0.1-bin_20121016.zip',
+            'libgmp'        => '<package_url>/kmx/32_libs/gcc46-2013Q1/32bit_gmp-5.1.1-bin_20130218.zip',
+            'libjpeg'       => '<package_url>/kmx/32_libs/gcc46-2012Q4/32bit_jpeg-8d-bin_20121016.zip',
+            'liblibXpm'     => '<package_url>/kmx/32_libs/gcc46-2012Q4/32bit_libXpm-3.5.10-bin_20121016.zip',
+            'liblibiconv'   => '<package_url>/kmx/32_libs/gcc46-2012Q4/32bit_libiconv-1.14-bin_20121016.zip',
+            'liblibpng'     => '<package_url>/kmx/32_libs/gcc46-2012Q4/32bit_libpng-1.5.13-bin_20121016.zip',
+            'liblibssh2'    => '<package_url>/kmx/32_libs/gcc46-2013Q1/32bit_libssh2-1.4.3-bin_20130218.zip',
+            'liblibxml2'    => '<package_url>/kmx/32_libs/gcc46-2012Q4/32bit_libxml2-2.9.0-bin_20121016.zip',
+            'liblibxslt'    => '<package_url>/kmx/32_libs/gcc46-2013Q1/32bit_libxslt-1.1.28-bin_20130218.zip',
+            'libmpc'        => '<package_url>/kmx/32_libs/gcc46-2012Q4/32bit_mpc-1.0.1-bin_20121016.zip',
+            'libmpfr'       => '<package_url>/kmx/32_libs/gcc46-2012Q4/32bit_mpfr-3.1.1-bin_20121016.zip',
+            'libopenssl'    => '<package_url>/kmx/32_libs/gcc46-2013Q1/32bit_openssl-1.0.1e-bin_20130218.zip',
+            'libpostgresql' => '<package_url>/kmx/32_libs/gcc46-2012Q4/32bit_postgresql-9.2.1-bin_20121016.zip',
+            'libt1lib'      => '<package_url>/kmx/32_libs/gcc46-2012Q4/32bit_t1lib-5.1.2-bin_20121016.zip',
+            'libtiff'       => '<package_url>/kmx/32_libs/gcc46-2012Q4/32bit_tiff-4.0.3-bin_20121016.zip',
+            'libxz'         => '<package_url>/kmx/32_libs/gcc46-2012Q4/32bit_xz-5.0.4-bin_20121016.zip',
+            'libzlib'       => '<package_url>/kmx/32_libs/gcc46-2012Q4/32bit_zlib-1.2.7-bin_20121016.zip',
             #special cases
-            'libmysql'      => '<package_url>/kmx/64_libs/gcc44-2011/64bit_mysql-5.1.44-bin_20100304.zip',      # the latest DLL binary is missing some exports
-            'pthreads'      => '<package_url>/kmx/64_libs/gcc46-2012Q4/64bit_pthreads-2.9.0-bin_20121012.zip',  # built together with gcc toolchain
+            'libmysql'      => '<package_url>/kmx/32_libs/gcc44-2011/32bit_mysql-5.1.44-bin_20100304.zip',      # the latest DLL binary is missing some exports
+            'pthreads'      => '<package_url>/kmx/32_libs/gcc46-2012Q4/32bit_pthreads-2.9.0-bin_20121012.zip',  # built together with gcc toolchain
         },
     },
     ### NEXT STEP ###########################
     {
         plugin     => 'Perl::Dist::Strawberry::Step::InstallPerlCore',
-        url        => 'http://www.cpan.org/authors/id/R/RJ/RJBS/perl-5.16.3-RC1.tar.gz',
+        url        => 'http://www.cpan.org/authors/id/D/DA/DAPM/perl-5.14.4-RC2.tar.gz',
         cf_email   => 'strawberry-perl@project',
         perl_debug => 0,
         patch      => { #DST paths are relative to the perl src root
-            '<dist_sharedir>/perl-5.16/win32_config.gc.tt'      => 'win32/config.gc',
-            '<dist_sharedir>/perl-5.16/win32_config_H.gc'       => 'win32/config_H.gc',
-            '<dist_sharedir>/perl-5.16/win32_config.gc64nox.tt' => 'win32/config.gc64nox',
-            '<dist_sharedir>/perl-5.16/win32_config_H.gc64nox'  => 'win32/config_H.gc64nox',
-            '<dist_sharedir>/perl-5.16/win32_FindExt.pm'        => 'win32/FindExt.pm',
-            '<dist_sharedir>/perl-5.16/NDBM_MSWin32.pl'         => 'ext/NDBM_File/hints/MSWin32.pl',
-            '<dist_sharedir>/perl-5.16/ODBM_MSWin32.pl'         => 'ext/ODBM_File/hints/MSWin32.pl',
-            '<dist_sharedir>/msi/files/perlexe.ico'             => 'win32/perlexe.ico',
+            '<dist_sharedir>/perl-5.14/win32_config.gc.tt'      => 'win32/config.gc',
+            '<dist_sharedir>/perl-5.14/win32_config.gc64nox.tt' => 'win32/config.gc64nox',
+            '<dist_sharedir>/perl-5.14/win32_config_H.gc'       => 'win32/config_H.gc',
+            '<dist_sharedir>/perl-5.14/win32_config_H.gc64nox'  => 'win32/config_H.gc64nox',
+            '<dist_sharedir>/perl-5.14/win32_FindExt.pm'        => 'win32/FindExt.pm',
+            '<dist_sharedir>/perl-5.14/NDBM_MSWin32.pl'         => 'ext/NDBM_File/hints/MSWin32.pl',
+            '<dist_sharedir>/perl-5.14/ODBM_MSWin32.pl'         => 'ext/ODBM_File/hints/MSWin32.pl',
         },
         license => { #SRC paths are relative to the perl src root
             'Readme'   => '<image_dir>/licenses/perl/Readme',
@@ -118,7 +117,7 @@
 
             # math related
             qw/ Math-Round Math-BigInt-GMP Math-GMP Math-MPC Math-MPFR /,
-            #qw/ Math-Pari /, #fails on 64bit
+            qw/ Math-Pari /, #fails on 64bit
 
             # has to go before Module::Signature as it throws an error: Not trusting this module, aborting install
             qw/ HTTP-Server-Simple /,
@@ -131,11 +130,8 @@
 
             #XXX-TODO: the following modules need Math::PARI (which does not work on 64bit)
             #XXX-TODO: Crypt::Random needs Math::Pari, Crypt::Primes needs Crypt::Random, Crypt::RSA needs Crypt::Random
-            #{ module =>'Crypt-OpenPGP' }, #XXX-TODO: needs Math::PARI (fails on 64bit)
-            #{ module =>'Module-Signature', ignore_testfailure=>1 }, #XXX-TODO: Module-Signature needs Math::PARI (fails on 64bit)
-            #XXX-TODO: the following crypto subset does work on 64bit
-            qw/ Crypt-Rijndael Crypt-Twofish Crypt-CAST5_PP Crypt-CBC Crypt-DES_EDE3 Crypt-DES Crypt-DSA Crypt-RIPEMD160 /,
-            qw/ Class-Loader Convert-ASCII-Armor Sort-Versions Tie-EncryptedHash /,
+            { module =>'Crypt-OpenPGP' },
+            { module =>'Module-Signature', ignore_testfailure=>1 }, #XXX-TODO: Module-Signature-0.68 makes trouble
 
             # digests
             qw/ Digest-BubbleBabble Digest-HMAC Digest-MD2 Digest-SHA1 /,
@@ -240,7 +236,7 @@
          { do=>'apply_tt', args=>[ '<dist_sharedir>/extra-files/win32/MetaCPAN Search Engine.url.tt',              '<image_dir>/win32/MetaCPAN Search Engine.url' ] },
          { do=>'apply_tt', args=>[ '<dist_sharedir>/extra-files/win32/Learning Perl (tutorials, examples).url.tt', '<image_dir>/win32/Learning Perl (tutorials, examples).url' ] },
          { do=>'apply_tt', args=>[ '<dist_sharedir>/extra-files/win32/Live Support (chat).url.tt',                 '<image_dir>/win32/Live Support (chat).url' ] },
-         { do=>'apply_tt', args=>[ '<dist_sharedir>/extra-files/win32/Perl Documentation.url.tt',                  '<image_dir>/win32/Perl Documentation.url' ] },
+         { do=>'apply_tt', args=>[ '<dist_sharedir>/extra-files/win32/Perl 5.14 Documentation.url.tt',             '<image_dir>/win32/Perl 5.14 Documentation.url' ] },
          { do=>'apply_tt', args=>[ '<dist_sharedir>/extra-files/win32/Strawberry Perl Release Notes.url.tt',       '<image_dir>/win32/Strawberry Perl Release Notes.url' ] },
          { do=>'apply_tt', args=>[ '<dist_sharedir>/extra-files/win32/Strawberry Perl Website.url.tt',             '<image_dir>/win32/Strawberry Perl Website.url' ] },
          # cleanup (remove unwanted files/dirs)
@@ -275,7 +271,7 @@
            'perl2.reloc.txt',
            'README.txt'
        ],
-       msi_upgrade_code    => 'DBA41113-4E91-3FFC-B400-573BB4B80705', #BEWARE: fixed value for all 64bit releases (for ever)
+       msi_upgrade_code    => '45F906A2-F86E-335B-992F-990E8BEABC13', #BEWARE: fixed value for all 32bit releases (for ever)
        app_publisher       => 'strawberryperl.com project',
        url_about           => 'http://strawberryperl.com/',
        url_help            => 'http://strawberryperl.com/support.html',
@@ -297,7 +293,7 @@
          { type=>'folder', name=>'Related Websites', members=>[
               { type=>'shortcut', name=>'CPAN Module Search', icon=>'<dist_sharedir>\msi\files\cpan.ico', target=>'[d_win32]CPAN Module Search.url', workingdir=>'d_win32' },
               { type=>'shortcut', name=>'MetaCPAN Search Engine', icon=>'<dist_sharedir>\msi\files\metacpan.ico', target=>'[d_win32]MetaCPAN Search Engine.url', workingdir=>'d_win32' },
-              { type=>'shortcut', name=>'Perl Documentation', icon=>'<dist_sharedir>\msi\files\perldoc.ico', target=>'[d_win32]Perl Documentation.url', workingdir=>'d_win32' },
+              { type=>'shortcut', name=>'Perl 5.14 Documentation', icon=>'<dist_sharedir>\msi\files\perldoc.ico', target=>'[d_win32]Perl 5.14 Documentation.url', workingdir=>'d_win32' },
               { type=>'shortcut', name=>'Strawberry Perl Website', icon=>'<dist_sharedir>\msi\files\strawberry.ico', target=>'[d_win32]Strawberry Perl Website.url', workingdir=>'d_win32' },
               { type=>'shortcut', name=>'Learning Perl (tutorials, examples)', icon=>'<dist_sharedir>\msi\files\perldoc.ico', target=>'[d_win32]Learning Perl (tutorials, examples).url', workingdir=>'d_win32' },
               { type=>'shortcut', name=>'Live Support (chat)', icon=>'<dist_sharedir>\msi\files\onion.ico', target=>'[d_win32]Live Support (chat).url', workingdir=>'d_win32' },
@@ -325,7 +321,7 @@
          { do=>'removefile', args=>[ '<image_dir>/README.txt', '<image_dir>/perl2.reloc.txt', '<image_dir>/perl1.reloc.txt', '<image_dir>/update_env.pl.bat', '<image_dir>/relocation.pl.bat' ] },
          { do=>'createdir',  args=>[ '<image_dir>/data' ] },
          { do=>'removedir',  args=>[ '<image_dir>/perl/site/bin' ] },
-         { do=>'copyfile',   args=>[ '<dist_sharedir>/portable/portable.perl.64',    '<image_dir>/portable.perl' ] }, # take portable.perl.32 or portable.perl.64
+         { do=>'copyfile',   args=>[ '<dist_sharedir>/portable/portable.perl.32',    '<image_dir>/portable.perl' ] }, # take portable.perl.32 or portable.perl.64
          { do=>'copyfile',   args=>[ '<dist_sharedir>/portable/portableshell.bat',   '<image_dir>/portableshell.bat' ] },
          { do=>'apply_tt',   args=>[ '<dist_sharedir>/portable/README.portable.txt.tt', '<image_dir>/README.portable.txt' ] },
        ],
