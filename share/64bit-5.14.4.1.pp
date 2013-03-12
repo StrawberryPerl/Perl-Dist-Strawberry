@@ -160,7 +160,9 @@
 
             # YAML, JSON & co.
             { module=>'YAML', ignore_testfailure=>1 }, #XXX-TODO: YAML-LibYAML-0.38 test FAILS
-            qw/ JSON JSON::XS YAML-Tiny YAML::XS YAML-Syck /,
+            qw/ JSON JSON::XS YAML-Tiny YAML::XS /,
+            ######## https://rt.cpan.org/Ticket/Display.html?id=83879 ##### qw/YAML-Syck /,
+            'http://search.cpan.org/CPAN/authors/id/T/TO/TODDR/YAML-Syck-1.23.tar.gz',
 
             # dbm related
             qw/ BerkeleyDB DB_File DBM-Deep /,
