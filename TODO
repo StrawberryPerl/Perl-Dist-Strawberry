@@ -1,8 +1,7 @@
-### better camel.ico
+### MSI: filesystem ACL for c:\strawberry & co.
+
 ### fix shebangline (partly fixed)
-
 ### Bug in EU::MM - dmake MAXLINELENGTH
-
 ### IPC::Run3 is not able to handle 'dmake all' for 64bit build !!!
 
 ### fix warnings - share\perl-5.16\win32_win32.h >> win32/win32.h
@@ -16,12 +15,8 @@ C:\perl\lib\CORE/win32.h:394:33: warning: "/*" within comment [-Wcomment]
 ### check for XXX FIXME TODO in the code
 - ok for now
 
-### modules (non critical)
-- DB_File - disable in core (install later in vendor)
-- FCGI - is installed in perl/lib (during UpgradeCpanModules) as it is required by CGI
-
 ### improve CreateRelocFiles
-- search all in perl/bin (test for text/binary via -t)
+- search all in perl/bin
 - search *.url in image_dir
 - search *.pm in image_dir
 
