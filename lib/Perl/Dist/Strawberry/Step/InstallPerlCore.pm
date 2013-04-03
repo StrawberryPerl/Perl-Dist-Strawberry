@@ -113,6 +113,9 @@ sub run {
 
     # enable debug build
     push @make_args, 'CFG=Debug' if $self->{config}->{perl_debug};
+    
+    # enable 64bit ints on 32bit perl
+    push @make_args, 'USE_64_BIT_INT=define' if $self->{config}->{use_64_bit_int} && $self->global->{bits} == 32;
 
     $new_env->{USERNAME} = (split /@/, $cf_email)[0]; # trick to set cotrect cf_by
     if ($self->global->{bits} == 64) {
