@@ -7,9 +7,9 @@
 
 {
   app_version     => '5.18.0.1', #BEWARE: do not use '.0.0' in the last two version digits
-  bits            => 32,
+  bits            => 64,
   beta            => 0,
-  app_fullname    => 'Strawberry Perl',
+  app_fullname    => 'Strawberry Perl (64-bit)',
   app_simplename  => 'strawberry-perl',
   build_job_steps => [
     ### NEXT STEP ###########################
@@ -17,42 +17,42 @@
         plugin  => 'Perl::Dist::Strawberry::Step::BinaryToolsAndLibs',
         install_packages => {
             #tools
-            'dmake'         => '<package_url>/kmx/32_tools/32bit_dmake-SVN20091127-bin_20111107.zip',
-            'mingw-make'    => '<package_url>/kmx/32_tools/32bit_gmake-3.82-bin_20110503.zip',
-            'pexports'      => '<package_url>/kmx/32_tools/32bit_pexports-0.44-bin_20100110.zip',
-            'patch'         => '<package_url>/kmx/32_tools/32bit_patch-2.5.9-7-bin_20100110_UAC.zip',
-            'gendef'        => '<package_url>/kmx/32_tools/32bit_gendef-rev4724-bin_20120411.zip',
+            'dmake'         => '<package_url>/kmx/64_tools/64bit_dmake-SVN20091127-bin_20111107.zip',
+            'mingw-make'    => '<package_url>/kmx/64_tools/64bit_gmake-3.82-bin_20110503.zip',
+            'pexports'      => '<package_url>/kmx/64_tools/64bit_pexports-0.44-bin_20100110.zip',
+            'patch'         => '<package_url>/kmx/64_tools/64bit_patch-2.5.9-7-bin_20100110_UAC.zip',
+            'gendef'        => '<package_url>/kmx/64_tools/64bit_gendef-rev4724-bin_20120411.zip',
             #gcc & co.
-            'gcc-toolchain' => { url=>'<package_url>/kmx/32_gcctoolchain/mingw64-w32-gcc4.6.3_20121012.zip', install_to=>'c' },
-            'gcc-license'   => '<package_url>/kmx/32_gcctoolchain/mingw64-w32-gcc4.6.3_20121012-lic.zip',
-            'gfortran'      => '<package_url>/kmx/32_gcctoolchain/mingw64-w32-gfortran4.6.3_20121012.zip',
+            'gcc-toolchain' => { url=>'<package_url>/kmx/64_gcctoolchain/mingw64-w64-gcc4.6.3_20121012.zip', install_to=>'c' },
+            'gcc-license'   => '<package_url>/kmx/64_gcctoolchain/mingw64-w64-gcc4.6.3_20121012-lic.zip',
+            'gfortran'      => '<package_url>/kmx/64_gcctoolchain/mingw64-w64-gfortran4.6.3_20121012.zip',
             #libs
-            'libdb'         => '<package_url>/kmx/32_libs/gcc46-2012Q4/32bit_db-5.3.21-bin_20121016.zip',
-            'libexpat'      => '<package_url>/kmx/32_libs/gcc46-2012Q4/32bit_expat-2.1.0-bin_20121016.zip',
-            'libfreeglut'   => '<package_url>/kmx/32_libs/gcc46-2012Q4/32bit_freeglut-2.8.0-bin_20121016.zip',
-            'libfreetype'   => '<package_url>/kmx/32_libs/gcc46-2012Q4/32bit_freetype-2.4.10-bin_20121016.zip',
-            'libgdbm'       => '<package_url>/kmx/32_libs/gcc46-2012Q4/32bit_gdbm-1.8.3-bin_20121016.zip',
-            'libgd'         => '<package_url>/kmx/32_libs/gcc46-2012Q4/32bit_gd-2.0.35-bin_20121016.zip',       #spec build statically linked with giflib-4.2.0
-            'libgiflib'     => '<package_url>/kmx/32_libs/gcc46-2012Q4/32bit_giflib-5.0.1-bin_20121016.zip',
-            'libgmp'        => '<package_url>/kmx/32_libs/gcc46-2013Q1/32bit_gmp-5.1.1-bin_20130218.zip',
-            'libjpeg'       => '<package_url>/kmx/32_libs/gcc46-2012Q4/32bit_jpeg-8d-bin_20121016.zip',
-            'liblibXpm'     => '<package_url>/kmx/32_libs/gcc46-2012Q4/32bit_libXpm-3.5.10-bin_20121016.zip',
-            'liblibiconv'   => '<package_url>/kmx/32_libs/gcc46-2012Q4/32bit_libiconv-1.14-bin_20121016.zip',
-            'liblibpng'     => '<package_url>/kmx/32_libs/gcc46-2012Q4/32bit_libpng-1.5.13-bin_20121016.zip',
-            'liblibssh2'    => '<package_url>/kmx/32_libs/gcc46-2013Q1/32bit_libssh2-1.4.3-bin_20130218.zip',
-            'liblibxml2'    => '<package_url>/kmx/32_libs/gcc46-2012Q4/32bit_libxml2-2.9.0-bin_20121016.zip',
-            'liblibxslt'    => '<package_url>/kmx/32_libs/gcc46-2013Q1/32bit_libxslt-1.1.28-bin_20130218.zip',
-            'libmpc'        => '<package_url>/kmx/32_libs/gcc46-2012Q4/32bit_mpc-1.0.1-bin_20121016.zip',
-            'libmpfr'       => '<package_url>/kmx/32_libs/gcc46-2012Q4/32bit_mpfr-3.1.1-bin_20121016.zip',
-            'libopenssl'    => '<package_url>/kmx/32_libs/gcc46-2013Q1/32bit_openssl-1.0.1e-bin_20130218.zip',
-            'libpostgresql' => '<package_url>/kmx/32_libs/gcc46-2012Q4/32bit_postgresql-9.2.1-bin_20121016.zip',
-            'libt1lib'      => '<package_url>/kmx/32_libs/gcc46-2012Q4/32bit_t1lib-5.1.2-bin_20121016.zip',
-            'libtiff'       => '<package_url>/kmx/32_libs/gcc46-2012Q4/32bit_tiff-4.0.3-bin_20121016.zip',
-            'libxz'         => '<package_url>/kmx/32_libs/gcc46-2012Q4/32bit_xz-5.0.4-bin_20121016.zip',
-            'libzlib'       => '<package_url>/kmx/32_libs/gcc46-2012Q4/32bit_zlib-1.2.7-bin_20121016.zip',
+            'libdb'         => '<package_url>/kmx/64_libs/gcc46-2012Q4/64bit_db-5.3.21-bin_20121017.zip',
+            'libexpat'      => '<package_url>/kmx/64_libs/gcc46-2012Q4/64bit_expat-2.1.0-bin_20121017.zip',
+            'libfreeglut'   => '<package_url>/kmx/64_libs/gcc46-2012Q4/64bit_freeglut-2.8.0-bin_20121017.zip',
+            'libfreetype'   => '<package_url>/kmx/64_libs/gcc46-2012Q4/64bit_freetype-2.4.10-bin_20121017.zip',
+            'libgdbm'       => '<package_url>/kmx/64_libs/gcc46-2012Q4/64bit_gdbm-1.8.3-bin_20121017.zip',
+            'libgd'         => '<package_url>/kmx/64_libs/gcc46-2012Q4/64bit_gd-2.0.35-bin_20121017.zip',       #spec build statically linked with giflib-4.2.0
+            'libgiflib'     => '<package_url>/kmx/64_libs/gcc46-2012Q4/64bit_giflib-5.0.1-bin_20121017.zip',
+            'libgmp'        => '<package_url>/kmx/64_libs/gcc46-2013Q1/64bit_gmp-5.1.1-bin_20130218.zip',
+            'libjpeg'       => '<package_url>/kmx/64_libs/gcc46-2012Q4/64bit_jpeg-8d-bin_20121017.zip',
+            'liblibXpm'     => '<package_url>/kmx/64_libs/gcc46-2012Q4/64bit_libXpm-3.5.10-bin_20121017.zip',
+            'liblibiconv'   => '<package_url>/kmx/64_libs/gcc46-2012Q4/64bit_libiconv-1.14-bin_20121017.zip',
+            'liblibpng'     => '<package_url>/kmx/64_libs/gcc46-2012Q4/64bit_libpng-1.5.13-bin_20121017.zip',
+            'liblibssh2'    => '<package_url>/kmx/64_libs/gcc46-2013Q1/64bit_libssh2-1.4.3-bin_20130218.zip',
+            'liblibxml2'    => '<package_url>/kmx/64_libs/gcc46-2012Q4/64bit_libxml2-2.9.0-bin_20121017.zip',
+            'liblibxslt'    => '<package_url>/kmx/64_libs/gcc46-2013Q1/64bit_libxslt-1.1.28-bin_20130218.zip',
+            'libmpc'        => '<package_url>/kmx/64_libs/gcc46-2012Q4/64bit_mpc-1.0.1-bin_20121017.zip',
+            'libmpfr'       => '<package_url>/kmx/64_libs/gcc46-2012Q4/64bit_mpfr-3.1.1-bin_20121017.zip',
+            'libopenssl'    => '<package_url>/kmx/64_libs/gcc46-2013Q1/64bit_openssl-1.0.1e-bin_20130218.zip',
+            'libpostgresql' => '<package_url>/kmx/64_libs/gcc46-2012Q4/64bit_postgresql-9.2.1-bin_20121017.zip',
+            'libt1lib'      => '<package_url>/kmx/64_libs/gcc46-2012Q4/64bit_t1lib-5.1.2-bin_20121017.zip',
+            'libtiff'       => '<package_url>/kmx/64_libs/gcc46-2012Q4/64bit_tiff-4.0.3-bin_20121017.zip',
+            'libxz'         => '<package_url>/kmx/64_libs/gcc46-2012Q4/64bit_xz-5.0.4-bin_20121017.zip',
+            'libzlib'       => '<package_url>/kmx/64_libs/gcc46-2012Q4/64bit_zlib-1.2.7-bin_20121017.zip',
             #special cases
-            'libmysql'      => '<package_url>/kmx/32_libs/gcc44-2011/32bit_mysql-5.1.44-bin_20100304.zip',      # the latest DLL binary is missing some exports
-            'pthreads'      => '<package_url>/kmx/32_libs/gcc46-2012Q4/32bit_pthreads-2.9.0-bin_20121012.zip',  # built together with gcc toolchain
+            'libmysql'      => '<package_url>/kmx/64_libs/gcc44-2011/64bit_mysql-5.1.44-bin_20100304.zip',      # the latest DLL binary is missing some exports
+            'pthreads'      => '<package_url>/kmx/64_libs/gcc46-2012Q4/64bit_pthreads-2.9.0-bin_20121012.zip',  # built together with gcc toolchain
         },
     },
     ### NEXT STEP ###########################
@@ -116,7 +116,7 @@
 
             # math related
             qw/ Math-Round Math-BigInt-GMP Math-GMP Math-MPC Math-MPFR /,
-            qw/ Math-Pari /, #fails on 64bit
+            #qw/ Math-Pari /, #fails on 64bit
 
             # has to go before Module::Signature as it throws an error: Not trusting this module, aborting install
             qw/ HTTP-Server-Simple /,
@@ -287,7 +287,7 @@
            'perl2.reloc.txt',
            'README.txt'
        ],
-       msi_upgrade_code    => '45F906A2-F86E-335B-992F-990E8BEABC13', #BEWARE: fixed value for all 32bit releases (for ever)
+       msi_upgrade_code    => 'DBA41113-4E91-3FFC-B400-573BB4B80705', #BEWARE: fixed value for all 64bit releases (for ever)
        app_publisher       => 'strawberryperl.com project',
        url_about           => 'http://strawberryperl.com/',
        url_help            => 'http://strawberryperl.com/support.html',
@@ -336,7 +336,7 @@
        commands => [ # files and dirs specific to portable edition
          { do=>'removefile', args=>[ '<image_dir>/README.txt', '<image_dir>/perl2.reloc.txt', '<image_dir>/perl1.reloc.txt', '<image_dir>/update_env.pl.bat', '<image_dir>/relocation.pl.bat' ] },
          { do=>'createdir',  args=>[ '<image_dir>/data' ] },
-         { do=>'copyfile',   args=>[ '<dist_sharedir>/portable/portable.perl.32',    '<image_dir>/portable.perl' ] }, # take portable.perl.32 or portable.perl.64
+         { do=>'copyfile',   args=>[ '<dist_sharedir>/portable/portable.perl.64',    '<image_dir>/portable.perl' ] }, # take portable.perl.32 or portable.perl.64
          { do=>'copyfile',   args=>[ '<dist_sharedir>/portable/portableshell.bat',   '<image_dir>/portableshell.bat' ] },
          { do=>'apply_tt',   args=>[ '<dist_sharedir>/portable/README.portable.txt.tt', '<image_dir>/README.portable.txt' ] },
        ],
