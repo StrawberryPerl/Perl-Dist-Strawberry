@@ -45,11 +45,11 @@
             'libmpc'        => '<package_url>/kmx/64_libs/gcc46-2012Q4/64bit_mpc-1.0.1-bin_20121017.zip',
             'libmpfr'       => '<package_url>/kmx/64_libs/gcc46-2012Q4/64bit_mpfr-3.1.1-bin_20121017.zip',
             'libopenssl'    => '<package_url>/kmx/64_libs/gcc46-2013Q1/64bit_openssl-1.0.1e-bin_20130218.zip',
-            'libpostgresql' => '<package_url>/kmx/64_libs/gcc46-2012Q4/64bit_postgresql-9.2.1-bin_20121017.zip',
+            'libpostgresql' => '<package_url>/kmx/64_libs/gcc46-2013Q2/64bit_postgresql-9.2.4-bin_20130515.zip',
             'libt1lib'      => '<package_url>/kmx/64_libs/gcc46-2012Q4/64bit_t1lib-5.1.2-bin_20121017.zip',
             'libtiff'       => '<package_url>/kmx/64_libs/gcc46-2012Q4/64bit_tiff-4.0.3-bin_20121017.zip',
             'libxz'         => '<package_url>/kmx/64_libs/gcc46-2012Q4/64bit_xz-5.0.4-bin_20121017.zip',
-            'libzlib'       => '<package_url>/kmx/64_libs/gcc46-2012Q4/64bit_zlib-1.2.7-bin_20121017.zip',
+            'libzlib'       => '<package_url>/kmx/64_libs/gcc46-2013Q2/64bit_zlib-1.2.8-bin_20130515.zip',
             #special cases
             'libmysql'      => '<package_url>/kmx/64_libs/gcc44-2011/64bit_mysql-5.1.44-bin_20100304.zip',      # the latest DLL binary is missing some exports
             'pthreads'      => '<package_url>/kmx/64_libs/gcc46-2012Q4/64bit_pthreads-2.9.0-bin_20121012.zip',  # built together with gcc toolchain
@@ -58,17 +58,20 @@
     ### NEXT STEP ###########################
     {
         plugin     => 'Perl::Dist::Strawberry::Step::InstallPerlCore',
-        url        => 'http://www.cpan.org/authors/id/R/RJ/RJBS/perl-5.18.0-RC1.tar.gz',
+        url        => 'http://www.cpan.org/authors/id/R/RJ/RJBS/perl-5.18.0-RC3.tar.gz',
         cf_email   => 'strawberry-perl@project',
         perl_debug => 0,
         use_64_bit_int => 1,
-        patch      => { #DST paths are relative to the perl src root
+        patch => { #DST paths are relative to the perl src root
             '<dist_sharedir>/perl-5.18/win32_config.gc.tt'      => 'win32/config.gc',
+            ### decoration
+            '<dist_sharedir>/msi/files/perlexe.ico'             => 'win32/perlexe.ico',
+            '<dist_sharedir>/perl-5.18/perlexe.rc.tt'           => 'win32/perlexe.rc',
+            ### GDBM & co.
             '<dist_sharedir>/perl-5.18/win32_config_H.gc'       => 'win32/config_H.gc', # enables gdbm/ndbm/odbm
             '<dist_sharedir>/perl-5.18/win32_FindExt.pm'        => 'win32/FindExt.pm',
             '<dist_sharedir>/perl-5.18/NDBM_MSWin32.pl'         => 'ext/NDBM_File/hints/MSWin32.pl',
             '<dist_sharedir>/perl-5.18/ODBM_MSWin32.pl'         => 'ext/ODBM_File/hints/MSWin32.pl',
-            '<dist_sharedir>/msi/files/perlexe.ico'             => 'win32/perlexe.ico',
         },
         license => { #SRC paths are relative to the perl src root
             'Readme'   => '<image_dir>/licenses/perl/Readme',
@@ -103,6 +106,9 @@
 
             # compression
             qw/ Archive-Zip IO-Compress-Lzma Compress-unLZMA /,
+            
+            #{ module=>'Probe-Perl', ignore_testfailure=>1 }, #XXX-TODO: https://rt.cpan.org/Ticket/Display.html?id=85204
+            'http://cpan.metacpan.org/authors/id/K/KW/KWILLIAMS/Probe-Perl-0.01.tar.gz',
 
             # file related
             { module=>'File-Slurp', ignore_testfailure=>1 }, #XXX-TODO: File-Slurp-9999.19 test FAILS
@@ -136,7 +142,7 @@
             
             '<package_url>/kmx/perl-modules-patched/Crypt-IDEA-1.08_patched2.tar.gz',           #XXX-TODO: win64bit issue + 5.18.x incompatibility
             '<package_url>/kmx/perl-modules-patched/Crypt-Blowfish-2.12_patched2.tar.gz',       #XXX-TODO: win64bit issue + 5.18.x incompatibility
-            'Crypt-Twofish',
+            '<package_url>/kmx/perl-modules-patched/Crypt-Twofish-2.15_patched.tar.gz',         #XXX-TODO: win64bit issue + 5.18.x incompatibility
             '<package_url>/kmx/perl-modules-patched/Crypt-DES-2.05_patched.tar.gz',             #XXX-TODO: 5.18.x incompatibility
             { module =>'Convert-PEM', ignore_testfailure=>1 },                                  #XXX-TODO: Convert-PEM-0.08 test FAILS
             'Crypt-DH',

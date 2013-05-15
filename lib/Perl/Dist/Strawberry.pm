@@ -18,7 +18,7 @@ use Pod::Usage            qw(pod2usage);
 use LWP::UserAgent;
 
 # following recommendation from http://www.dagolden.com/index.php/369/version-numbers-should-be-boring/
-our $VERSION = "3.009";
+our $VERSION = "3.010";
 $VERSION = eval $VERSION;
 
 sub new {
@@ -311,6 +311,8 @@ sub create_buildmachine {
   $basename .= "-beta$job->{beta}" if $job->{beta};
   $basename .= "-$job->{bits}bit";
   $self->global->{output_basename} = $basename; # e.g. strawberryperl-5.14.2.1 or strawberryperl-5.14.2.1-beta2 
+  $self->global->{app_rc_version} = $self->global->{app_version};
+  $self->global->{app_rc_version} =~ s/\./,/g;
 
   if ($restorepoint) {
     my $i;

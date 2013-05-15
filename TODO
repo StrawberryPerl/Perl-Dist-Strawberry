@@ -1,7 +1,11 @@
+### CHM documentation 
+- try http://www.microsoft.com/en-us/download/details.aspx?id=21138
+- see https://github.com/oneclick/rubyinstaller/blob/master/resources/chm/contents.hhc.rhtml
+
 ### MSI: filesystem ACL for c:\strawberry & co.
 
 ### fix shebangline (partly fixed)
-### Bug in EU::MM - dmake MAXLINELENGTH
+
 ### IPC::Run3 is not able to handle 'dmake all' for 64bit build !!!
 
 ### fix warnings - share\perl-5.16\win32_win32.h >> win32/win32.h
