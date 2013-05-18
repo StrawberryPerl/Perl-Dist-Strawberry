@@ -32,7 +32,7 @@ BLOCK "StringFileInfo"
         BLOCK "040904E4"
         BEGIN
             VALUE "CompanyName",        "strawberryperl.com\0"
-            VALUE "FileDescription",    "perl interpreter\0"
+            VALUE "FileDescription",    "Perl interpreter\0"
             VALUE "FileVersion",        RCVERSION_STR
             VALUE "InternalName",       "perl.exe\0"
             VALUE "LegalCopyright",     "Copyright 1987-2013 Larry Wall, binaries by http://strawberryperl.com\0"

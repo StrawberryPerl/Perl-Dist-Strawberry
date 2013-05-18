@@ -49,7 +49,7 @@
             'libt1lib'      => '<package_url>/kmx/64_libs/gcc46-2012Q4/64bit_t1lib-5.1.2-bin_20121017.zip',
             'libtiff'       => '<package_url>/kmx/64_libs/gcc46-2012Q4/64bit_tiff-4.0.3-bin_20121017.zip',
             'libxz'         => '<package_url>/kmx/64_libs/gcc46-2012Q4/64bit_xz-5.0.4-bin_20121017.zip',
-            'libzlib'       => '<package_url>/kmx/64_libs/gcc46-2013Q2/64bit_zlib-1.2.8-bin_20130515.zip',
+            'libzlib'       => '<package_url>/kmx/64_libs/gcc46-2012Q4/64bit_zlib-1.2.7-bin_20121017.zip',
             #special cases
             'libmysql'      => '<package_url>/kmx/64_libs/gcc44-2011/64bit_mysql-5.1.44-bin_20100304.zip',      # the latest DLL binary is missing some exports
             'pthreads'      => '<package_url>/kmx/64_libs/gcc46-2012Q4/64bit_pthreads-2.9.0-bin_20121012.zip',  # built together with gcc toolchain
@@ -58,7 +58,7 @@
     ### NEXT STEP ###########################
     {
         plugin     => 'Perl::Dist::Strawberry::Step::InstallPerlCore',
-        url        => 'http://www.cpan.org/authors/id/R/RJ/RJBS/perl-5.18.0-RC3.tar.gz',
+        url        => 'http://www.cpan.org/authors/id/R/RJ/RJBS/perl-5.18.0.tar.gz',
         cf_email   => 'strawberry-perl@project',
         perl_debug => 0,
         use_64_bit_int => 1,
