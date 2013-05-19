@@ -42,6 +42,8 @@
 ^HelperCA.dll_src/Debug
 ^HelperCA.dll_src/Release
 \.ncb$
+\.zip$
+\.gz$
 \.suo$
 \.user$
 

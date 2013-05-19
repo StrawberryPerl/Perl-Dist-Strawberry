@@ -1,3 +1,9 @@
+### maybe add to 5.18
+Crypt/Rijndael
+Data/Random
+Crypt/RIPEMD160
+Crypt/DSA
+
 ### CHM documentation 
 - try http://www.microsoft.com/en-us/download/details.aspx?id=21138
 - see https://github.com/oneclick/rubyinstaller/blob/master/resources/chm/contents.hhc.rhtml
