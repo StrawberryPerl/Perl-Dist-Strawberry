@@ -1,3 +1,7 @@
+### tools
+- update: dendef, gmake, dmake
+- add: genidl 
+
 ### maybe add to 5.18
 Crypt/Rijndael
 Data/Random
