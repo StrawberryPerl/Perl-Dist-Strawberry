@@ -1,5 +1,8 @@
 Changes for Perl extension Perl-Dist-Strawberry
 
+3.012   2013/08/14
+        - used for building strawberry perl 5.18.1.1
+
 3.011   2013/06/22
         - support for buildoptextra - e.g buildoptextra => '-DPERL_NEW_COPY_ON_WRITE'
 
