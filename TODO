@@ -1,5 +1,5 @@
 ### tools
-- update: dendef, gmake, dmake
+- update: dendef, gmake, dmake, mingw-runtime
 - add: genidl 
 
 ### maybe add to 5.18
