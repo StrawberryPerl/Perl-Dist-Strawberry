@@ -59,8 +59,8 @@
     {
         plugin     => 'Perl::Dist::Strawberry::Step::InstallPerlCore',
         url        => 'http://cpan.metacpan.org/authors/id/R/RJ/RJBS/perl-5.18.1.tar.gz',
-		#url        => 'https://dl.dropboxusercontent.com/u/88746/perl/perl-5.18.2-RC0.tar.gz',
-        cf_email   => 'strawberry-perl@project',
+        #url        => 'https://dl.dropboxusercontent.com/u/88746/perl/perl-5.18.2-RC0.tar.gz',
+        cf_email   => 'strawberry-perl@project', #IMPORTANT: keep 'strawberry-perl' before @
         perl_debug => 0,
         use_64_bit_int => 1,
         #buildoptextra => '-D__USE_MINGW_ANSI_STDIO',
@@ -87,7 +87,7 @@
         modules => [
           #here is a place to (re)install/(up/down)grade modules needed before 'Perl::Dist::Strawberry::Step::UpgradeCpanModules'
           'http://cpan.metacpan.org/authors/id/M/MU/MUIR/modules/Text-Tabs+Wrap-2013.0523.tar.gz', # minicpan related issue #XXX-TODO check version
-		  'http://cpan.metacpan.org/authors/id/A/AM/AMBS/ExtUtils/ExtUtils-CBuilder-0.280212.tar.gz', # minicpan related issue #XXX-TODO check version
+          'http://cpan.metacpan.org/authors/id/A/AM/AMBS/ExtUtils/ExtUtils-CBuilder-0.280212.tar.gz', # minicpan related issue #XXX-TODO check version
         ],
     },
     ### NEXT STEP ###########################
@@ -98,7 +98,7 @@
           # possible 'do' options: ignore_testfailure | skiptest | skip
           { do=>'ignore_testfailure', distribution => 'CPANPLUS' }, #XXX-TODO: CPANPLUS-0.9128 has test failure
           { do=>'ignore_testfailure', distribution=>'ExtUtils-MakeMaker' }, #XXX-TODO: ExtUtils-MakeMaker-6.72 has test failure
-		  { do=>'ignore_testfailure', distribution=>'IPC-Cmd' },  #XXX-TODO: IPC-Cmd-0.90 has test failure
+          { do=>'ignore_testfailure', distribution=>'IPC-Cmd' },  #XXX-TODO: IPC-Cmd-0.90 has test failure
         ]
     },
     ### NEXT STEP ###########################
@@ -109,15 +109,15 @@
             '<package_url>/kmx/perl-modules-patched/TermReadKey-2.31_patched.tar.gz', # special version needed XXX-report a bug
             { module=>'Term::ReadLine::Perl', env=>{ PERL_MM_NONINTERACTIVE=>1 } },
 
-			'<package_url>/kmx/perl-modules-patched/Win32-Console-0.09_patched.tar.gz',
-			'<package_url>/kmx/perl-modules-patched/Win32-EventLog-0.076_patched.tar.gz',
-			'<package_url>/kmx/perl-modules-patched/Win32-File-0.06_patched.tar.gz',
-			'<package_url>/kmx/perl-modules-patched/Win32-Process-0.14_patched.tar.gz',
-			'<package_url>/kmx/perl-modules-patched/Win32-WinError-0.03_patched.tar.gz',
-			{ module=>'<package_url>/kmx/perl-modules-patched/Win32-OLE-0.1709_patched.tar.gz', ignore_testfailure=>1 },
+            '<package_url>/kmx/perl-modules-patched/Win32-Console-0.09_patched.tar.gz',
+            '<package_url>/kmx/perl-modules-patched/Win32-EventLog-0.076_patched.tar.gz',
+            '<package_url>/kmx/perl-modules-patched/Win32-File-0.06_patched.tar.gz',
+            '<package_url>/kmx/perl-modules-patched/Win32-Process-0.14_patched.tar.gz',
+            '<package_url>/kmx/perl-modules-patched/Win32-WinError-0.03_patched.tar.gz',
+            { module=>'<package_url>/kmx/perl-modules-patched/Win32-OLE-0.1709_patched.tar.gz', ignore_testfailure=>1 },
 
             # compression
-			{ module=>'Archive-Zip', ignore_testfailure=>1 }, #XXX-TODO: Archive-Zip-1.33 test FAILS
+            { module=>'Archive-Zip', ignore_testfailure=>1 }, #XXX-TODO: Archive-Zip-1.33 test FAILS
             qw/ IO-Compress-Lzma Compress-unLZMA /,
             
             # file related
@@ -129,7 +129,7 @@
             qw/ DBI DBD-ODBC DBD-SQLite DBD-Pg DBIx-Simple /,
             { module=>'DBD-ADO', ignore_testfailure=>1 }, #XXX-TODO: DBD-ADO-2.99 test FAILS
             { module=>'DBD-mysql', ignore_testfailure=>1, makefilepl_param=>'--mysql_config=mysql_config' },
-			#{ module=>'http://cpan.metacpan.org/authors/id/C/CA/CAPTTOFU/DBD-mysql-4.024.tar.gz', makefilepl_param=>'--mysql_config=mysql_config' },
+            #{ module=>'http://cpan.metacpan.org/authors/id/C/CA/CAPTTOFU/DBD-mysql-4.024.tar.gz', makefilepl_param=>'--mysql_config=mysql_config' },
 
             # math related
             qw/ Math-Round Math-BigInt-GMP Math-GMP Math-MPC Math-MPFR /,
