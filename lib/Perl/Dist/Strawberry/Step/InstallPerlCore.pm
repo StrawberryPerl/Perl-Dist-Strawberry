@@ -122,13 +122,13 @@ sub run {
 
     $new_env->{USERNAME} = (split /@/, $cf_email)[0]; # trick to set correct cf_by
     my @extralibs;
-    if (my $extra1 = catdir((bsd_glob("$CCHOME/-mingw32/lib"))[0])) {
-      push @extralibs, $extra1;
+    if (my $extra1 = catdir((bsd_glob("$CCHOME/*-mingw32/lib"))[0])) {
+      push @extralibs, $extra1 if -d $extra1;
     }
     if (my $extra2 = catdir((bsd_glob("$CCHOME/lib/gcc/*-mingw32/*"))[0])) {
-      push @extralibs, $extra2;
+      push @extralibs, $extra2 if -d $extra2;
     }
-    push @make_args, "EXTRALIBDIRS=" . join(' ', @extralibs) if @extralibs;
+    push @make_args, "EXTRALIBDIRS=" . join(';', @extralibs) if @extralibs;
     if ($self->global->{bits} == 64) {
       $new_env->{PROCESSOR_ARCHITECTURE} = 'AMD64';
     }
