@@ -58,8 +58,8 @@
     ### NEXT STEP ###########################
     {
         plugin     => 'Perl::Dist::Strawberry::Step::InstallPerlCore',
-        url        => 'http://cpan.metacpan.org/authors/id/R/RJ/RJBS/perl-5.18.1.tar.gz',
-        #url        => 'https://dl.dropboxusercontent.com/u/88746/perl/perl-5.18.2-RC0.tar.gz',
+        #url        => 'http://cpan.metacpan.org/authors/id/R/RJ/RJBS/perl-5.18.1.tar.gz',
+        url        => 'http://strawberryperl.com/package/kmx/testing/perl-5.18.2-RC0.tar.gz',
         cf_email   => 'strawberry-perl@project', #IMPORTANT: keep 'strawberry-perl' before @
         perl_debug => 0,
         #use_64_bit_int not needed on 64bit
