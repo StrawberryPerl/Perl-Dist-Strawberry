@@ -11,6 +11,7 @@ use File::Spec::Functions  qw(catdir catfile rel2abs catpath splitpath);
 use File::Find::Rule;
 use File::Path             qw(make_path remove_tree);
 use File::Copy             qw(copy);
+use File::Glob             qw(bsd_glob);
 use File::Slurp;
 use Text::Patch;
 use Text::Diff;
@@ -119,15 +120,21 @@ sub run {
     # enable BUILDOPTEXTRA
     push @make_args, "BUILDOPTEXTRA=$self->{config}->{buildoptextra}" if $self->{config}->{buildoptextra};
 
-    $new_env->{USERNAME} = (split /@/, $cf_email)[0]; # trick to set cotrect cf_by
+    $new_env->{USERNAME} = (split /@/, $cf_email)[0]; # trick to set correct cf_by
+    my @extralibs;
+    if (my $extra1 = catdir((bsd_glob("$CCHOME/-mingw32/lib"))[0])) {
+      push @extralibs, $extra1;
+    }
+    if (my $extra2 = catdir((bsd_glob("$CCHOME/lib/gcc/*-mingw32/*"))[0])) {
+      push @extralibs, $extra2;
+    }
+    push @make_args, "EXTRALIBDIRS=" . join(' ', @extralibs) if @extralibs;
     if ($self->global->{bits} == 64) {
       $new_env->{PROCESSOR_ARCHITECTURE} = 'AMD64';
-      push @make_args, 'EXTRALIBDIRS='.catdir($CCHOME, qw/x86_64-w64-mingw32 lib/);
     }
     else {
       $new_env->{PROCESSOR_ARCHITECTURE} = 'x86';
       push @make_args, 'WIN64=undef';
-      push @make_args, 'EXTRALIBDIRS='.catdir($CCHOME, qw/i686-w64-mingw32 lib/);
     }
 
     #create debuging build scripts in 'win32' subdir
