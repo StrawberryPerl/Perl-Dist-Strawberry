@@ -170,7 +170,8 @@
             qw/ Digest-BubbleBabble Digest-HMAC Digest-MD2 Digest-SHA1 /,
 
             # SSL & SSH
-            qw/ Net-SSLeay Crypt-SSLeay IO-Socket-SSL Net-SMTP-TLS Net-SSH2 /,
+            qw/ Net-SSLeay IO-Socket-SSL Net-SMTP-TLS Net-SSH2 /,
+            { module =>'Crypt-SSLeay', ignore_testfailure=>1 },
 
             # network
             qw/ LWP::UserAgent LWP-Protocol-https /,
