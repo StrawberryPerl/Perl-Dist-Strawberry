@@ -88,6 +88,7 @@
           #here is a place to (re)install/(up/down)grade modules needed before 'Perl::Dist::Strawberry::Step::UpgradeCpanModules'
           'http://cpan.metacpan.org/authors/id/M/MU/MUIR/modules/Text-Tabs+Wrap-2013.0523.tar.gz', # minicpan related issue #XXX-TODO check version
           'http://cpan.metacpan.org/authors/id/A/AM/AMBS/ExtUtils/ExtUtils-CBuilder-0.280212.tar.gz', # minicpan related issue #XXX-TODO check version
+          '<package_url>/kmx/perl-modules-patched/ExtUtils-MakeMaker-6.82_patched.tar.gz', #XXX-TODO dmake warning fix
         ],
     },
     ### NEXT STEP ###########################
