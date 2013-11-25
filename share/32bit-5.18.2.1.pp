@@ -114,6 +114,7 @@
             '<package_url>/kmx/perl-modules-patched/Win32-File-0.06_patched.tar.gz',
             '<package_url>/kmx/perl-modules-patched/Win32-Process-0.14_patched.tar.gz',
             '<package_url>/kmx/perl-modules-patched/Win32-WinError-0.03_patched.tar.gz',
+            '<package_url>/kmx/perl-modules-patched/Win32-Pipe-0.024_patched.tar.gz',
             { module=>'<package_url>/kmx/perl-modules-patched/Win32-OLE-0.1709_patched.tar.gz', ignore_testfailure=>1 },
 
             # compression
