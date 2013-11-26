@@ -353,8 +353,8 @@
        commands => [ # files and dirs specific to portable edition
          { do=>'removefile', args=>[ '<image_dir>/README.txt', '<image_dir>/perl2.reloc.txt', '<image_dir>/perl1.reloc.txt', '<image_dir>/update_env.pl.bat', '<image_dir>/relocation.pl.bat' ] },
          { do=>'createdir',  args=>[ '<image_dir>/data' ] },
-         { do=>'copyfile',   args=>[ '<dist_sharedir>/portable/portable.perl.64',    '<image_dir>/portable.perl' ] }, # take portable.perl.32 or portable.perl.64
-         { do=>'copyfile',   args=>[ '<dist_sharedir>/portable/portableshell.bat',   '<image_dir>/portableshell.bat' ] },
+         { do=>'copyfile',   args=>[ '<dist_sharedir>/portable/portable.perl.473.64',   '<image_dir>/portable.perl' ] }, # take portable.perl.32 or portable.perl.64
+         { do=>'copyfile',   args=>[ '<dist_sharedir>/portable/portableshell.bat',      '<image_dir>/portableshell.bat' ] },
          { do=>'apply_tt',   args=>[ '<dist_sharedir>/portable/README.portable.txt.tt', '<image_dir>/README.portable.txt' ] },
        ],
     },
