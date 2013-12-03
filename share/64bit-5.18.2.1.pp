@@ -126,8 +126,7 @@
             # database stuff
             qw/ DBI DBD-ODBC DBD-SQLite DBD-Pg DBIx-Simple /,
             { module=>'DBD-ADO', ignore_testfailure=>1 }, #XXX-TODO: DBD-ADO-2.99 test FAILS
-            { module=>'DBD-mysql', ignore_testfailure=>1, makefilepl_param=>'--mysql_config=mysql_config' },
-            #{ module=>'http://cpan.metacpan.org/authors/id/C/CA/CAPTTOFU/DBD-mysql-4.024.tar.gz', makefilepl_param=>'--mysql_config=mysql_config' },
+            { module=>'DBD-mysql', ignore_testfailure=>1, makefilepl_param=>'--mysql_config=mysql_config' }, #XXX-TODO: checjk test failures
 
             # math related
             qw/ Math-Round Math-BigInt-GMP Math-GMP Math-MPC Math-MPFR /,
@@ -168,7 +167,9 @@
             qw/ Digest-BubbleBabble Digest-HMAC Digest-MD2 Digest-SHA1 /,
 
             # SSL & SSH
-            qw/ Net-SSLeay IO-Socket-SSL Net-SMTP-TLS Net-SSH2 /,
+            qw/ Net-SSLeay /,
+			{ module=>'IO-Socket-SSL', ignore_testfailure=>1 },    #XXX-TODO
+			qw/ Net-SMTP-TLS Net-SSH2 /,
             { module =>'Crypt-SSLeay', ignore_testfailure=>1 },
 
             # network
@@ -205,7 +206,8 @@
             # misc
             qw/ CPAN::SQLite Alien-Tidyp FCGI Text-Diff Text-Patch /,
             qw/ IO-stringy IO::String String-CRC32 Sub-Uplevel Convert-PEM/,
-            qw/ IPC-Run3 IPC-Run IPC-System-Simple /,
+            qw/ IPC-Run3 IPC-System-Simple /,
+			{ module=>'IPC-Run', skiptest=>1 }, 	#XXX-FIXME trouble with 'Terminating on signal SIGBREAK(21)'
 
             # strawberry extras
             qw/ App-module-version /,

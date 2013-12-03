@@ -95,7 +95,7 @@
         exceptions => [
           # match: version=>... distribution=>... cpan_file=>...
           # possible 'do' options: ignore_testfailure | skiptest | skip
-          { do=>'ignore_testfailure', distribution => 'CPANPLUS' }, #XXX-TODO: CPANPLUS-0.9128 has test failure
+          { do=>'ignore_testfailure', distribution=>'CPANPLUS' },           #XXX-TODO: CPANPLUS-0.9128 has test failure
           { do=>'ignore_testfailure', distribution=>'ExtUtils-MakeMaker' }, #XXX-TODO: ExtUtils-MakeMaker-6.72 has test failure
           { do=>'ignore_testfailure', distribution=>'IPC-Cmd' },  #XXX-TODO: IPC-Cmd-0.90 has test failure
         ]
@@ -167,7 +167,9 @@
             qw/ Digest-BubbleBabble Digest-HMAC Digest-MD2 Digest-SHA1 /,
 
             # SSL & SSH
-            qw/ Net-SSLeay IO-Socket-SSL Net-SMTP-TLS Net-SSH2 /,
+            qw/ Net-SSLeay /,
+			{ module=>'IO-Socket-SSL', ignore_testfailure=>1 },    #XXX-TODO
+			qw/ Net-SMTP-TLS Net-SSH2 /,
             { module =>'Crypt-SSLeay', ignore_testfailure=>1 },
 
             # network
@@ -204,7 +206,8 @@
             # misc
             qw/ CPAN::SQLite Alien-Tidyp FCGI Text-Diff Text-Patch /,
             qw/ IO-stringy IO::String String-CRC32 Sub-Uplevel Convert-PEM/,
-            qw/ IPC-Run3 IPC-Run IPC-System-Simple /,
+            qw/ IPC-Run3 IPC-System-Simple /,
+			{ module=>'IPC-Run', skiptest=>1 }, 	#XXX-FIXME trouble with 'Terminating on signal SIGBREAK(21)'
 
             # strawberry extras
             qw/ App-module-version /,
