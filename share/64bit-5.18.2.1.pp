@@ -58,7 +58,7 @@
     ### NEXT STEP ###########################
     {
         plugin     => 'Perl::Dist::Strawberry::Step::InstallPerlCore',
-        url        => 'http://cpan.metacpan.org/authors/id/R/RJ/RJBS/perl-5.18.2-RC1.tar.gz',
+        url        => 'http://cpan.metacpan.org/authors/id/R/RJ/RJBS/perl-5.18.2-RC3.tar.bz2',
         cf_email   => 'strawberry-perl@project', #IMPORTANT: keep 'strawberry-perl' before @
         perl_debug => 0,
         #use_64_bit_int not needed on 64bit
@@ -85,8 +85,8 @@
         plugin => 'Perl::Dist::Strawberry::Step::InstallModules',
         modules => [
           #here is a place to (re)install/(up/down)grade modules needed before 'Perl::Dist::Strawberry::Step::UpgradeCpanModules'
-          'http://cpan.metacpan.org/authors/id/M/MU/MUIR/modules/Text-Tabs+Wrap-2013.0523.tar.gz', # minicpan related issue #XXX-TODO check version
-          'http://cpan.metacpan.org/authors/id/A/AM/AMBS/ExtUtils/ExtUtils-CBuilder-0.280212.tar.gz', # minicpan related issue #XXX-TODO check version
+          'http://cpan.metacpan.org/authors/id/M/MU/MUIR/modules/Text-Tabs+Wrap-2013.0523.tar.gz',    # minicpan related issue #XXX-CHECK https://metacpan.org/pod/Text::Tabs
+          'http://cpan.metacpan.org/authors/id/A/AM/AMBS/ExtUtils/ExtUtils-CBuilder-0.280212.tar.gz', # minicpan related issue #XXX-CHECK https://metacpan.org/pod/ExtUtils::CBuilder
         ],
     },
     ### NEXT STEP ###########################
@@ -97,7 +97,7 @@
           # possible 'do' options: ignore_testfailure | skiptest | skip
           { do=>'ignore_testfailure', distribution=>'CPANPLUS' },           #XXX-TODO: CPANPLUS-0.9128 has test failure
           { do=>'ignore_testfailure', distribution=>'ExtUtils-MakeMaker' }, #XXX-TODO: ExtUtils-MakeMaker-6.72 has test failure
-          { do=>'ignore_testfailure', distribution=>'IPC-Cmd' },  #XXX-TODO: IPC-Cmd-0.90 has test failure
+          { do=>'ignore_testfailure', distribution=>'IPC-Cmd' },  			#XXX-TODO: IPC-Cmd-0.90 has test failure
         ]
     },
     ### NEXT STEP ###########################
@@ -108,14 +108,8 @@
             '<package_url>/kmx/perl-modules-patched/TermReadKey-2.31_patched.tar.gz', # special version needed XXX-report a bug
             { module=>'Term::ReadLine::Perl', env=>{ PERL_MM_NONINTERACTIVE=>1 } },
 
-            '<package_url>/kmx/perl-modules-patched/Win32-EventLog-0.076_patched.tar.gz',
-            '<package_url>/kmx/perl-modules-patched/Win32-Process-0.14_patched.tar.gz',
-            '<package_url>/kmx/perl-modules-patched/Win32-WinError-0.03_patched.tar.gz',
-            '<package_url>/kmx/perl-modules-patched/Win32-Pipe-0.024_patched.tar.gz',
-            { module=>'<package_url>/kmx/perl-modules-patched/Win32-OLE-0.1709_patched.tar.gz', ignore_testfailure=>1 },
-
             # compression
-            { module=>'Archive-Zip', ignore_testfailure=>1 }, #XXX-TODO: Archive-Zip-1.33 test FAILS
+            { module=>'Archive-Zip', ignore_testfailure=>1 }, 	#XXX-TODO: Archive-Zip-1.33 test FAILS
             qw/ IO-Compress-Lzma Compress-unLZMA /,
             
             # file related
@@ -139,13 +133,14 @@
             { module=>'Win32API-Registry', ignore_testfailure=>1 }, #XXX-TODO: Win32API-Registry-0.32 test FAILS
             { module=>'Win32-TieRegistry', ignore_testfailure=>1 }, #XXX-TODO: Win32-TieRegistry-0.26 test FAILS
             { module=>'Win32-API',         ignore_testfailure=>1 }, #XXX-TODO: Win32-API-0.75 test FAILS (5.18.x incompatibility)
-            qw/ Win32-EventLog Win32-Exe Win32-OLE Win32-Process Win32-WinError Win32-File-Object Win32-UTCFileTime /,
+			{ module=>'Win32-OLE',         ignore_testfailure=>1 }, #XXX-TODO: test used to fail
+            qw/ Win32-EventLog Win32-Exe Win32-Process Win32-WinError Win32-File-Object Win32-UTCFileTime /,
 
             # crypto
-            '<package_url>/kmx/perl-modules-patched/Crypt-OpenSSL-Random-0.04_patched.tar.gz',  #XXX-TODO: OpenSSL detection
-            '<package_url>/kmx/perl-modules-patched/Crypt-OpenSSL-Bignum-0.04_patched.tar.gz',  #XXX-TODO: OpenSSL detection
-            '<package_url>/kmx/perl-modules-patched/Crypt-OpenSSL-AES-0.02_patched.tar.gz',     #XXX-TODO: OpenSSL detection
-            '<package_url>/kmx/perl-modules-patched/Crypt-OpenSSL-DSA-0.14_patched.tar.gz',     #XXX-TODO: OpenSSL detection
+            '<package_url>/kmx/perl-modules-patched/Crypt-OpenSSL-Random-0.04_patched.tar.gz',  #XXX-CHECK https://metacpan.org/pod/Crypt::OpenSSL::Random
+            '<package_url>/kmx/perl-modules-patched/Crypt-OpenSSL-Bignum-0.04_patched.tar.gz',  #XXX-CHECK https://metacpan.org/pod/Crypt::OpenSSL::Bignum
+            '<package_url>/kmx/perl-modules-patched/Crypt-OpenSSL-AES-0.02_patched.tar.gz',     #XXX-CHECK https://metacpan.org/pod/Crypt::OpenSSL::AES
+            '<package_url>/kmx/perl-modules-patched/Crypt-OpenSSL-DSA-0.14_patched.tar.gz',     #XXX-CHECK https://metacpan.org/pod/Crypt::OpenSSL::DSA
             'Crypt-OpenSSL-RSA',
             
             'Alt::Crypt::RSA::BigInt',                                                          #XXX-TODO: a hack Crypt-RSA without Math::PARI
