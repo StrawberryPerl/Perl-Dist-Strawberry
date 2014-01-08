@@ -58,7 +58,7 @@
     ### NEXT STEP ###########################
     {
         plugin     => 'Perl::Dist::Strawberry::Step::InstallPerlCore',
-        url        => 'http://cpan.metacpan.org/authors/id/R/RJ/RJBS/perl-5.18.2-RC3.tar.bz2',
+        url        => 'http://cpan.metacpan.org/authors/id/R/RJ/RJBS/perl-5.18.2.tar.bz2',
         cf_email   => 'strawberry-perl@project', #IMPORTANT: keep 'strawberry-perl' before @
         perl_debug => 0,
         use_64_bit_int => 1,
@@ -97,7 +97,7 @@
           # possible 'do' options: ignore_testfailure | skiptest | skip
           { do=>'ignore_testfailure', distribution=>'CPANPLUS' },           #XXX-TODO: CPANPLUS-0.9128 has test failure
           { do=>'ignore_testfailure', distribution=>'ExtUtils-MakeMaker' }, #XXX-TODO: ExtUtils-MakeMaker-6.72 has test failure
-          { do=>'ignore_testfailure', distribution=>'IPC-Cmd' },  			#XXX-TODO: IPC-Cmd-0.90 has test failure
+          { do=>'ignore_testfailure', distribution=>'IPC-Cmd' },              #XXX-TODO: IPC-Cmd-0.90 has test failure
         ]
     },
     ### NEXT STEP ###########################
@@ -109,7 +109,7 @@
             { module=>'Term::ReadLine::Perl', env=>{ PERL_MM_NONINTERACTIVE=>1 } },
 
             # compression
-            { module=>'Archive-Zip', ignore_testfailure=>1 }, 	#XXX-TODO: Archive-Zip-1.33 test FAILS
+            { module=>'Archive-Zip', ignore_testfailure=>1 },     #XXX-TODO: Archive-Zip-1.33 test FAILS
             qw/ IO-Compress-Lzma Compress-unLZMA /,
             
             # file related
@@ -133,7 +133,7 @@
             { module=>'Win32API-Registry', ignore_testfailure=>1 }, #XXX-TODO: Win32API-Registry-0.32 test FAILS
             { module=>'Win32-TieRegistry', ignore_testfailure=>1 }, #XXX-TODO: Win32-TieRegistry-0.26 test FAILS
             { module=>'Win32-API',         ignore_testfailure=>1 }, #XXX-TODO: Win32-API-0.75 test FAILS (5.18.x incompatibility)
-			{ module=>'Win32-OLE',         ignore_testfailure=>1 }, #XXX-TODO: test used to fail
+            { module=>'Win32-OLE',         ignore_testfailure=>1 }, #XXX-TODO: test used to fail
             qw/ Win32-EventLog Win32-Exe Win32-Process Win32-WinError Win32-File-Object Win32-UTCFileTime /,
 
             # crypto
@@ -163,8 +163,8 @@
 
             # SSL & SSH
             qw/ Net-SSLeay /,
-			{ module=>'IO-Socket-SSL', ignore_testfailure=>1 },    #XXX-TODO
-			qw/ Net-SMTP-TLS Net-SSH2 /,
+            { module=>'IO-Socket-SSL', ignore_testfailure=>1 },    #XXX-TODO
+            qw/ Net-SMTP-TLS Net-SSH2 /,
             { module =>'Crypt-SSLeay', ignore_testfailure=>1 },
 
             # network
@@ -202,7 +202,7 @@
             qw/ CPAN::SQLite Alien-Tidyp FCGI Text-Diff Text-Patch /,
             qw/ IO-stringy IO::String String-CRC32 Sub-Uplevel Convert-PEM/,
             qw/ IPC-Run3 IPC-System-Simple /,
-			{ module=>'IPC-Run', skiptest=>1 }, 	#XXX-FIXME trouble with 'Terminating on signal SIGBREAK(21)'
+            { module=>'IPC-Run', skiptest=>1 },     #XXX-FIXME trouble with 'Terminating on signal SIGBREAK(21)'
 
             # strawberry extras
             qw/ App-module-version /,

@@ -58,7 +58,7 @@
     ### NEXT STEP ###########################
     {
         plugin     => 'Perl::Dist::Strawberry::Step::InstallPerlCore',
-        url        => 'http://cpan.metacpan.org/authors/id/R/RJ/RJBS/perl-5.18.2-RC3.tar.bz2',
+        url        => 'http://cpan.metacpan.org/authors/id/R/RJ/RJBS/perl-5.18.2.tar.bz2',
         cf_email   => 'strawberry-perl@project', #IMPORTANT: keep 'strawberry-perl' before @
         perl_debug => 0,
         #use_64_bit_int => 1,
@@ -97,7 +97,7 @@
           # possible 'do' options: ignore_testfailure | skiptest | skip
           { do=>'ignore_testfailure', distribution=>'CPANPLUS' },           #XXX-TODO: CPANPLUS-0.9128 has test failure
           { do=>'ignore_testfailure', distribution=>'ExtUtils-MakeMaker' }, #XXX-TODO: ExtUtils-MakeMaker-6.72 has test failure
-          { do=>'ignore_testfailure', distribution=>'IPC-Cmd' },  			#XXX-TODO: IPC-Cmd-0.90 has test failure
+          { do=>'ignore_testfailure', distribution=>'IPC-Cmd' },            #XXX-TODO: IPC-Cmd-0.90 has test failure
         ]
     },
     ### NEXT STEP ###########################
@@ -109,7 +109,7 @@
             { module=>'Term::ReadLine::Perl', env=>{ PERL_MM_NONINTERACTIVE=>1 } },
 
             # compression
-            { module=>'Archive-Zip', ignore_testfailure=>1 }, 	#XXX-TODO: Archive-Zip-1.33 test FAILS
+            { module=>'Archive-Zip', ignore_testfailure=>1 },   #XXX-TODO: Archive-Zip-1.33 test FAILS
             qw/ IO-Compress-Lzma Compress-unLZMA /,
             
             # file related
@@ -133,7 +133,7 @@
             { module=>'Win32API-Registry', ignore_testfailure=>1 }, #XXX-TODO: Win32API-Registry-0.32 test FAILS
             { module=>'Win32-TieRegistry', ignore_testfailure=>1 }, #XXX-TODO: Win32-TieRegistry-0.26 test FAILS
             { module=>'Win32-API',         ignore_testfailure=>1 }, #XXX-TODO: Win32-API-0.75 test FAILS (5.18.x incompatibility)
-			{ module=>'Win32-OLE',         ignore_testfailure=>1 }, #XXX-TODO: test used to fail
+            { module=>'Win32-OLE',         ignore_testfailure=>1 }, #XXX-TODO: test used to fail
             qw/ Win32-EventLog Win32-Exe Win32-Process Win32-WinError Win32-File-Object Win32-UTCFileTime /,
 
             # crypto
@@ -163,8 +163,8 @@
 
             # SSL & SSH
             qw/ Net-SSLeay /,
-			{ module=>'IO-Socket-SSL', ignore_testfailure=>1 },    #XXX-TODO
-			qw/ Net-SMTP-TLS Net-SSH2 /,
+            { module=>'IO-Socket-SSL', ignore_testfailure=>1 },    #XXX-TODO
+            qw/ Net-SMTP-TLS Net-SSH2 /,
             { module =>'Crypt-SSLeay', ignore_testfailure=>1 },
 
             # network
@@ -202,7 +202,7 @@
             qw/ CPAN::SQLite Alien-Tidyp FCGI Text-Diff Text-Patch /,
             qw/ IO-stringy IO::String String-CRC32 Sub-Uplevel Convert-PEM/,
             qw/ IPC-Run3 IPC-System-Simple /,
-			{ module=>'IPC-Run', skiptest=>1 }, 	#XXX-FIXME trouble with 'Terminating on signal SIGBREAK(21)'
+            { module=>'IPC-Run', skiptest=>1 },     #XXX-FIXME trouble with 'Terminating on signal SIGBREAK(21)'
 
             # strawberry extras
             qw/ App-module-version /,
@@ -282,54 +282,6 @@
     {
        plugin => 'Perl::Dist::Strawberry::Step::OutputZIP', # no options needed
     },
-    ### NEXT STEP ###########################
-#    {
-#       plugin => 'Perl::Dist::Strawberry::Step::OutputMSM_MSI',
-#       exclude  => [ # do not include neither to MSM nor to MSI
-#           #'dirname\subdir1\subdir2',
-#           #'dirname\file.pm',
-#           'relocation.pl.bat',
-#           'update_env.pl.bat',
-#       ],
-#       exclude_msm => [ # do not include these to MSM but to MSI
-#           #qr/^win32\\.*?\.url$/,
-#           'win32',
-#           'perl2.reloc.txt',
-#           'README.txt'
-#       ],
-#       msi_upgrade_code    => '45F906A2-F86E-335B-992F-990E8BEABC13', #BEWARE: fixed value for all 32bit releases (for ever)
-#       app_publisher       => 'strawberryperl.com project',
-#       url_about           => 'http://strawberryperl.com/',
-#       url_help            => 'http://strawberryperl.com/support.html',
-#       msi_default_instdir => 'c:\strawberry',
-#       msi_main_icon       => '<dist_sharedir>\msi\files\strawberry.ico',
-#       msi_license_rtf     => '<dist_sharedir>\msi\files\License-short.rtf',
-#       msi_dialog_bmp      => '<dist_sharedir>\msi\files\StrawberryDialog.bmp',
-#       msi_banner_bmp      => '<dist_sharedir>\msi\files\StrawberryBanner.bmp',
-#       msi_debug           => 0,
-#
-#       start_menu => [ # if "description" is missing it will be set to the same value as "name"
-#         { type=>'shortcut', name=>'Perl (command line)', icon=>'<dist_sharedir>\msi\files\perlexe.ico', description=>'Quick way to get to the command line in order to use Perl', target=>'[SystemFolder]cmd.exe', workingdir=>'PersonalFolder' },
-#         { type=>'shortcut', name=>'Strawberry Perl Release Notes', icon=>'<dist_sharedir>\msi\files\strawberry.ico', target=>'[d_win32]Strawberry Perl Release Notes.url', workingdir=>'d_win32' },
-#         { type=>'shortcut', name=>'Strawberry Perl README', target=>'[INSTALLDIR]README.txt', workingdir=>'INSTALLDIR' },
-#         { type=>'folder',   name=>'Tools', members=>[
-#              { type=>'shortcut', name=>'CPAN Client', icon=>'<dist_sharedir>\msi\files\cpan.ico', target=>'[d_perl_bin.<MSMID>]cpan.bat', workingdir=>'d_perl_bin.<MSMID>' },
-#              { type=>'shortcut', name=>'Create local library areas', icon=>'<dist_sharedir>\msi\files\strawberry.ico', target=>'[d_perl_bin.<MSMID>]llw32helper.bat', workingdir=>'d_perl_bin.<MSMID>' },
-#         ] },
-#         { type=>'folder', name=>'Related Websites', members=>[
-#              { type=>'shortcut', name=>'CPAN Module Search', icon=>'<dist_sharedir>\msi\files\cpan.ico', target=>'[d_win32]CPAN Module Search.url', workingdir=>'d_win32' },
-#              { type=>'shortcut', name=>'MetaCPAN Search Engine', icon=>'<dist_sharedir>\msi\files\metacpan.ico', target=>'[d_win32]MetaCPAN Search Engine.url', workingdir=>'d_win32' },
-#              { type=>'shortcut', name=>'Perl Documentation', icon=>'<dist_sharedir>\msi\files\perldoc.ico', target=>'[d_win32]Perl Documentation.url', workingdir=>'d_win32' },
-#              { type=>'shortcut', name=>'Strawberry Perl Website', icon=>'<dist_sharedir>\msi\files\strawberry.ico', target=>'[d_win32]Strawberry Perl Website.url', workingdir=>'d_win32' },
-#              { type=>'shortcut', name=>'Learning Perl (tutorials, examples)', icon=>'<dist_sharedir>\msi\files\perldoc.ico', target=>'[d_win32]Learning Perl (tutorials, examples).url', workingdir=>'d_win32' },
-#              { type=>'shortcut', name=>'Live Support (chat)', icon=>'<dist_sharedir>\msi\files\onion.ico', target=>'[d_win32]Live Support (chat).url', workingdir=>'d_win32' },
-#         ] },
-#       ],
-#       env => {
-#         TERM => "dumb",
-#       },
-#
-#    },
     ### NEXT STEP ###########################
     {
         plugin => 'Perl::Dist::Strawberry::Step::InstallModules',
