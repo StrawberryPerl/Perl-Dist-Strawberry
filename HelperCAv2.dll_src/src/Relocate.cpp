@@ -5,7 +5,7 @@
 // This code is free software; you can redistribute it and/or modify it
 // under the same terms as Perl itself.
 
-// ##### EXPORTED FUCTIONS: RelocateMSI RelocateMSM
+// ##### EXPORTED FUCTIONS: RelocateMSI
 
 #include "stdafx.h"
 #include "ErrorMsg.h"
