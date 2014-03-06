@@ -350,7 +350,7 @@ UINT Relocate_Worker(
 
     // Get filename to open
     _tcscpy_s(sFileFrom, _MAX_PATH, sRelocationFile);
-    _tcscpy_s(sFileTo, _MAX_PATH, sRelocationFile);
+	_tcscpy_s(sFileTo, _MAX_PATH, sRelocationFile);
     _tcscat_s(sFileTo, _MAX_PATH, _T(".new"));
 
     // Open our files.
@@ -373,7 +373,9 @@ UINT Relocate_Worker(
     SimpleLogString2(hModule, _T("Relocate_Worker sDirectoryFrom="), sDirectoryFrom);
 
     // Second parameter is where to relocate to.
-    _tcscpy_s(sDirectoryTo, _MAX_PATH, sInstallDirectory);
+    //_tcscpy_s(sDirectoryTo, _MAX_PATH, sInstallDirectory);
+	GetShortPathName(sInstallDirectory, sDirectoryTo, _MAX_PATH);
+	SimpleLogString2(hModule, _T("Relocate_Worker sDirectoryTo="),  sDirectoryTo);
 
     // Make sire it ends in a slash.
     if (*(sDirectoryTo + _tcslen(sDirectoryTo) - 1) != _T('\\')) {
