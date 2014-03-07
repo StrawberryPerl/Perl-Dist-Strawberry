@@ -15,10 +15,10 @@ sub check {
   my $rv = 1;
   
   for (qw/reloc1_out reloc2_out reloc1_in reloc2_in/) {
-    warn "BEWARE: '$_' is DEPRECATED" if defined $self->{config}->{reloc1_out};
+    warn "BEWARE: '$_' is DEPRECATED" if defined $self->{config}->{$_};
   }
   for (qw/reloc_out reloc_in/) {
-    warn "BEWARE: missing '$_'" unless defined $self->{config}->{reloc1_out};
+    warn "BEWARE: missing '$_'" unless defined $self->{config}->{$_};
     $rv = 0;
   }
   
