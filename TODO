@@ -1,24 +1,39 @@
-### MSI
+### MSI: filesystem ACL for c:\strawberry & co.
+http://wixtoolset.org/documentation/manual/v3/xsd/wix/permission.html
+http://wixtoolset.org/documentation/manual/v3/xsd/util/permissionex.html
+http://blogs.msdn.com/b/cjacks/archive/2008/12/04/how-to-set-directory-permissions-at-install-time-using-an-msi-created-using-windows-installer-xml-wix.aspx
+<CreateFolder ... >
+
+create group:
+http://stackoverflow.com/questions/11459591/how-to-create-a-local-group-and-add-an-active-directory-user-to-it-in-wix
+http://stackoverflow.com/questions/12278265/how-to-get-user-credentials-displayed-as-default-in-a-wix-custom-dialog
+http://social.msdn.microsoft.com/Forums/vstudio/en-US/39d9e905-2b35-4ce9-a544-4564f6b5a376/setting-file-permissions-in-languages-other-than-english-windows-installer-wix?forum=vssetup
+
+### missing CPANPLUS!!!
+
+### new libs
+
+(done)### relocate.bat
+use Win32 shortname
+
+(done)### maybe add to 5.20
+DBIx::Class
+Mojolicious
+CryptX
+
+(done)### MSI
 - drop MSM support and simplify MSI generation
 - fix installation on a PC without drive C: }+ other reported bugs]
+
+========== LATER ==========
 
 ### tools
 - update: dendef, gmake, dmake, mingw-runtime
 - add: genidl 
 
-### maybe add to 5.20
-DBIx::Class
-Mojolicious
-Crypt/Rijndael
-Data/Random
-Crypt/RIPEMD160
-Crypt/DSA
-
 ### CHM documentation 
 - try http://www.microsoft.com/en-us/download/details.aspx?id=21138
 - see https://github.com/oneclick/rubyinstaller/blob/master/resources/chm/contents.hhc.rhtml
-
-### MSI: filesystem ACL for c:\strawberry & co.
 
 ### fix shebangline (partly fixed)
 

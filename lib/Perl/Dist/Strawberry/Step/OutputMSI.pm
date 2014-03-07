@@ -29,7 +29,7 @@ sub check {
   my $self = shift;
   #global: app_version
   #global: app_name
-  my $bdir = canonpath(catdir($self->global->{build_dir}, 'msm_msi'));
+  my $bdir = canonpath(catdir($self->global->{build_dir}, 'msi'));
   -d $bdir or make_path($bdir) or die "ERROR: cannot create '$bdir'";
   
   my $d = $self->global->{wixbin_dir} // $self->_detect_wix_dir;
@@ -42,31 +42,28 @@ sub check {
   $self->{candle_exe} = canonpath("$d/candle.exe");
   $self->{light_exe} = canonpath("$d/light.exe");
 
+  die "missing 'msi_progfiles_dir' value" unless $self->{config}->{msi_progfiles_dir};
+  die "missing 'msi_default_instdir' not supported" if $self->{config}->{msi_default_instdir};
 }
 
 sub run {
   my $self = shift;
  
-  my $bdir = catdir($self->global->{build_dir}, 'msm_msi');
+  my $bdir = catdir($self->global->{build_dir}, 'msi');
   
-  # compute MSM id from MSM guid
   my $msi_guid = $self->{data_uuid}->create_str(); # get random GUID
-  my $msm_guid = $self->{data_uuid}->create_str(); # get random GUID
-  (my $msm_id = $msm_guid) =~ s/-/_/g;
 
-  # create WXS parts to be inserted into MSM_main.wxs.tt & MSI_main.wxs.tt 
+  # create WXS parts to be inserted into MSI_main.wxs.tt 
   my $xml_env = $self->_generate_wxml_for_environment();
-  my ($xml_start_menu, $xml_start_menu_icons) = $self->_generate_wxml_for_start_menu($msm_id);
-  my ($xml_msm, $xml_msi, $id_list_msm, $id_list_msi) = $self->_generate_wxml_for_directory($self->global->{image_dir});
+  my ($xml_start_menu, $xml_start_menu_icons) = $self->_generate_wxml_for_start_menu();
+  my ($xml_msi, $id_list_msi) = $self->_generate_wxml_for_directory($self->global->{image_dir});
   #debug:
   write_file("$bdir/debug.xml_msi.xml", $xml_msi);
-  write_file("$bdir/debug.xml_msm.xml", $xml_msm);
   write_file("$bdir/debug.xml_start_menu.xml", $xml_start_menu);
   write_file("$bdir/debug.xml_start_menu_icons.xml", $xml_start_menu_icons);
 
-  # prepare MSI/MSM filenames 
+  # prepare MSI filenames 
   my $output_basename = $self->global->{output_basename} // 'perl-output';
-  my $msm_file = catfile($self->global->{output_dir}, "$output_basename.msm");
   my $msi_file = catfile($self->global->{output_dir}, "$output_basename.msi");
   my $wixpdb_file = catfile($self->global->{output_dir}, "$output_basename.wixpdb");
 
@@ -83,31 +80,25 @@ sub run {
   my %vars = (
     # global info taken from 'boss'
     %{$self->global},
-    # OutputMSM_MSI config info    
+    # OutputMSI config info    
     %{$self->{config}},
     # the following items are computed
     msi_product_guid => $msi_guid,
-    msm_package_guid => $msm_guid,
     msi_random_upgrade_code => $self->{data_uuid}->create_str(), # get random GUID
-    msm_package_id   => $msm_id,
     msi_version      => sprintf("%d.%d.%d", $v1, $v2, $v3), # e.g. 5.12.2001
     msi_upgr_version => sprintf("%d.%d.%d", $v1, $v2, 0),   # e.g. 5.12.0
-    msm_filename     => $msm_file,
     # WXS data
-    xml_msm_dirtree     => $xml_msm,
     xml_msi_dirtree     => $xml_msi,
     xml_env             => $xml_env,
     xml_startmenu       => $xml_start_menu,
     xml_startmenu_icons => $xml_start_menu_icons,
   );
 
-  my $f1 = catfile($self->global->{dist_sharedir}, 'msi\MSM_main.wxs.tt');
-  my $f2 = catfile($self->global->{dist_sharedir}, 'msi\MSI_main.wxs.tt');
+  my $f2 = catfile($self->global->{dist_sharedir}, 'msi\MSI_main-v2.wxs.tt'); # BEWARE using v2
   my $f3 = catfile($self->global->{dist_sharedir}, 'msi\Variables.wxi.tt');
   my $f4 = catfile($self->global->{dist_sharedir}, 'msi\MSI_strings.wxl.tt');  
   my $t = Template->new(ABSOLUTE=>1);
-  write_file(catfile($self->global->{debug_dir}, 'TTvars_OutputMSM_MSI_'.time.'.txt'), pp(\%vars)); #debug dump
-  $t->process($f1, \%vars, catfile($bdir, 'MSM_main.wxs')) || die $t->error();
+  write_file(catfile($self->global->{debug_dir}, 'TTvars_OutputMSI_'.time.'.txt'), pp(\%vars)); #debug dump
   $t->process($f2, \%vars, catfile($bdir, 'MSI_main.wxs')) || die $t->error();
   $t->process($f3, \%vars, catfile($bdir, 'Variables.wxi')) || die $t->error();
   $t->process($f4, \%vars, catfile($bdir, 'MSI_strings.wxl')) || die $t->error();
@@ -130,23 +121,13 @@ sub run {
   #            format was not expected by the external UI message logger: "The installer has encountered an unexpected error installing this 
   #            package. This may indicate a problem with this package. The error code is 2738. ".
 
-  my $candle1_cmd = [$candle_exe, "$bdir\\MSM_main.wxs", '-out', "$bdir\\MSM_main.wixobj", '-v'];
-  my $light1_cmd  = [$light_exe,  "$bdir\\MSM_main.wixobj", '-out', $msm_file, '-pdbout', "$bdir\\MSM_main.wixpdb", qw/-ext WixUIExtension -ext WixUtilExtension -v -sice:ICE32 -sice:ICE08/];
+  #-ext WixUIExtension -ext WixUtilExtension -v -sice:ICE32 -sice:ICE08
   my $candle2_cmd = [$candle_exe, "$bdir\\MSI_main.wxs", '-out', "$bdir\\MSI_main.wixobj", '-v'];
   my $light2_cmd  = [$light_exe,  "$bdir\\MSI_main.wixobj", '-out', $msi_file, '-pdbout', "$bdir\\MSI_main.wixpdb", '-loc', "$bdir\\MSI_strings.wxl", qw/-ext WixUIExtension -ext WixUtilExtension -sice:ICE38 -sice:ICE43 -sice:ICE48 -sice:ICE47 -v -sice:ICE32 -sice:ICE08 -sice:ICE09 -sice:ICE61/];
 
-  # backup already existing <output_dir>/*.msm and <output_dir>/*.msi
+  # backup already existing <output_dir>/*.msi
   $self->backup_file($msi_file);
-  $self->backup_file($msm_file);
 
-  $self->boss->message(2, "MSM: gonna run $candle1_cmd->[0]");
-  $rv = $self->execute_standard($candle1_cmd, catfile($self->global->{debug_dir}, "MSM_candle.log.txt"));
-  die "ERROR: MSM candle" unless(defined $rv && $rv == 0);
-  
-  $self->boss->message(2, "MSM: gonna run $light1_cmd->[0]");
-  $rv = $self->execute_standard($light1_cmd, catfile($self->global->{debug_dir}, "MSM_light.log.txt"));
-  die "ERROR: MSM light" unless(defined $rv && $rv == 0);
-  
   $self->boss->message(2, "MSI: gonna run $candle2_cmd->[0]");
   $rv = $self->execute_standard($candle2_cmd, catfile($self->global->{debug_dir}, "MSI_candle.log.txt"));
   die "ERROR: MSI candle" unless(defined $rv && $rv == 0);
@@ -157,12 +138,8 @@ sub run {
   
   #store results
   $self->{data}->{output}->{msi} = $msi_file;
-  $self->{data}->{output}->{msm} = $msm_file;
-  $self->{data}->{output}->{msm_sha1} = $self->sha1_file($msm_file);
   $self->{data}->{output}->{msi_sha1} = $self->sha1_file($msi_file); # will change after we sign MSI
   $self->{data}->{output}->{msi_guid} = $msi_guid;
-  $self->{data}->{output}->{msm_guid} = $msm_guid;
-  $self->{data}->{output}->{msm_id}   = $msm_id;
 
 } 
 
@@ -177,7 +154,7 @@ sub _generate_wxml_for_environment {
 }
 
 sub _generate_wxml_for_start_menu {
-  my ($self, $msm_id) = @_;
+  my ($self) = @_;
   my $menu_result = "";
   my $ico_result = "";
   my $id = 1;
@@ -187,8 +164,8 @@ sub _generate_wxml_for_start_menu {
   $menu_result .= "            <RemoveFolder Id='StartF_$component_id.rm' On='uninstall' />\n";
   $menu_result .= "          </Component>\n";
   for my $item (@{$self->{config}->{start_menu}}) {       
-    $menu_result .= $self->_generate_start_menu_folder($item, 0, $msm_id)   if $item->{type} eq 'folder';
-    $menu_result .= $self->_generate_start_menu_shortcut($item, 0, $msm_id) if $item->{type} eq 'shortcut';
+    $menu_result .= $self->_generate_start_menu_folder($item, 0)   if $item->{type} eq 'folder';
+    $menu_result .= $self->_generate_start_menu_shortcut($item, 0) if $item->{type} eq 'shortcut';
   }
   for (keys %{$self->{start_menu_icons}}) {
     $ico_result .= "    <Icon Id='$self->{start_menu_icons}->{$_}' SourceFile='$_' />\n";    
@@ -204,15 +181,11 @@ sub _generate_wxml_for_directory {
   my $id_list_msi = [ @{$self->{component_id_list}} ];
   $self->{component_id_list} = [];
 
-  my $msm = $self->_tree2xml($t, 'MSM');
-  my $id_list_msm = [ @{$self->{component_id_list}} ];
-  $self->{component_id_list} = [];
-
-  return ($msm, $msi, $id_list_msm, $id_list_msi);  
+  return ($msi, $id_list_msi);  
 }
 
 sub _generate_start_menu_shortcut {  # !!!BEWARE!!! this sub is called recursively
-  my ($self, $item, $depth, $msm_id) = @_;
+  my ($self, $item, $depth) = @_;
   $depth //= 0; 
   my $result = "";
   my $ident = "          " . ("  " x $depth);
@@ -220,10 +193,7 @@ sub _generate_start_menu_shortcut {  # !!!BEWARE!!! this sub is called recursive
   my $attr_description = defined $item->{description} ? "Description='$item->{description}'" : "Description='$item->{name}'";
   my $attr_workingdir  = defined $item->{workingdir}  ? "WorkingDirectory='$item->{workingdir}'" : "";
   my $attr_target = $item->{target};
-  
-  $attr_workingdir =~ s/<MSMID>/$msm_id/g; #XXX-FIXME this is a hack
-  $attr_target     =~ s/<MSMID>/$msm_id/g; #XXX-FIXME this is a hack
-  
+
   my $attr_icon = "";
   if (defined $item->{icon}) {
     my $i_file = canonpath($self->boss->resolve_name($item->{icon}));
@@ -239,7 +209,7 @@ sub _generate_start_menu_shortcut {  # !!!BEWARE!!! this sub is called recursive
 }
 
 sub _generate_start_menu_folder {  # !!!BEWARE!!! this sub is called recursively
-  my ($self, $item, $depth, $msm_id) = @_;
+  my ($self, $item, $depth) = @_;
   $depth //= 0; 
   my $result = "";
   my $ident = "          " . ("  " x $depth);
@@ -249,8 +219,8 @@ sub _generate_start_menu_folder {  # !!!BEWARE!!! this sub is called recursively
   $result .= "$ident    <RemoveFolder Id='StartF_$component_id.rm' On='uninstall' />\n";
   $result .= "$ident  </Component>\n";
   for my $m (@{$item->{members}}) {       
-    $result .= $self->_generate_start_menu_folder($m, $depth+1, $msm_id)   if $m->{type} eq 'folder';
-    $result .= $self->_generate_start_menu_shortcut($m, $depth+1, $msm_id) if $m->{type} eq 'shortcut';
+    $result .= $self->_generate_start_menu_folder($m, $depth+1)   if $m->{type} eq 'folder';
+    $result .= $self->_generate_start_menu_shortcut($m, $depth+1) if $m->{type} eq 'shortcut';
   }
   $result .= "$ident</Directory>\n";
   return $result;
@@ -299,22 +269,10 @@ sub _prepare_marked_tree {
   my $t = $self->_generate_tree($rootdir);  
   $self->boss->message(3, "generate tree - items=", scalar(keys $self->{global_hash}));
   
-  # by default all go to MSM
-  $self->_mark_tree($t, 'MSM');
+  # by default all go to MSI
+  $self->_mark_tree($t, 'MSI');
 
-  # let us move items matching 'exclude_msm' from MSM to MSI
-  my @e;
-  for my $i (@{$self->{config}->{exclude_msm}}) {
-    if (ref($i) eq 'Regexp') {
-      push @e, grep {/$i/} (keys $self->{global_hash});
-    }
-    else {
-      push @e, grep {lc($_) eq lc($i)} (keys $self->{global_hash});
-    }
-  }
-  $self->_mark_tree($self->{global_hash}->{$_}, 'MSI') for (@e);
-
-  # let us completely drop items matching 'exclude' these will be neither in MSM nor MSI
+  # let us completely drop items matching 'exclude' these will not be in MSI
   my @s;
   for my $i (@{$self->{config}->{exclude}}) {
     if (ref($i) eq 'Regexp') {
@@ -346,7 +304,7 @@ sub _tree2xml {  # !!!BEWARE!!! this sub is called recursively
   
   my @f = grep { $_->{mark} eq $mark } @{$root->{files}};
   my @d = grep { $_->{mark} eq $mark } @{$root->{dirs}};
-  my $feat = $mark eq 'MSM' ? '' : "Feature='feat_$mark'";
+  my $feat = "Feature='feat_$mark'";
   
   if (defined $dir_id) {
     ($component_id, $component_guid) = $self->_gen_component_id($root->{short_name}."create");

@@ -1,9 +1,7 @@
 [%-IF beta==0 -%]
 [%app_fullname%] [%app_version%]-[%bits%]bit README
-=====================================
 [%-ELSE%]
 [%app_fullname%] [%app_version%]-beta[%beta%]-[%bits%]bit README
-===========================================
 [%-END%]
 
 What is Strawberry Perl?
@@ -52,5 +50,5 @@ How to use Strawberry Perl?
 * You'll need a text editor to create perl scripts.  One is NOT included with 
   Strawberry Perl. A few options are Padre (which can be installed by running 
   "cpan Padre" from the command prompt) and Notepad++ (which is downloadable at
-  http://notepad-plus.sourceforge.net), which both include syntax highlighting
+  http://notepad-plus-plus.org/ ) which both include syntax highlighting
   for perl scripts. You can even use Notepad, if you wish.
