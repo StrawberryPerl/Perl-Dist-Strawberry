@@ -7,12 +7,12 @@
            Language='1033'  Codepage="1252"  Manufacturer="$(var.Manufacturer)"
            Name="$(var.ProductName)" Version="$(var.CurrentVersion)">
 
-    <Package Id='*' Description='Perl for Win32 operating systems.'  
-             Languages='1033' SummaryCodepage="1252" Platform="$(var.Platform)" Comments="$(var.PkgComments)" 
+    <Package Id='*' Description='Perl for Win32 operating systems.'
+             Languages='1033' SummaryCodepage="1252" Platform="$(var.Platform)" Comments="$(var.PkgComments)"
              InstallerVersion='200' Compressed='yes' InstallPrivileges='elevated' InstallScope="perMachine" />
-    
+
     <Media Id='1' Cabinet='Perl.cab' CompressionLevel='high' EmbedCab='yes' />
-    
+
     <Property Id="ARPCOMMENTS" Value="$(var.ProductName) version [%app_version%]" />
     <Property Id="ARPCONTACT" Value="$(var.Manufacturer)" />
     <Property Id="ARPURLINFOABOUT" Value="$(var.URLAbout)" />
@@ -29,7 +29,7 @@
     </Property>
 
     <Icon Id="i_main_ico" SourceFile="$(var.FileMainIcon)" />
-    
+
     <WixVariable Id="WixUILicenseRtf" Value="$(var.FileLicenseRtf)" />
     <WixVariable Id="WixUIDialogBmp"  Value="$(var.FileDialogBmp)" />
     <WixVariable Id="WixUIBannerBmp"  Value="$(var.FileBannerBmp)" />
@@ -45,17 +45,18 @@
     <Binary Id='B_HelperCA' SourceFile="$(var.FileHelperDLL)" />
     <CustomAction Id='PreventDowngrading'  Error='A newer version of $(var.ProductName) is already installed.' />
     <CustomAction Id='UninstallOldVersion' Error='Already installed version of $(var.ProductName) cannot be upgraded; it has to be uninstalled first.' />
-    
+
     <CustomAction Id="CA_GetARPInstallLoc" Property ="INSTALLDIR"         Value="[UPGRADEDIR]"  Execute="immediate"/>
     <CustomAction Id="CA_SetARPInstallLoc" Property ="ARPINSTALLLOCATION" Value="[INSTALLDIR]"  Execute="immediate"/>
     <CustomAction Id="CA_SetFileList"      Property ="CA_Relocate"        Value="MSI;[INSTALLDIR];[#f_relocation_txt]" Return="check" />
     <CustomAction Id="CA_SetLocation_Perl" Property ="P_Perl_Location"    Value="[#f_perl_bin_perl_exe]" Execute="immediate"/>
     <CustomAction Id='CA_ClearSiteFolder'  BinaryKey='B_HelperCA' DllEntry='ClearSiteFolder' />
     <CustomAction Id='CA_ClearFolders'     BinaryKey='B_HelperCA' DllEntry='ClearFoldersFast' />
+    <CustomAction Id='CA_CheckDirName'     BinaryKey='B_HelperCA' DllEntry='CheckDirName' />
     <CustomAction Id="CA_Relocate"         BinaryKey="B_HelperCA" DllEntry="RelocateMSI" Return="check" Execute="deferred" Impersonate="no" />
     <CustomAction Id="CA_SpecialRefresh"   BinaryKey="B_HelperCA" DllEntry="SpecialRefresh" Execute="deferred" Impersonate="yes" />
     <CustomAction Id="LaunchReadmeFile"    BinaryKey="WixCA"      DllEntry="WixShellExec" Impersonate="yes" />
-    
+
     <InstallExecuteSequence>
       <!-- InstallExecuteSequence is used to define Custom Actions that fire after the UI is finished and the install is starting to execute -->
       <RemoveExistingProducts After='InstallInitialize' /> <!-- Windows Installer sets the UPGRADINGPRODUCTCODE Property when it runs this action -->
@@ -65,18 +66,18 @@
       <Custom Action='CA_ClearFolders'     Before='InstallInitialize'>REMOVE="ALL"</Custom> <!-- remove cpan/cpanplus/ppm folders -->
       <Custom Action="CA_SetARPInstallLoc" Before="RegisterProduct" />
       <Custom Action="CA_SetLocation_Perl" After ="CostFinalize"/>
-      <Custom Action="CA_SetFileList"      After ="InstallFiles"/>    
+      <Custom Action="CA_SetFileList"      After ="InstallFiles"/>
       <Custom Action="CA_Relocate"         After ="CA_SetFileList">NOT Installed</Custom>
       <Custom Action="CA_SpecialRefresh"   After ="PublishProduct" /> <!-- or maybe After="WriteEnvironmentStrings" -->
     </InstallExecuteSequence>
-    
+
     <InstallUISequence>
       <!-- InstallUISequence is used to define a dialog or Custom Action that fires in the UI sequence of events during the install -->
       <Custom Action='PreventDowngrading'  After ='FindRelatedProducts'>NEWERVERSIONDETECTED</Custom>
       <Custom Action='UninstallOldVersion' After ='FindRelatedProducts'>UPG_NOT_POSSIBLE</Custom>
       <Custom Action="CA_GetARPInstallLoc" Before="CostInitialize">OLDERVERSIONBEINGUPGRADED AND UPGRADEDIR</Custom>
     </InstallUISequence>
-    
+
     <UI>
         <ProgressText Action="CA_ClearSiteFolder">Preparing the site folder for cleaning... (please wait a while)</ProgressText>
         <ProgressText Action="CA_Relocate">Relocating ...</ProgressText>
@@ -88,7 +89,7 @@
     <UIRef Id='WixUI_MyInstallDirDlg' />
     <UIRef Id='WixUI_ErrorProgressText' />
     <UIRef Id='WixUI_Common' />
-    
+
     <UI Id="WixUI_MyInstallDirDlg">
         <TextStyle Id="WixUI_Font_Normal" FaceName="Tahoma" Size="8" />
         <TextStyle Id="WixUI_Font_Bigger" FaceName="Tahoma" Size="12" />
@@ -111,14 +112,18 @@
         <DialogRef Id="ExitDialog" />
 
         <Publish Dialog="BrowseDlg"             Control="OK"     Event="DoAction" Value="WixUIValidatePath" Order="3">1</Publish>
+        <Publish Dialog="BrowseDlg"             Control="OK"     Event="SpawnDialog" Value="InvalidDirDlg" Order="4"><![CDATA[WIXUI_INSTALLDIR_VALID<>"1"]]></Publish>
         <Publish Dialog="ExitDialog"            Control="Finish" Event="EndDialog" Value="Return" Order="999">1</Publish>
         <Publish Dialog="WelcomeDlg"            Control="Next"   Event="NewDialog" Value="LicenseAgreementDlg">1</Publish>
         <Publish Dialog="LicenseAgreementDlg"   Control="Back"   Event="NewDialog" Value="WelcomeDlg">1</Publish>
         <Publish Dialog="LicenseAgreementDlg"   Control="Next"   Event="NewDialog" Value="D_MyInstallDirDlg">LicenseAccepted = "1"</Publish>
         <Publish Dialog="D_MyInstallDirDlg"     Control="Back"   Event="NewDialog" Value="LicenseAgreementDlg">1</Publish>
         <Publish Dialog="D_MyInstallDirDlg"     Control="Next"   Event="SetTargetPath" Value="[WIXUI_INSTALLDIR]" Order="1">1</Publish>
-        <Publish Dialog="D_MyInstallDirDlg"     Control="Next"   Event="DoAction" Value="WixUIValidatePath" Order="2">1</Publish>
-        <Publish Dialog="D_MyInstallDirDlg"     Control="Next"   Event="NewDialog" Value="VerifyReadyDlg" Order="6">1</Publish>
+        <Publish Dialog="D_MyInstallDirDlg"     Control="Next"   Event="DoAction" Value="WixUIValidatePath" Order="2">NOT WIXUI_DONTVALIDATEPATH</Publish>
+        <Publish Dialog="D_MyInstallDirDlg"     Control="Next"   Event="SpawnDialog" Value="InvalidDirDlg" Order="3"><![CDATA[NOT WIXUI_DONTVALIDATEPATH AND WIXUI_INSTALLDIR_VALID<>"1"]]></Publish>
+        <Publish Dialog="D_MyInstallDirDlg"     Control="Next"   Event="DoAction" Value="CA_CheckDirName" Order="4">NOT WIXUI_DONTVALIDATEPATH</Publish>
+        <Publish Dialog="D_MyInstallDirDlg"     Control="Next"   Event="SpawnDialog" Value="D_BadLocationDlg" Order="5"><![CDATA[NOT WIXUI_DONTVALIDATEPATH AND WIXUI_INSTALLDIR_VALID<>"1"]]></Publish>
+        <Publish Dialog="D_MyInstallDirDlg"     Control="Next"   Event="NewDialog" Value="VerifyReadyDlg" Order="6">WIXUI_DONTVALIDATEPATH OR WIXUI_INSTALLDIR_VALID="1"</Publish>
         <Publish Dialog="D_MyInstallDirDlg"     Control="ChangeFolder" Property="_BrowseProperty" Value="[WIXUI_INSTALLDIR]" Order="1">1</Publish>
         <Publish Dialog="D_MyInstallDirDlg"     Control="ChangeFolder" Event="SpawnDialog" Value="BrowseDlg" Order="2">1</Publish>
         <Publish Dialog="VerifyReadyDlg"        Control="Back"   Event="NewDialog" Value="D_MyInstallDirDlg" Order="1">NOT Installed</Publish>
@@ -145,23 +150,26 @@
           <Control Id="ChangeFolder" Type="PushButton" X="20" Y="120" Width="56" Height="17" Text="!(loc.InstallDirDlgChange)" />
         </Dialog>
 
+        <Dialog Id="D_BadLocationDlg" Width="260" Height="85" Title="!(loc.InstallDirDlg_Title)" NoMinimize="yes">
+          <Control Id="Return" Type="PushButton" X="100" Y="57" Width="56" Height="17" Default="yes" Cancel="yes" Text="&amp;Return">
+            <Publish Event="EndDialog" Value="Return">1</Publish>
+          </Control>
+          <Control Id="Text" Type="Text" X="48" Y="15" Width="194" Height="30" TabSkip="no">
+            <Text>$(var.ProductName) cannot be installed in a directory with spaces or non-ASCII characters.</Text>
+          </Control>
+        </Dialog>
+
     </UI>
 
 <!-- generated start menu icons -->
 [%xml_startmenu_icons-%]
-
-
-
-
 <!-- generated start menu icons - END -->
-    
+
     <Directory Id="TARGETDIR" Name="SourceDir">
 
       <Component Id="C_Environment" Guid="{44449F2A-33A2-34A5-BC3A-729ABFB1E490}" KeyPath="yes">
 <!-- generated ENV -->
 [%xml_env-%]
-
-
 <!-- generated ENV - END -->
         <Environment Id="E_Env_3" Name="PATH" Value="[INSTALLDIR]c\bin"         Separator=";" Action="set" Part="last" System="yes" Permanent="no" />
         <Environment Id="E_Env_4" Name="PATH" Value="[INSTALLDIR]perl\site\bin" Separator=";" Action="set" Part="last" System="yes" Permanent="no" />
@@ -193,54 +201,22 @@
         </Directory>
       </Directory> <!-- ProgramMenuFolder -->
 
-      <Directory Id='ProgramFilesFolder' Name='PFiles'>
-        <Directory Id="INSTALLDIR" Name="$(var.ProgramFilesDir)">
+<!--XX<Directory Id='ProgramFilesFolder' Name='PFiles'> XXX CANNOT INSTALL TO C:\Program Files\Strawberry XXX--> 
+        <Directory Id="INSTALLDIR" Name="$(var.RootDir)">
 <!-- generated directory tree -->
 [%xml_msi_dirtree-%]
 <!-- generated directory tree - END -->
         </Directory> <!-- INSTALLDIR -->
-      </Directory>   <!-- ProgramFilesFolder -->
+<!--XX</Directory>--><!-- ProgramFilesFolder -->
     </Directory>     <!-- TARGETDIR -->
-    
-    <Feature Id="feat_MSI"  Title="MSI Files" Level="1" />  <!-- all members are included via Feature attribute -->   
+
+    <Feature Id="feat_MSI"  Title="MSI Files" Level="1" />  <!-- all members are included via Feature attribute -->
     <Feature Id="feat_StartMenu" Title="Start Menu" Level="1" /> <!-- all members are included via Feature attribute -->
     <Feature Id="F_MainApplication" Title="Main Application" Level="1">
       <ComponentRef Id="C_RegistryEntries" />
       <ComponentRef Id="C_Environment" />
       <ComponentRef Id="C_Removal" />
     </Feature>
-   
+
   </Product>
 </Wix>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -1,8 +1,5 @@
 ### Spaces check
-- add back to CA Helper (see reloc.bat for allowed characters)
-- add back to MSIv2.wxs
-- msi_progfiles_dir >> msi_root_dir_name
-- ProgramFilesDir >> RootDirName
+needs testing
 
 ### new libs
 see http://www.gaia-gis.it/gaia-sins/mingw64_how_to.html - png: > DEFAULT_INCLUDES = -I. -I/usr/local/include

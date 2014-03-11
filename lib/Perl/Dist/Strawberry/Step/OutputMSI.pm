@@ -42,7 +42,7 @@ sub check {
   $self->{candle_exe} = canonpath("$d/candle.exe");
   $self->{light_exe} = canonpath("$d/light.exe");
 
-  die "missing 'msi_progfiles_dir' value" unless $self->{config}->{msi_progfiles_dir};
+  die "missing 'msi_root_dir' value" unless $self->{config}->{msi_root_dir};
   die "missing 'msi_default_instdir' not supported" if $self->{config}->{msi_default_instdir};
 }
 

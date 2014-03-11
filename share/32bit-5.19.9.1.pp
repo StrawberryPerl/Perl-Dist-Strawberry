@@ -294,7 +294,7 @@
        app_publisher       => 'strawberryperl.com project',
        url_about           => 'http://strawberryperl.com/',
        url_help            => 'http://strawberryperl.com/support.html',
-       msi_progfiles_dir   => 'Strawberry',
+       msi_root_dir        => 'Strawberry',
        msi_main_icon       => '<dist_sharedir>\msi\files\strawberry.ico',
        msi_license_rtf     => '<dist_sharedir>\msi\files\License-short.rtf',
        msi_dialog_bmp      => '<dist_sharedir>\msi\files\StrawberryDialog.bmp',
