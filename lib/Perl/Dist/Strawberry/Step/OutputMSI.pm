@@ -95,12 +95,12 @@ sub run {
   );
 
   my $f2 = catfile($self->global->{dist_sharedir}, 'msi\MSI_main-v2.wxs.tt'); # BEWARE using v2
-  my $f3 = catfile($self->global->{dist_sharedir}, 'msi\Variables.wxi.tt');
+  my $f3 = catfile($self->global->{dist_sharedir}, 'msi\Variables-v2.wxi.tt');
   my $f4 = catfile($self->global->{dist_sharedir}, 'msi\MSI_strings.wxl.tt');  
   my $t = Template->new(ABSOLUTE=>1);
   write_file(catfile($self->global->{debug_dir}, 'TTvars_OutputMSI_'.time.'.txt'), pp(\%vars)); #debug dump
-  $t->process($f2, \%vars, catfile($bdir, 'MSI_main.wxs')) || die $t->error();
-  $t->process($f3, \%vars, catfile($bdir, 'Variables.wxi')) || die $t->error();
+  $t->process($f2, \%vars, catfile($bdir, 'MSI_main-v2.wxs')) || die $t->error();
+  $t->process($f3, \%vars, catfile($bdir, 'Variables-v2.wxi')) || die $t->error();
   $t->process($f4, \%vars, catfile($bdir, 'MSI_strings.wxl')) || die $t->error();
   
   my $rv;
@@ -122,8 +122,9 @@ sub run {
   #            package. This may indicate a problem with this package. The error code is 2738. ".
 
   #-ext WixUIExtension -ext WixUtilExtension -v -sice:ICE32 -sice:ICE08
-  my $candle2_cmd = [$candle_exe, "$bdir\\MSI_main.wxs", '-out', "$bdir\\MSI_main.wixobj", '-v'];
-  my $light2_cmd  = [$light_exe,  "$bdir\\MSI_main.wixobj", '-out', $msi_file, '-pdbout', "$bdir\\MSI_main.wixpdb", '-loc', "$bdir\\MSI_strings.wxl", qw/-ext WixUIExtension -ext WixUtilExtension -sice:ICE38 -sice:ICE43 -sice:ICE48 -sice:ICE47 -v -sice:ICE32 -sice:ICE08 -sice:ICE09 -sice:ICE61/];
+  my $candle2_cmd = [$candle_exe, "$bdir\\MSI_main-v2.wxs", '-out', "$bdir\\MSI_main.wixobj", '-v'];
+  my $light2_cmd  = [$light_exe,  "$bdir\\MSI_main.wixobj", '-out', $msi_file, '-pdbout', "$bdir\\MSI_main.wixpdb", '-loc', "$bdir\\MSI_strings.wxl", qw/-ext WixUIExtension -ext WixUtilExtension/];
+  #my $light2_cmd  = [$light_exe,  "$bdir\\MSI_main.wixobj", '-out', $msi_file, '-pdbout', "$bdir\\MSI_main.wixpdb", '-loc', "$bdir\\MSI_strings.wxl", qw/-ext WixUIExtension -ext WixUtilExtension -sice:ICE38 -sice:ICE43 -sice:ICE48 -sice:ICE47 -v -sice:ICE32 -sice:ICE08 -sice:ICE09 -sice:ICE61/];
 
   # backup already existing <output_dir>/*.msi
   $self->backup_file($msi_file);

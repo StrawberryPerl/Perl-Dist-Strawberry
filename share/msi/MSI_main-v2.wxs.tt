@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<?include Variables.wxi ?>
+<?include Variables-v2.wxi ?>
 
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
   <Product Id="$(var.ProductGUID)" UpgradeCode="$(var.UpgradeCode)"
@@ -43,39 +42,41 @@
     <!-- http://stackoverflow.com/questions/320921/how-to-add-a-wix-custom-action-that-happens-only-on-uninstall-via-msi -->
 
     <Binary Id='B_HelperCA' SourceFile="$(var.FileHelperDLL)" />
-    <CustomAction Id='PreventDowngrading'  Error='A newer version of $(var.ProductName) is already installed.' />
-    <CustomAction Id='UninstallOldVersion' Error='Already installed version of $(var.ProductName) cannot be upgraded; it has to be uninstalled first.' />
+    <CustomAction Id='CA_PreventDowngrading'  Error='A newer version of $(var.ProductName) is already installed.' />
+    <CustomAction Id='CA_UninstallOldVersion' Error='Already installed version of $(var.ProductName) cannot be upgraded; it has to be uninstalled first.' />
 
-    <CustomAction Id="CA_GetARPInstallLoc" Property ="INSTALLDIR"         Value="[UPGRADEDIR]"  Execute="immediate"/>
-    <CustomAction Id="CA_SetARPInstallLoc" Property ="ARPINSTALLLOCATION" Value="[INSTALLDIR]"  Execute="immediate"/>
-    <CustomAction Id="CA_SetFileList"      Property ="CA_Relocate"        Value="MSI;[INSTALLDIR];[#f_relocation_txt]" Return="check" />
+    <CustomAction Id="CA_GetARPInstallLoc" Property ="INSTALLDIR"         Value="[UPGRADEDIR]"    Execute="immediate"/>
+    <CustomAction Id="CA_SetARPInstallLoc" Property ="ARPINSTALLLOCATION" Value="[INSTALLDIR]"    Execute="immediate"/>
+    <CustomAction Id="CA_SetFileList"      Property ="CA_Relocate"        Value="MSI;[INSTALLDIR];[#f_relocation_txt]" />
     <CustomAction Id="CA_SetLocation_Perl" Property ="P_Perl_Location"    Value="[#f_perl_bin_perl_exe]" Execute="immediate"/>
-    <CustomAction Id='CA_ClearSiteFolder'  BinaryKey='B_HelperCA' DllEntry='ClearSiteFolder' />
+    <CustomAction Id='CA_ClearSiteFolder'  BinaryKey='B_HelperCA' DllEntry='ClearSiteFolder'  />
     <CustomAction Id='CA_ClearFolders'     BinaryKey='B_HelperCA' DllEntry='ClearFoldersFast' />
-    <CustomAction Id='CA_CheckDirName'     BinaryKey='B_HelperCA' DllEntry='CheckDirName' />
-    <CustomAction Id="CA_Relocate"         BinaryKey="B_HelperCA" DllEntry="RelocateMSI" Return="check" Execute="deferred" Impersonate="no" />
-    <CustomAction Id="CA_SpecialRefresh"   BinaryKey="B_HelperCA" DllEntry="SpecialRefresh" Execute="deferred" Impersonate="yes" />
-    <CustomAction Id="LaunchReadmeFile"    BinaryKey="WixCA"      DllEntry="WixShellExec" Impersonate="yes" />
+    <CustomAction Id='CA_CheckDirName'     BinaryKey='B_HelperCA' DllEntry='CheckDirName'     />
+    <CustomAction Id="CA_Relocate"         BinaryKey="B_HelperCA" DllEntry="RelocateMSI"      Impersonate="no"  Execute="deferred" /> <!-- elevated -->
+    <CustomAction Id="CA_SpecialRefresh"   BinaryKey="B_HelperCA" DllEntry="SpecialRefresh"   Impersonate="yes" Execute="deferred" />
+    <CustomAction Id="LaunchReadmeFile"    BinaryKey="WixCA"      DllEntry="WixShellExec"     Impersonate="yes"                    />
+    
+    <SetDirectory Id="WINDOWSVOLUME" Value="[WindowsVolume]" />
 
     <InstallExecuteSequence>
       <!-- InstallExecuteSequence is used to define Custom Actions that fire after the UI is finished and the install is starting to execute -->
-      <RemoveExistingProducts After='InstallInitialize' /> <!-- Windows Installer sets the UPGRADINGPRODUCTCODE Property when it runs this action -->
-      <Custom Action='PreventDowngrading'  After ='FindRelatedProducts'>NEWERVERSIONDETECTED</Custom>
-      <Custom Action='UninstallOldVersion' After ='FindRelatedProducts'>UPG_NOT_POSSIBLE</Custom>
-      <Custom Action='CA_ClearSiteFolder'  Before='InstallInitialize'>(Installed AND (NOT UPGRADINGPRODUCTCODE)) OR (Installed AND UPGRADINGPRODUCTCODE AND UPG_NOT_POSSIBLE)</Custom> <!-- remove perl/site folder -->
-      <Custom Action='CA_ClearFolders'     Before='InstallInitialize'>REMOVE="ALL"</Custom> <!-- remove cpan/cpanplus/ppm folders -->
-      <Custom Action="CA_SetARPInstallLoc" Before="RegisterProduct" />
-      <Custom Action="CA_SetLocation_Perl" After ="CostFinalize"/>
-      <Custom Action="CA_SetFileList"      After ="InstallFiles"/>
-      <Custom Action="CA_Relocate"         After ="CA_SetFileList">NOT Installed</Custom>
-      <Custom Action="CA_SpecialRefresh"   After ="PublishProduct" /> <!-- or maybe After="WriteEnvironmentStrings" -->
+      <RemoveExistingProducts                 After ='InstallInitialize' /> <!-- Windows Installer sets the UPGRADINGPRODUCTCODE Property when it runs this action -->
+      <Custom Action='CA_PreventDowngrading'  After ='FindRelatedProducts'>NEWERVERSIONDETECTED</Custom>
+      <Custom Action='CA_UninstallOldVersion' After ='FindRelatedProducts'>UPG_NOT_POSSIBLE</Custom>
+      <Custom Action='CA_ClearSiteFolder'     Before='InstallInitialize'>(Installed AND (NOT UPGRADINGPRODUCTCODE)) OR (Installed AND UPGRADINGPRODUCTCODE AND UPG_NOT_POSSIBLE)</Custom> <!-- remove perl/site folder -->
+      <Custom Action='CA_ClearFolders'        Before='InstallInitialize'>REMOVE="ALL"</Custom> <!-- remove cpan/cpanplus/ppm folders -->
+      <Custom Action="CA_SetARPInstallLoc"    Before="RegisterProduct" />
+      <Custom Action="CA_SetLocation_Perl"    After ="CostFinalize"/>
+      <Custom Action="CA_SetFileList"         After ="InstallFiles"/>
+      <Custom Action="CA_Relocate"            After ="CA_SetFileList">NOT Installed</Custom>
+      <Custom Action="CA_SpecialRefresh"      After ="PublishProduct" /> <!-- or maybe After="WriteEnvironmentStrings" -->
     </InstallExecuteSequence>
 
     <InstallUISequence>
       <!-- InstallUISequence is used to define a dialog or Custom Action that fires in the UI sequence of events during the install -->
-      <Custom Action='PreventDowngrading'  After ='FindRelatedProducts'>NEWERVERSIONDETECTED</Custom>
-      <Custom Action='UninstallOldVersion' After ='FindRelatedProducts'>UPG_NOT_POSSIBLE</Custom>
-      <Custom Action="CA_GetARPInstallLoc" Before="CostInitialize">OLDERVERSIONBEINGUPGRADED AND UPGRADEDIR</Custom>
+      <Custom Action='CA_PreventDowngrading'  After ='FindRelatedProducts'>NEWERVERSIONDETECTED</Custom>
+      <Custom Action='CA_UninstallOldVersion' After ='FindRelatedProducts'>UPG_NOT_POSSIBLE</Custom>
+      <Custom Action="CA_GetARPInstallLoc"    Before="CostInitialize">OLDERVERSIONBEINGUPGRADED AND UPGRADEDIR</Custom>
     </InstallUISequence>
 
     <UI>
@@ -162,14 +163,14 @@
     </UI>
 
 <!-- generated start menu icons -->
-[%xml_startmenu_icons-%]
+[%xml_startmenu_icons%]
 <!-- generated start menu icons - END -->
 
     <Directory Id="TARGETDIR" Name="SourceDir">
 
       <Component Id="C_Environment" Guid="{44449F2A-33A2-34A5-BC3A-729ABFB1E490}" KeyPath="yes">
 <!-- generated ENV -->
-[%xml_env-%]
+[%xml_env%]
 <!-- generated ENV - END -->
         <Environment Id="E_Env_3" Name="PATH" Value="[INSTALLDIR]c\bin"         Separator=";" Action="set" Part="last" System="yes" Permanent="no" />
         <Environment Id="E_Env_4" Name="PATH" Value="[INSTALLDIR]perl\site\bin" Separator=";" Action="set" Part="last" System="yes" Permanent="no" />
@@ -196,20 +197,21 @@
       <Directory Id='ProgramMenuFolder'>
         <Directory Id='D_App_Menu' Name='$(var.ProductName)'>
 <!-- generated start menu folder -->
-[%xml_startmenu-%]
+[%xml_startmenu%]
 <!-- generated start menu folder - END -->
         </Directory>
       </Directory> <!-- ProgramMenuFolder -->
 
-<!--XX<Directory Id='ProgramFilesFolder' Name='PFiles'> XXX CANNOT INSTALL TO C:\Program Files\Strawberry XXX--> 
+      <Directory Id="WINDOWSVOLUME" >
         <Directory Id="INSTALLDIR" Name="$(var.RootDir)">
 <!-- generated directory tree -->
-[%xml_msi_dirtree-%]
+[%xml_msi_dirtree%]
 <!-- generated directory tree - END -->
         </Directory> <!-- INSTALLDIR -->
-<!--XX</Directory>--><!-- ProgramFilesFolder -->
-    </Directory>     <!-- TARGETDIR -->
+      </Directory>   <!-- WINDOWSVOLUME -->
 
+    </Directory>     <!-- TARGETDIR -->
+    
     <Feature Id="feat_MSI"  Title="MSI Files" Level="1" />  <!-- all members are included via Feature attribute -->
     <Feature Id="feat_StartMenu" Title="Start Menu" Level="1" /> <!-- all members are included via Feature attribute -->
     <Feature Id="F_MainApplication" Title="Main Application" Level="1">
