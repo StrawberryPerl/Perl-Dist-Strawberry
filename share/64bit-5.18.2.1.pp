@@ -97,7 +97,7 @@
           # possible 'do' options: ignore_testfailure | skiptest | skip
           { do=>'ignore_testfailure', distribution=>'CPANPLUS' },           #XXX-TODO: CPANPLUS-0.9128 has test failure
           { do=>'ignore_testfailure', distribution=>'ExtUtils-MakeMaker' }, #XXX-TODO: ExtUtils-MakeMaker-6.72 has test failure
-          { do=>'ignore_testfailure', distribution=>'IPC-Cmd' },              #XXX-TODO: IPC-Cmd-0.90 has test failure
+          { do=>'ignore_testfailure', distribution=>'IPC-Cmd-0.92' },       #XXX-TODO: IPC-Cmd-0.90 has test failure
         ]
     },
     ### NEXT STEP ###########################

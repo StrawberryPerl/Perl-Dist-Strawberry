@@ -1,5 +1,8 @@
-### Spaces check
-needs testing
+### MSI testing
+- starmenu
+- registry
+- uninstall (registry, menu, rootdir)
+- upgrade/downgrade
 
 ### new libs
 see http://www.gaia-gis.it/gaia-sins/mingw64_how_to.html - png: > DEFAULT_INCLUDES = -I. -I/usr/local/include
@@ -15,18 +18,6 @@ src/include/port/win32.h
 full build fails:
 cannot find -lssleay32
 cannot find -leay32
-
-### move dlls
-- from c/bin to perl/bin
-- still not sure
-- perhaps a hack to BinaryToolsAndLibs.pm e.g. [src=>qr|c/bin/.*?\.dll/i, dst=>'perl/bin']
-
-### double IO::Socket::IP
-why do we have?
-- C:\strawberry\perl\vendor\lib\IO\Socket\IP.pm: 0.29
-- C:\strawberry\perl\lib\IO\Socket\IP.pm: 0.29
-
-### MSI: test uninstall/upgrade/downgrade
 
 ### MSI: filesystem ACL for c:\strawberry & co.
 http://wixtoolset.org/documentation/manual/v3/xsd/wix/permission.html
@@ -47,6 +38,16 @@ Text::CSV Text::CSV_XS Tie::Array::CSV
 Excel::Writer::XLSX
 HTTP::Parser::XS
 CryptX
+
+### double IO::Socket::IP - wtf?
+why do we have?
+- C:\strawberry\perl\vendor\lib\IO\Socket\IP.pm: 0.29
+- C:\strawberry\perl\lib\IO\Socket\IP.pm: 0.29
+
+### move dlls
+- from c/bin to perl/bin
+- still not sure
+- perhaps a hack to BinaryToolsAndLibs.pm e.g. [src=>qr|c/bin/.*?\.dll/i, dst=>'perl/bin']
 
 ### maybe: keep something like 'minimal' perl
 core + minimal sset of modules needed for relocation + setup
