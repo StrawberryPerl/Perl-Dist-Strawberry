@@ -1,23 +1,34 @@
-use strict;
+use 5.012;
 use warnings;
 
 use CPAN;
-use Storable qw(nstore);
-use Data::Dumper;
+use Storable              qw(nstore);
+use Data::Dumper          qw(Dumper);
+use Getopt::Long          qw(GetOptions);
 
-my ($out_nstore, $out_dumper, $url) = @ARGV;
+warn ">> started '$0'\n";
 
-$out_nstore = 'upgrade-list.nstore.txt' unless $out_nstore;
-$out_dumper = 'upgrade-list.dumper.txt' unless $out_dumper;
-$url = 'http://cpan.strawberryperl.com' unless $url;
+# parse commandline options
+my @spec = (
+    'url=s',
+    'out_dumper=s',
+    'out_nstore=s',
+);
+GetOptions(\my %a, @spec) or die ">> invalid option(s)";
 
+my $out_nstore = $a{out_nstore} // 'upgrade-list.nstore.txt';
+my $out_dumper = $a{out_dumper} // 'upgrade-list.dumper.txt';
+my $url = $a{url} // 'http://cpan.strawberryperl.com';
+
+warn Dumper($url);
 CPAN::HandleConfig->load unless $CPAN::Config_loaded++;
 $CPAN::Config->{'urllist'} = [ $url ];
 
 my ($module, %seen, %need);
 my @toget = ();
 
-warn ">> Gonna call CPAN::Shell\n";
+warn ">> gonna call CPAN::Shell\n";
+CPAN::Shell->reload('index');
 my @modulelist = CPAN::Shell->expand('Module', '/./');
 
 # Schwartzian transform from CPAN.pm.
@@ -52,7 +63,12 @@ for $module (@expand) {
     if ($inst_file and $vendorlib ne substr($inst_file,0,length($vendorlib))) {
       $have = $module->inst_version;
       local $^W = 0;
-      ++$next_MODULE unless CPAN::Version->vgt($latest, $have) && !($have eq "undef" && $latest ne "undef");
+      if (CPAN::Version->vgt($latest, $have) && !($have eq "undef" && $latest ne "undef")) {
+        #warn "UPGRADE NEEDED: '$inst_file' have=$have latest=$latest\n" if "$have" ne "$latest";
+      }
+      else {
+        ++$next_MODULE 
+      }
       # to be pedantic we should probably say:
       #    && !($have eq "undef" && $latest ne "undef" && $latest gt "");
       # to catch the case where CPAN has a version 0 and we have a version undef
@@ -67,26 +83,34 @@ for $module (@expand) {
   $seen{$file} ||= 0;
   next if $seen{$file}++;
 
-  push @toget, $module;
+  push @toget, { distribution  => $module->distribution->base_id, 
+                 cpan_file     => $module->cpan_file,
+                 cpan_version  => $module->cpan_version,
+                 local_version => $module->inst_version,
+               };
   $need{$module->id}++;
 }
+
+##@toget = sort { $a->distribution cmp $b->distribution } @toget;
+my $rv = { to_upgrade=>\@toget, method=>'CPAN', timestamp=>time };
 
 if (scalar(@toget)==0) {
   warn ">> All modules are up to date\n";
 }
 else {
   warn ">> ", scalar(@toget), " module(s) need upgrade\n";
+  warn ">> * $_->{cpan_file}\n" for (@toget);
 }
 
 if ($out_nstore) {
   #store via Storable
-  nstore \@toget, $out_nstore;
+  nstore $rv, $out_nstore;
 }
 
 if ($out_dumper) {
   #store via Data::Dumper
   open my $fh, ">", $out_dumper or die ">> open: $!";
-  print $fh Dumper(\@toget);
+  print $fh Dumper($rv);
   close $fh;
 }
 

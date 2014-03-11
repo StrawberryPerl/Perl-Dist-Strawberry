@@ -15,66 +15,39 @@ sub check {
 sub run {
   my $self = shift;
   my $success = 1;
-  my %distlist_initial = map { $_=>1 } @{$self->workaround_get_dist_list()};
   
   $self->boss->message(1, "getting upgrade module list");
   my $data = $self->_get_cpan_upgrades_list();
   my @list = @{$data->{to_upgrade}};
-
-  #XXX-FIXME warn about $data->{trouble_makers}
+  my @toinstall = ();
   
   my $count = scalar(@list);
   if ($count>0) {
     $self->boss->message(1, "gonna upgrade $count modules");
-    $self->boss->message(3, "* [$_->{module}] $_->{cpan_file}") for (@list);
-    
+    $self->boss->message(3, "* $_->{cpan_file}") for (@list);
+
     # Now go through the loop for each module.
     my $i = 0;
     for my $module (@list) {
-      my $now = time;
-      my $f = $module->{cpan_file};
-      my $m = $module->{module};
-      my $shortname = $module->{distribution};
-      $i++;
-
-      my $script_pl = $self->boss->resolve_name("<dist_sharedir>/utils/CPANPLUS_install_module.pl");
-      my $log = catfile($self->global->{debug_dir}, "mod_upgrade_".$now."_".$shortname.".log.txt");
-      my $skiptest = $self->global->{test_modules} ? 0 : 1;
+      my $item = { module=> $module->{cpan_file}, install_to=>'perl' };
       my $extra = $self->_get_extra_install_options($module);
       if (!defined $extra) {
-        $self->boss->message(2, sprintf("SKIPPING! %2d/%d '%s'", $i, $count, $f));
+        $self->boss->message(2, sprintf("SKIPPING! %2d/%d '%s'", $i, $count, $module));
         next;
       }
-      my @msg;
-      push @msg, 'IGNORE_TESTFAILURE' if $extra->{"-ignore_testfailure"};
-      push @msg, 'SKIPTEST' if $extra->{"-skiptest"};
-      $self->boss->message(2, sprintf("upgrading %2d/%d '%s' \t".join(' ',@msg), $i, $count, $f));
-
-      # Execute the module install script
-      my $env = { PERL_MM_USE_DEFAULT=>1, AUTOMATED_TESTING=>undef, RELEASE_TESTING=>undef };
-      my $rv = $self->execute_special(['perl', $script_pl, '-url', $self->global->{cpan_url},
-                                                       '-module', $module->{cpan_file},
-                                                       '-install_to', 'perl', 
-                                                       %{$extra},
-                                                       '-skiptest', $skiptest ], $log, $log, $env);
-      unless (defined $rv && $rv == 0) {
-        $self->boss->message(1, "WARNING: non-zero exit code '$rv' - gonna continue but overall result of this task will be 'FAILED'");
-        $success = 0;
-        rename $log, catfile($self->global->{debug_dir}, "mod_upgrade_FAIL_".$now."_".$shortname.".log.txt");
-      }
+      $item->{ignore_testfailure} = 1 if $extra->{"-ignore_testfailure"};
+      $item->{skiptest}           = 1 if $extra->{"-skiptest"};
+      push @toinstall, $item;
     }
-    $self->boss->message(1, "upgrade finished");
+    if (@toinstall) {
+      $success = $self->install_modlist(@toinstall);      
+    }
+    $self->boss->message(1, "upgrade finished [success=$success]");
   }
   else {
     $self->boss->message(1, "all modules up to date");
   }
   
-  my @distlist_final = grep { !$distlist_initial{$_} } @{$self->workaround_get_dist_list()};
-  $self->boss->message(2, "WARNING: empty distribution_list (that's not good)") unless scalar(@distlist_final)>0;
-  
-  # store some output data
-  $self->{data}->{output}->{distributions} = \@distlist_final;
-
   die "FAILED\n" unless $success;
 }
 
@@ -109,7 +82,7 @@ sub _get_extra_install_options {
 sub _get_cpan_upgrades_list {
   my $self = shift;
 
-  my $script_pl = $self->boss->resolve_name("<dist_sharedir>/utils/CPANPLUS_get_upgrade_list.pl");
+  my $script_pl = $self->boss->resolve_name("<dist_sharedir>/utils/CPAN_get_upgrade_list.pl");
   my $log = catfile($self->global->{debug_dir}, "cpan_upgrade.log.txt");
   my $dumper_file = catfile($self->global->{debug_dir}, "cpan_upgrade.dumper.txt");
   my $nstore_file = catfile($self->global->{debug_dir}, "cpan_upgrade.nstore.txt");

@@ -40,7 +40,6 @@ sub run {
   if ($self->{config}->{reloc_in} && $self->{config}->{reloc_out}) {
     my $in  = $self->boss->resolve_name($self->{config}->{reloc_in});
     my $out = $self->boss->resolve_name($self->{config}->{reloc_out});
-    unlink $out or die "unlink failed";
     $self->_make_relocation($in, $out); # all in one go
   }
 }

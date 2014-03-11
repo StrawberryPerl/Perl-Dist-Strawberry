@@ -1,3 +1,29 @@
+### new libs
+
+### postgresql + DBD::PG (after new ext libs)
+- missing pg_config_ext.h
+- link troubles mohou být podobné http://stackoverflow.com/questions/19286450/link-errors-using-fann
+src/include/port/win32.h
+-#ifdef _MSC_VER
+-#define PGDLLEXPORT __declspec (dllexport)
++#if defined _MSC_VER || defined __MINGW64__
++#define PGDLLEXPORT __declspec (dllexport)
+
+### move dlls
+- from c/bin to perl/bin
+- still not sure
+- perhaps a hack to BinaryToolsAndLibs.pm e.g. [src=>qr|c/bin/.*?\.dll/i, dst=>'perl/bin']
+
+### double IO::Socket::IP
+why do we have?
+- C:\strawberry\perl\vendor\lib\IO\Socket\IP.pm: 0.29
+- C:\strawberry\perl\lib\IO\Socket\IP.pm: 0.29
+
+### UninstallModules.pm via cpanm
+cpanm -U Capture::Tiny
+
+### MSI: test uninstall/upgrade/downgrade
+
 ### MSI: filesystem ACL for c:\strawberry & co.
 http://wixtoolset.org/documentation/manual/v3/xsd/wix/permission.html
 http://wixtoolset.org/documentation/manual/v3/xsd/util/permissionex.html
@@ -9,19 +35,52 @@ http://stackoverflow.com/questions/11459591/how-to-create-a-local-group-and-add-
 http://stackoverflow.com/questions/12278265/how-to-get-user-credentials-displayed-as-default-in-a-wix-custom-dialog
 http://social.msdn.microsoft.com/Forums/vstudio/en-US/39d9e905-2b35-4ce9-a544-4564f6b5a376/setting-file-permissions-in-languages-other-than-english-windows-installer-wix?forum=vssetup
 
-### missing CPANPLUS!!!
+### what about gdb?
 
-### new libs
-
-(done)### relocate.bat
-use Win32 shortname
-
-(done)### maybe add to 5.20
-DBIx::Class
-Mojolicious
+### more modules?
+Devel::NYTProf Devel::Cover Devel::REPL
+Path::Tiny Perl::Critic Perl::Tidy
+Text::CSV Text::CSV_XS Tie::Array::CSV
+Excel::Writer::XLSX
+HTTP::Parser::XS
 CryptX
 
-(done)### MSI
+(fixed)### what to do with? 
+- c:\strawberry\perl\site\lib\MSWin32-x86-multi-thread-64int\.meta 
+- INSTALL_BASE=$Config{vendorlibexp} ?
+- just delete c:\strawberry\perl\site\lib\$Config{archname} ?
+- https://github.com/miyagawa/cpanminus/blob/devel/lib/App/cpanminus/script.pm
+- maybe patch: cpanm
+
+(fixed)### check modules removed from core
+
+(fixed)### clean garbage DLLs
+*.dll.A*
+
+(fixed)### site modules
+Test::Warnings
+YAML::Tiny
+Module::Build::Tiny
+
+(fixed)### clean garbage comments
+c:\strawberry\perl\lib\CORE\win32.h
+/* #define USE_PERL_SBRK	/**/
+/* #define PERL_SBRK_VIA_MALLOC	/**/
+
+(fixed)### missing CPANPLUS!!!
+using cpan + cpanm
+
+(maybe fixed - needs testing)### relocate.bat
+use Win32 shortname
+
+(maybe fixed)### something better instead of workaround_get_dist_list()
+- is kind of a hack (somehow works, not reliable)
+
+(fixed)### maybe add to 5.20
+DBIx::Class
+Mojolicious
+
+(fixed)### MSI
 - drop MSM support and simplify MSI generation
 - fix installation on a PC without drive C: }+ other reported bugs]
 
@@ -49,9 +108,6 @@ CryptX
 
 ### perltoc.pod contains hardcoded paths to build directory
 - not a new bug
-
-### something better instead of workaround_get_dist_list()
-- is kind of a hack (somehow works, not reliable)
 
 ### PPM
 - maybe App::Strawberry::PPM
