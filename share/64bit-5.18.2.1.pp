@@ -200,7 +200,7 @@
 
             # misc
             qw/ CPAN::SQLite Alien-Tidyp FCGI Text-Diff Text-Patch /,
-            qw/ IO-stringy IO::String String-CRC32 Sub-Uplevel Convert-PEM/,
+            qw/ IO::Stringy IO::String String-CRC32 Sub-Uplevel Convert-PEM/,
             qw/ IPC-Run3 IPC-System-Simple /,
             { module=>'IPC-Run', skiptest=>1 },     #XXX-FIXME trouble with 'Terminating on signal SIGBREAK(21)'
 
@@ -214,7 +214,7 @@
             { module=>'IO::Socket::IP', ignore_testfailure=>1 },        #XXX-TODO test failures ipv6related - https://rt.cpan.org/Ticket/Display.html?id=83485
             qw/ IO::Socket::INET6 /,
             qw/ WWW::Mechanize Net::Telnet Class::Accessor Date::Format /,
-            { module=>'Template-Toolkit', ignore_testfailure=>1 },      #XXX-TODO
+            { module=>'Template', ignore_testfailure=>1 },      #XXX-TODO
             qw/ App-cpanminus /,
 
             # trying to include some GUI tools

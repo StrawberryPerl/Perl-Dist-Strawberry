@@ -182,7 +182,7 @@
 
             # misc
             qw/ CPAN::SQLite Alien-Tidyp FCGI Text-Diff Text-Patch /,
-            qw/ IO-stringy IO::String String-CRC32 Sub-Uplevel Convert-PEM/,
+            qw/ IO::Stringy IO::String String-CRC32 Sub-Uplevel Convert-PEM/,
             qw/ IPC-Run3 IPC-Run IPC-System-Simple /,
 
             # strawberry extras
@@ -194,7 +194,7 @@
             qw/ Moose MooseX-Types MooseX::Types::Structured MooseX::Declare MooseX::ClassAttribute MooseX::Role::Parameterized MooseX::NonMoose Moo /,
             { module=>'IO::Socket::IP', ignore_testfailure=>1 },#XXX-TODO test failures ipv6related - https://rt.cpan.org/Ticket/Display.html?id=83485
             qw/ IO::Socket::INET6 /,
-            qw/ WWW::Mechanize Net::Telnet Class::Accessor Date::Format Template-Toolkit /,
+            qw/ WWW::Mechanize Net::Telnet Class::Accessor Date::Format Template /,
             qw/ App-cpanminus /,
 
             # trying to include some GUI tools

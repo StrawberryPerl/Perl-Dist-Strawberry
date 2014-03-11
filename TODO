@@ -1,4 +1,11 @@
+### Spaces check
+- add back to CA Helper (see reloc.bat for allowed characters)
+- add back to MSIv2.wxs
+- msi_progfiles_dir >> msi_root_dir_name
+- ProgramFilesDir >> RootDirName
+
 ### new libs
+see http://www.gaia-gis.it/gaia-sins/mingw64_how_to.html - png: > DEFAULT_INCLUDES = -I. -I/usr/local/include
 
 ### postgresql + DBD::PG (after new ext libs)
 - missing pg_config_ext.h
@@ -8,6 +15,9 @@ src/include/port/win32.h
 -#define PGDLLEXPORT __declspec (dllexport)
 +#if defined _MSC_VER || defined __MINGW64__
 +#define PGDLLEXPORT __declspec (dllexport)
+full build fails:
+cannot find -lssleay32
+cannot find -leay32
 
 ### move dlls
 - from c/bin to perl/bin
@@ -18,9 +28,6 @@ src/include/port/win32.h
 why do we have?
 - C:\strawberry\perl\vendor\lib\IO\Socket\IP.pm: 0.29
 - C:\strawberry\perl\lib\IO\Socket\IP.pm: 0.29
-
-### UninstallModules.pm via cpanm
-cpanm -U Capture::Tiny
 
 ### MSI: test uninstall/upgrade/downgrade
 
@@ -35,15 +42,21 @@ http://stackoverflow.com/questions/11459591/how-to-create-a-local-group-and-add-
 http://stackoverflow.com/questions/12278265/how-to-get-user-credentials-displayed-as-default-in-a-wix-custom-dialog
 http://social.msdn.microsoft.com/Forums/vstudio/en-US/39d9e905-2b35-4ce9-a544-4564f6b5a376/setting-file-permissions-in-languages-other-than-english-windows-installer-wix?forum=vssetup
 
-### what about gdb?
-
 ### more modules?
+Win32::Job
 Devel::NYTProf Devel::Cover Devel::REPL
 Path::Tiny Perl::Critic Perl::Tidy
 Text::CSV Text::CSV_XS Tie::Array::CSV
 Excel::Writer::XLSX
 HTTP::Parser::XS
 CryptX
+
+### maybe: keep something like 'minimal' perl
+core + minimal sset of modules needed for relocation + setup
+
+### maybe: single setup.bat
+relocation + set env
+maybe simple GUI
 
 (fixed)### what to do with? 
 - c:\strawberry\perl\site\lib\MSWin32-x86-multi-thread-64int\.meta 
@@ -85,6 +98,12 @@ Mojolicious
 - fix installation on a PC without drive C: }+ other reported bugs]
 
 ========== LATER ==========
+
+### UninstallModules.pm via cpanm
+cpanm -U Capture::Tiny
+
+### what about gdb?
+detached debug info
 
 ### tools
 - update: dendef, gmake, dmake, mingw-runtime

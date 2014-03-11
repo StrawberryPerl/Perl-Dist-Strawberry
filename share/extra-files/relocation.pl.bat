@@ -1,10 +1,10 @@
 @rem = '--*-Perl-*--
 @echo off
 if "%OS%" == "Windows_NT" goto WinNT
-%~dp0perl\bin\perl -x -S "%0" %1 %2 %3 %4 %5 %6 %7 %8 %9
+"%~dp0perl\bin\perl" -x -S "%0" %1 %2 %3 %4 %5 %6 %7 %8 %9
 goto endofperl
 :WinNT
-%~dp0perl\bin\perl -x -S %0 %*
+"%~dp0perl\bin\perl" -x -S "%0" %*
 goto endofperl
 @rem ';
 #!perl
@@ -15,16 +15,11 @@ use warnings;
 use Getopt::Long qw(GetOptions);
 use Pod::Usage qw(pod2usage);
 use File::Spec::Functions qw(splitpath catfile);
+use File::Glob qw(bsd_glob);
 use FindBin;
 
 # BEWARE: keep non-core dependencies as low as possible
 use Win32::File;
-
-### global variables
-
-my @files;
-my $quiet = 0;
-my $new_location;
 
 ### functions
 
@@ -123,7 +118,7 @@ sub set_flags {
 }
 
 sub read_file {
-    my $path = shift;
+    my ($path, $quiet) = @_;
     my $file;
     unless (open $file, '<', $path) {
       warn "Can't open '$path': $!" if not $quiet;
@@ -135,7 +130,7 @@ sub read_file {
 }
 
 sub write_file {
-  my ($path, $content) = @_;
+  my ($path, $content, $quiet) = @_;
   my $file;
   unless (open $file, '>', $path) {
     warn "Can't open '$path': $!" if not $quiet;
@@ -148,7 +143,69 @@ sub write_file {
   return 1;
 }
 
+sub relocate {
+  my ($new_location, $files, $quiet) = @_;
+
+  if (!$new_location || !-d $new_location) {
+      die "Invalid location\n" if not $quiet;
+      exit(1);
+  }
+
+  if (0 == scalar @$files) {
+      for (qw/relocation.txt perl1.reloc.txt perl2.reloc.txt/) {
+        push @$files, "$new_location/$_" if -f "$new_location/$_";
+      }
+  }
+
+  if (0 == scalar @$files) {
+      @$files = bsd_glob catfile($new_location, '/*reloc*.txt');
+  }
+
+  if (0 == scalar @$files) {
+      die "Nothing to relocate\n" if not $quiet;
+      exit(1);
+  }
+
+  $new_location =~ s{/}{\\}g;
+
+  if ("\\" ne substr $new_location, -1, 1) {
+      $new_location .= "\\";
+  }
+
+  if ($new_location !~ /^[a-z0-9@!_:+\-\.\[\]\/\\]+$/i) {
+      ### workaround: use shortname if there is a space in location name - XXX this does not work
+      ### $new_location = Win32::GetShortPathName($new_location);
+      die "Invalid characters in directory name '$new_location'\n" if not $quiet;
+      exit(1);
+  }
+
+  foreach my $file (@$files) {
+      my @lines = split /[\r\n]+/, read_file($file);
+      my $old_location = shift @lines;
+      chomp $old_location;
+
+      if ($old_location ne $new_location) {
+        print "\nRelocating files\n  from '$old_location'\n  to '$new_location'\n" if not $quiet;
+        foreach my $line (@lines) {
+            next if $line eq "\n";
+            if (!relocate_file($old_location, $new_location, $quiet, split /:/, $line)) {
+                die "Could not relocate $file.\n" if not $quiet;
+                exit(1);
+            }
+        }
+        unshift @lines, "$new_location\n";
+        write_file($file, join("\n", @lines));
+      }
+  }
+
+  print "Relocation completed\n" if not $quiet;
+}
+
 ### main
+
+my @files;
+my $quiet = 0;
+my $new_location = $FindBin::Bin;
 
 GetOptions('help'       => sub { pod2usage(-exitstatus => 0, -verbose => 2); },
            'file=s'     => \@files,
@@ -156,48 +213,7 @@ GetOptions('help'       => sub { pod2usage(-exitstatus => 0, -verbose => 2); },
            'quiet'      => \$quiet,
           ) or pod2usage(-verbose => 2);
 
-if (0 == scalar @files) {
-    @files = glob catfile($FindBin::Bin, '*reloc*.txt'); # relocation.txt perl1.reloc.txt perl2.reloc.txt
-}
-
-if (0 == scalar @files) {
-    die "Nothing to relocate\n" if not $quiet;
-    exit(1);
-}
-
-if (not defined $new_location) {
-    $new_location = $FindBin::Bin;
-    $new_location =~ s{/}{\\}g;
-}
-
-if ("\\" ne substr $new_location, -1, 1) {
-    $new_location .= "\\";
-}
-
-if ($new_location =~ / /) {
-    #workaround: use shortname if there is a space in location name
-    $new_location = Win32::GetShortPathName($new_location);
-}
-
-foreach my $file (@files) {
-    my @lines = split /[\r\n]+/, read_file($file);
-    my $old_location = shift @lines;
-    chomp $old_location;
-
-    print "\nRelocating files from $old_location to $new_location\n" if not $quiet;
-
-    foreach my $line (@lines) {
-        next if $line eq "\n";
-        if (!relocate_file($old_location, $new_location, $quiet, split /:/, $line)) {
-            die "Could not relocate $file.\n" if not $quiet;
-            exit(1);
-        }
-    }
-    unshift @lines, "$new_location\n";
-    write_file($file, join("\n", @lines));
-}
-
-print "Relocation completed\n" if not $quiet;
+relocate($new_location, \@files, $quiet);
 
 __END__
 
