@@ -179,10 +179,10 @@
 
       <!-- shell associations -->
       <Component Id="C_RegistryEntries" DisableRegistryReflection="yes" Guid="{444423AA-572A-313F-B6CB-BF89C746EBE3}">
-        <RegistryKey   Id="RK_sp1010c_executecommand" Action="createAndRemoveOnUninstall" Key="SOFTWARE\Classes\Perl_program_file\shell\Execute Perl Program\command" Root="HKLM" />
-        <RegistryKey   Id="RK_sp1010c_execute"        Action="createAndRemoveOnUninstall" Key="SOFTWARE\Classes\Perl_program_file\shell\Execute Perl Program" Root="HKLM" />
-        <RegistryKey   Id="RK_sp1010c_shell"          Action="createAndRemoveOnUninstall" Key="SOFTWARE\Classes\Perl_program_file\shell" Root="HKLM" />
-        <RegistryKey   Id="RK_sp1010c_root"           Action="createAndRemoveOnUninstall" Key="SOFTWARE\Classes\Perl_program_file" Root="HKLM" />
+        <RegistryKey   Id="RK_sp1010c_executecommand" ForceCreateOnInstall="yes" ForceDeleteOnUninstall="yes" Root="HKLM" Key="SOFTWARE\Classes\Perl_program_file\shell\Execute Perl Program\command" />
+        <RegistryKey   Id="RK_sp1010c_execute"        ForceCreateOnInstall="yes" ForceDeleteOnUninstall="yes" Root="HKLM" Key="SOFTWARE\Classes\Perl_program_file\shell\Execute Perl Program" />
+        <RegistryKey   Id="RK_sp1010c_shell"          ForceCreateOnInstall="yes" ForceDeleteOnUninstall="yes" Root="HKLM" Key="SOFTWARE\Classes\Perl_program_file\shell" />
+        <RegistryKey   Id="RK_sp1010c_root"           ForceCreateOnInstall="yes" ForceDeleteOnUninstall="yes" Root="HKLM" Key="SOFTWARE\Classes\Perl_program_file" />
         <RegistryValue Id="RV_sp1010r_pointer"        Root="HKCR" Key=".pl" Value="Perl_program_file" Type="string" KeyPath="yes" />
         <RegistryValue Id="RV_sp1010c_pointer"        Root="HKLM" Key="SOFTWARE\Classes\Perl_program_file" Value="Perl program file" Type="string" />
         <RegistryValue Id="RV_sp1010c_executecommand" Root="HKLM" Key="SOFTWARE\Classes\Perl_program_file\shell\Execute Perl Program\command" Value="[P_Perl_Location] &quot;%1&quot; %*" Type="string" />
