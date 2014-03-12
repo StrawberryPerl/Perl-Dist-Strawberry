@@ -53,7 +53,8 @@
         plugin => 'Perl::Dist::Strawberry::Step::InstallModules',
         modules => [
           #here is a place to (re)install/(up/down)grade modules needed before 'Perl::Dist::Strawberry::Step::UpgradeCpanModules'
-          'http://search.cpan.org/CPAN/authors/id/M/MU/MUIR/modules/Text-Tabs%2BWrap-2012.0818.tar.gz', # minicpan related issue XXX-CHECK version
+          { install_to=>'perl', module=>'http://cpan.metacpan.org/authors/id/M/MU/MUIR/modules/Text-Tabs+Wrap-2013.0523.tar.gz' },    # minicpan related issue #XXX-CHECK https://metacpan.org/pod/Text::Tabs
+          { install_to=>'perl', module=>'http://cpan.metacpan.org/authors/id/A/AM/AMBS/ExtUtils/ExtUtils-CBuilder-0.280216.tar.gz' }, # minicpan related issue #XXX-CHECK https://metacpan.org/pod/ExtUtils::CBuilder
         ],
     },
     ### NEXT STEP ###########################
@@ -96,6 +97,10 @@
          { do=>'movedir',    args=>[ '<image_dir>/c/bin/startup', '<image_dir>/perl/bin/startup' ] },
          { do=>'movefile',   args=>[ '<image_dir>/c/bin/dmake.exe', '<image_dir>/perl/bin/dmake.exe' ] },
          { do=>'smartmove',  args=>[ '<image_dir>/c/bin/*_.dll', '<image_dir>/perl/bin' ] },         
+         # cleanup cpanm related files
+         { do=>'removedir', args=>[ '<image_dir>/perl/site/lib/MSWin32-x86-multi-thread-64int' ] },
+         { do=>'removedir', args=>[ '<image_dir>/perl/site/lib/MSWin32-x86-multi-thread' ] },
+         { do=>'removedir', args=>[ '<image_dir>/perl/site/lib/MSWin32-x64-multi-thread' ] },
        ],
     },
     ### NEXT STEP ###########################

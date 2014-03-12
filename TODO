@@ -1,3 +1,8 @@
+### 5.18 testing issues
+- not deleted perl/site/lib/MSWin32-x86-multi-thread-64int
+- ExtUtils::CBuilder Module::Build Text::Tabs why in vendor?
+- Tree::DAG_Node missing
+
 ### MSI testing
 - starmenu
 - registry
