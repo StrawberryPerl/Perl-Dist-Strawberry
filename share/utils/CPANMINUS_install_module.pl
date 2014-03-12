@@ -325,6 +325,7 @@ my @spec = (
     'url=s',
     'verbose=i',
     'skiptest=i',
+    'uninstall=i',
     'ignore_testfailure=i',
     'ignore_uptodate=i',
     'prereqs=i',
@@ -343,6 +344,7 @@ $a{module}      //= [];
 $a{install_to}  //= '';
 $a{url}         //= ''; #'http://cpan.strawberryperl.com';
 $a{verbose}     //= 1;
+$a{uninstall}   //= 0;
 $a{skiptest}           //= 0; # 1 = do not run 'test' at all
 $a{ignore_testfailure} //= 0; # 1 = if 'test' fails continue with 'install'
 $a{ignore_uptodate}    //= 0; # 1 = install even if the module is already uptodate
@@ -393,6 +395,7 @@ push @args, '--notest'          if $a{skiptest};
 push @args, '--force'           if $a{ignore_testfailure};
 push @args, '--reinstall'       if $a{ignore_uptodate};
 push @args, '--interactive'     if $a{interactivity};
+push @args, '--uninstall'       if $a{uninstall};
 push @args, '--mirror', $a{url}, '--mirror-only' if $a{url};
 push @args, '--configure-args', ($a{buildpl_param} || $a{makefilepl_param}) if $a{makefilepl_param} || $a{buildpl_param};
 
@@ -404,7 +407,7 @@ elsif ($a{install_to} eq 'vendor') {
   $env->{PERL_MM_OPT}="INSTALLDIRS=vendor UNINST=1";    # INSTALL_BASE=$Config{vendorlibexp}
   $env->{PERL_MB_OPT}="--installdirs=vendor uninst=1";  # --install_base=$Config{vendorlibexp}
 }
-elsif ($a{install_to} eq 'perl') {
+elsif ($a{install_to} eq 'perl' || $a{install_to} eq 'core') {
   $env->{PERL_MM_OPT}="INSTALLDIRS=perl UNINST=1";      # INSTALL_BASE=$Config{vendorlibexp}
   $env->{PERL_MB_OPT}="--installdirs=core --uninst=1";  # --install_base=$Config{vendorlibexp}
 }
