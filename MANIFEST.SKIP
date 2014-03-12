@@ -41,6 +41,8 @@
 ^devel
 ^HelperCA.dll_src/Debug
 ^HelperCA.dll_src/Release
+^HelperCAv2.dll_src/Debug
+^HelperCAv2.dll_src/Release
 \.ncb$
 \.zip$
 \.gz$
