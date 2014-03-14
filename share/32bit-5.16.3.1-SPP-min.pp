@@ -29,7 +29,7 @@
     ### NEXT STEP ###########################
     {
         plugin     => 'Perl::Dist::Strawberry::Step::InstallPerlCore',
-        url        => 'http://www.cpan.org/authors/id/R/RJ/RJBS/perl-5.16.3-RC1.tar.gz',
+        url        => 'http://www.cpan.org/authors/id/R/RJ/RJBS/perl-5.16.3.tar.gz',
         cf_email   => 'strawberry-perl@project',
         perl_debug => 0,
         patch      => { #DST paths are relative to the perl src root
@@ -49,22 +49,20 @@
         },
     },
     ### NEXT STEP ###########################
-    {
-        plugin => 'Perl::Dist::Strawberry::Step::InstallModules',
-        modules => [
-          #here is a place to (re)install/(up/down)grade modules needed before 'Perl::Dist::Strawberry::Step::UpgradeCpanModules'
-          { install_to=>'perl', module=>'http://cpan.metacpan.org/authors/id/M/MU/MUIR/modules/Text-Tabs+Wrap-2013.0523.tar.gz' },    # minicpan related issue #XXX-CHECK https://metacpan.org/pod/Text::Tabs
-          { install_to=>'perl', module=>'http://cpan.metacpan.org/authors/id/A/AM/AMBS/ExtUtils/ExtUtils-CBuilder-0.280216.tar.gz' }, # minicpan related issue #XXX-CHECK https://metacpan.org/pod/ExtUtils::CBuilder
-        ],
-    },
+##    {
+##        plugin => 'Perl::Dist::Strawberry::Step::InstallModules',
+##        modules => [
+##          # here is a place to (re)install/(up/down)grade modules needed before 'Perl::Dist::Strawberry::Step::UpgradeCpanModules'
+##          # e.g. { install_to=>'perl', module=>'Module::Name' },
+##        ],
+##    },
     ### NEXT STEP ###########################
     {
         plugin => 'Perl::Dist::Strawberry::Step::UpgradeCpanModules',
         exceptions => [
-          # match: version=>... distribution=>... cpan_file=>...
           # possible 'do' options: ignore_testfailure | skiptest | skip
-          { do=>'ignore_testfailure', distribution => 'CPANPLUS' }, #XXX-TODO: CPANPLUS-0.9128 has test failure
-          { do=>'ignore_testfailure', distribution => 'IPC-Cmd' },  #XXX-TODO: IPC-Cmd-0.78 has test failure
+          { do=>'ignore_testfailure', distribution=>'IPC-Cmd-0.92' },
+          { do=>'ignore_testfailure', distribution=>'Net-Ping-2.41' },
         ]
     },
     ### NEXT STEP ###########################

@@ -7,8 +7,8 @@
 
 {
   app_version     => '5.19.9.1', #BEWARE: do not use '.0.0' in the last two version digits
-  beta            => 1,
   bits            => 32,
+  beta            => 1,
   app_fullname    => 'Strawberry Perl',
   app_simplename  => 'strawberry-perl',
   build_job_steps => [
@@ -79,17 +79,17 @@
         },
     },
     ### NEXT STEP ###########################
-    {
-        plugin => 'Perl::Dist::Strawberry::Step::InstallModules',
-        modules => [
-          #here is a place to (re)install/(up/down)grade modules needed before 'Perl::Dist::Strawberry::Step::UpgradeCpanModules'
-        ],
-    },
+##    {
+##        plugin => 'Perl::Dist::Strawberry::Step::InstallModules',
+##        modules => [
+##          # here is a place to (re)install/(up/down)grade modules needed before 'Perl::Dist::Strawberry::Step::UpgradeCpanModules'
+##          # e.g. { install_to=>'perl', module=>'Module::Name' },
+##        ],
+##    },
     ### NEXT STEP ###########################
     {
         plugin => 'Perl::Dist::Strawberry::Step::UpgradeCpanModules',
         exceptions => [
-          # match: version=>... distribution=>... cpan_file=>...
           # possible 'do' options: ignore_testfailure | skiptest | skip
           # e.g. { do=>'ignore_testfailure', distribution=>'ExtUtils-MakeMaker-6.72' },
         ]
@@ -115,10 +115,10 @@
                 File-ShareDir           File-Which              File-Copy-Recursive /,
 
             # database stuff
-            qw/ DBI DBD-ODBC DBD-SQLite DBIx-Simple/,
+            qw/ DBI DBD-ODBC DBD-SQLite DBIx-Simple /,
             { module=>'DBIx-Class', ignore_testfailure=>1 },    #XXX-TODO: check test failures
             { module=>'DBD-ADO', ignore_testfailure=>1 },       #XXX-TODO: DBD-ADO-2.99 test FAILS
-            { module=>'DBD-Pg', ignore_testfailure=>1 },        #XXX-TODO: check test failures XXX-FIXME-FATAL!!!!!!!
+            { module=>'DBD-Pg', ignore_testfailure=>1 },        #XXX-TODO: XXX FIXME!!!!
             { module=>'DBD-mysql', ignore_testfailure=>1, makefilepl_param=>'--mysql_config=mysql_config' }, #XXX-TODO: check test failures
 
             # math related
@@ -141,6 +141,7 @@
             '<package_url>/kmx/perl-modules-patched/Crypt-OpenSSL-DSA-0.14_patched.tar.gz',     #XXX-CHECK https://metacpan.org/pod/Crypt::OpenSSL::DSA
             '<package_url>/kmx/perl-modules-patched/Crypt-OpenSSL-X509-1.804_patched.tar.gz',   #XXX-CHECK https://metacpan.org/pod/Crypt::OpenSSL::X509 (needs to be reported!!!!!!)
             'Crypt-OpenSSL-RSA',
+            
             'Alt::Crypt::RSA::BigInt',                                                          #XXX-TODO: a hack Crypt-RSA without Math::PARI
             
             # this is subset of modules we install on64bit
@@ -199,7 +200,7 @@
             qw/ CPAN::SQLite Alien-Tidyp FCGI Text-Diff Text-Patch /,
             qw/ IO::Stringy IO::String String-CRC32 Sub-Uplevel Convert-PEM/,
             qw/ IPC-Run3 IPC-System-Simple /,
-            { module=>'IPC-Run', skiptest=>1 },                         #XXX-TODO trouble with 'Terminating on signal SIGBREAK(21)'
+            { module=>'IPC-Run', skiptest=>1 },                         #XXX-FIXME trouble with 'Terminating on signal SIGBREAK(21)'
 
             # strawberry extras
             qw/ App-module-version /,
@@ -210,9 +211,10 @@
             qw/ Moose MooseX-Types MooseX::Types::Structured MooseX::Declare MooseX::ClassAttribute MooseX::Role::Parameterized MooseX::NonMoose Moo /,
             { module=>'IO::Socket::IP', ignore_testfailure=>1 },        #XXX-TODO test failures ipv6related - https://rt.cpan.org/Ticket/Display.html?id=83485
             qw/ IO::Socket::INET6 /,
-            qw/ Mojolicious WWW::Mechanize Net::Telnet Class::Accessor Date::Format /,
+            qw/ WWW::Mechanize Net::Telnet Class::Accessor Date::Format /,
             { module=>'Template', ignore_testfailure=>1 },              #XXX-TODO
-            qw/ App-cpanminus CPANPLUS /,
+            qw/ App-cpanminus /,
+            qw/ Mojolicious /,
 
             # trying to include some GUI tools
             #qw/IUP/,
@@ -220,11 +222,11 @@
 
     },
     ### NEXT STEP ###########################
-    {
-        plugin => 'Perl::Dist::Strawberry::Step::UninstallModules',
-        #modules => [ 'Alien-IUP' ],
-        modules => [],
-    },
+##    {
+##        plugin => 'Perl::Dist::Strawberry::Step::UninstallModules',
+##        #modules => [ 'Alien-IUP' ],
+##        modules => [],
+##    },
     ### NEXT STEP ###########################
     {
         plugin => 'Perl::Dist::Strawberry::Step::FixShebang',

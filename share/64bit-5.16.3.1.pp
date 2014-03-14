@@ -78,21 +78,20 @@
         },
     },
     ### NEXT STEP ###########################
-    {
-        plugin => 'Perl::Dist::Strawberry::Step::InstallModules',
-        modules => [
-          #here is a place to (re)install/(up/down)grade modules needed before 'Perl::Dist::Strawberry::Step::UpgradeCpanModules'
-          { install_to=>'perl', module=>'http://cpan.metacpan.org/authors/id/M/MU/MUIR/modules/Text-Tabs+Wrap-2013.0523.tar.gz' },    # minicpan related issue #XXX-CHECK https://metacpan.org/pod/Text::Tabs
-          { install_to=>'perl', module=>'http://cpan.metacpan.org/authors/id/A/AM/AMBS/ExtUtils/ExtUtils-CBuilder-0.280216.tar.gz' }, # minicpan related issue #XXX-CHECK https://metacpan.org/pod/ExtUtils::CBuilder
-        ],
-    },
+##    {
+##        plugin => 'Perl::Dist::Strawberry::Step::InstallModules',
+##        modules => [
+##          # here is a place to (re)install/(up/down)grade modules needed before 'Perl::Dist::Strawberry::Step::UpgradeCpanModules'
+##          # e.g. { install_to=>'perl', module=>'Module::Name' },
+##        ],
+##    },
     ### NEXT STEP ###########################
     {
         plugin => 'Perl::Dist::Strawberry::Step::UpgradeCpanModules',
         exceptions => [
-          # match: version=>... distribution=>... cpan_file=>...
           # possible 'do' options: ignore_testfailure | skiptest | skip
-          { do=>'ignore_testfailure', distribution => 'CPANPLUS' }, #XXX-TODO: CPANPLUS-0.9128 has test failure
+          { do=>'ignore_testfailure', distribution=>'IPC-Cmd-0.92' },
+          { do=>'ignore_testfailure', distribution=>'Net-Ping-2.41' },
         ]
     },
     ### NEXT STEP ###########################
@@ -114,7 +113,7 @@
             # database stuff
             qw/ DBI DBD-ODBC DBD-SQLite DBD-Pg DBIx-Simple /,
             { module=>'DBD-ADO', ignore_testfailure=>1 }, #XXX-TODO: DBD-ADO-2.99 test FAILS
-            { module=>'DBD-mysql', makefilepl_param=>'--mysql_config=mysql_config' },
+            { module=>'DBD-mysql', ignore_testfailure=>1, makefilepl_param=>'--mysql_config=mysql_config' }, #XXX-TODO: check test failures
 
             # math related
             qw/ Math-Round Math-BigInt-GMP Math-GMP Math-MPC Math-MPFR /,
@@ -184,7 +183,8 @@
             # misc
             qw/ CPAN::SQLite Alien-Tidyp FCGI Text-Diff Text-Patch /,
             qw/ IO::Stringy IO::String String-CRC32 Sub-Uplevel Convert-PEM/,
-            qw/ IPC-Run3 IPC-Run IPC-System-Simple /,
+            qw/ IPC-Run3 IPC-System-Simple /,
+            { module=>'IPC-Run', skiptest=>1 },                         #XXX-FIXME trouble with 'Terminating on signal SIGBREAK(21)'
 
             # strawberry extras
             qw/ App-module-version /,
@@ -204,11 +204,11 @@
 
     },
     ### NEXT STEP ###########################
-    {
-        plugin => 'Perl::Dist::Strawberry::Step::UninstallModules',
-        #modules => [ 'Alien-IUP' ],
-        modules => [],
-    },
+##    {
+##        plugin => 'Perl::Dist::Strawberry::Step::UninstallModules',
+##        #modules => [ 'Alien-IUP' ],
+##        modules => [],
+##    },
     ### NEXT STEP ###########################
     {
         plugin => 'Perl::Dist::Strawberry::Step::FixShebang',

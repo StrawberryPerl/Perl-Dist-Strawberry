@@ -52,7 +52,7 @@
             'libzlib'       => '<package_url>/kmx/64_libs/gcc47-2013Q3/64bit_zlib-1.2.8-bin_20130810.zip',
             #special cases
             'pthreads'      => '<package_url>/kmx/64_libs/gcc47-2013Q3/64bit_pthreads-2.10.0-bin_20130526.zip',  # built together with gcc toolchain
-            'libmysql'      => '<package_url>/kmx/64_libs/gcc44-2011/64bit_mysql-5.1.44-bin_20100304.zip',      # the latest DLL binary is missing some exports
+            'libmysql'      => '<package_url>/kmx/64_libs/gcc44-2011/64bit_mysql-5.1.44-bin_20100304.zip',       # the latest DLL binary is missing some exports
         },
     },
     ### NEXT STEP ###########################
@@ -81,23 +81,19 @@
         },
     },
     ### NEXT STEP ###########################
-    {
-        plugin => 'Perl::Dist::Strawberry::Step::InstallModules',
-        modules => [
-          #here is a place to (re)install/(up/down)grade modules needed before 'Perl::Dist::Strawberry::Step::UpgradeCpanModules'
-          { install_to=>'perl', module=>'http://cpan.metacpan.org/authors/id/M/MU/MUIR/modules/Text-Tabs+Wrap-2013.0523.tar.gz' },    # minicpan related issue #XXX-CHECK https://metacpan.org/pod/Text::Tabs
-          { install_to=>'perl', module=>'http://cpan.metacpan.org/authors/id/A/AM/AMBS/ExtUtils/ExtUtils-CBuilder-0.280216.tar.gz' }, # minicpan related issue #XXX-CHECK https://metacpan.org/pod/ExtUtils::CBuilder
-        ],
-    },
+##    {
+##        plugin => 'Perl::Dist::Strawberry::Step::InstallModules',
+##        modules => [
+##          # here is a place to (re)install/(up/down)grade modules needed before 'Perl::Dist::Strawberry::Step::UpgradeCpanModules'
+##          # e.g. { install_to=>'perl', module=>'Module::Name' },
+##        ],
+##    },
     ### NEXT STEP ###########################
     {
         plugin => 'Perl::Dist::Strawberry::Step::UpgradeCpanModules',
         exceptions => [
-          # match: version=>... distribution=>... cpan_file=>...
           # possible 'do' options: ignore_testfailure | skiptest | skip
-          { do=>'ignore_testfailure', distribution=>'CPANPLUS' },           #XXX-TODO: CPANPLUS-0.9128 has test failure
-          { do=>'ignore_testfailure', distribution=>'ExtUtils-MakeMaker' }, #XXX-TODO: ExtUtils-MakeMaker-6.72 has test failure
-          { do=>'ignore_testfailure', distribution=>'IPC-Cmd-0.92' },       #XXX-TODO: IPC-Cmd-0.90 has test failure
+          { do=>'ignore_testfailure', distribution=>'IPC-Cmd-0.92' },
         ]
     },
     ### NEXT STEP ###########################
@@ -105,11 +101,11 @@
         plugin => 'Perl::Dist::Strawberry::Step::InstallModules',
         modules => [
             # term related
-            '<package_url>/kmx/perl-modules-patched/TermReadKey-2.31_patched.tar.gz', # special version needed XXX-report a bug
+            '<package_url>/kmx/perl-modules-patched/TermReadKey-2.31_patched.tar.gz', # special version needed XXX-report a bug https://metacpan.org/pod/Term::ReadKey
             { module=>'Term::ReadLine::Perl', env=>{ PERL_MM_NONINTERACTIVE=>1 } },
 
             # compression
-            { module=>'Archive-Zip', ignore_testfailure=>1 },     #XXX-TODO: Archive-Zip-1.33 test FAILS
+            { module=>'Archive-Zip', ignore_testfailure=>1 },   #XXX-TODO: Archive-Zip-1.33 test FAILS
             qw/ IO-Compress-Lzma Compress-unLZMA /,
             
             # file related
@@ -118,9 +114,10 @@
                 File-ShareDir           File-Which              File-Copy-Recursive /,
 
             # database stuff
-            qw/ DBI DBD-ODBC DBD-SQLite DBD-Pg DBIx-Simple /,
-            { module=>'DBD-ADO', ignore_testfailure=>1 }, #XXX-TODO: DBD-ADO-2.99 test FAILS
-            { module=>'DBD-mysql', ignore_testfailure=>1, makefilepl_param=>'--mysql_config=mysql_config' }, #XXX-TODO: checjk test failures
+            qw/ DBI DBD-ODBC DBD-SQLite DBIx-Simple /,
+            { module=>'DBD-ADO', ignore_testfailure=>1 },       #XXX-TODO: DBD-ADO-2.99 test FAILS
+            { module=>'DBD-Pg' },
+            { module=>'DBD-mysql', ignore_testfailure=>1, makefilepl_param=>'--mysql_config=mysql_config' }, #XXX-TODO: check test failures
 
             # math related
             qw/ Math-Round Math-BigInt-GMP Math-GMP Math-MPC Math-MPFR /,
@@ -132,9 +129,8 @@
             # win32 related
             { module=>'Win32API-Registry', ignore_testfailure=>1 }, #XXX-TODO: Win32API-Registry-0.32 test FAILS
             { module=>'Win32-TieRegistry', ignore_testfailure=>1 }, #XXX-TODO: Win32-TieRegistry-0.26 test FAILS
-            { module=>'Win32-API',         ignore_testfailure=>1 }, #XXX-TODO: Win32-API-0.75 test FAILS (5.18.x incompatibility)
             { module=>'Win32-OLE',         ignore_testfailure=>1 }, #XXX-TODO: test used to fail
-            qw/ Win32-EventLog Win32-Exe Win32-Process Win32-WinError Win32-File-Object Win32-UTCFileTime /,
+            qw/ Win32-API Win32-EventLog Win32-Exe Win32-Process Win32-WinError Win32-File-Object Win32-UTCFileTime /,
 
             # crypto
             '<package_url>/kmx/perl-modules-patched/Crypt-OpenSSL-Random-0.04_patched.tar.gz',  #XXX-CHECK https://metacpan.org/pod/Crypt::OpenSSL::Random
@@ -156,14 +152,13 @@
             # tests fail on 5.18.x
             #{ module =>'Crypt::OpenPGP' },
             #{ module =>'Module::Signature', ignore_testfailure=>1 },
-            
 
             # digests
             qw/ Digest-BubbleBabble Digest-HMAC Digest-MD2 Digest-SHA1 /,
 
             # SSL & SSH
             qw/ Net-SSLeay /,
-            { module=>'IO-Socket-SSL', ignore_testfailure=>1 },    #XXX-TODO
+            { module=>'IO-Socket-SSL', ignore_testfailure=>1 },         #XXX-TODO
             qw/ Net-SMTP-TLS Net-SSH2 /,
             { module =>'Crypt-SSLeay', ignore_testfailure=>1 },
 
@@ -171,8 +166,8 @@
             qw/ LWP::UserAgent LWP-Protocol-https /,
 
             # graphics
-            { module=>'GD', ignore_testfailure=>1 },    #XXX-TODO
-            { module=>'Imager', ignore_testfailure=>1 },          #XXX-TODO
+            { module=>'GD', ignore_testfailure=>1 },                    #XXX-TODO
+            { module=>'Imager', ignore_testfailure=>1 },                #XXX-TODO
             qw/ Imager-File-GIF Imager-File-JPEG Imager-File-PNG Imager-File-TIFF Imager-Font-FT2 Imager-Font-W32 /,
 
             # XML & co.
@@ -187,7 +182,7 @@
 
             # utils
             qw/ pler App-local-lib-Win32Helper /,
-            { module=>'pip', ignore_testfailure=>1 }, #XXX-TODO: test fails - The directory 'C:\strawberry\cpan\sources' does not exist
+            { module=>'pip', ignore_testfailure=>1 },                   #XXX-TODO: test fails - The directory 'C:\strawberry\cpan\sources' does not exist
 
             # par & ppm &cpanm
             qw/ PAR PAR::Dist::FromPPD PAR::Dist::InstallPPD PAR::Repository::Client /,
@@ -202,7 +197,7 @@
             qw/ CPAN::SQLite Alien-Tidyp FCGI Text-Diff Text-Patch /,
             qw/ IO::Stringy IO::String String-CRC32 Sub-Uplevel Convert-PEM/,
             qw/ IPC-Run3 IPC-System-Simple /,
-            { module=>'IPC-Run', skiptest=>1 },     #XXX-FIXME trouble with 'Terminating on signal SIGBREAK(21)'
+            { module=>'IPC-Run', skiptest=>1 },                         #XXX-FIXME trouble with 'Terminating on signal SIGBREAK(21)'
 
             # strawberry extras
             qw/ App-module-version /,
@@ -214,7 +209,7 @@
             { module=>'IO::Socket::IP', ignore_testfailure=>1 },        #XXX-TODO test failures ipv6related - https://rt.cpan.org/Ticket/Display.html?id=83485
             qw/ IO::Socket::INET6 /,
             qw/ WWW::Mechanize Net::Telnet Class::Accessor Date::Format /,
-            { module=>'Template', ignore_testfailure=>1 },      #XXX-TODO
+            { module=>'Template', ignore_testfailure=>1 },              #XXX-TODO
             qw/ App-cpanminus /,
 
             # trying to include some GUI tools
@@ -223,11 +218,11 @@
 
     },
     ### NEXT STEP ###########################
-    {
-        plugin => 'Perl::Dist::Strawberry::Step::UninstallModules',
-        #modules => [ 'Alien-IUP' ],
-        modules => [],
-    },
+##    {
+##        plugin => 'Perl::Dist::Strawberry::Step::UninstallModules',
+##        #modules => [ 'Alien-IUP' ],
+##        modules => [],
+##    },
     ### NEXT STEP ###########################
     {
         plugin => 'Perl::Dist::Strawberry::Step::FixShebang',
@@ -266,7 +261,7 @@
          { do=>'apply_tt', args=>[ '<dist_sharedir>/extra-files/win32/Strawberry Perl Website.url.tt',             '<image_dir>/win32/Strawberry Perl Website.url' ] },
          # cleanup (remove unwanted files/dirs)
          { do=>'removefile', args=>[ '<image_dir>/c/bin/gccbug', '<image_dir>/perl/vendor/lib/Crypt/._test.pl', '<image_dir>/perl/vendor/lib/DBD/testme.tmp.pl' ] },
-         { do=>'removefile_recursive', args=>[ '<image_dir>/perl', '*.dll.AAA' ] },
+         { do=>'removefile_recursive', args=>[ '<image_dir>/perl', qr/.+\.dll\.AA[A-Z]$/i ] },
          # cleanup cpanm related files
          { do=>'removedir', args=>[ '<image_dir>/perl/site/lib/MSWin32-x86-multi-thread-64int' ] },
          { do=>'removedir', args=>[ '<image_dir>/perl/site/lib/MSWin32-x86-multi-thread' ] },
@@ -329,7 +324,7 @@
          ] },
        ],
        env => {
-         TERM => "dumb",
+         #TERM => "dumb",
        },
 
     },
@@ -347,11 +342,16 @@
     {
        plugin => 'Perl::Dist::Strawberry::Step::FilesAndDirs',
        commands => [ # files and dirs specific to portable edition
-         { do=>'removefile', args=>[ '<image_dir>/README.txt', '<image_dir>/perl2.reloc.txt', '<image_dir>/perl1.reloc.txt', '<image_dir>/update_env.pl.bat', '<image_dir>/relocation.pl.bat' ] },
+         { do=>'removefile', args=>[ '<image_dir>/README.txt', '<image_dir>/perl2.reloc.txt', '<image_dir>/perl1.reloc.txt', '<image_dir>/relocation.txt',
+                                     '<image_dir>/update_env.pl.bat', '<image_dir>/relocation.pl.bat' ] },
          { do=>'createdir',  args=>[ '<image_dir>/data' ] },
          { do=>'copyfile',   args=>[ '<dist_sharedir>/portable/portable.perl.473.64',   '<image_dir>/portable.perl' ] }, # take portable.perl.32 or portable.perl.64
          { do=>'copyfile',   args=>[ '<dist_sharedir>/portable/portableshell.bat',      '<image_dir>/portableshell.bat' ] },
          { do=>'apply_tt',   args=>[ '<dist_sharedir>/portable/README.portable.txt.tt', '<image_dir>/README.portable.txt' ] },
+         # cleanup cpanm related files
+         { do=>'removedir', args=>[ '<image_dir>/perl/site/lib/MSWin32-x86-multi-thread-64int' ] },
+         { do=>'removedir', args=>[ '<image_dir>/perl/site/lib/MSWin32-x86-multi-thread' ] },
+         { do=>'removedir', args=>[ '<image_dir>/perl/site/lib/MSWin32-x64-multi-thread' ] },
        ],
     },
     ### NEXT STEP ###########################

@@ -81,23 +81,19 @@
         },
     },
     ### NEXT STEP ###########################
-    {
-        plugin => 'Perl::Dist::Strawberry::Step::InstallModules',
-        modules => [
-          #here is a place to (re)install/(up/down)grade modules needed before 'Perl::Dist::Strawberry::Step::UpgradeCpanModules'
-          { install_to=>'perl', module=>'http://cpan.metacpan.org/authors/id/M/MU/MUIR/modules/Text-Tabs+Wrap-2013.0523.tar.gz' },    # minicpan related issue #XXX-CHECK https://metacpan.org/pod/Text::Tabs
-          { install_to=>'perl', module=>'http://cpan.metacpan.org/authors/id/A/AM/AMBS/ExtUtils/ExtUtils-CBuilder-0.280216.tar.gz' }, # minicpan related issue #XXX-CHECK https://metacpan.org/pod/ExtUtils::CBuilder
-        ],
-    },
+##    {
+##        plugin => 'Perl::Dist::Strawberry::Step::InstallModules',
+##        modules => [
+##          # here is a place to (re)install/(up/down)grade modules needed before 'Perl::Dist::Strawberry::Step::UpgradeCpanModules'
+##          # e.g. { install_to=>'perl', module=>'Module::Name' },
+##        ],
+##    },
     ### NEXT STEP ###########################
     {
         plugin => 'Perl::Dist::Strawberry::Step::UpgradeCpanModules',
         exceptions => [
-          # match: version=>... distribution=>... cpan_file=>...
           # possible 'do' options: ignore_testfailure | skiptest | skip
-          { do=>'ignore_testfailure', distribution=>'CPANPLUS' },           #XXX-TODO: CPANPLUS-0.9128 has test failure
-          { do=>'ignore_testfailure', distribution=>'ExtUtils-MakeMaker' }, #XXX-TODO: ExtUtils-MakeMaker-6.72 has test failure
-          { do=>'ignore_testfailure', distribution=>'IPC-Cmd-0.92' },       #XXX-TODO: IPC-Cmd-0.90 has test failure
+          { do=>'ignore_testfailure', distribution=>'IPC-Cmd-0.92' },
         ]
     },
     ### NEXT STEP ###########################
@@ -223,11 +219,11 @@
 
     },
     ### NEXT STEP ###########################
-    {
-        plugin => 'Perl::Dist::Strawberry::Step::UninstallModules',
-        #modules => [ 'Alien-IUP' ],
-        modules => [],
-    },
+##    {
+##        plugin => 'Perl::Dist::Strawberry::Step::UninstallModules',
+##        #modules => [ 'Alien-IUP' ],
+##        modules => [],
+##    },
     ### NEXT STEP ###########################
     {
         plugin => 'Perl::Dist::Strawberry::Step::FixShebang',
