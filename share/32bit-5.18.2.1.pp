@@ -35,7 +35,7 @@
             'libgiflib'     => '<package_url>/kmx/32_libs/gcc47-2013Q3/32bit_giflib-5.0.4-bin_20130810.zip',
             'libgmp'        => '<package_url>/kmx/32_libs/gcc47-2013Q3/32bit_gmp-5.1.2-bin_20130810.zip',
             'libjpeg'       => '<package_url>/kmx/32_libs/gcc47-2013Q3/32bit_jpeg-9-bin_20130810.zip',
-            'libgd'         => '<package_url>/kmx/32_libs/gcc47-2013Q3/32bit_libgd-2.1.0-bin_20130810.zip',            
+            'libgd'         => '<package_url>/kmx/32_libs/gcc47-2013Q3/32bit_libgd-2.1.0-bin_20130810.zip',
             'liblibXpm'     => '<package_url>/kmx/32_libs/gcc47-2013Q3/32bit_libXpm-3.5.10-bin_20130810.zip',
             'liblibiconv'   => '<package_url>/kmx/32_libs/gcc47-2013Q3/32bit_libiconv-1.14-bin_20130810.zip',
             'liblibpng'     => '<package_url>/kmx/32_libs/gcc47-2013Q3/32bit_libpng-1.6.3-bin_20130810.zip',
@@ -100,6 +100,10 @@
     {
         plugin => 'Perl::Dist::Strawberry::Step::InstallModules',
         modules => [
+            # IPC related
+            { module=>'IPC-Run', skiptest=>1 }, #XXX-FIXME trouble with 'Terminating on signal SIGBREAK(21)'
+            qw/ IPC-Run3 IPC-System-Simple /,
+
             # term related
             '<package_url>/kmx/perl-modules-patched/TermReadKey-2.31_patched.tar.gz', # special version needed XXX-report a bug https://metacpan.org/pod/Term::ReadKey
             { module=>'Term::ReadLine::Perl', env=>{ PERL_MM_NONINTERACTIVE=>1 } },
@@ -107,7 +111,7 @@
             # compression
             { module=>'Archive-Zip', ignore_testfailure=>1 },   #XXX-TODO: Archive-Zip-1.33 test FAILS
             qw/ IO-Compress-Lzma Compress-unLZMA /,
-            
+
             # file related
             { module=>'File-Slurp', ignore_testfailure=>1 },    #XXX-TODO: on 32bit OK
             qw/ File-Find-Rule          File-HomeDir            File-Listing            File-Remove
@@ -138,9 +142,9 @@
             '<package_url>/kmx/perl-modules-patched/Crypt-OpenSSL-AES-0.02_patched.tar.gz',     #XXX-CHECK https://metacpan.org/pod/Crypt::OpenSSL::AES
             '<package_url>/kmx/perl-modules-patched/Crypt-OpenSSL-DSA-0.14_patched.tar.gz',     #XXX-CHECK https://metacpan.org/pod/Crypt::OpenSSL::DSA
             'Crypt-OpenSSL-RSA',
-            
+
             'Alt::Crypt::RSA::BigInt',                                                          #XXX-TODO: a hack Crypt-RSA without Math::PARI
-            
+
             # this is subset of modules we install on64bit
             qw/ Crypt::IDEA Crypt::Blowfish Crypt::Twofish Crypt::DES Crypt::DH /,
             qw/ Crypt::Rijndael Crypt::CAST5_PP Crypt::CBC Crypt::DES_EDE3 Crypt::DSA Crypt::RIPEMD160 /,
@@ -196,8 +200,6 @@
             # misc
             qw/ CPAN::SQLite Alien-Tidyp FCGI Text-Diff Text-Patch /,
             qw/ IO::Stringy IO::String String-CRC32 Sub-Uplevel Convert-PEM/,
-            qw/ IPC-Run3 IPC-System-Simple /,
-            { module=>'IPC-Run', skiptest=>1 },                         #XXX-FIXME trouble with 'Terminating on signal SIGBREAK(21)'
 
             # strawberry extras
             qw/ App-module-version /,

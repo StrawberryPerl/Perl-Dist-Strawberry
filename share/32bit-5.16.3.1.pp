@@ -98,6 +98,10 @@
     {
         plugin => 'Perl::Dist::Strawberry::Step::InstallModules',
         modules => [
+            # IPC related
+            { module=>'IPC-Run', skiptest=>1 }, #XXX-FIXME trouble with 'Terminating on signal SIGBREAK(21)'
+            qw/ IPC-Run3 IPC-System-Simple /,
+
             # term related
             '<package_url>/kmx/perl-modules-patched/TermReadKey-2.30.02.tar.gz', # special version needed
             { module=>'Term::ReadLine::Perl', env=>{ PERL_MM_NONINTERACTIVE=>1 } },
@@ -177,8 +181,6 @@
             # misc
             qw/ CPAN::SQLite Alien-Tidyp FCGI Text-Diff Text-Patch /,
             qw/ IO::Stringy IO::String String-CRC32 Sub-Uplevel Convert-PEM/,
-            qw/ IPC-Run3 IPC-System-Simple /,
-            { module=>'IPC-Run', skiptest=>1 },                         #XXX-FIXME trouble with 'Terminating on signal SIGBREAK(21)'
 
             # strawberry extras
             qw/ App-module-version /,

@@ -94,7 +94,7 @@
          # special hack moves all extlib DLLs to perl/bin
          { do=>'movedir',    args=>[ '<image_dir>/c/bin/startup', '<image_dir>/perl/bin/startup' ] },
          { do=>'movefile',   args=>[ '<image_dir>/c/bin/dmake.exe', '<image_dir>/perl/bin/dmake.exe' ] },
-         { do=>'smartmove',  args=>[ '<image_dir>/c/bin/*_.dll', '<image_dir>/perl/bin' ] },         
+         { do=>'smartmove',  args=>[ '<image_dir>/c/bin/*_.dll', '<image_dir>/perl/bin' ] },
          # cleanup cpanm related files
          { do=>'removedir', args=>[ '<image_dir>/perl/site/lib/MSWin32-x86-multi-thread-64int' ] },
          { do=>'removedir', args=>[ '<image_dir>/perl/site/lib/MSWin32-x86-multi-thread' ] },
