@@ -1,8 +1,3 @@
-### 5.18 testing issues
-- not deleted perl/site/lib/MSWin32-x86-multi-thread-64int
-- ExtUtils::CBuilder Module::Build Text::Tabs why in vendor?
-- Tree::DAG_Node missing
-
 ### MSI testing
 - starmenu
 - registry
@@ -20,9 +15,6 @@ src/include/port/win32.h
 -#define PGDLLEXPORT __declspec (dllexport)
 +#if defined _MSC_VER || defined __MINGW64__
 +#define PGDLLEXPORT __declspec (dllexport)
-full build fails:
-cannot find -lssleay32
-cannot find -leay32
 
 ### MSI: filesystem ACL for c:\strawberry & co.
 http://wixtoolset.org/documentation/manual/v3/xsd/wix/permission.html
@@ -36,10 +28,12 @@ http://stackoverflow.com/questions/12278265/how-to-get-user-credentials-displaye
 http://social.msdn.microsoft.com/Forums/vstudio/en-US/39d9e905-2b35-4ce9-a544-4564f6b5a376/setting-file-permissions-in-languages-other-than-english-windows-installer-wix?forum=vssetup
 
 ### more modules?
-Win32::Job
+Win32::Job Win32::Daemon Win32::ServiceManager Win32::Service Win32::GuiTest 
+Text::CSV Text::CSV_XS
+Perl::Tidy
 Devel::NYTProf Devel::Cover Devel::REPL
-Path::Tiny Perl::Critic Perl::Tidy
-Text::CSV Text::CSV_XS Tie::Array::CSV
+Path::Tiny Perl::Critic
+Tie::Array::CSV
 Excel::Writer::XLSX
 HTTP::Parser::XS
 CryptX
