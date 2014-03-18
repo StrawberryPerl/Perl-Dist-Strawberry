@@ -31,7 +31,7 @@
             'libexpat'      => '<package_url>/kmx/32_libs/gcc47-2014Q1/32bit_expat-2.1.0-bin_20140318.zip',
             'libfreeglut'   => '<package_url>/kmx/32_libs/gcc47-2014Q1/32bit_freeglut-2.8.1-bin_20140318.zip',
             'libfreetype'   => '<package_url>/kmx/32_libs/gcc47-2014Q1/32bit_freetype-2.5.2-bin_20140318.zip',
-            'libgdbm'       => '<package_url>/kmx/32_libs/gcc47-2014Q1/32bit_gdbm-1.8.3-bin_20140318.zip',
+            'libgdbm'       => '<package_url>/kmx/32_libs/gcc47-2014Q1/32bit_gdbm-1.10-bin_20140318.zip',
             'libgiflib'     => '<package_url>/kmx/32_libs/gcc47-2014Q1/32bit_giflib-5.0.5-bin_20140318.zip',
             'libgmp'        => '<package_url>/kmx/32_libs/gcc47-2014Q1/32bit_gmp-5.1.3-bin_20140318.zip',
             'libjpeg'       => '<package_url>/kmx/32_libs/gcc47-2014Q1/32bit_jpeg-9a-bin_20140318.zip',
