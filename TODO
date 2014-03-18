@@ -1,20 +1,16 @@
+### 
+perl -MConfig -E "say $_, '=', $Config{$_} for (qw/libpth loclibpth libsdirs locincpth usrinc/)"
+> Perl-Dist-WiX-1.500002/share-5123/default/win32/config.gc64nox.tt locincpth='.../include .../../c/include'
+> loclibpth='.../lib .../../c/lib'
+> longdblsize='12'
+> CSJEWELL/Perl-Dist-WiX-1.500002 
+
+
 ### MSI testing
 - starmenu
 - registry
 - uninstall (registry, menu, rootdir)
 - upgrade/downgrade
-
-### new libs
-see http://www.gaia-gis.it/gaia-sins/mingw64_how_to.html - png: > DEFAULT_INCLUDES = -I. -I/usr/local/include
-
-### postgresql + DBD::PG (after new ext libs)
-- missing pg_config_ext.h
-- link troubles mohou být podobné http://stackoverflow.com/questions/19286450/link-errors-using-fann
-src/include/port/win32.h
--#ifdef _MSC_VER
--#define PGDLLEXPORT __declspec (dllexport)
-+#if defined _MSC_VER || defined __MINGW64__
-+#define PGDLLEXPORT __declspec (dllexport)
 
 ### MSI: filesystem ACL for c:\strawberry & co.
 http://wixtoolset.org/documentation/manual/v3/xsd/wix/permission.html
@@ -28,9 +24,7 @@ http://stackoverflow.com/questions/12278265/how-to-get-user-credentials-displaye
 http://social.msdn.microsoft.com/Forums/vstudio/en-US/39d9e905-2b35-4ce9-a544-4564f6b5a376/setting-file-permissions-in-languages-other-than-english-windows-installer-wix?forum=vssetup
 
 ### more modules?
-Win32::Job Win32::Daemon Win32::ServiceManager Win32::Service Win32::GuiTest 
-Text::CSV Text::CSV_XS
-Perl::Tidy
+Win32::Job Win32::Daemon Win32::ServiceManager Win32::Service Win32::GuiTest Text::CSV Text::CSV_XS Perl::Tidy
 Devel::NYTProf Devel::Cover Devel::REPL
 Path::Tiny Perl::Critic
 Tie::Array::CSV
@@ -54,6 +48,11 @@ core + minimal sset of modules needed for relocation + setup
 ### maybe: single setup.bat
 relocation + set env
 maybe simple GUI
+
+(needs testing)### new libs
+see http://www.gaia-gis.it/gaia-sins/mingw64_how_to.html - png: > DEFAULT_INCLUDES = -I. -I/usr/local/include
+
+(needs testing)### postgresql + DBD::PG (after new ext libs)
 
 (fixed)### what to do with? 
 - c:\strawberry\perl\site\lib\MSWin32-x86-multi-thread-64int\.meta 
