@@ -22,8 +22,8 @@
             'pexports'      => '<package_url>/kmx/64_tools/64bit_pexports-0.44-bin_20100110.zip',
             'patch'         => '<package_url>/kmx/64_tools/64bit_patch-2.5.9-7-bin_20100110_UAC.zip',
             #gcc & co.
-            'gcc-toolchain' => { url=>'<package_url>/kmx/64_gcctoolchain/mingw64-w64-gcc4.8.2_20140405.zip', install_to=>'c' },
-            'gcc-license'   => '<package_url>/kmx/64_gcctoolchain/mingw64-w64-gcc4.8.2_20140405-lic.zip',
+            'gcc-toolchain' => { url=>'<package_url>/kmx/64_gcctoolchain/mingw64-w64-gcc4.8.2_20140407.zip', install_to=>'c' },
+            'gcc-license'   => '<package_url>/kmx/64_gcctoolchain/mingw64-w64-gcc4.8.2_20140407-lic.zip',
             #libs
             'libdb'         => '<package_url>/kmx/64_libs/gcc48-2014Q1/64bit_db-6.0.20-bin_20140403.zip',
             'libexpat'      => '<package_url>/kmx/64_libs/gcc48-2014Q1/64bit_expat-2.1.0-bin_20140403.zip',
@@ -55,7 +55,8 @@
     ### NEXT STEP ###########################
     {
         plugin     => 'Perl::Dist::Strawberry::Step::InstallPerlCore',
-        url        => 'http://cpan.metacpan.org/authors/id/A/AR/ARC/perl-5.19.10.tar.gz',
+        #url        => 'http://cpan.metacpan.org/authors/id/A/AR/ARC/perl-5.19.10.tar.gz',
+        url        => 'http://search.cpan.org/CPAN/authors/id/A/AR/ARC/perl-5.19.10.tar.bz2',
         cf_email   => 'strawberry-perl@project', #IMPORTANT: keep 'strawberry-perl' before @
         perl_debug => 0,
         #use_64_bit_int not needed on 64bit
@@ -66,6 +67,7 @@
             '<dist_sharedir>/msi/files/perlexe.ico'             => 'win32/perlexe.ico',
             '<dist_sharedir>/perl-5.20/perlexe.rc.tt'           => 'win32/perlexe.rc',
             '<dist_sharedir>/perl-5.20/win32_win32.h'           => 'win32/win32.h',     # fixing comments
+            '<dist_sharedir>/perl-5.20/installperl'             => 'installperl',       # necessary for nonstandard $Config{dlext}
             #'<dist_sharedir>/perl-5.20/win32_config_H.gc'       => 'win32/config_H.gc', # enables gdbm/ndbm/odbm
             #'<dist_sharedir>/perl-5.20/win32_FindExt.pm'        => 'win32/FindExt.pm',  # enables gdbm/ndbm/odbm
         },
@@ -98,6 +100,9 @@
             # IPC related
             { module=>'IPC-Run', skiptest=>1 }, #XXX-FIXME trouble with 'Terminating on signal SIGBREAK(21)'
             qw/ IPC-Run3 IPC-System-Simple /,
+
+            # xs.dll patch needed
+            '<package_url>/kmx/perl-modules-patched/ExtUtils-Depends-0.306_patched.tar.gz', ###XXX https://rt.cpan.org/Ticket/Display.html?id=94515
 
             # gdbm related
             '<package_url>/kmx/perl-modules-patched/GDBM_File-1.15.tar.gz',
@@ -181,7 +186,8 @@
             qw/ Imager-File-GIF Imager-File-JPEG Imager-File-PNG Imager-File-TIFF Imager-Font-FT2 Imager-Font-W32 /,
 
             # XML & co.
-            qw/ XML-LibXML XML-LibXSLT XML-Parser XML-SAX XML-Simple SOAP-Lite /,
+            qw/ XML-LibXML XML-Parser XML-SAX XML-Simple SOAP-Lite /,
+            '<package_url>/kmx/perl-modules-patched/XML-LibXSLT-1.89_patched.tar.gz', #XXX-TODO https://rt.cpan.org/Public/Bug/Display.html?id=94516
 
             # YAML, JSON & co.
             qw/ JSON JSON-XS YAML YAML-Tiny YAML::XS /,
@@ -198,7 +204,7 @@
             qw/ PAR PAR::Dist::FromPPD PAR::Dist::InstallPPD PAR::Repository::Client /,
             # The build path in ppm.xml is derived from $ENV{TMP}. So set TMP to a dedicated location inside of the
             # distribution root to prevent it being locked to the temp directory of the build machine.
-            { module=>'<package_url>/kmx/perl-modules-patched/PPM-11.11_02.tar.gz', env=>{ TMP=>'<image_dir>\ppm' } },
+            { module=>'<package_url>/kmx/perl-modules-patched/PPM-11.11_03.tar.gz', env=>{ TMP=>'<image_dir>\ppm' } },
 
             # tiny
             qw/ Capture-Tiny Try-Tiny Template-Tiny /,
@@ -346,7 +352,7 @@
          { do=>'removefile', args=>[ '<image_dir>/README.txt', '<image_dir>/perl2.reloc.txt', '<image_dir>/perl1.reloc.txt', '<image_dir>/relocation.txt',
                                      '<image_dir>/update_env.pl.bat', '<image_dir>/relocation.pl.bat' ] },
          { do=>'createdir',  args=>[ '<image_dir>/data' ] },
-         { do=>'copyfile',   args=>[ '<dist_sharedir>/portable/portable.perl.473.64',   '<image_dir>/portable.perl' ] }, # take portable.perl.32 or portable.perl.64
+         { do=>'copyfile',   args=>[ '<dist_sharedir>/portable/portable.perl.482.64',   '<image_dir>/portable.perl' ] }, # take portable.perl.32 or portable.perl.64
          { do=>'copyfile',   args=>[ '<dist_sharedir>/portable/portableshell.bat',      '<image_dir>/portableshell.bat' ] },
          { do=>'apply_tt',   args=>[ '<dist_sharedir>/portable/README.portable.txt.tt', '<image_dir>/README.portable.txt' ] },
          # cleanup cpanm related files

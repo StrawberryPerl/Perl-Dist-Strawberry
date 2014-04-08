@@ -646,13 +646,13 @@
  *	should be included.
  */
 #define I_DBM	/**/
-#define I_RPCSVC_DBM	/**/
+/*#define I_RPCSVC_DBM	/ **/
 
 /* I_DLFCN:
  *	This symbol, if defined, indicates that <dlfcn.h> exists and should
  *	be included.
  */
-#define I_DLFCN		/**/
+/*#define I_DLFCN		/ **/
 
 /* I_FCNTL:
  *	This manifest constant tells the C program to include <fcntl.h>.

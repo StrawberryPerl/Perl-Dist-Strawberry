@@ -1,10 +1,23 @@
+### dlext => 'xs.dll',
+Needs testing
+
+### gcc-4.8.2 headers
+YES ieeefp.h        ------- I_IEEEFP
+YES inttypes.h      ------- I_INTTYPES
+YES memory.h        ------  I_MEMORY
+YES netdb.h         ------  I_NETDB
+YES pthread.h       ------  I_PTHREAD   !!!!!!!
+YES sys/file.h      ------- I_SYS_FILE
+YES sys/param.h     ------- I_SYS_PARAM
+YES sys/time.h      ------- I_SYS_TIME
+YES varargs.h       ------- I_VARARGS
+
 ### 
 perl -MConfig -E "say $_, '=', $Config{$_} for (qw/libpth loclibpth libsdirs locincpth usrinc/)"
 > Perl-Dist-WiX-1.500002/share-5123/default/win32/config.gc64nox.tt locincpth='.../include .../../c/include'
 > loclibpth='.../lib .../../c/lib'
 > longdblsize='12'
 > CSJEWELL/Perl-Dist-WiX-1.500002 
-
 
 ### MSI testing
 - starmenu
