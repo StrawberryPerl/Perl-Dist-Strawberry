@@ -8,7 +8,7 @@
 {
   app_version     => '5.19.10.2', #BEWARE: do not use '.0.0' in the last two version digits
   bits            => 64,
-  beta            => 1,
+  beta            => 3,
   app_fullname    => 'Strawberry Perl (64-bit)',
   app_simplename  => 'strawberry-perl',
   build_job_steps => [
@@ -101,8 +101,9 @@
             { module=>'IPC-Run', skiptest=>1 }, #XXX-FIXME trouble with 'Terminating on signal SIGBREAK(21)'
             qw/ IPC-Run3 IPC-System-Simple /,
 
-            # xs.dll patch needed
-            '<package_url>/kmx/perl-modules-patched/ExtUtils-Depends-0.306_patched.tar.gz', ###XXX https://rt.cpan.org/Ticket/Display.html?id=94515
+            # xs.dll & d_libname_unique related patch
+            ###XXX https://rt.cpan.org/Ticket/Display.html?id=94515 + https://rt.cpan.org/Public/Bug/Display.html?id=92699
+            { module=>'<package_url>/kmx/perl-modules-patched/ExtUtils-Depends-0.306_patched.tar.gz', ignore_testfailure=>1 },
 
             # gdbm related
             '<package_url>/kmx/perl-modules-patched/GDBM_File-1.15.tar.gz',
@@ -186,8 +187,7 @@
             qw/ Imager-File-GIF Imager-File-JPEG Imager-File-PNG Imager-File-TIFF Imager-Font-FT2 Imager-Font-W32 /,
 
             # XML & co.
-            qw/ XML-LibXML XML-Parser XML-SAX XML-Simple SOAP-Lite /,
-            '<package_url>/kmx/perl-modules-patched/XML-LibXSLT-1.89_patched.tar.gz', #XXX-TODO https://rt.cpan.org/Public/Bug/Display.html?id=94516
+            qw/ XML-LibXML XML-LibXSLT XML-Parser XML-SAX XML-Simple SOAP-Lite /,
 
             # YAML, JSON & co.
             qw/ JSON JSON-XS YAML YAML-Tiny YAML::XS /,
