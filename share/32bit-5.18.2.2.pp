@@ -27,29 +27,29 @@
             'gcc-license'   => '<package_url>/kmx/32_gcctoolchain/mingw64-w32-gcc4.7.3_20130526-lic.zip',
             'gfortran'      => '<package_url>/kmx/32_gcctoolchain/mingw64-w32-gfortran4.7.3_20130526.zip',
             #libs
-            'libdb'         => '<package_url>/kmx/32_libs/gcc47-2014Q1/32bit_db-6.0.30-bin_20140411.zip',
-            'libexpat'      => '<package_url>/kmx/32_libs/gcc47-2014Q1/32bit_expat-2.1.0-bin_20140411.zip',
-            'libfreeglut'   => '<package_url>/kmx/32_libs/gcc47-2014Q1/32bit_freeglut-2.8.1-bin_20140411.zip',
-            'libfreetype'   => '<package_url>/kmx/32_libs/gcc47-2014Q1/32bit_freetype-2.5.3-bin_20140411.zip',
-            'libgdbm'       => '<package_url>/kmx/32_libs/gcc47-2014Q1/32bit_gdbm-1.10-bin_20140411.zip',
-            'libgiflib'     => '<package_url>/kmx/32_libs/gcc47-2014Q1/32bit_giflib-5.0.5-bin_20140411.zip',
-            'libgmp'        => '<package_url>/kmx/32_libs/gcc47-2014Q1/32bit_gmp-5.1.3-bin_20140411.zip',
-            'libjpeg'       => '<package_url>/kmx/32_libs/gcc47-2014Q1/32bit_jpeg-9a-bin_20140411.zip',
-            'libgd'         => '<package_url>/kmx/32_libs/gcc47-2014Q1/32bit_libgd-2.1.0-bin_20140411.zip',
-            'liblibXpm'     => '<package_url>/kmx/32_libs/gcc47-2014Q1/32bit_libXpm-3.5.11-bin_20140411.zip',
-            'liblibiconv'   => '<package_url>/kmx/32_libs/gcc47-2014Q1/32bit_libiconv-1.14-bin_20140411.zip',
-            'liblibpng'     => '<package_url>/kmx/32_libs/gcc47-2014Q1/32bit_libpng-1.6.10-bin_20140411.zip',
-            'liblibssh2'    => '<package_url>/kmx/32_libs/gcc47-2014Q1/32bit_libssh2-1.4.3-bin_20140411.zip',
-            'liblibxml2'    => '<package_url>/kmx/32_libs/gcc47-2014Q1/32bit_libxml2-2.9.1-bin_20140411.zip',
-            'liblibxslt'    => '<package_url>/kmx/32_libs/gcc47-2014Q1/32bit_libxslt-1.1.28-bin_20140411.zip',
-            'libmpc'        => '<package_url>/kmx/32_libs/gcc47-2014Q1/32bit_mpc-1.0.2-bin_20140411.zip',
-            'libmpfr'       => '<package_url>/kmx/32_libs/gcc47-2014Q1/32bit_mpfr-3.1.2-bin_20140411.zip',
-            'libopenssl'    => '<package_url>/kmx/32_libs/gcc47-2014Q1/32bit_openssl-1.0.1g-bin_20140411.zip',
-            'libpostgresql' => '<package_url>/kmx/32_libs/gcc47-2014Q1/32bit_postgresql-9.3.4-bin_20140411.zip',
-            'libt1lib'      => '<package_url>/kmx/32_libs/gcc47-2014Q1/32bit_t1lib-5.1.2-bin_20140411.zip',
-            'libtiff'       => '<package_url>/kmx/32_libs/gcc47-2014Q1/32bit_tiff-4.0.3-bin_20140411.zip',
-            'libxz'         => '<package_url>/kmx/32_libs/gcc47-2014Q1/32bit_xz-5.0.5-bin_20140411.zip',
-            'libzlib'       => '<package_url>/kmx/32_libs/gcc47-2014Q1/32bit_zlib-1.2.8-bin_20140411.zip',
+            'libdb'         => '<package_url>/kmx/32_libs/gcc47-2014Q1/32bit_db-6.0.30-bin_20140413.zip',
+            'libexpat'      => '<package_url>/kmx/32_libs/gcc47-2014Q1/32bit_expat-2.1.0-bin_20140413.zip',
+            'libfreeglut'   => '<package_url>/kmx/32_libs/gcc47-2014Q1/32bit_freeglut-2.8.1-bin_20140413.zip',
+            'libfreetype'   => '<package_url>/kmx/32_libs/gcc47-2014Q1/32bit_freetype-2.5.3-bin_20140413.zip',
+            'libgdbm'       => '<package_url>/kmx/32_libs/gcc47-2014Q1/32bit_gdbm-1.10-bin_20140413.zip',
+            'libgiflib'     => '<package_url>/kmx/32_libs/gcc47-2014Q1/32bit_giflib-5.0.5-bin_20140413.zip',
+            'libgmp'        => '<package_url>/kmx/32_libs/gcc47-2014Q1/32bit_gmp-5.1.3-bin_20140413.zip',
+            'libjpeg'       => '<package_url>/kmx/32_libs/gcc47-2014Q1/32bit_jpeg-9a-bin_20140413.zip',
+            'libgd'         => '<package_url>/kmx/32_libs/gcc47-2014Q1/32bit_libgd-2.1.0-bin_20140413.zip',
+            'liblibXpm'     => '<package_url>/kmx/32_libs/gcc47-2014Q1/32bit_libXpm-3.5.11-bin_20140413.zip',
+            'liblibiconv'   => '<package_url>/kmx/32_libs/gcc47-2014Q1/32bit_libiconv-1.14-bin_20140413.zip',
+            'liblibpng'     => '<package_url>/kmx/32_libs/gcc47-2014Q1/32bit_libpng-1.6.10-bin_20140413.zip',
+            'liblibssh2'    => '<package_url>/kmx/32_libs/gcc47-2014Q1/32bit_libssh2-1.4.3-bin_20140413.zip',
+            'liblibxml2'    => '<package_url>/kmx/32_libs/gcc47-2014Q1/32bit_libxml2-2.9.1-bin_20140413.zip',
+            'liblibxslt'    => '<package_url>/kmx/32_libs/gcc47-2014Q1/32bit_libxslt-1.1.28-bin_20140413.zip',
+            'libmpc'        => '<package_url>/kmx/32_libs/gcc47-2014Q1/32bit_mpc-1.0.2-bin_20140413.zip',
+            'libmpfr'       => '<package_url>/kmx/32_libs/gcc47-2014Q1/32bit_mpfr-3.1.2-bin_20140413.zip',
+            'libopenssl'    => '<package_url>/kmx/32_libs/gcc47-2014Q1/32bit_openssl-1.0.1g-bin_20140413.zip',
+            'libpostgresql' => '<package_url>/kmx/32_libs/gcc47-2014Q1/32bit_postgresql-9.3.4-bin_20140413.zip',
+            'libt1lib'      => '<package_url>/kmx/32_libs/gcc47-2014Q1/32bit_t1lib-5.1.2-bin_20140413.zip',
+            'libtiff'       => '<package_url>/kmx/32_libs/gcc47-2014Q1/32bit_tiff-4.0.3-bin_20140413.zip',
+            'libxz'         => '<package_url>/kmx/32_libs/gcc47-2014Q1/32bit_xz-5.0.5-bin_20140413.zip',
+            'libzlib'       => '<package_url>/kmx/32_libs/gcc47-2014Q1/32bit_zlib-1.2.8-bin_20140413.zip',
             #special cases
             'pthreads'      => '<package_url>/kmx/32_libs/gcc47-2013Q3/32bit_pthreads-2.10.0-bin_20130526.zip',  # built together with gcc toolchain
             'libmysql'      => '<package_url>/kmx/32_libs/gcc44-2011/32bit_mysql-5.1.44-bin_20100304.zip',       # the latest DLL binary is missing some exports
@@ -58,7 +58,7 @@
     ### NEXT STEP ###########################
     {
         plugin     => 'Perl::Dist::Strawberry::Step::InstallPerlCore',
-        url        => 'http://cpan.metacpan.org/authors/id/R/RJ/RJBS/perl-5.18.2.tar.bz2',
+        url        => 'http://search.cpan.org/CPAN/authors/id/R/RJ/RJBS/perl-5.18.2.tar.bz2',
         cf_email   => 'strawberry-perl@project', #IMPORTANT: keep 'strawberry-perl' before @
         perl_debug => 0,
         use_64_bit_int => 1,
@@ -103,7 +103,7 @@
             # IPC related
             { module=>'IPC-Run', skiptest=>1 }, #XXX-FIXME trouble with 'Terminating on signal SIGBREAK(21)'
             qw/ IPC-Run3 IPC-System-Simple /,
-
+           
             # term related
             '<package_url>/kmx/perl-modules-patched/TermReadKey-2.31_patched.tar.gz', # special version needed XXX-report a bug https://metacpan.org/pod/Term::ReadKey
             { module=>'Term::ReadLine::Perl', env=>{ PERL_MM_NONINTERACTIVE=>1 } },
@@ -111,6 +111,9 @@
             # compression
             { module=>'Archive-Zip', ignore_testfailure=>1 },   #XXX-TODO: Archive-Zip-1.33 test FAILS
             qw/ IO-Compress-Lzma Compress-unLZMA /,
+            
+            #XXX-HACK
+            { module=>'Test::Script', ignore_testfailure=>1 },
 
             # file related
             { module=>'File-Slurp', ignore_testfailure=>1 },    #XXX-TODO: on 32bit OK
@@ -125,7 +128,7 @@
 
             # math related
             qw/ Math-Round Math-BigInt-GMP Math-GMP Math-MPC Math-MPFR /,
-            qw/ Math-Pari /, #fails on 64bit
+            #qw/ Math-Pari /, #fails on 64bit
 
             # has to go before Module::Signature as it throws an error: Not trusting this module, aborting install
             qw/ HTTP-Server-Simple /,

@@ -37,7 +37,9 @@ http://stackoverflow.com/questions/12278265/how-to-get-user-credentials-displaye
 http://social.msdn.microsoft.com/Forums/vstudio/en-US/39d9e905-2b35-4ce9-a544-4564f6b5a376/setting-file-permissions-in-languages-other-than-english-windows-installer-wix?forum=vssetup
 
 ### more modules?
-Win32::Job Win32::Daemon Win32::ServiceManager Win32::Service Win32::GuiTest Text::CSV Text::CSV_XS Perl::Tidy
+Win32-ShellQuote
+Win32::Console Win32::Job Win32::Daemon Win32::ServiceManager Win32::Service Text::CSV Text::CSV_XS
+Win32::GuiTest  Perl::Tidy
 Devel::NYTProf Devel::Cover Devel::REPL
 Path::Tiny Perl::Critic
 Tie::Array::CSV
