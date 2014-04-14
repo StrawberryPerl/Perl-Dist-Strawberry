@@ -1,3 +1,13 @@
+###
+PDL
+cpanm OpenGL Devel::REPL Lexical::Persistence
+PDL::FFTW
+
+- needs curses - Not building PDL::IO::Browser
+- Not building PDL::Graphics::PLplot
+
+  
+
 ### dlext => 'xs.dll',
 Needs testing
 
