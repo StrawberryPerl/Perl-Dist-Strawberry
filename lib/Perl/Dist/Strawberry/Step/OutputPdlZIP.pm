@@ -1,4 +1,4 @@
-package Perl::Dist::Strawberry::Step::OutputPortableZIP;
+package Perl::Dist::Strawberry::Step::OutputPdlZIP;
 
 use 5.012;
 use warnings;
@@ -8,8 +8,8 @@ use File::Spec::Functions qw(catfile);
 
 sub run {
   my $self = shift;
-
-  my $output_basename = ($self->global->{output_basename} // "perl-output") . "-portable";
+    
+  my $output_basename = ($self->global->{output_basename} // "perl-output") . "-PDL";
   my $zip_file = catfile($self->global->{output_dir}, "$output_basename.zip");
   
   $self->boss->message(2, "gonna create '$zip_file'"); 
@@ -18,8 +18,8 @@ sub run {
   # do zip
   $self->boss->zip_dir($self->global->{image_dir}, $zip_file, 9); # 9 = max. compression  
   #store results
-  $self->{data}->{output}->{portable_zip} = $zip_file;
-  $self->{data}->{output}->{portable_zip_sha1} = $self->sha1_file($zip_file);
+  $self->{data}->{output}->{pdl_zip} = $zip_file;
+  $self->{data}->{output}->{pdl_zip_sha1} = $self->sha1_file($zip_file);
 }
 
 1;

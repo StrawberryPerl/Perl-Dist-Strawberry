@@ -1,11 +1,12 @@
 ###
-PDL
-cpanm OpenGL Devel::REPL Lexical::Persistence
+console.pdl.xml
+pdl.ico
+PDL-console.bat
+
+set TERM= or set TERM=dumb
+
+###
 PDL::FFTW
-
-- needs curses - Not building PDL::IO::Browser
-- Not building PDL::Graphics::PLplot
-
   
 
 ### dlext => 'xs.dll',
@@ -48,7 +49,8 @@ http://social.msdn.microsoft.com/Forums/vstudio/en-US/39d9e905-2b35-4ce9-a544-45
 
 ### more modules?
 Win32-ShellQuote
-Win32::Console Win32::Job Win32::Daemon Win32::ServiceManager Win32::Service Text::CSV Text::CSV_XS
+Win32::Console Win32::Console::ANSI
+Win32::Job Win32::Daemon Win32::ServiceManager Win32::Service Text::CSV Text::CSV_XS
 Win32::GuiTest  Perl::Tidy
 Devel::NYTProf Devel::Cover Devel::REPL
 Path::Tiny Perl::Critic
