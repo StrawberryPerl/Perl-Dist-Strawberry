@@ -1,13 +1,36 @@
-###
-console.pdl.xml
-pdl.ico
-PDL-console.bat
+###FAILS - 5.18.2.2/64
+Test::Script        - t/03_compiles_bad.t
+DBD::ADO            - (~ Win32::OLE)
+Win32::TieRegistry  - t/02_main.t - Failed test 'Opened CU/SW/MS/Win/CV/Pol/Exp//NoDriveTypeAutoRun' + 'Type is REG_DWORD' + 'Value matches expected'
+Win32::OLE          - t/2_variant.t
+GD                  - t/GD.t
+Imager              - t/10png.t - Failed test 'read bad crc with png_ignore_benign_errors'
 
-set TERM= or set TERM=dumb
+### set TERM= or set TERM=dumb
 
-###
+### PDL related
+PDL
+PDL::Audio
+PDL::CCS
+PDL::Drawing::Prima
+PDL::EditDistance
 PDL::FFTW
-  
+PDL::FFTW3
+PDL::Fit::Levmar
+PDL::GSL::Randist
+PDL::Graphics::ColorDistance
+PDL::Graphics::ColorSpace
+PDL::Graphics::Gnuplot
+PDL::Graphics::PLplot
+PDL::Graphics::Prima
+PDL::IO::HDF5
+PDL::LinearAlgebra
+PDL::NetCDF
+PDL::Ngrams
+PDL::PrimaImage
+PDL::Stats
+PDL::VectorValued
+PDL_dev
 
 ### dlext => 'xs.dll',
 Needs testing
@@ -48,14 +71,10 @@ http://stackoverflow.com/questions/12278265/how-to-get-user-credentials-displaye
 http://social.msdn.microsoft.com/Forums/vstudio/en-US/39d9e905-2b35-4ce9-a544-4564f6b5a376/setting-file-permissions-in-languages-other-than-english-windows-installer-wix?forum=vssetup
 
 ### more modules?
-Win32-ShellQuote
-Win32::Console Win32::Console::ANSI
-Win32::Job Win32::Daemon Win32::ServiceManager Win32::Service Text::CSV Text::CSV_XS
 Win32::GuiTest  Perl::Tidy
 Devel::NYTProf Devel::Cover Devel::REPL
 Path::Tiny Perl::Critic
 Tie::Array::CSV
-Excel::Writer::XLSX
 HTTP::Parser::XS
 CryptX
 

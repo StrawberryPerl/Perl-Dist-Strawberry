@@ -114,6 +114,13 @@
             qw/Archive::Extract B::Lint CPANPLUS File::CheckTree Log::Message Module::Pluggable Object::Accessor Text::Soundex Term::UI Pod::LaTeX Tree::DAG_Node/,
             { module=>'CPANPLUS::Dist::Build', ignore_testfailure=>1 }, #XXX-TODO: fails on 64bit 5.19.9
 
+            # win32 related
+            { module=>'Win32API-Registry', ignore_testfailure=>1 }, #XXX-TODO: Win32API-Registry-0.32 test FAILS
+            { module=>'Win32-TieRegistry', ignore_testfailure=>1 }, #XXX-TODO: Win32-TieRegistry-0.26 test FAILS
+            { module=>'Win32-OLE',         ignore_testfailure=>1 }, #XXX-TODO: test used to fail
+            qw/ Win32-API Win32-EventLog Win32-Exe Win32-Process Win32-WinError Win32-File-Object Win32-UTCFileTime /,
+            qw/ Win32-ShellQuote Win32::Console Win32::Console::ANSI Win32::Job Win32::Daemon Win32::ServiceManager Win32::Service /,
+
             # term related
             '<package_url>/kmx/perl-modules-patched/TermReadKey-2.31_patched.tar.gz', # special version needed XXX-report a bug https://metacpan.org/pod/Term::ReadKey
             { module=>'Term::ReadLine::Perl', env=>{ PERL_MM_NONINTERACTIVE=>1 } },
@@ -126,6 +133,9 @@
             { module=>'File-Slurp', ignore_testfailure=>1 },    #XXX-TODO: on 32bit OK
             qw/ File-Find-Rule          File-HomeDir            File-Listing            File-Remove
                 File-ShareDir           File-Which              File-Copy-Recursive /,
+
+            # dbm related
+            qw/ BerkeleyDB DB_File DBM-Deep /,
 
             # database stuff
             qw/ DBI DBD-ODBC DBD-SQLite DBIx-Simple /,
@@ -140,12 +150,6 @@
 
             # has to go before Module::Signature as it throws an error: Not trusting this module, aborting install
             qw/ HTTP-Server-Simple /,
-
-            # win32 related
-            { module=>'Win32API-Registry', ignore_testfailure=>1 }, #XXX-TODO: Win32API-Registry-0.32 test FAILS
-            { module=>'Win32-TieRegistry', ignore_testfailure=>1 }, #XXX-TODO: Win32-TieRegistry-0.26 test FAILS
-            { module=>'Win32-OLE',         ignore_testfailure=>1 }, #XXX-TODO: test used to fail
-            qw/ Win32-API Win32-EventLog Win32-Exe Win32-Process Win32-WinError Win32-File-Object Win32-UTCFileTime /,
 
             # crypto
             '<package_url>/kmx/perl-modules-patched/Crypt-OpenSSL-Random-0.04_patched.tar.gz',  #XXX-CHECK https://metacpan.org/pod/Crypt::OpenSSL::Random
@@ -193,9 +197,6 @@
             qw/ JSON JSON-XS YAML YAML-Tiny YAML::XS /,
             #'YAML-Syck', #XXX-TODO: buggy therefore removed
 
-            # dbm related
-            qw/ BerkeleyDB DB_File DBM-Deep /,
-
             # utils
             qw/ pler App-local-lib-Win32Helper /,
             { module=>'pip', ignore_testfailure=>1 },                   #XXX-TODO: test fails - The directory 'C:\strawberry\cpan\sources' does not exist
@@ -225,7 +226,7 @@
             qw/ WWW::Mechanize Net::Telnet Class::Accessor Date::Format /,
             { module=>'Template', ignore_testfailure=>1 },              #XXX-TODO
             qw/ App-cpanminus /,
-            qw/ Mojolicious Win32::Job Win32::Daemon Win32::ServiceManager Win32::Service Text::CSV Text::CSV_XS Perl::Tidy /,
+            qw/ Mojolicious Text::CSV Text::CSV_XS Excel::Writer::XLSX Perl::Tidy /,
 
             # trying to include some GUI tools
             #qw/IUP/,
