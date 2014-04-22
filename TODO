@@ -3,7 +3,6 @@
 - netcdf - dynamic
 
 #Modules add
-- Spreadsheet::WriteExcel Spreadsheet::ParseExcel
 - AnyEvent                     (642KB)
 - EV                           (550KB  - 1095)
 - Devel::NYTProf               (1.23MB - 2326)
@@ -139,11 +138,6 @@ PDL::Graphics::Prima PDL::Drawing::Prima
 
 PDL::NetCDF                     ### Cannot find netcdf library, libnetcdf.so or libnetcdf.a
 PDL::LinearAlgebra              ### FAILS - unfriendly to gcc@MSWin32
-
-
-????  Module::Build::Pluggable::PDL
-https://metacpan.org/release/PDL-Opt-QP
-https://metacpan.org/release/Module-Build-Pluggable-PDL
 
 ### dlext => 'xs.dll',
 Needs testing
