@@ -1,11 +1,120 @@
-###FAILS - 5.18.2.2/64
-Test::Script        - t/03_compiles_bad.t
-DBD::ADO            - (~ Win32::OLE)
-Win32::TieRegistry  - t/02_main.t - Failed test 'Opened CU/SW/MS/Win/CV/Pol/Exp//NoDriveTypeAutoRun' + 'Type is REG_DWORD' + 'Value matches expected'
-Win32::OLE          - t/2_variant.t
-GD                  - t/GD.t
-Imager              - t/10png.t - Failed test 'read bad crc with png_ignore_benign_errors'
+###libs
+- hdf5 - dynamic
+- netcdf - dynamic
 
+#Modules add
+- Spreadsheet::WriteExcel Spreadsheet::ParseExcel
+- AnyEvent                     (642KB)
+- EV                           (550KB  - 1095)
+- Devel::NYTProf               (1.23MB - 2326)
+- POE                          (1.25MB - 3583)
+- PAR::Packer                  (9.9MB)
+- Time::ParseDate              (55KB   - 3638)
+- Perl::Critic                 (2.3MB  - total:3.252MB)
+- DBIx::Class::Schema::Loader  (3.6MB)
+- SQL::Translator              (2.6MB) 
+
+###Inspect metacpan top100
+#    AnyEvent
+#    CHI
+#    Carton
+#    Devel::Cover
+#    Devel::NYTProf
+#    Devel::REPL
+#    Devel::hdb
+#    HTML::FormHandler
+#    Log::Any
+#    Log::Dispatch
+#    Log::Log4perl
+#    Mango
+#    Method::Signatures
+#    Mo
+#    Module::CPANfile
+#    MongoDB
+#    Moops
+#    Mouse
+#    POE
+#    PSGI
+#    Pinto
+#    Regexp::Debugger
+#    Reply
+#    Text::Xslate
+#    Type::Tiny
+#    Ubic
+#    Web::Scraper
+###Inspect Task::Kensho
+#    missing XML::SAX::Writer
+#    missing XML::Atom
+#    missing XML::RSS
+###
+#    missing HTML::FormHandler
+#    missing Config::General
+#    missing DateTime::Tiny
+#    missing Time::Tiny
+#    missing Date::Tiny
+#    missing Time::ParseDate
+#    missing Spreadsheet::ParseExcel::Simple
+#    missing Spreadsheet::WriteExcel::Simple
+#    missing TryCatch
+#    missing Smart::Comments
+#    missing Term::ProgressBar::Simple
+#    missing Log::Contextual
+#    missing Log::Dispatch
+#    missing CPAN::Uploader
+#    missing Carp::Always
+#    missing Devel::NYTProf
+#    missing Dist::Zilla
+#    missing Perl::Version
+#    missing Pod::Readme
+#    missing Software::License
+#    missing Task::Moose
+#    missing CHI
+#    missing Devel::Cover
+#    missing Test::Memory::Cycle
+#    missing Test::Pod
+#    missing Test::Pod::Coverage
+#    missing HTTP::Thin
+#    missing WWW::Mechanize::TreeBuilder
+#    missing CGI::FormBuilder::Source::Perl
+#    missing Dancer
+#    missing RDF::Trine
+#    missing XML::Generator::PerlData
+###
+#    missing WWW::Selenium
+#    missing Log::Log4perl
+#    missing Redis
+#    missing Plack
+#    missing Task::Catalyst
+#    missing App::perlbrew
+#    missing Carton
+
+###FAILS - 5.18.2.2
+! Testing Convert-PEM-0.08 failed
+  Failed test 'errstr matches decrypt failed'
+  #   at t/02-encode.t line 28.
+  #                   'ASN decode failed: decode error at C:/strawberry/perl/vendor/lib/Convert/ASN1/_decode.pm line 64.
+  # '
+  #     doesn't match '(?^:^Decryption failed)'
+! Testing GD-2.53 failed
+  GD                  - t/GD.t
+! Testing Imager-0.98 failed
+  Imager              - t/10png.t - Failed test 'read bad crc with png_ignore_benign_errors'
+! Testing Test-Script-1.07 failed
+  Test::Script        - t/03_compiles_bad.t
+! Testing Win32-OLE-0.1711 failed
+  Win32::OLE          - t/2_variant.t
+! Testing Win32API-Registry-0.32 failed
+  Can't find key with values:  More data is available
+! Testing Win32-TieRegistry-0.26 failed
+  Win32::TieRegistry  - t/02_main.t - Failed test 'Opened CU/SW/MS/Win/CV/Pol/Exp//NoDriveTypeAutoRun' + 'Type is REG_DWORD' + 'Value matches expected'
+
+###FAILS - 5.19.9.10
+! Testing DBIx-Class-0.08270 failed but installing it anyway.
+! Testing LWP-Protocol-https-6.04 failed but installing it anyway.
+! Testing pip-1.19 failed but installing it anyway.
+! Testing OpenGL-0.6703 failed but installing it anyway.
+! Testing Data-Dump-Streamer-2.37 failed but installing it anyway.
+ 
 ### set TERM= or set TERM=dumb
 
 ### PDL related

@@ -132,7 +132,7 @@
             qw/ IO::All Path::Tiny Path::Class /,
 
             # data/text processing
-            qw/ Text-Diff Text-Patch Text::CSV Text::CSV_XS Excel::Writer::XLSX Spreadsheet::ParseXLSX /,
+            qw/ Text-Diff Text-Patch Text::CSV Text::CSV_XS Excel::Writer::XLSX Spreadsheet::ParseXLSX Spreadsheet::WriteExcel Spreadsheet::ParseExcel /,
 
             # database stuff
             qw/ DBI DBD-ODBC DBD-SQLite DBD-ADO DBD-Pg DBIx-Simple /,
