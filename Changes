@@ -1,5 +1,10 @@
 Changes for Perl extension Perl-Dist-Strawberry
 
+4.001   2014/04/22
+        - used for building strawberry perl 5.18.2.2
+        - new build system for 5.20.x series
+        - switched from CPANPLUS (no in core anymore) to cpanm
+
 3.013   2014/01/08
         - used for building strawberry perl 5.18.2.1
 
