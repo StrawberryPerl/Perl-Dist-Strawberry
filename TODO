@@ -118,28 +118,32 @@
 ### set TERM= or set TERM=dumb
 
 ### PDL related
-PDL
-PDL::Audio
-PDL::CCS
-PDL::Drawing::Prima
-PDL::EditDistance
-PDL::FFTW
-PDL::FFTW3
-PDL::Fit::Levmar
-PDL::GSL::Randist
-PDL::Graphics::ColorDistance
-PDL::Graphics::ColorSpace
-PDL::Graphics::Gnuplot
-PDL::Graphics::PLplot
-PDL::Graphics::Prima
-PDL::IO::HDF5
-PDL::LinearAlgebra
-PDL::NetCDF
-PDL::Ngrams
-PDL::PrimaImage
-PDL::Stats
-PDL::VectorValued
-PDL_dev
+PDL::IO::Browser                ### (PDL-2.007) ncursesw not detected
+PDL::Graphics::PLplot           ### (PDL-2.007) Cannot find plplot library (libplplotd.dll), skipping PDL::Graphics::PLplot
+PDL::IO::HDF                    ### (PDL-2.007) Cannot find hdf library, libdf.a
+PDL::GSL::*                     ### (PDL-2.007) OK
+PDL::GIS::Proj                  ### (PDL-2.007) PROJ4 library found but cannot initialize projection, won't build
+PDL::Transform::Proj4           ### (PDL-2.007) ~~ dtto ~~
+PDL::IO::HDF5                   ### Cannot find hdf5 library, libhdf5.so or libhdf5.a.
+PDL::FFTW3                      ### Sorry, Alien::FFTW3 doesn't work for Microsoft Windows
+PDL::FFTW                       ### OK
+PDL::Graphics::Gnuplot          ### OK
+
+Alien::GSL                      ### does not detect existing library
+Alien::FFTW3                    ### does not detect existing library
+
+!!!!PDL::GSL::Randist PDL::Audio PDL::Fit::Levmar PDL::Graphics::ColorSpace PDL::Ngrams
+PDL::CCS PDL::EditDistance PDL::Graphics::ColorDistance PDL::Graphics::ColorSpace::RGBSpace
+PDL::Stats PDL::VectorValued::Dev
+PDL::Graphics::Prima PDL::Drawing::Prima
+
+PDL::NetCDF                     ### Cannot find netcdf library, libnetcdf.so or libnetcdf.a
+PDL::LinearAlgebra              ### FAILS - unfriendly to gcc@MSWin32
+
+
+????  Module::Build::Pluggable::PDL
+https://metacpan.org/release/PDL-Opt-QP
+https://metacpan.org/release/Module-Build-Pluggable-PDL
 
 ### dlext => 'xs.dll',
 Needs testing
