@@ -1,45 +1,57 @@
+### DBD::Oracle related info into release notes
+
 ### set TERM= or set TERM=dumb
 
 ### PDL related
+PDL PDL::IO::HDF5
+
 PDL::IO::Browser                ### (PDL-2.007) ncursesw not detected
 PDL::Graphics::PLplot           ### (PDL-2.007) Cannot find plplot library (libplplotd.dll), skipping PDL::Graphics::PLplot
 PDL::IO::HDF                    ### (PDL-2.007) Cannot find hdf library, libdf.a
 PDL::GSL::*                     ### (PDL-2.007) OK
 PDL::GIS::Proj                  ### (PDL-2.007) PROJ4 library found but cannot initialize projection, won't build
 PDL::Transform::Proj4           ### (PDL-2.007) ~~ dtto ~~
-PDL::IO::HDF5                   ### Cannot find hdf5 library, libhdf5.so or libhdf5.a.
-PDL::FFTW3                      ### Sorry, Alien::FFTW3 doesn't work for Microsoft Windows
-PDL::FFTW                       ### OK
-PDL::Graphics::Gnuplot          ### OK
 
 Alien::GSL                      ### does not detect existing library
 Alien::FFTW3                    ### does not detect existing library
 
-!!!!PDL::GSL::Randist PDL::Audio PDL::Fit::Levmar PDL::Graphics::ColorSpace PDL::Ngrams
-PDL::CCS PDL::EditDistance PDL::Graphics::ColorDistance PDL::Graphics::ColorSpace::RGBSpace
-PDL::Stats PDL::VectorValued::Dev
-PDL::Graphics::Prima PDL::Drawing::Prima
-
+PDL::IO::HDF5                   ### Cannot find hdf5 library, libhdf5.so or libhdf5.a.
+PDL::FFTW3                      ### Sorry, Alien::FFTW3 doesn't work for Microsoft Windows
+PDL::FFTW                       ### OK
+PDL::Graphics::Gnuplot          ### OK
 PDL::NetCDF                     ### Cannot find netcdf library, libnetcdf.so or libnetcdf.a
+
 PDL::LinearAlgebra              ### FAILS - unfriendly to gcc@MSWin32
+PDL::Ngrams
+PDL::Audio
+PDL::GSL::Randist
+PDL::CCS
+PDL::Stats
+PDL::VectorValued 
+PDL::Graphics::Prima
+PDL::Drawing::Prima
+
+?Math::GSL Math::Cephes Math::Float128 Math::MatrixReal Math::Combinatorics 
 
 ### new modules - candidates
-- AnyEvent                     (642KB)
-- EV                           (550KB  - 1095)
-- Devel::NYTProf               (1.23MB - 2326)
-- POE                          (1.25MB - 3583)
-- PAR::Packer                  (9.9MB)
-- Time::ParseDate              (55KB   - 3638)
-- Perl::Critic                 (2.3MB  - total:3.252MB)
-- DBIx::Class::Schema::Loader  (3.6MB)
-- SQL::Translator              (2.6MB) 
+- AnyEvent                      (642KB)
+- EV                            (550KB  - 1095)
+- Devel::NYTProf                (1.23MB - 2326)
+- POE                           (1.25MB - 3583)
+- PAR::Packer                   (9.9MB)
+- Time::ParseDate               (55KB   - 3638)
+- Perl::Critic                  (2.3MB  - total:3.252MB)
+- DBIx::Class::Schema::Loader   (3.6MB)
+- SQL::Translator               (2.6MB)
+- Wx                            (88MB)
+- Padre                         (97MB incl. Wx)
+(in)- Win32::GuiTest                (200KB)
+(in)- CryptX                        (1MB)
 
 ###Inspect metacpan top100
-#    AnyEvent
 #    CHI
 #    Carton
 #    Devel::Cover
-#    Devel::NYTProf
 #    Devel::REPL
 #    Devel::hdb
 #    HTML::FormHandler
@@ -81,8 +93,6 @@ PDL::LinearAlgebra              ### FAILS - unfriendly to gcc@MSWin32
 #    missing Log::Contextual
 #    missing Log::Dispatch
 #    missing CPAN::Uploader
-#    missing Carp::Always
-#    missing Devel::NYTProf
 #    missing Dist::Zilla
 #    missing Perl::Version
 #    missing Pod::Readme
@@ -169,14 +179,6 @@ create group:
 http://stackoverflow.com/questions/11459591/how-to-create-a-local-group-and-add-an-active-directory-user-to-it-in-wix
 http://stackoverflow.com/questions/12278265/how-to-get-user-credentials-displayed-as-default-in-a-wix-custom-dialog
 http://social.msdn.microsoft.com/Forums/vstudio/en-US/39d9e905-2b35-4ce9-a544-4564f6b5a376/setting-file-permissions-in-languages-other-than-english-windows-installer-wix?forum=vssetup
-
-### more modules?
-Win32::GuiTest  Perl::Tidy
-Devel::NYTProf Devel::Cover Devel::REPL
-Path::Tiny Perl::Critic
-Tie::Array::CSV
-HTTP::Parser::XS
-CryptX
 
 ### double IO::Socket::IP - wtf?
 why do we have?
