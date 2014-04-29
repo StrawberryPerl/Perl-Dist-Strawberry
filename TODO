@@ -1,8 +1,29 @@
-###libs
-- hdf5 - dynamic
-- netcdf - dynamic
+### set TERM= or set TERM=dumb
 
-#Modules add
+### PDL related
+PDL::IO::Browser                ### (PDL-2.007) ncursesw not detected
+PDL::Graphics::PLplot           ### (PDL-2.007) Cannot find plplot library (libplplotd.dll), skipping PDL::Graphics::PLplot
+PDL::IO::HDF                    ### (PDL-2.007) Cannot find hdf library, libdf.a
+PDL::GSL::*                     ### (PDL-2.007) OK
+PDL::GIS::Proj                  ### (PDL-2.007) PROJ4 library found but cannot initialize projection, won't build
+PDL::Transform::Proj4           ### (PDL-2.007) ~~ dtto ~~
+PDL::IO::HDF5                   ### Cannot find hdf5 library, libhdf5.so or libhdf5.a.
+PDL::FFTW3                      ### Sorry, Alien::FFTW3 doesn't work for Microsoft Windows
+PDL::FFTW                       ### OK
+PDL::Graphics::Gnuplot          ### OK
+
+Alien::GSL                      ### does not detect existing library
+Alien::FFTW3                    ### does not detect existing library
+
+!!!!PDL::GSL::Randist PDL::Audio PDL::Fit::Levmar PDL::Graphics::ColorSpace PDL::Ngrams
+PDL::CCS PDL::EditDistance PDL::Graphics::ColorDistance PDL::Graphics::ColorSpace::RGBSpace
+PDL::Stats PDL::VectorValued::Dev
+PDL::Graphics::Prima PDL::Drawing::Prima
+
+PDL::NetCDF                     ### Cannot find netcdf library, libnetcdf.so or libnetcdf.a
+PDL::LinearAlgebra              ### FAILS - unfriendly to gcc@MSWin32
+
+### new modules - candidates
 - AnyEvent                     (642KB)
 - EV                           (550KB  - 1095)
 - Devel::NYTProf               (1.23MB - 2326)
@@ -114,34 +135,6 @@
 ! Testing OpenGL-0.6703 failed but installing it anyway.
 ! Testing Data-Dump-Streamer-2.37 failed but installing it anyway.
  
-### set TERM= or set TERM=dumb
-
-### PDL related
-PDL::IO::Browser                ### (PDL-2.007) ncursesw not detected
-PDL::Graphics::PLplot           ### (PDL-2.007) Cannot find plplot library (libplplotd.dll), skipping PDL::Graphics::PLplot
-PDL::IO::HDF                    ### (PDL-2.007) Cannot find hdf library, libdf.a
-PDL::GSL::*                     ### (PDL-2.007) OK
-PDL::GIS::Proj                  ### (PDL-2.007) PROJ4 library found but cannot initialize projection, won't build
-PDL::Transform::Proj4           ### (PDL-2.007) ~~ dtto ~~
-PDL::IO::HDF5                   ### Cannot find hdf5 library, libhdf5.so or libhdf5.a.
-PDL::FFTW3                      ### Sorry, Alien::FFTW3 doesn't work for Microsoft Windows
-PDL::FFTW                       ### OK
-PDL::Graphics::Gnuplot          ### OK
-
-Alien::GSL                      ### does not detect existing library
-Alien::FFTW3                    ### does not detect existing library
-
-!!!!PDL::GSL::Randist PDL::Audio PDL::Fit::Levmar PDL::Graphics::ColorSpace PDL::Ngrams
-PDL::CCS PDL::EditDistance PDL::Graphics::ColorDistance PDL::Graphics::ColorSpace::RGBSpace
-PDL::Stats PDL::VectorValued::Dev
-PDL::Graphics::Prima PDL::Drawing::Prima
-
-PDL::NetCDF                     ### Cannot find netcdf library, libnetcdf.so or libnetcdf.a
-PDL::LinearAlgebra              ### FAILS - unfriendly to gcc@MSWin32
-
-### dlext => 'xs.dll',
-Needs testing
-
 ### gcc-4.8.2 headers
 YES ieeefp.h        ------- I_IEEEFP
 YES inttypes.h      ------- I_INTTYPES
@@ -245,6 +238,14 @@ Mojolicious
 (fixed)### MSI
 - drop MSM support and simplify MSI generation
 - fix installation on a PC without drive C: }+ other reported bugs]
+
+(done)### try DBD::Oracle
+set PATH=%PATH%;z:\orainstant64
+set ORACLE_HOME=z:\orainstant64
+perl Makefile.PL -V 11.2.0.3.0
+
+(done)### dlext => 'xs.dll',
+Needs testing
 
 ========== LATER ==========
 

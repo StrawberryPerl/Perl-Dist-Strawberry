@@ -6,7 +6,7 @@
 # <image_dir>     is placeholder for c:\strawberry
 
 {
-  app_version     => '5.19.11.1', #BEWARE: do not use '.0.0' in the last two version digits
+  app_version     => '5.19.11.2', #BEWARE: do not use '.0.0' in the last two version digits
   bits            => 32,
   beta            => 0,
   app_fullname    => 'Strawberry Perl',
@@ -25,29 +25,29 @@
             'gcc-toolchain' => { url=>'<package_url>/kmx/32_gcctoolchain/mingw64-w32-gcc4.8.2_20140407.zip', install_to=>'c' },
             'gcc-license'   => '<package_url>/kmx/32_gcctoolchain/mingw64-w32-gcc4.8.2_20140407-lic.zip',
             #libs
-            'libdb'         => '<package_url>/kmx/32_libs/gcc48-2014Q1/32bit_db-6.0.30-bin_20140417.zip',
-            'libexpat'      => '<package_url>/kmx/32_libs/gcc48-2014Q1/32bit_expat-2.1.0-bin_20140417.zip',
-            'libfreeglut'   => '<package_url>/kmx/32_libs/gcc48-2014Q1/32bit_freeglut-2.8.1-bin_20140417.zip',
-            'libfreetype'   => '<package_url>/kmx/32_libs/gcc48-2014Q1/32bit_freetype-2.5.3-bin_20140417.zip',
-            'libgdbm'       => '<package_url>/kmx/32_libs/gcc48-2014Q1/32bit_gdbm-1.10-bin_20140417.zip',
-            'libgiflib'     => '<package_url>/kmx/32_libs/gcc48-2014Q1/32bit_giflib-5.0.5-bin_20140417.zip',
-            'libgmp'        => '<package_url>/kmx/32_libs/gcc48-2014Q1/32bit_gmp-5.1.3-bin_20140417.zip',
-            'libjpeg'       => '<package_url>/kmx/32_libs/gcc48-2014Q1/32bit_jpeg-9a-bin_20140417.zip',
-            'libgd'         => '<package_url>/kmx/32_libs/gcc48-2014Q1/32bit_libXpm-3.5.11-bin_20140417.zip',
-            'liblibXpm'     => '<package_url>/kmx/32_libs/gcc48-2014Q1/32bit_libgd-2.1.0-bin_20140417.zip',
-            'liblibiconv'   => '<package_url>/kmx/32_libs/gcc48-2014Q1/32bit_libiconv-1.14-bin_20140417.zip',
-            'liblibpng'     => '<package_url>/kmx/32_libs/gcc48-2014Q1/32bit_libpng-1.6.10-bin_20140417.zip',
-            'liblibssh2'    => '<package_url>/kmx/32_libs/gcc48-2014Q1/32bit_libssh2-1.4.3-bin_20140417.zip',
-            'liblibxml2'    => '<package_url>/kmx/32_libs/gcc48-2014Q1/32bit_libxml2-2.9.1-bin_20140417.zip',
-            'liblibxslt'    => '<package_url>/kmx/32_libs/gcc48-2014Q1/32bit_libxslt-1.1.28-bin_20140417.zip',
-            'libmpc'        => '<package_url>/kmx/32_libs/gcc48-2014Q1/32bit_mpc-1.0.2-bin_20140417.zip',
-            'libmpfr'       => '<package_url>/kmx/32_libs/gcc48-2014Q1/32bit_mpfr-3.1.2-bin_20140417.zip',
-            'libopenssl'    => '<package_url>/kmx/32_libs/gcc48-2014Q1/32bit_openssl-1.0.1g-bin_20140417.zip',
-            'libpostgresql' => '<package_url>/kmx/32_libs/gcc48-2014Q1/32bit_postgresql-9.3.4-bin_20140417.zip',
-            'libt1lib'      => '<package_url>/kmx/32_libs/gcc48-2014Q1/32bit_t1lib-5.1.2-bin_20140417.zip',
-            'libtiff'       => '<package_url>/kmx/32_libs/gcc48-2014Q1/32bit_tiff-4.0.3-bin_20140417.zip',
-            'libxz'         => '<package_url>/kmx/32_libs/gcc48-2014Q1/32bit_xz-5.0.5-bin_20140417.zip',
-            'libzlib'       => '<package_url>/kmx/32_libs/gcc48-2014Q1/32bit_zlib-1.2.8-bin_20140417.zip',
+            'libdb'         => '<package_url>/kmx/32_libs/gcc48-2014Q2/32bit_db-6.0.30-bin_20140429.zip',
+            'libexpat'      => '<package_url>/kmx/32_libs/gcc48-2014Q2/32bit_expat-2.1.0-bin_20140429.zip',
+            'libfreeglut'   => '<package_url>/kmx/32_libs/gcc48-2014Q2/32bit_freeglut-2.8.1-bin_20140429.zip',
+            'libfreetype'   => '<package_url>/kmx/32_libs/gcc48-2014Q2/32bit_freetype-2.5.3-bin_20140429.zip',
+            'libgdbm'       => '<package_url>/kmx/32_libs/gcc48-2014Q2/32bit_gdbm-1.10-bin_20140429.zip',
+            'libgiflib'     => '<package_url>/kmx/32_libs/gcc48-2014Q2/32bit_giflib-5.0.6-bin_20140429.zip',
+            'libgmp'        => '<package_url>/kmx/32_libs/gcc48-2014Q2/32bit_gmp-5.1.3-bin_20140429.zip',
+            'libjpeg'       => '<package_url>/kmx/32_libs/gcc48-2014Q2/32bit_jpeg-9a-bin_20140429.zip',
+            'libgd'         => '<package_url>/kmx/32_libs/gcc48-2014Q2/32bit_libXpm-3.5.11-bin_20140429.zip',
+            'liblibXpm'     => '<package_url>/kmx/32_libs/gcc48-2014Q2/32bit_libgd-2.1.0-bin_20140429.zip',
+            'liblibiconv'   => '<package_url>/kmx/32_libs/gcc48-2014Q2/32bit_libiconv-1.14-bin_20140429.zip',
+            'liblibpng'     => '<package_url>/kmx/32_libs/gcc48-2014Q2/32bit_libpng-1.6.10-bin_20140429.zip',
+            'liblibssh2'    => '<package_url>/kmx/32_libs/gcc48-2014Q2/32bit_libssh2-1.4.3-bin_20140429.zip',
+            'liblibxml2'    => '<package_url>/kmx/32_libs/gcc48-2014Q2/32bit_libxml2-2.9.1-bin_20140429.zip',
+            'liblibxslt'    => '<package_url>/kmx/32_libs/gcc48-2014Q2/32bit_libxslt-1.1.28-bin_20140429.zip',
+            'libmpc'        => '<package_url>/kmx/32_libs/gcc48-2014Q2/32bit_mpc-1.0.2-bin_20140429.zip',
+            'libmpfr'       => '<package_url>/kmx/32_libs/gcc48-2014Q2/32bit_mpfr-3.1.2-bin_20140429.zip',
+            'libopenssl'    => '<package_url>/kmx/32_libs/gcc48-2014Q2/32bit_openssl-1.0.1g-bin_20140429.zip',
+            'libpostgresql' => '<package_url>/kmx/32_libs/gcc48-2014Q2/32bit_postgresql-9.3.4-bin_20140429.zip',
+            'libt1lib'      => '<package_url>/kmx/32_libs/gcc48-2014Q2/32bit_t1lib-5.1.2-bin_20140429.zip',
+            'libtiff'       => '<package_url>/kmx/32_libs/gcc48-2014Q2/32bit_tiff-4.0.3-bin_20140429.zip',
+            'libxz'         => '<package_url>/kmx/32_libs/gcc48-2014Q2/32bit_xz-5.0.5-bin_20140429.zip',
+            'libzlib'       => '<package_url>/kmx/32_libs/gcc48-2014Q2/32bit_zlib-1.2.8-bin_20140429.zip',
             #special cases
             'libmysql'      => '<package_url>/kmx/32_libs/gcc44-2011/32bit_mysql-5.1.44-bin_20100304.zip',       # the latest DLL binary is missing some exports
         },
@@ -137,6 +137,7 @@
             # database stuff
             qw/ DBI DBD-ODBC DBD-SQLite DBD-ADO DBD-Pg DBIx-Simple /,
             { module=>'DBD-mysql', makefilepl_param=>'--mysql_config=mysql_config' },
+            { module=>'DBD::Oracle', makefilepl_param=>'-V 11.2.0.3.0', env=>{ ORACLE_HOME=>'z:\orainstant32' }, skiptest=>1 }, ## requires Oracle Instant Client 32bit!!!
             { module=>'DBIx-Class', ignore_testfailure=>1 },    #XXX-TODO ! Testing DBIx-Class-0.08270 failed
 
             # math related
@@ -188,6 +189,7 @@
             { module=>'GD', ignore_testfailure=>1 },                    #XXX-TODO ! Testing GD-2.53 failed
             { module=>'Imager', ignore_testfailure=>1 },                #XXX-TODO ! Testing Imager-0.98 failed
             qw/ Imager-File-GIF Imager-File-JPEG Imager-File-PNG Imager-File-TIFF Imager-Font-FT2 Imager-Font-W32 /,
+            { module=>'OpenGL', ignore_testfailure=>1 },
 
             # XML & co.
             qw/ XML-LibXML XML-LibXSLT XML-Parser XML-SAX XML-Simple XML::Twig /,
@@ -377,28 +379,27 @@
     {
         plugin  => 'Perl::Dist::Strawberry::Step::BinaryToolsAndLibs',
         install_packages => {
-            'fftw2'         => '<package_url>/kmx/32_libs/gcc48-2014Q1/32bit_fftw-2.1.5-bin_20140417.zip',
-            'fftw3'         => '<package_url>/kmx/32_libs/gcc48-2014Q1/32bit_fftw-3.3.4-bin_20140417.zip',
-            'gnuplot'       => '<package_url>/kmx/32_libs/gcc48-2014Q1/32bit_gnuplot-4.6.5-bin_20140417.zip',
-            'gsl'           => '<package_url>/kmx/32_libs/gcc48-2014Q1/32bit_gsl-1.16-bin_20140417.zip',
-            'hdf4'          => '<package_url>/kmx/32_libs/gcc48-2014Q1/32bit_hdf-4.2.10-bin_20140417.zip',
-            'hdf5'          => '<package_url>/kmx/32_libs/gcc48-2014Q1/32bit_hdf5-1.8.12-bin_20140417.zip',
-            'ncurses'       => '<package_url>/kmx/32_libs/gcc48-2014Q1/32bit_ncurses-5.9-bin_20140417.zip',
-            'plplot'        => '<package_url>/kmx/32_libs/gcc48-2014Q1/32bit_plplot-5.10.0-bin_20140417.zip',
-            'proj'          => '<package_url>/kmx/32_libs/gcc48-2014Q1/32bit_proj-4.8.0-bin_20140417.zip',
-            'szip'          => '<package_url>/kmx/32_libs/gcc48-2014Q1/32bit_szip-2.1-bin_20140417.zip',
-            'talib'         => '<package_url>/kmx/32_libs/gcc48-2014Q1/32bit_ta-lib-0.4.0-bin_20140417.zip',
-            'netcdf'        => '<package_url>/kmx/32_libs/gcc48-2014Q1/32bit_netcdf-4.3.1.1-bin_20140417.zip',
+            'fftw2'         => '<package_url>/kmx/32_libs/gcc48-2014Q2/32bit_fftw-2.1.5-bin_20140429.zip',
+            'fftw3'         => '<package_url>/kmx/32_libs/gcc48-2014Q2/32bit_fftw-3.3.4-bin_20140429.zip',
+            'gnuplot'       => '<package_url>/kmx/32_libs/gcc48-2014Q2/32bit_gnuplot-4.6.5-bin_20140429.zip',
+            'gsl'           => '<package_url>/kmx/32_libs/gcc48-2014Q2/32bit_gsl-1.16-bin_20140429.zip',
+            'hdf4'          => '<package_url>/kmx/32_libs/gcc48-2014Q2/32bit_hdf-4.2.10-bin_20140429.zip',
+            'hdf5'          => '<package_url>/kmx/32_libs/gcc48-2014Q2/32bit_hdf5-1.8.12-bin_20140429.zip',
+            'ncurses'       => '<package_url>/kmx/32_libs/gcc48-2014Q2/32bit_ncurses-5.9-bin_20140429.zip',
+            'plplot'        => '<package_url>/kmx/32_libs/gcc48-2014Q2/32bit_plplot-5.10.0-bin_20140429.zip',
+            'proj'          => '<package_url>/kmx/32_libs/gcc48-2014Q2/32bit_proj-4.8.0-bin_20140429.zip',
+            'szip'          => '<package_url>/kmx/32_libs/gcc48-2014Q2/32bit_szip-2.1-bin_20140429.zip',
+            'talib'         => '<package_url>/kmx/32_libs/gcc48-2014Q2/32bit_ta-lib-0.4.0-bin_20140429.zip',
+            'netcdf'        => '<package_url>/kmx/32_libs/gcc48-2014Q2/32bit_netcdf-4.3.2-bin_20140429.zip',
         },
     },
     ### NEXT STEP ###########################
     {
         plugin => 'Perl::Dist::Strawberry::Step::InstallModules',
-        # modules specific to portable edition
+        # modules specific to PDL edition
         modules => [
           qw/Devel::REPL Lexical::Persistence/,
-          { module=>'OpenGL', ignore_testfailure=>1 },
-          { module=>'PDL',    ignore_testfailure=>1 },
+          #{ module=>'PDL', ignore_testfailure=>1 },
         ],
     },
     ### NEXT STEP ###########################
