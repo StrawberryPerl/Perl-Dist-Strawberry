@@ -45,8 +45,7 @@ PDL::Drawing::Prima
 - SQL::Translator               (2.6MB)
 - Wx                            (88MB)
 - Padre                         (97MB incl. Wx)
-(in)- Win32::GuiTest                (200KB)
-(in)- CryptX                        (1MB)
+- CryptX                        (1MB)
 
 ###Inspect metacpan top100
 #    CHI

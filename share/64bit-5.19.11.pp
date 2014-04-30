@@ -181,7 +181,6 @@
             'Alt::Crypt::RSA::BigInt',                                                          #XXX-TODO: a hack Crypt-RSA without Math::PARI
             qw/ Crypt-DSA Crypt::DSA::GMP /,
             #qw/ Crypt::Random /, #fails on 64bit
-            qw/ CryptX /,
 
             # tests fail on 5.18.x
             #{ module =>'Crypt::OpenPGP',    ignore_testfailure=>1 },
