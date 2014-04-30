@@ -1,5 +1,7 @@
 ### perl\bin\freeglut.dll  WTF?
 
+### GSL make check failure - FAIL: gsl_isnan(nan) (-1 observed vs 1 expected) [310]
+
 ### DBD::Oracle related info into release notes
 
 ### set TERM= or set TERM=dumb
