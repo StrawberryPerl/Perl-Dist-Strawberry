@@ -137,7 +137,7 @@
             qw/ Archive-Zip IO-Compress-Lzma Compress-unLZMA Archive::Extract /,
 
             # file related
-            qw/ File-Find-Rule File-HomeDir File-Listing File-Remove File-ShareDir File-Which File-Copy-Recursive File-Slurp /,
+            qw/ File-Find-Rule File-HomeDir File-Listing File-Remove File-ShareDir File-Which File-Copy-Recursive File-Slurp File::Map /,
             qw/ IO::All Path::Tiny Path::Class /,
 
             # data/text processing
