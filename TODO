@@ -1,10 +1,44 @@
-### perl\bin\freeglut.dll  WTF?
-
-### GSL make check failure - FAIL: gsl_isnan(nan) (-1 observed vs 1 expected) [310]
-
 ### DBD::Oracle related info into release notes
-
 ### set TERM= or set TERM=dumb
+
+### extlibs & concig info
+#lib                #pkgconfig        #*-config
+gdbm-1.10           no                  
+db-6.0.30           no
+gmp-5.1.3           no
+mpfr-3.1.2          no
+mpc-1.0.2           no
+zlib-1.2.8          YES
+xz-5.0.5            YES
+libiconv-1.14       no
+expat-2.1.0         YES
+libxml2-2.9.1       YES                 YES
+libxslt-1.1.28      YES                 YES
+openssl-1.0.1g      YES
+libssh2-1.4.3       YES
+postgresql-9.3.4    YES
+freeglut-2.8.1      no
+giflib-5.0.6        no
+jpeg-9a             no
+tiff-4.0.3          YES
+libpng-1.6.10       YES                 YES
+libXpm-3.5.11       YES
+freetype-2.5.3      YES                 YES**
+libgd-2.1.0         YES                 YES**
+t1lib-5.1.2         no
+libffi-3.0.13       YES
+fftw-3.3.4          YES
+gsl-1.16            YES                 YES**
+proj-4.8.0          no????
+plplot-5.10.0       no????
+szip-2.1            no
+hdf-4.2.10          no
+hdf5-1.8.12         no
+netcdf-4.3.2        YES                 YES
+ta-lib-0.4.0        no                  YES**
+gnuplot-4.6.5       no
+ncurses-5.9         no                  YES
+
 
 ### PDL related
 PDL PDL::IO::HDF5
@@ -33,9 +67,6 @@ PDL::CCS
 PDL::Stats
 PDL::VectorValued 
 PDL::Graphics::Prima
-PDL::Drawing::Prima
-
-?Math::GSL Math::Cephes Math::Float128 Math::MatrixReal Math::Combinatorics 
 
 ### new modules - candidates
 - AnyEvent                      (642KB)
@@ -50,76 +81,6 @@ PDL::Drawing::Prima
 - Wx                            (88MB)
 - Padre                         (97MB incl. Wx)
 - CryptX                        (1MB)
-
-###Inspect metacpan top100
-#    CHI
-#    Carton
-#    Devel::Cover
-#    Devel::REPL
-#    Devel::hdb
-#    HTML::FormHandler
-#    Log::Any
-#    Log::Dispatch
-#    Log::Log4perl
-#    Mango
-#    Method::Signatures
-#    Mo
-#    Module::CPANfile
-#    MongoDB
-#    Moops
-#    Mouse
-#    POE
-#    PSGI
-#    Pinto
-#    Regexp::Debugger
-#    Reply
-#    Text::Xslate
-#    Type::Tiny
-#    Ubic
-#    Web::Scraper
-###Inspect Task::Kensho
-#    missing XML::SAX::Writer
-#    missing XML::Atom
-#    missing XML::RSS
-###
-#    missing HTML::FormHandler
-#    missing Config::General
-#    missing DateTime::Tiny
-#    missing Time::Tiny
-#    missing Date::Tiny
-#    missing Time::ParseDate
-#    missing Spreadsheet::ParseExcel::Simple
-#    missing Spreadsheet::WriteExcel::Simple
-#    missing TryCatch
-#    missing Smart::Comments
-#    missing Term::ProgressBar::Simple
-#    missing Log::Contextual
-#    missing Log::Dispatch
-#    missing CPAN::Uploader
-#    missing Dist::Zilla
-#    missing Perl::Version
-#    missing Pod::Readme
-#    missing Software::License
-#    missing Task::Moose
-#    missing CHI
-#    missing Devel::Cover
-#    missing Test::Memory::Cycle
-#    missing Test::Pod
-#    missing Test::Pod::Coverage
-#    missing HTTP::Thin
-#    missing WWW::Mechanize::TreeBuilder
-#    missing CGI::FormBuilder::Source::Perl
-#    missing Dancer
-#    missing RDF::Trine
-#    missing XML::Generator::PerlData
-###
-#    missing WWW::Selenium
-#    missing Log::Log4perl
-#    missing Redis
-#    missing Plack
-#    missing Task::Catalyst
-#    missing App::perlbrew
-#    missing Carton
 
 ###FAILS - 5.18.2.2
 ! Testing Convert-PEM-0.08 failed

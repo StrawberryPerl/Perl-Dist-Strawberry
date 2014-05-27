@@ -37,7 +37,7 @@ SVN [L<http://svn.ali.as/cpan/trunk/Perl-Dist-Strawberry/|http://svn.ali.as/cpan
 
 =item * Install Windows Installer XML (WiX) toolset
 
-We recommend using version 3.5. Download WiX from [L<http://wix.sourceforge.net|http://wix.sourceforge.net>].
+We recommend using version 3.8. Download WiX from [L<http://wix.sourceforge.net|http://wix.sourceforge.net>].
 No need to install WiX via MSI installer, you can only download/unpack ZIPped WiX binaries and use option C<-wixbin_dir=(dirname)>.
 
 =back

@@ -6,7 +6,7 @@
 # <image_dir>     is placeholder for c:\strawberry
 
 {
-  app_version     => '5.19.11.4', #BEWARE: do not use '.0.0' in the last two version digits
+  app_version     => '5.20.0.1', #BEWARE: do not use '.0.0' in the last two version digits
   bits            => 64,
   beta            => 0,
   app_fullname    => 'Strawberry Perl (64-bit)',
@@ -63,7 +63,8 @@
     ### NEXT STEP ###########################
     {
         plugin     => 'Perl::Dist::Strawberry::Step::InstallPerlCore',
-        url        => 'http://search.cpan.org/CPAN/authors/id/S/SH/SHAY/perl-5.19.11.tar.gz',
+        #url        => 'http://search.cpan.org/CPAN/authors/id/R/RJ/RJBS/perl-5.20.0.tar.gz',
+        url        => 'http://cpan.metacpan.org/authors/id/R/RJ/RJBS/perl-5.20.0.tar.gz',
         cf_email   => 'strawberry-perl@project', #IMPORTANT: keep 'strawberry-perl' before @
         perl_debug => 0,
         #use_64_bit_int not needed on 64bit
@@ -122,7 +123,7 @@
             qw/ Archive::Extract B::Lint CPANPLUS CPANPLUS::Dist::Build File::CheckTree Log::Message Module::Pluggable Object::Accessor Text::Soundex Term::UI Pod::LaTeX Tree::DAG_Node /,
 
             # pkg-config related
-            '<package_url>/kmx/perl-modules-patched/PkgConfig-0.07220_99.tar.gz', #XXX special strawberry perl hacked version
+            '<package_url>/kmx/perl-modules-patched/PkgConfig-0.07220_99.tar.gz', #XXX special strawberry perl hacked version - https://metacpan.org/release/PkgConfig
             'ExtUtils::PkgConfig',
 
             # win32 related
@@ -155,7 +156,7 @@
 
             # math related
             qw/ Math-Round Math-BigInt-GMP Math-GMP Math-MPC Math-MPFR /,
-            #'http://strawberryperl.com/package/kmx/perl-modules-patched/Math-Pari-2.01080605_patched.tar.gz', #fails on 64bit
+            #'<package_url>/kmx/perl-modules-patched/Math-Pari-2.01080605_patched.tar.gz', #fails on 64bit
             qw/ ExtUtils::F77 /, # fortran
 
             # network
@@ -178,13 +179,12 @@
             '<package_url>/kmx/perl-modules-patched/Crypt-OpenSSL-AES-0.02_patched.tar.gz',     #XXX-CHECK https://metacpan.org/pod/Crypt::OpenSSL::AES     https://rt.cpan.org/Public/Bug/Display.html?id=77605
             '<package_url>/kmx/perl-modules-patched/Crypt-OpenSSL-DSA-0.14_patched.tar.gz',     #XXX-CHECK https://metacpan.org/pod/Crypt::OpenSSL::DSA     https://rt.cpan.org/Public/Bug/Display.html?id=84367
             '<package_url>/kmx/perl-modules-patched/Crypt-OpenSSL-X509-1.804_patched.tar.gz',   #XXX-CHECK https://metacpan.org/pod/Crypt::OpenSSL::X509    https://github.com/dsully/perl-crypt-openssl-x509/pull/35
-            ###'<package_url>/kmx/perl-modules-patched/Crypt-SMIME-0.12_patched.tar.gz',        #XXX-CHECK https://metacpan.org/pod/Crypt::SMIME            https://rt.cpan.org/Public/Bug/Display.html?id=95373
+            #Crypt-SMIME ?
             'Crypt-OpenSSL-RSA',
             qw/ Crypt::Blowfish Crypt::CAST5_PP Crypt::DES Crypt::DES_EDE3 Crypt::DSA Crypt::IDEA Crypt::Rijndael Crypt::Twofish Crypt::Serpent Crypt::RC6 /,
             qw/ Crypt::CBC Crypt::CFB /,
-            qw/ Digest-MD5 Digest-SHA Digest-SHA1 Crypt::RIPEMD160 Digest::Whirlpool Digest::HMAC Digest::CMAC /,
-            'http://backpan.perl.org/authors/id/G/GA/GAAS/Digest-MD2-2.03.tar.gz',              #XXX-TODO backpan only
-            'Alt::Crypt::RSA::BigInt',                                                          #XXX-TODO: a hack Crypt-RSA without Math::PARI
+            qw/ Digest-MD2 Digest-MD5 Digest-SHA Digest-SHA1 Crypt::RIPEMD160 Digest::Whirlpool Digest::HMAC Digest::CMAC /,
+            'Alt::Crypt::RSA::BigInt',                                                          #XXX-TODO: a hack Crypt-RSA without Math::PARI - https://metacpan.org/release/Crypt-RSA
             qw/ Crypt-DSA Crypt::DSA::GMP /,
             #qw/ Crypt::Random /, #fails on 64bit
 
@@ -197,7 +197,8 @@
 
             # e-mail
             qw/ Email::MIME::Kit Email::Sender Email::Simple Email::Valid Email::Stuffer Mail::Send /,
-            qw/ Net::SMTPS Net::SMTP Net::IMAP::Client Net::POP3 Net::SSLGlue::POP3 Net::DNS /,
+            qw/ Net::SMTPS Net::SMTP Net::IMAP::Client Net::POP3 Net::SSLGlue::POP3 /,
+            { module=>'Net::DNS', ignore_testfailure=>1, makefilepl_param=>'--xs' }, # tests might fail due to network issues
 
             # graphics
             { module=>'GD', ignore_testfailure=>1 },                    #XXX-TODO ! Testing GD-2.53 failed
@@ -399,12 +400,13 @@
             'gsl'           => '<package_url>/kmx/64_libs/gcc48-2014Q2/64bit_gsl-1.16-bin_20140506.zip',
             'hdf4'          => '<package_url>/kmx/64_libs/gcc48-2014Q2/64bit_hdf-4.2.10-bin_20140506.zip',
             'hdf5'          => '<package_url>/kmx/64_libs/gcc48-2014Q2/64bit_hdf5-1.8.12-bin_20140506.zip',
-            'ncurses'       => '<package_url>/kmx/64_libs/gcc48-2014Q2/64bit_ncurses-5.9-bin_20140506.zip',
+            #'ncurses'       => '<package_url>/kmx/64_libs/gcc48-2014Q2/64bit_ncurses-5.9-bin_20140506.zip',
             'plplot'        => '<package_url>/kmx/64_libs/gcc48-2014Q2/64bit_plplot-5.10.0-bin_20140506.zip',
             'proj'          => '<package_url>/kmx/64_libs/gcc48-2014Q2/64bit_proj-4.8.0-bin_20140506.zip',
             'szip'          => '<package_url>/kmx/64_libs/gcc48-2014Q2/64bit_szip-2.1-bin_20140506.zip',
             'talib'         => '<package_url>/kmx/64_libs/gcc48-2014Q2/64bit_ta-lib-0.4.0-bin_20140506.zip',
             'netcdf'        => '<package_url>/kmx/64_libs/gcc48-2014Q2/64bit_netcdf-4.3.2-bin_20140506.zip',
+            'lapack'        => '<package_url>/kmx/64_libs/gcc48-2014Q2/64bit_lapack-3.5.0-bin_20140521.zip',
         },
     },
     ### NEXT STEP ###########################

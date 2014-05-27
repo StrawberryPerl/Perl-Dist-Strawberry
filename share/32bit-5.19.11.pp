@@ -6,7 +6,7 @@
 # <image_dir>     is placeholder for c:\strawberry
 
 {
-  app_version     => '5.19.11.3', #BEWARE: do not use '.0.0' in the last two version digits
+  app_version     => '5.19.11.4', #BEWARE: do not use '.0.0' in the last two version digits
   bits            => 32,
   beta            => 0,
   app_fullname    => 'Strawberry Perl',
@@ -25,29 +25,30 @@
             'gcc-toolchain' => { url=>'<package_url>/kmx/32_gcctoolchain/mingw64-w32-gcc4.8.2_20140407.zip', install_to=>'c' },
             'gcc-license'   => '<package_url>/kmx/32_gcctoolchain/mingw64-w32-gcc4.8.2_20140407-lic.zip',
             #libs
-            'libdb'         => '<package_url>/kmx/32_libs/gcc48-2014Q2/32bit_db-6.0.30-bin_20140503.zip',
-            'libexpat'      => '<package_url>/kmx/32_libs/gcc48-2014Q2/32bit_expat-2.1.0-bin_20140503.zip',
-            'libfreeglut'   => '<package_url>/kmx/32_libs/gcc48-2014Q2/32bit_freeglut-2.8.1-bin_20140503.zip',
-            'libfreetype'   => '<package_url>/kmx/32_libs/gcc48-2014Q2/32bit_freetype-2.5.3-bin_20140503.zip',
-            'libgdbm'       => '<package_url>/kmx/32_libs/gcc48-2014Q2/32bit_gdbm-1.10-bin_20140503.zip',
-            'libgiflib'     => '<package_url>/kmx/32_libs/gcc48-2014Q2/32bit_giflib-5.0.6-bin_20140503.zip',
-            'libgmp'        => '<package_url>/kmx/32_libs/gcc48-2014Q2/32bit_gmp-5.1.3-bin_20140503.zip',
-            'libjpeg'       => '<package_url>/kmx/32_libs/gcc48-2014Q2/32bit_jpeg-9a-bin_20140503.zip',
-            'libgd'         => '<package_url>/kmx/32_libs/gcc48-2014Q2/32bit_libXpm-3.5.11-bin_20140503.zip',
-            'liblibXpm'     => '<package_url>/kmx/32_libs/gcc48-2014Q2/32bit_libgd-2.1.0-bin_20140503.zip',
-            'liblibiconv'   => '<package_url>/kmx/32_libs/gcc48-2014Q2/32bit_libiconv-1.14-bin_20140503.zip',
-            'liblibpng'     => '<package_url>/kmx/32_libs/gcc48-2014Q2/32bit_libpng-1.6.10-bin_20140503.zip',
-            'liblibssh2'    => '<package_url>/kmx/32_libs/gcc48-2014Q2/32bit_libssh2-1.4.3-bin_20140503.zip',
-            'liblibxml2'    => '<package_url>/kmx/32_libs/gcc48-2014Q2/32bit_libxml2-2.9.1-bin_20140503.zip',
-            'liblibxslt'    => '<package_url>/kmx/32_libs/gcc48-2014Q2/32bit_libxslt-1.1.28-bin_20140503.zip',
-            'libmpc'        => '<package_url>/kmx/32_libs/gcc48-2014Q2/32bit_mpc-1.0.2-bin_20140503.zip',
-            'libmpfr'       => '<package_url>/kmx/32_libs/gcc48-2014Q2/32bit_mpfr-3.1.2-bin_20140503.zip',
-            'libopenssl'    => '<package_url>/kmx/32_libs/gcc48-2014Q2/32bit_openssl-1.0.1g-bin_20140503.zip',
-            'libpostgresql' => '<package_url>/kmx/32_libs/gcc48-2014Q2/32bit_postgresql-9.3.4-bin_20140503.zip',
-            'libt1lib'      => '<package_url>/kmx/32_libs/gcc48-2014Q2/32bit_t1lib-5.1.2-bin_20140503.zip',
-            'libtiff'       => '<package_url>/kmx/32_libs/gcc48-2014Q2/32bit_tiff-4.0.3-bin_20140503.zip',
-            'libxz'         => '<package_url>/kmx/32_libs/gcc48-2014Q2/32bit_xz-5.0.5-bin_20140503.zip',
-            'libzlib'       => '<package_url>/kmx/32_libs/gcc48-2014Q2/32bit_zlib-1.2.8-bin_20140503.zip',
+            'libdb'         => '<package_url>/kmx/32_libs/gcc48-2014Q2/32bit_db-6.0.30-bin_20140506.zip',
+            'libexpat'      => '<package_url>/kmx/32_libs/gcc48-2014Q2/32bit_expat-2.1.0-bin_20140506.zip',
+            'libfreeglut'   => '<package_url>/kmx/32_libs/gcc48-2014Q2/32bit_freeglut-2.8.1-bin_20140506.zip',
+            'libfreetype'   => '<package_url>/kmx/32_libs/gcc48-2014Q2/32bit_freetype-2.5.3-bin_20140506.zip',
+            'libgdbm'       => '<package_url>/kmx/32_libs/gcc48-2014Q2/32bit_gdbm-1.10-bin_20140506.zip',
+            'libgiflib'     => '<package_url>/kmx/32_libs/gcc48-2014Q2/32bit_giflib-5.0.6-bin_20140506.zip',
+            'libgmp'        => '<package_url>/kmx/32_libs/gcc48-2014Q2/32bit_gmp-5.1.3-bin_20140506.zip',
+            'libjpeg'       => '<package_url>/kmx/32_libs/gcc48-2014Q2/32bit_jpeg-9a-bin_20140506.zip',
+            'libgd'         => '<package_url>/kmx/32_libs/gcc48-2014Q2/32bit_libXpm-3.5.11-bin_20140506.zip',
+            'libffi'        => '<package_url>/kmx/32_libs/gcc48-2014Q2/32bit_libffi-3.0.13-bin_20140506.zip',
+            'liblibXpm'     => '<package_url>/kmx/32_libs/gcc48-2014Q2/32bit_libgd-2.1.0-bin_20140506.zip',
+            'liblibiconv'   => '<package_url>/kmx/32_libs/gcc48-2014Q2/32bit_libiconv-1.14-bin_20140506.zip',
+            'liblibpng'     => '<package_url>/kmx/32_libs/gcc48-2014Q2/32bit_libpng-1.6.10-bin_20140506.zip',
+            'liblibssh2'    => '<package_url>/kmx/32_libs/gcc48-2014Q2/32bit_libssh2-1.4.3-bin_20140506.zip',
+            'liblibxml2'    => '<package_url>/kmx/32_libs/gcc48-2014Q2/32bit_libxml2-2.9.1-bin_20140506.zip',
+            'liblibxslt'    => '<package_url>/kmx/32_libs/gcc48-2014Q2/32bit_libxslt-1.1.28-bin_20140506.zip',
+            'libmpc'        => '<package_url>/kmx/32_libs/gcc48-2014Q2/32bit_mpc-1.0.2-bin_20140506.zip',
+            'libmpfr'       => '<package_url>/kmx/32_libs/gcc48-2014Q2/32bit_mpfr-3.1.2-bin_20140506.zip',
+            'libopenssl'    => '<package_url>/kmx/32_libs/gcc48-2014Q2/32bit_openssl-1.0.1g-bin_20140506.zip',
+            'libpostgresql' => '<package_url>/kmx/32_libs/gcc48-2014Q2/32bit_postgresql-9.3.4-bin_20140506.zip',
+            'libt1lib'      => '<package_url>/kmx/32_libs/gcc48-2014Q2/32bit_t1lib-5.1.2-bin_20140506.zip',
+            'libtiff'       => '<package_url>/kmx/32_libs/gcc48-2014Q2/32bit_tiff-4.0.3-bin_20140506.zip',
+            'libxz'         => '<package_url>/kmx/32_libs/gcc48-2014Q2/32bit_xz-5.0.5-bin_20140506.zip',
+            'libzlib'       => '<package_url>/kmx/32_libs/gcc48-2014Q2/32bit_zlib-1.2.8-bin_20140506.zip',
             #special cases
             'libmysql'      => '<package_url>/kmx/32_libs/gcc44-2011/32bit_mysql-5.1.44-bin_20100304.zip',       # the latest DLL binary is missing some exports
         },
@@ -110,7 +111,7 @@
 
             # XXX-HACK: xs.dll & d_libname_unique related patch
             ###XXX https://rt.cpan.org/Ticket/Display.html?id=94515 + https://rt.cpan.org/Public/Bug/Display.html?id=92699
-            { module=>'<package_url>/kmx/perl-modules-patched/ExtUtils-Depends-0.306_patched.tar.gz' },
+            '<package_url>/kmx/perl-modules-patched/ExtUtils-Depends-0.306_patched.tar.gz',
 
             # gdbm related
             '<package_url>/kmx/perl-modules-patched/GDBM_File-1.15.tar.gz',
@@ -119,8 +120,12 @@
             qw/ BerkeleyDB DB_File DBM-Deep /,
 
             #removed from core in 5.20
-            qw/Archive::Extract B::Lint CPANPLUS CPANPLUS::Dist::Build File::CheckTree Log::Message Module::Pluggable Object::Accessor Text::Soundex Term::UI Pod::LaTeX Tree::DAG_Node/,
+            qw/ Archive::Extract B::Lint CPANPLUS CPANPLUS::Dist::Build File::CheckTree Log::Message Module::Pluggable Object::Accessor Text::Soundex Term::UI Pod::LaTeX Tree::DAG_Node /,
 
+            # pkg-config related
+            '<package_url>/kmx/perl-modules-patched/PkgConfig-0.07220_99.tar.gz', #XXX special strawberry perl hacked version
+            'ExtUtils::PkgConfig',
+            
             # win32 related
             { module=>'Win32API-Registry', ignore_testfailure=>1 }, #XXX-TODO: ! Testing Win32API-Registry-0.32 failed
             { module=>'Win32-TieRegistry', ignore_testfailure=>1 }, #XXX-TODO: ! Testing Win32-TieRegistry-0.26 failed
@@ -169,11 +174,12 @@
             qw/ Convert-PEM /,
 
             # crypto
-            '<package_url>/kmx/perl-modules-patched/Crypt-OpenSSL-Random-0.04_patched.tar.gz',  #XXX-CHECK https://metacpan.org/pod/Crypt::OpenSSL::Random
-            '<package_url>/kmx/perl-modules-patched/Crypt-OpenSSL-Bignum-0.04_patched.tar.gz',  #XXX-CHECK https://metacpan.org/pod/Crypt::OpenSSL::Bignum
-            '<package_url>/kmx/perl-modules-patched/Crypt-OpenSSL-AES-0.02_patched.tar.gz',     #XXX-CHECK https://metacpan.org/pod/Crypt::OpenSSL::AES
-            '<package_url>/kmx/perl-modules-patched/Crypt-OpenSSL-DSA-0.14_patched.tar.gz',     #XXX-CHECK https://metacpan.org/pod/Crypt::OpenSSL::DSA
-            '<package_url>/kmx/perl-modules-patched/Crypt-OpenSSL-X509-1.804_patched.tar.gz',   #XXX-CHECK https://metacpan.org/pod/Crypt::OpenSSL::X509 (needs to be reported!!!!!!)
+            '<package_url>/kmx/perl-modules-patched/Crypt-OpenSSL-Random-0.04_patched.tar.gz',  #XXX-CHECK https://metacpan.org/pod/Crypt::OpenSSL::Random  https://rt.cpan.org/Public/Bug/Display.html?id=56455
+            '<package_url>/kmx/perl-modules-patched/Crypt-OpenSSL-Bignum-0.04_patched.tar.gz',  #XXX-CHECK https://metacpan.org/pod/Crypt::OpenSSL::Bignum  https://rt.cpan.org/Public/Bug/Display.html?id=84369
+            '<package_url>/kmx/perl-modules-patched/Crypt-OpenSSL-AES-0.02_patched.tar.gz',     #XXX-CHECK https://metacpan.org/pod/Crypt::OpenSSL::AES     https://rt.cpan.org/Public/Bug/Display.html?id=77605
+            '<package_url>/kmx/perl-modules-patched/Crypt-OpenSSL-DSA-0.14_patched.tar.gz',     #XXX-CHECK https://metacpan.org/pod/Crypt::OpenSSL::DSA     https://rt.cpan.org/Public/Bug/Display.html?id=84367
+            '<package_url>/kmx/perl-modules-patched/Crypt-OpenSSL-X509-1.804_patched.tar.gz',   #XXX-CHECK https://metacpan.org/pod/Crypt::OpenSSL::X509    https://github.com/dsully/perl-crypt-openssl-x509/pull/35
+            ###'<package_url>/kmx/perl-modules-patched/Crypt-SMIME-0.12_patched.tar.gz',        #XXX-CHECK https://metacpan.org/pod/Crypt::SMIME            https://rt.cpan.org/Public/Bug/Display.html?id=95373
             'Crypt-OpenSSL-RSA',
             qw/ Crypt::Blowfish Crypt::CAST5_PP Crypt::DES Crypt::DES_EDE3 Crypt::DSA Crypt::IDEA Crypt::Rijndael Crypt::Twofish Crypt::Serpent Crypt::RC6 /,
             qw/ Crypt::CBC Crypt::CFB /,
@@ -240,6 +246,7 @@
             qw/ CPAN::SQLite Alien-Tidyp FCGI /,
             qw/ IO::Stringy IO::String /,
             qw/ V Modern::Perl Unicode::UTF8 Perl::Tidy /,
+            #qw/ FFI::Raw /,                                            #XXX-TODO https://github.com/ghedo/p5-FFI-Raw/issues/47
 
             # GUI - not yet
             #qw/IUP/,
@@ -388,18 +395,17 @@
     {
         plugin  => 'Perl::Dist::Strawberry::Step::BinaryToolsAndLibs',
         install_packages => {
-            #'fftw2'         => '<package_url>/kmx/32_libs/gcc48-2014Q2/32bit_fftw-2.1.5-bin_20140503.zip',
-            'fftw3'         => '<package_url>/kmx/32_libs/gcc48-2014Q2/32bit_fftw-3.3.4-bin_20140503.zip',
-            'gnuplot'       => '<package_url>/kmx/32_libs/gcc48-2014Q2/32bit_gnuplot-4.6.5-bin_20140503.zip',
-            'gsl'           => '<package_url>/kmx/32_libs/gcc48-2014Q2/32bit_gsl-1.16-bin_20140503.zip',
-            'hdf4'          => '<package_url>/kmx/32_libs/gcc48-2014Q2/32bit_hdf-4.2.10-bin_20140503.zip',
-            'hdf5'          => '<package_url>/kmx/32_libs/gcc48-2014Q2/32bit_hdf5-1.8.12-bin_20140503.zip',
-            'ncurses'       => '<package_url>/kmx/32_libs/gcc48-2014Q2/32bit_ncurses-5.9-bin_20140503.zip',
-            'plplot'        => '<package_url>/kmx/32_libs/gcc48-2014Q2/32bit_plplot-5.10.0-bin_20140503.zip',
-            'proj'          => '<package_url>/kmx/32_libs/gcc48-2014Q2/32bit_proj-4.8.0-bin_20140503.zip',
-            'szip'          => '<package_url>/kmx/32_libs/gcc48-2014Q2/32bit_szip-2.1-bin_20140503.zip',
-            'talib'         => '<package_url>/kmx/32_libs/gcc48-2014Q2/32bit_ta-lib-0.4.0-bin_20140503.zip',
-            'netcdf'        => '<package_url>/kmx/32_libs/gcc48-2014Q2/32bit_netcdf-4.3.2-bin_20140503.zip',
+            'fftw3'         => '<package_url>/kmx/32_libs/gcc48-2014Q2/32bit_fftw-3.3.4-bin_20140506.zip',
+            'gnuplot'       => '<package_url>/kmx/32_libs/gcc48-2014Q2/32bit_gnuplot-4.6.5-bin_20140506.zip',
+            'gsl'           => '<package_url>/kmx/32_libs/gcc48-2014Q2/32bit_gsl-1.16-bin_20140506.zip',
+            'hdf4'          => '<package_url>/kmx/32_libs/gcc48-2014Q2/32bit_hdf-4.2.10-bin_20140506.zip',
+            'hdf5'          => '<package_url>/kmx/32_libs/gcc48-2014Q2/32bit_hdf5-1.8.12-bin_20140506.zip',
+            'ncurses'       => '<package_url>/kmx/32_libs/gcc48-2014Q2/32bit_ncurses-5.9-bin_20140506.zip',
+            'plplot'        => '<package_url>/kmx/32_libs/gcc48-2014Q2/32bit_plplot-5.10.0-bin_20140506.zip',
+            'proj'          => '<package_url>/kmx/32_libs/gcc48-2014Q2/32bit_proj-4.8.0-bin_20140506.zip',
+            'szip'          => '<package_url>/kmx/32_libs/gcc48-2014Q2/32bit_szip-2.1-bin_20140506.zip',
+            'talib'         => '<package_url>/kmx/32_libs/gcc48-2014Q2/32bit_ta-lib-0.4.0-bin_20140506.zip',
+            'netcdf'        => '<package_url>/kmx/32_libs/gcc48-2014Q2/32bit_netcdf-4.3.2-bin_20140506.zip',
         },
     },
     ### NEXT STEP ###########################

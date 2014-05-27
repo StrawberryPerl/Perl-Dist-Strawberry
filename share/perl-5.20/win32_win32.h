@@ -13,6 +13,7 @@
 #  define _WIN32_WINNT 0x0500     /* needed for CreateHardlink() etc. */
 #endif
 
+/* Win32 only optimizations for faster building */
 #ifdef PERL_IS_MINIPERL
 /* this macro will remove Winsock only on miniperl, PERL_IMPLICIT_SYS and
  * makedef.pl create dependencies that will keep Winsock linked in even with
@@ -20,6 +21,8 @@
  * level in full perl
  */
 #  define WIN32_NO_SOCKETS
+/* less I/O calls during each require */
+#  define PERL_DISABLE_PMC
 #endif
 
 #ifdef WIN32_NO_SOCKETS
@@ -322,7 +325,6 @@ extern  gid_t	getegid(void);
 extern  int	setuid(uid_t uid);
 extern  int	setgid(gid_t gid);
 extern  int	kill(int pid, int sig);
-extern  int	killpg(int pid, int sig);
 #ifndef USE_PERL_SBRK
 extern  void	*sbrk(ptrdiff_t need);
 #  define HAS_SBRK_PROTO
