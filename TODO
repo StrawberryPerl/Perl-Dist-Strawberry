@@ -39,7 +39,13 @@ gnuplot-4.6.5       no
 ncurses-5.9         no                  YES
 
 ### PDL related
-PDL PDL::IO::HDF5
+Astro::FITS::Header
+PDL::IO::HDF5                   ### sam warnings + testfailure
+PDL::NetCDF                     ### patch needed + netcdf3 support fails
+PDL::Graphics::Prima            ### OK
+PDL::FFTW                       ### OK (not recommended)
+PDL::Graphics::Gnuplot          ### OK
+
 PDL::IO::Browser                ### (PDL-2.007) ncursesw not detected
 PDL::Graphics::PLplot           ### (PDL-2.007) Cannot find plplot library (libplplotd.dll), skipping PDL::Graphics::PLplot
 PDL::IO::HDF                    ### (PDL-2.007) Cannot find hdf library, libdf.a
@@ -48,11 +54,9 @@ PDL::GIS::Proj                  ### (PDL-2.007) PROJ4 library found but cannot i
 PDL::Transform::Proj4           ### (PDL-2.007) ~~ dtto ~~
 Alien::GSL                      ### does not detect existing library
 Alien::FFTW3                    ### does not detect existing library
-PDL::IO::HDF5                   ### Cannot find hdf5 library, libhdf5.so or libhdf5.a.
+
 PDL::FFTW3                      ### Sorry, Alien::FFTW3 doesn't work for Microsoft Windows
-PDL::FFTW                       ### OK
-PDL::Graphics::Gnuplot          ### OK
-PDL::NetCDF                     ### Cannot find netcdf library, libnetcdf.so or libnetcdf.a
+
 PDL::LinearAlgebra              ### FAILS - unfriendly to gcc@MSWin32
 PDL::Ngrams
 PDL::Audio
