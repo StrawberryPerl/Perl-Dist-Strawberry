@@ -1,8 +1,7 @@
-### DBD::Oracle related info into release notes
 ### set TERM= or set TERM=dumb
 
-### extlibs & concig info
-#lib                #pkgconfig        #*-config
+### extlibs & config info
+lib                 pkgconfig           *-config
 gdbm-1.10           no                  
 db-6.0.30           no
 gmp-5.1.3           no
@@ -39,26 +38,21 @@ ta-lib-0.4.0        no                  YES**
 gnuplot-4.6.5       no
 ncurses-5.9         no                  YES
 
-
 ### PDL related
 PDL PDL::IO::HDF5
-
 PDL::IO::Browser                ### (PDL-2.007) ncursesw not detected
 PDL::Graphics::PLplot           ### (PDL-2.007) Cannot find plplot library (libplplotd.dll), skipping PDL::Graphics::PLplot
 PDL::IO::HDF                    ### (PDL-2.007) Cannot find hdf library, libdf.a
 PDL::GSL::*                     ### (PDL-2.007) OK
 PDL::GIS::Proj                  ### (PDL-2.007) PROJ4 library found but cannot initialize projection, won't build
 PDL::Transform::Proj4           ### (PDL-2.007) ~~ dtto ~~
-
 Alien::GSL                      ### does not detect existing library
 Alien::FFTW3                    ### does not detect existing library
-
 PDL::IO::HDF5                   ### Cannot find hdf5 library, libhdf5.so or libhdf5.a.
 PDL::FFTW3                      ### Sorry, Alien::FFTW3 doesn't work for Microsoft Windows
 PDL::FFTW                       ### OK
 PDL::Graphics::Gnuplot          ### OK
 PDL::NetCDF                     ### Cannot find netcdf library, libnetcdf.so or libnetcdf.a
-
 PDL::LinearAlgebra              ### FAILS - unfriendly to gcc@MSWin32
 PDL::Ngrams
 PDL::Audio
@@ -82,7 +76,7 @@ PDL::Graphics::Prima
 - Padre                         (97MB incl. Wx)
 - CryptX                        (1MB)
 
-###FAILS - 5.18.2.2
+### Test FAILS
 ! Testing Convert-PEM-0.08 failed
   Failed test 'errstr matches decrypt failed'
   #   at t/02-encode.t line 28.
@@ -101,8 +95,6 @@ PDL::Graphics::Prima
   Can't find key with values:  More data is available
 ! Testing Win32-TieRegistry-0.26 failed
   Win32::TieRegistry  - t/02_main.t - Failed test 'Opened CU/SW/MS/Win/CV/Pol/Exp//NoDriveTypeAutoRun' + 'Type is REG_DWORD' + 'Value matches expected'
-
-###FAILS - 5.19.9.10
 ! Testing DBIx-Class-0.08270 failed but installing it anyway.
 ! Testing LWP-Protocol-https-6.04 failed but installing it anyway.
 ! Testing pip-1.19 failed but installing it anyway.
@@ -120,34 +112,19 @@ YES sys/param.h     ------- I_SYS_PARAM
 YES sys/time.h      ------- I_SYS_TIME
 YES varargs.h       ------- I_VARARGS
 
-### 
-perl -MConfig -E "say $_, '=', $Config{$_} for (qw/libpth loclibpth libsdirs locincpth usrinc/)"
-> Perl-Dist-WiX-1.500002/share-5123/default/win32/config.gc64nox.tt locincpth='.../include .../../c/include'
-> loclibpth='.../lib .../../c/lib'
-> longdblsize='12'
-> CSJEWELL/Perl-Dist-WiX-1.500002 
-
 ### MSI testing
-- starmenu
-- registry
-- uninstall (registry, menu, rootdir)
 - upgrade/downgrade
+
+========== LATER ==========
 
 ### MSI: filesystem ACL for c:\strawberry & co.
 http://wixtoolset.org/documentation/manual/v3/xsd/wix/permission.html
 http://wixtoolset.org/documentation/manual/v3/xsd/util/permissionex.html
 http://blogs.msdn.com/b/cjacks/archive/2008/12/04/how-to-set-directory-permissions-at-install-time-using-an-msi-created-using-windows-installer-xml-wix.aspx
-<CreateFolder ... >
-
 create group:
 http://stackoverflow.com/questions/11459591/how-to-create-a-local-group-and-add-an-active-directory-user-to-it-in-wix
 http://stackoverflow.com/questions/12278265/how-to-get-user-credentials-displayed-as-default-in-a-wix-custom-dialog
 http://social.msdn.microsoft.com/Forums/vstudio/en-US/39d9e905-2b35-4ce9-a544-4564f6b5a376/setting-file-permissions-in-languages-other-than-english-windows-installer-wix?forum=vssetup
-
-### double IO::Socket::IP - wtf?
-why do we have?
-- C:\strawberry\perl\vendor\lib\IO\Socket\IP.pm: 0.29
-- C:\strawberry\perl\lib\IO\Socket\IP.pm: 0.29
 
 ### move dlls
 - from c/bin to perl/bin
@@ -160,60 +137,6 @@ core + minimal sset of modules needed for relocation + setup
 ### maybe: single setup.bat
 relocation + set env
 maybe simple GUI
-
-(needs testing)### new libs
-see http://www.gaia-gis.it/gaia-sins/mingw64_how_to.html - png: > DEFAULT_INCLUDES = -I. -I/usr/local/include
-
-(needs testing)### postgresql + DBD::PG (after new ext libs)
-
-(fixed)### what to do with? 
-- c:\strawberry\perl\site\lib\MSWin32-x86-multi-thread-64int\.meta 
-- INSTALL_BASE=$Config{vendorlibexp} ?
-- just delete c:\strawberry\perl\site\lib\$Config{archname} ?
-- https://github.com/miyagawa/cpanminus/blob/devel/lib/App/cpanminus/script.pm
-- maybe patch: cpanm
-
-(fixed)### check modules removed from core
-
-(fixed)### clean garbage DLLs
-*.dll.A*
-
-(fixed)### site modules
-Test::Warnings
-YAML::Tiny
-Module::Build::Tiny
-
-(fixed)### clean garbage comments
-c:\strawberry\perl\lib\CORE\win32.h
-/* #define USE_PERL_SBRK	/**/
-/* #define PERL_SBRK_VIA_MALLOC	/**/
-
-(fixed)### missing CPANPLUS!!!
-using cpan + cpanm
-
-(maybe fixed - needs testing)### relocate.bat
-use Win32 shortname
-
-(maybe fixed)### something better instead of workaround_get_dist_list()
-- is kind of a hack (somehow works, not reliable)
-
-(fixed)### maybe add to 5.20
-DBIx::Class
-Mojolicious
-
-(fixed)### MSI
-- drop MSM support and simplify MSI generation
-- fix installation on a PC without drive C: }+ other reported bugs]
-
-(done)### try DBD::Oracle
-set PATH=%PATH%;z:\orainstant64
-set ORACLE_HOME=z:\orainstant64
-perl Makefile.PL -V 11.2.0.3.0
-
-(done)### dlext => 'xs.dll',
-Needs testing
-
-========== LATER ==========
 
 ### UninstallModules.pm via cpanm
 cpanm -U Capture::Tiny

@@ -64,8 +64,8 @@
     ### NEXT STEP ###########################
     {
         plugin     => 'Perl::Dist::Strawberry::Step::InstallPerlCore',
-        #url        => 'http://search.cpan.org/CPAN/authors/id/R/RJ/RJBS/perl-5.20.0.tar.gz',
-        url        => 'http://cpan.metacpan.org/authors/id/R/RJ/RJBS/perl-5.20.0.tar.gz',
+        url        => 'http://search.cpan.org/CPAN/authors/id/R/RJ/RJBS/perl-5.20.0.tar.gz',
+        #url        => 'http://cpan.metacpan.org/authors/id/R/RJ/RJBS/perl-5.20.0.tar.gz',
         cf_email   => 'strawberry-perl@project', #IMPORTANT: keep 'strawberry-perl' before @
         perl_debug => 0,
         #use_64_bit_int => 1,
@@ -212,7 +212,8 @@
 
             # XML/SOAP webservices
             { module=>'Log::Report', ignore_testfailure=>1 },           #XXX_TODO fails on 5.19.11
-            qw/ XML::Compile::SOAP12 XML::Compile::SOAP11 XML::Compile::WSDL11 SOAP-Lite /,
+            qw/ SOAP-Lite /,
+            #qw/ XML::Compile::SOAP12 XML::Compile::SOAP11 XML::Compile::WSDL11 /,
 
             # YAML, JSON & co.
             qw/ JSON JSON-XS YAML YAML-Tiny YAML::XS /,
