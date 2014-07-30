@@ -115,7 +115,7 @@
             # XXX-HACK: xs.dll & d_libname_unique related patch
             ###XXX https://rt.cpan.org/Ticket/Display.html?id=94515 + https://rt.cpan.org/Public/Bug/Display.html?id=92699
             '<package_url>/kmx/perl-modules-patched/ExtUtils-Depends-0.306_patched.tar.gz',
-            
+
             # XXX-HACK: 6.08 is broken
             { module=>'LWP::UserAgent', skiptest=>1 },
 
@@ -325,6 +325,7 @@
     },
     ### NEXT STEP ###########################
     {
+       disable => $ENV{SKIP_MSI_STEP}, ### hack
        plugin => 'Perl::Dist::Strawberry::Step::OutputMSI',
        exclude  => [
            #'dirname\subdir1\subdir2',
@@ -401,6 +402,7 @@
     },
     ### NEXT STEP ###########################
     {
+        disable => $ENV{SKIP_PDL_STEP}, ### hack
         plugin  => 'Perl::Dist::Strawberry::Step::BinaryToolsAndLibs',
         install_packages => {
             'fftw3'         => '<package_url>/kmx/32_libs/gcc48-2014Q3/32bit_fftw-3.3.4-bin_20140728.zip',
@@ -419,6 +421,7 @@
     },
     ### NEXT STEP ###########################
     {
+        disable => $ENV{SKIP_PDL_STEP}, ### hack
         plugin => 'Perl::Dist::Strawberry::Step::InstallModules',
         # modules specific to PDL edition
         modules => [
@@ -428,6 +431,7 @@
     },
     ### NEXT STEP ###########################
     {
+       disable => $ENV{SKIP_PDL_STEP}, ### hack
        plugin => 'Perl::Dist::Strawberry::Step::FilesAndDirs',
        commands => [ # files and dirs specific to portable edition
          { do=>'removefile', args=>[ '<image_dir>/README.txt', '<image_dir>/portableshell.bat' ] },
@@ -444,10 +448,12 @@
     },
     ### NEXT STEP ###########################
     {
+       disable => $ENV{SKIP_PDL_STEP}, ### hack
        plugin => 'Perl::Dist::Strawberry::Step::OutputPdlZIP', # no options needed
     },
     ### NEXT STEP ###########################
     {
+       disable => $ENV{SKIP_PDL_STEP}, ### hack
        plugin => 'Perl::Dist::Strawberry::Step::OutputLogZIP', # no options needed
     },
   ],

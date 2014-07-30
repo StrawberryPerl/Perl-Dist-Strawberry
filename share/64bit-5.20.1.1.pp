@@ -26,30 +26,30 @@
             'gcc-license'   => '<package_url>/kmx/64_gcctoolchain/mingw64-w64-gcc4.8.3_20140727-lic.zip',
             #libs
             'bzip2'         => '<package_url>/kmx/32_libs/gcc48-2014Q3/64bit_bzip2-1.0.6-bin_20140728.zip',
-            'libdb'         => '<package_url>/kmx/64_libs/gcc48-2014Q2/64bit_db-6.1.19-bin_20140728.zip',
-            'libexpat'      => '<package_url>/kmx/64_libs/gcc48-2014Q2/64bit_expat-2.1.0-bin_20140728.zip',
-            'libfreeglut'   => '<package_url>/kmx/64_libs/gcc48-2014Q2/64bit_freeglut-2.8.1-bin_20140728.zip',
-            'libfreetype'   => '<package_url>/kmx/64_libs/gcc48-2014Q2/64bit_freetype-2.5.3-bin_20140728.zip',
-            'libgdbm'       => '<package_url>/kmx/64_libs/gcc48-2014Q2/64bit_gdbm-1.10-bin_20140728.zip',
-            'libgiflib'     => '<package_url>/kmx/64_libs/gcc48-2014Q2/64bit_giflib-5.0.6-bin_20140728.zip',
-            'libgmp'        => '<package_url>/kmx/64_libs/gcc48-2014Q2/64bit_gmp-5.1.3-bin_20140728.zip',
-            'libjpeg'       => '<package_url>/kmx/64_libs/gcc48-2014Q2/64bit_jpeg-9a-bin_20140728.zip',
-            'libgd'         => '<package_url>/kmx/64_libs/gcc48-2014Q2/64bit_libXpm-3.5.11-bin_20140728.zip',
-            'libffi'        => '<package_url>/kmx/64_libs/gcc48-2014Q2/64bit_libffi-3.1-bin_20140728.zip',
-            'liblibXpm'     => '<package_url>/kmx/64_libs/gcc48-2014Q2/64bit_libgd-2.1.0-bin_20140728.zip',
-            'liblibiconv'   => '<package_url>/kmx/64_libs/gcc48-2014Q2/64bit_libiconv-1.14-bin_20140728.zip',
-            'liblibpng'     => '<package_url>/kmx/64_libs/gcc48-2014Q2/64bit_libpng-1.6.12-bin_20140728.zip',
-            'liblibssh2'    => '<package_url>/kmx/64_libs/gcc48-2014Q2/64bit_libssh2-1.4.3-bin_20140728.zip',
-            'liblibxml2'    => '<package_url>/kmx/64_libs/gcc48-2014Q2/64bit_libxml2-2.9.1-bin_20140728.zip',
-            'liblibxslt'    => '<package_url>/kmx/64_libs/gcc48-2014Q2/64bit_libxslt-1.1.28-bin_20140728.zip',
-            'libmpc'        => '<package_url>/kmx/64_libs/gcc48-2014Q2/64bit_mpc-1.0.2-bin_20140728.zip',
-            'libmpfr'       => '<package_url>/kmx/64_libs/gcc48-2014Q2/64bit_mpfr-3.1.2-bin_20140728.zip',
-            'libopenssl'    => '<package_url>/kmx/64_libs/gcc48-2014Q2/64bit_openssl-1.0.1h-bin_20140728.zip',
-            'libpostgresql' => '<package_url>/kmx/64_libs/gcc48-2014Q2/64bit_postgresql-9.3.5-bin_20140728.zip',
-            'libt1lib'      => '<package_url>/kmx/64_libs/gcc48-2014Q2/64bit_t1lib-5.1.2-bin_20140728.zip',
-            'libtiff'       => '<package_url>/kmx/64_libs/gcc48-2014Q2/64bit_tiff-4.0.3-bin_20140728.zip',
-            'libxz'         => '<package_url>/kmx/64_libs/gcc48-2014Q2/64bit_xz-5.0.5-bin_20140728.zip',
-            'libzlib'       => '<package_url>/kmx/64_libs/gcc48-2014Q2/64bit_zlib-1.2.8-bin_20140728.zip',
+            'libdb'         => '<package_url>/kmx/64_libs/gcc48-2014Q3/64bit_db-6.1.19-bin_20140728.zip',
+            'libexpat'      => '<package_url>/kmx/64_libs/gcc48-2014Q3/64bit_expat-2.1.0-bin_20140728.zip',
+            'libfreeglut'   => '<package_url>/kmx/64_libs/gcc48-2014Q3/64bit_freeglut-2.8.1-bin_20140728.zip',
+            'libfreetype'   => '<package_url>/kmx/64_libs/gcc48-2014Q3/64bit_freetype-2.5.3-bin_20140728.zip',
+            'libgdbm'       => '<package_url>/kmx/64_libs/gcc48-2014Q3/64bit_gdbm-1.10-bin_20140728.zip',
+            'libgiflib'     => '<package_url>/kmx/64_libs/gcc48-2014Q3/64bit_giflib-5.0.6-bin_20140728.zip',
+            'libgmp'        => '<package_url>/kmx/64_libs/gcc48-2014Q3/64bit_gmp-5.1.3-bin_20140728.zip',
+            'libjpeg'       => '<package_url>/kmx/64_libs/gcc48-2014Q3/64bit_jpeg-9a-bin_20140728.zip',
+            'libgd'         => '<package_url>/kmx/64_libs/gcc48-2014Q3/64bit_libXpm-3.5.11-bin_20140728.zip',
+            'libffi'        => '<package_url>/kmx/64_libs/gcc48-2014Q3/64bit_libffi-3.1-bin_20140728.zip',
+            'liblibXpm'     => '<package_url>/kmx/64_libs/gcc48-2014Q3/64bit_libgd-2.1.0-bin_20140728.zip',
+            'liblibiconv'   => '<package_url>/kmx/64_libs/gcc48-2014Q3/64bit_libiconv-1.14-bin_20140728.zip',
+            'liblibpng'     => '<package_url>/kmx/64_libs/gcc48-2014Q3/64bit_libpng-1.6.12-bin_20140728.zip',
+            'liblibssh2'    => '<package_url>/kmx/64_libs/gcc48-2014Q3/64bit_libssh2-1.4.3-bin_20140728.zip',
+            'liblibxml2'    => '<package_url>/kmx/64_libs/gcc48-2014Q3/64bit_libxml2-2.9.1-bin_20140728.zip',
+            'liblibxslt'    => '<package_url>/kmx/64_libs/gcc48-2014Q3/64bit_libxslt-1.1.28-bin_20140728.zip',
+            'libmpc'        => '<package_url>/kmx/64_libs/gcc48-2014Q3/64bit_mpc-1.0.2-bin_20140728.zip',
+            'libmpfr'       => '<package_url>/kmx/64_libs/gcc48-2014Q3/64bit_mpfr-3.1.2-bin_20140728.zip',
+            'libopenssl'    => '<package_url>/kmx/64_libs/gcc48-2014Q3/64bit_openssl-1.0.1h-bin_20140728.zip',
+            'libpostgresql' => '<package_url>/kmx/64_libs/gcc48-2014Q3/64bit_postgresql-9.3.5-bin_20140728.zip',
+            'libt1lib'      => '<package_url>/kmx/64_libs/gcc48-2014Q3/64bit_t1lib-5.1.2-bin_20140728.zip',
+            'libtiff'       => '<package_url>/kmx/64_libs/gcc48-2014Q3/64bit_tiff-4.0.3-bin_20140728.zip',
+            'libxz'         => '<package_url>/kmx/64_libs/gcc48-2014Q3/64bit_xz-5.0.5-bin_20140728.zip',
+            'libzlib'       => '<package_url>/kmx/64_libs/gcc48-2014Q3/64bit_zlib-1.2.8-bin_20140728.zip',
             #special cases
             'libmysql'      => '<package_url>/kmx/64_libs/gcc44-2011/64bit_mysql-5.1.44-bin_20100304.zip',       # the latest DLL binary is missing some exports
         },
@@ -325,6 +325,7 @@
     },
     ### NEXT STEP ###########################
     {
+       disable => $ENV{SKIP_MSI_STEP}, ### hack
        plugin => 'Perl::Dist::Strawberry::Step::OutputMSI',
        exclude  => [
            #'dirname\subdir1\subdir2',
@@ -401,24 +402,26 @@
     },
     ### NEXT STEP ###########################
     {
+        disable => $ENV{SKIP_PDL_STEP}, ### hack
         plugin  => 'Perl::Dist::Strawberry::Step::BinaryToolsAndLibs',
         install_packages => {
-            'fftw3'         => '<package_url>/kmx/64_libs/gcc48-2014Q2/64bit_fftw-3.3.4-bin_20140728.zip',
-            'gnuplot'       => '<package_url>/kmx/64_libs/gcc48-2014Q2/64bit_gnuplot-4.6.5-bin_20140728.zip',
-            'gsl'           => '<package_url>/kmx/64_libs/gcc48-2014Q2/64bit_gsl-1.16-bin_20140728.zip',
-            'hdf4'          => '<package_url>/kmx/64_libs/gcc48-2014Q2/64bit_hdf-4.2.10-bin_20140728.zip',
-            'hdf5'          => '<package_url>/kmx/64_libs/gcc48-2014Q2/64bit_hdf5-1.8.12-bin_20140728.zip',
-            #'ncurses'       => '<package_url>/kmx/64_libs/gcc48-2014Q2/64bit_ncurses-5.9-bin_20140728.zip',
-            'plplot'        => '<package_url>/kmx/64_libs/gcc48-2014Q2/64bit_plplot-5.10.0-bin_20140728.zip',
-            'proj'          => '<package_url>/kmx/64_libs/gcc48-2014Q2/64bit_proj-4.8.0-bin_20140728.zip',
-            'szip'          => '<package_url>/kmx/64_libs/gcc48-2014Q2/64bit_szip-2.1-bin_20140728.zip',
-            'talib'         => '<package_url>/kmx/64_libs/gcc48-2014Q2/64bit_ta-lib-0.4.0-bin_20140728.zip',
-            'netcdf'        => '<package_url>/kmx/64_libs/gcc48-2014Q2/64bit_netcdf-4.3.2-bin_20140728.zip',
-            'lapack'        => '<package_url>/kmx/64_libs/gcc48-2014Q2/64bit_lapack-3.5.0-bin_20140728.zip',
+            'fftw3'         => '<package_url>/kmx/64_libs/gcc48-2014Q3/64bit_fftw-3.3.4-bin_20140728.zip',
+            'gnuplot'       => '<package_url>/kmx/64_libs/gcc48-2014Q3/64bit_gnuplot-4.6.5-bin_20140728.zip',
+            'gsl'           => '<package_url>/kmx/64_libs/gcc48-2014Q3/64bit_gsl-1.16-bin_20140728.zip',
+            'hdf4'          => '<package_url>/kmx/64_libs/gcc48-2014Q3/64bit_hdf-4.2.10-bin_20140728.zip',
+            'hdf5'          => '<package_url>/kmx/64_libs/gcc48-2014Q3/64bit_hdf5-1.8.12-bin_20140728.zip',
+            #'ncurses'       => '<package_url>/kmx/64_libs/gcc48-2014Q3/64bit_ncurses-5.9-bin_20140728.zip',
+            'plplot'        => '<package_url>/kmx/64_libs/gcc48-2014Q3/64bit_plplot-5.10.0-bin_20140728.zip',
+            'proj'          => '<package_url>/kmx/64_libs/gcc48-2014Q3/64bit_proj-4.8.0-bin_20140728.zip',
+            'szip'          => '<package_url>/kmx/64_libs/gcc48-2014Q3/64bit_szip-2.1-bin_20140728.zip',
+            'talib'         => '<package_url>/kmx/64_libs/gcc48-2014Q3/64bit_ta-lib-0.4.0-bin_20140728.zip',
+            'netcdf'        => '<package_url>/kmx/64_libs/gcc48-2014Q3/64bit_netcdf-4.3.2-bin_20140728.zip',
+            'lapack'        => '<package_url>/kmx/64_libs/gcc48-2014Q3/64bit_lapack-3.5.0-bin_20140728.zip',
         },
     },
     ### NEXT STEP ###########################
     {
+        disable => $ENV{SKIP_PDL_STEP}, ### hack
         plugin => 'Perl::Dist::Strawberry::Step::InstallModules',
         # modules specific to PDL edition
         modules => [
@@ -428,6 +431,7 @@
     },
     ### NEXT STEP ###########################
     {
+       disable => $ENV{SKIP_PDL_STEP}, ### hack
        plugin => 'Perl::Dist::Strawberry::Step::FilesAndDirs',
        commands => [ # files and dirs specific to portable edition
          { do=>'removefile', args=>[ '<image_dir>/README.txt', '<image_dir>/portableshell.bat' ] },
@@ -444,10 +448,12 @@
     },
     ### NEXT STEP ###########################
     {
+       disable => $ENV{SKIP_PDL_STEP}, ### hack
        plugin => 'Perl::Dist::Strawberry::Step::OutputPdlZIP', # no options needed
     },
     ### NEXT STEP ###########################
     {
+       disable => $ENV{SKIP_PDL_STEP}, ### hack
        plugin => 'Perl::Dist::Strawberry::Step::OutputLogZIP', # no options needed
     },
   ],
