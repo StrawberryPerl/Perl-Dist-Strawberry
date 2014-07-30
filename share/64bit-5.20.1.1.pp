@@ -25,7 +25,7 @@
             'gcc-toolchain' => { url=>'<package_url>/kmx/64_gcctoolchain/mingw64-w64-gcc4.8.3_20140727.zip', install_to=>'c' },
             'gcc-license'   => '<package_url>/kmx/64_gcctoolchain/mingw64-w64-gcc4.8.3_20140727-lic.zip',
             #libs
-            'bzip2'         => '<package_url>/kmx/32_libs/gcc48-2014Q3/64bit_bzip2-1.0.6-bin_20140728.zip',
+            'bzip2'         => '<package_url>/kmx/64_libs/gcc48-2014Q3/64bit_bzip2-1.0.6-bin_20140728.zip',
             'libdb'         => '<package_url>/kmx/64_libs/gcc48-2014Q3/64bit_db-6.1.19-bin_20140728.zip',
             'libexpat'      => '<package_url>/kmx/64_libs/gcc48-2014Q3/64bit_expat-2.1.0-bin_20140728.zip',
             'libfreeglut'   => '<package_url>/kmx/64_libs/gcc48-2014Q3/64bit_freeglut-2.8.1-bin_20140728.zip',
