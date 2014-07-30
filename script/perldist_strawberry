@@ -118,13 +118,17 @@ flag - default: 1 (0 = no interactive questions)
 
 flag - default: 0 (1 = create restorepoint after each finished step, in the next run you will be offered to continue from any of the saved restorepoints)
 
-=item XXX-NOT USED: B<-offline>, B<-nooffline>
+=item B<-perl_debug>
 
-flag - default: 0 (1 = internet connection unavailable during build)
+flag - default: 0 (0 = no debug, 1 = standard debug, 2 = separated .debug files [EXPERIMENTAL], 3 = separated but only for perl.dll|exe [EXPERIMENTAL])
 
-=item XXX-NOT USED: B<-perl_debug>, B<-noperl_debug>
+=item B<-perl_64bitint>, B<-noperl_64bitint>
 
-flag - default: 0 (1 = build perl core with debug enabled)
+flag - default: 0 (1 = build perl core with USE_64BIT_INT / ignored on 64bit)
+
+=item B<-app_simplename=name>, B<-app_fullname=name>, B<-beta=N>, 
+
+override job parameters: app_simplename, app_fullname, beta
 
 =item B<-h>, B<-help>
 

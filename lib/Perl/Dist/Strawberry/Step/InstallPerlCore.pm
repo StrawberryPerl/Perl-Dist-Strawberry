@@ -99,6 +99,11 @@ sub run {
       copy($src, $dst) or die "ERROR: copy '$src' > '$dst' failed";
     }
   }
+  
+  # extract global settings passed from commandline
+  my $dbg = defined $self->global->{perl_debug}    ? $self->global->{perl_debug}    : ($self->{config}->{perl_debug}    // 0);
+  my $u64 = defined $self->global->{perl_64bitint} ? $self->global->{perl_64bitint} : ($self->{config}->{perl_64bitint} // $self->{config}->{use_64_bit_int} // 0);
+  # XXX use_64_bit_int is for backwards compatibility
 
   # Build win32 perl
   SCOPE: {
@@ -113,10 +118,10 @@ sub run {
     push @make_args, 'GCC_4XX=define', 'GCCHELPERDLL=$(CCHOME)\bin\libgcc_s_sjlj-1.dll'; #perl-5.12/14 only
 
     # enable debug build
-    push @make_args, 'CFG=Debug' if $self->{config}->{perl_debug};
+    push @make_args, 'CFG=Debug' if $dbg > 0;
     
     # enable 64bit ints on 32bit perl
-    push @make_args, 'USE_64_BIT_INT=define' if $self->{config}->{use_64_bit_int} && $self->global->{bits} == 32;
+    push @make_args, 'USE_64_BIT_INT=define' if $u64 && $self->global->{bits} == 32;
     # enable BUILDOPTEXTRA
     push @make_args, "BUILDOPTEXTRA=$self->{config}->{buildoptextra}" if $self->{config}->{buildoptextra};
 
@@ -145,7 +150,7 @@ sub run {
 
     # Compile perl.
     my $rv;
-    $self->boss->message( 1, "Building perl $version ...\n" );
+    $self->boss->message( 1, "Building perl $version (dbg=$dbg, u64=$u64)...\n" );
     $log = catfile($self->global->{debug_dir}, 'perl_dmake_all.log.txt');
 
     if ($self->global->{bits} == 64) {
@@ -175,6 +180,32 @@ sub run {
     $log = catfile($self->global->{debug_dir}, 'perl_dmake_install.log.txt');
     $rv = $self->execute_special(['dmake', @make_args, 'install', 'UNINST=1'], $log, $log, $new_env);
     die "FATAL: dmake install FAILED!" unless(defined $rv && $rv == 0);
+  }
+  
+  # Debug version with separated debug symbols [EXPERIMENTAL]
+  if ($dbg > 1) {
+    my @bin = File::Find::Rule->file->name('*perl*.dll', 'perl.exe', 'wperl.exe', 'perl5*.exe')->in("$image_dir\\perl\\bin");
+    my @lib = File::Find::Rule->file->name('*.dll')->in("$image_dir\\perl\\lib");
+
+    my $ch = "$image_dir\\perl\\lib\\Config_heavy.pl";
+    my $ch_content = read_file($ch, {binmode=>':raw'});
+    $ch_content =~ s/(ccflags|optimize|ccflags_nolargefiles)(=.*?)-g -O2 -DDEBUGGING/$1$2-s -O2/sg;
+    $ch_content =~ s/(lddlflags|ldflags|ldflags_nolargefiles)(=.*?)-g /$1$2-s /sg;
+
+    if ($dbg eq '2') {
+      $self->_strip_debug($_, 1) for (@bin); #keep *.debug files
+      $self->_strip_debug($_, 1) for (@lib); #keep *.debug files
+      my $ro = $self->_unset_ro($ch);
+      write_file($ch, {binmode=>':raw'}, $ch_content);
+      $self->_restore_ro($ch, $ro);
+    }
+    if ($dbg eq '3') {
+      $self->_strip_debug($_, 1) for (@bin);
+      $self->_strip_debug($_, 0) for (@lib); #do not keep *.debug files
+      my $ro = $self->_unset_ro($ch);
+      write_file($ch, {binmode=>':raw'}, $ch_content);
+      $self->_restore_ro($ch, $ro);
+    }
   }
 
   # Delete unwanted dirs
@@ -216,6 +247,34 @@ sub run {
 
 sub test {
   #XXX-FIXME maybe some kind of post_check
+}
+
+sub _strip_debug {
+  my ($self, $fullpath, $keep_debug) = @_;
+  if ($keep_debug) {
+    my $fullpath_dbg = "$fullpath.debug";
+    my $ro = $self->_unset_ro($fullpath);
+    
+    ### not correct: warning: section .gnu_debuglink not found in C:\strawberry\perl\bin\perl520.dll.debug
+    #$self->execute_standard(['objcopy', '--only-keep-debug', $fullpath, $fullpath_dbg]);
+    #$self->execute_standard(['objcopy', '--strip-debug', $fullpath]);
+    #$self->execute_standard(['objcopy', "--add-gnu-debuglink=$fullpath_dbg", $fullpath]);
+    
+    ### workaround from https://sourceware.org/bugzilla/show_bug.cgi?id=14527
+    $self->execute_standard(['objcopy', '--only-keep-debug', $fullpath, $fullpath_dbg]);
+    $self->execute_standard(['objcopy', "--add-gnu-debuglink=$fullpath_dbg", $fullpath]);
+    $self->execute_standard(['objcopy', '--only-keep-debug', $fullpath, $fullpath_dbg]);
+    $self->execute_standard(['objcopy', '--remove-section=.gnu_debuglink', $fullpath]);
+    $self->execute_standard(['objcopy', '--strip-debug', $fullpath]);
+    $self->execute_standard(['objcopy', "--add-gnu-debuglink=$fullpath_dbg", $fullpath]);
+    
+    $self->_restore_ro($fullpath, $ro);
+  }
+  else {
+    my $ro = $self->_unset_ro($fullpath);
+    $self->execute_standard(['objcopy', '--strip-debug', $fullpath]);
+    $self->_restore_ro($fullpath, $ro);
+  }
 }
 
 1;

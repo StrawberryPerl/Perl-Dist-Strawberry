@@ -68,7 +68,7 @@
         #url        => 'http://cpan.metacpan.org/authors/id/R/RJ/RJBS/perl-5.20.0.tar.gz',
         cf_email   => 'strawberry-perl@project', #IMPORTANT: keep 'strawberry-perl' before @
         perl_debug => 0,
-        #use_64_bit_int => 1,
+        #perl_64bitint => 1,
         #buildoptextra => '-D__USE_MINGW_ANSI_STDIO',
         patch => { #DST paths are relative to the perl src root
             '<dist_sharedir>/perl-5.20/win32_config.gc.tt'      => 'win32/config.gc',

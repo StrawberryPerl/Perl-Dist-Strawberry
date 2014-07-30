@@ -241,7 +241,8 @@ sub execute_standard {
   make_path($output_dir) unless -d $output_dir;
 
   # Execute the child process
-  $self->boss->message(4, "execute_standard stdout='$out' stderr='$err'\n");
+  $self->boss->message(4, "execute_standard stdout='$out'\n") if $out;
+  $self->boss->message(4, "execute_standard stderr='$err'\n") if $err;
   $self->boss->message(4, "execute_standard cmd=".pp($cmd)."\n");
   my $exit_code;
   my $rv = IPC::Run3::run3($cmd, \undef, $out, $err);
@@ -256,7 +257,7 @@ sub execute_special {
   $env = {} unless $env;
   my %original_env = %ENV;
   local %ENV;
-  %ENV = (%original_env, %{$self->global->{build_ENV}}, %$env);
+  %ENV = (%original_env, %{$self->global->{build_ENV}}, %$env); #SPECIAL
 
   $self->boss->message(4, "execute_special PATH='$ENV{PATH}'\n");
 
@@ -264,7 +265,8 @@ sub execute_special {
   make_path($output_dir) unless -d $output_dir;
 
   # Execute the child process
-  $self->boss->message(4, "execute_special stdout='$out' stderr='$err'\n");
+  $self->boss->message(4, "execute_special stdout='$out'\n") if $out;
+  $self->boss->message(4, "execute_special stderr='$err'\n") if $err;
   $self->boss->message(6, "execute_special env=".pp(\%ENV)."\n");
   $self->boss->message(4, "execute_special cmd=".pp($cmd)."\n");
   my $exit_code;

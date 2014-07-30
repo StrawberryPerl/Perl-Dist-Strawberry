@@ -1,0 +1,13 @@
+--- C:\strawberry_build\build\perl_core\perl5-maint-5.20\win32\win32.h.backup	Mon Jul 28 09:31:14 2014
++++ C:\strawberry_build\build\perl_core\perl5-maint-5.20\win32\win32.h	Mon May 19 13:58:18 2014
+@@ -397,8 +397,8 @@
+ 
+ #ifdef MYMALLOC
+ #define EMBEDMYMALLOC	/**/
+-/* #define USE_PERL_SBRK	/**/
+-/* #define PERL_SBRK_VIA_MALLOC	/**/
++/* #define USE_PERL_SBRK	/ **/
++/* #define PERL_SBRK_VIA_MALLOC	/ **/
+ #endif
+ 
+ #ifdef PERL_TEXTMODE_SCRIPTS

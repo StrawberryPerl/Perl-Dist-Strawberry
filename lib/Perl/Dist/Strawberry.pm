@@ -57,10 +57,13 @@ sub parse_options {
     'cpan_url=s'        => \$self->global->{cpan_url},      #<url>    default: http://cpan.strawberryperl.com (or use e.g. file://C|/cpanmirror/)
     'test_modules!'     => \$self->global->{test_modules},  #<flag>   default: 1 (0 = skip tests when installing perl modules)
     'test_core!'        => \$self->global->{test_core},     #<flag>   default: 0 (0 = skip tests when installing perl core)
-    'offline=s'         => \$self->global->{offline},       #<flag>   default: 0 (1 = internet connection unavailable during build)
-    'perl_debug=s'      => \$self->global->{perl_debug},    #<flag>   default: 0 (1 = build perl core with debug enabled)
+    'perl_debug=i'      => \$self->global->{perl_debug},    #<flag>   default: undef (0)
+    'perl_64bitint!'    => \$self->global->{perl_64bitint}, #<flag>   default: undef (0)
     'verbosity=s'       => \$self->global->{verbosity},     #<level>  default: 2 (you can use values 1/silent to 5/verbose)
     'package_url=s'     => \$self->global->{package_url},   #<url>    default: http://strawberryperl.com/package/ (or use e.g. file://C|/pkgmirror/)
+    'app_simplename=s'  => \$self->global->{app_simplename},#<name>   default: undef
+    'app_fullname=s'    => \$self->global->{app_fullname},  #<name>   default: undef
+    'beta=i'            => \$self->global->{beta},          #<name>   default: undef
     'interactive!'      => \$self->global->{interactive},   #<flag>   default: 1 (0 = no interactive questions)
     'restorepoints!'    => \$self->global->{restorepoints}, #<flag>   default: 0 (1 = create restorepoint after each finished step)
     'h|help'            => sub { pod2usage(-exitstatus=>0, -verbose=>2) },
@@ -136,6 +139,9 @@ sub do_job {
       if ($_->{data}->{done}) {
         # loaded from restorepoint
         $self->message(0, "[step:$i] no need to run '$me'");
+      }
+      elsif ($_->{config}->{disable}) {
+        $self->message(0, "[step:$i] skipping disabled '$me' BEWARE!!!");
       }
       else {
         $self->message(0, "[step:$i] starting '$me'");
@@ -304,7 +310,12 @@ sub create_buildmachine {
     
   # store remaining job data into global-hash
   while (my ($k, $v) = each %$job) {
-    $self->global->{$k} = $v;
+    if (my $vv = $self->global->{$k}) {
+      $self->message(2, "parameter '$k=$vv' overridden from commandline");
+    }
+    else {
+      $self->global->{$k} = $v;
+    }
   }
   # derive output_basename and store int global-hash
   my $basename = "$job->{app_simplename}-$job->{app_version}";

@@ -57,10 +57,14 @@ sub _do_job {
     if ($cmd eq 'copyfile') {
       my ($src, $dst, $no_backup) = ($self->boss->resolve_name($args->[0]), $self->boss->resolve_name($args->[1]), $args->[2]);
       $self->boss->message(4, "copying '$src' >> '$dst'");
-      $self->_create_dir_for_file($dst);
-      die "non-existing file '$src'" unless -f $src;
-      copy($dst, "$dst.backup") if !$no_backup && -f $dst && !-f "$dst.backup";
-      copy($src, $dst) or die "copy failed: $!";
+      if (-f $src) {
+        $self->_create_dir_for_file($dst);
+        copy($dst, "$dst.backup") if !$no_backup && -f $dst && !-f "$dst.backup";
+        copy($src, $dst) or die "copy failed: $!";
+      }
+      else {
+        $self->boss->message(4, "non-existing file '$src'");
+      }
     }
     elsif ($cmd eq 'apply_tt') {
       my ($tt_file, $dst, $tt_vars, $no_backup) = ($self->boss->resolve_name($args->[0]), $self->boss->resolve_name($args->[1]), $args->[2], $args->[3]);
@@ -130,17 +134,32 @@ sub _do_job {
     elsif ($cmd eq 'copydir') {
       my ($src, $dst) = ($self->boss->resolve_name($args->[0]), $self->boss->resolve_name($args->[1]));
       $self->boss->message(4, "gonna dircopy '$src' >> '$dst'");
-      File::Copy::Recursive::dircopy($src, $dst) or die "dircopy failed [$src]>[$dst]: $!";
+      if (-d $src) {
+        File::Copy::Recursive::dircopy($src, $dst) or die "dircopy failed [$src]>[$dst]: $!";
+      }
+      else {
+        $self->boss->message(4, "non-existing dir '$src'");
+      }
     }
     elsif ($cmd eq 'movedir') {
       my ($src, $dst) = ($self->boss->resolve_name($args->[0]), $self->boss->resolve_name($args->[1]));
       $self->boss->message(4, "gonna dirmove '$src' >> '$dst'");
-      File::Copy::Recursive::dirmove($src, $dst) or die "dirmove failed: [$src]>[$dst]: $!";
+      if (-d $src) {
+        File::Copy::Recursive::dirmove($src, $dst) or die "dirmove failed: [$src]>[$dst]: $!";
+      }
+      else {
+        $self->boss->message(4, "non-existing dir '$src'");
+      }
     }
     elsif ($cmd eq 'movefile') {
       my ($src, $dst) = ($self->boss->resolve_name($args->[0]), $self->boss->resolve_name($args->[1]));
       $self->boss->message(4, "gonna fmove '$src' >> '$dst'");
-      File::Copy::Recursive::fmove($src, $dst) or die "fmove failed: [$src]>[$dst]: $!";
+      if (-f $src) {
+        File::Copy::Recursive::fmove($src, $dst) or die "fmove failed: [$src]>[$dst]: $!";
+      }
+      else {
+        $self->boss->message(4, "non-existing file '$src'");
+      }
     }
     elsif ($cmd eq 'smartcopy') {
       my ($src, $dst) = ($self->boss->resolve_name($args->[0]), $self->boss->resolve_name($args->[1]));

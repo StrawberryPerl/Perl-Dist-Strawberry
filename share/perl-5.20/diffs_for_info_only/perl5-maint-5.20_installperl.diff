@@ -1,0 +1,11 @@
+--- C:\strawberry_build\build\perl_core\perl5-maint-5.20\installperl.backup	Mon Jul 28 09:31:14 2014
++++ C:\strawberry_build\build\perl_core\perl5-maint-5.20\installperl	Mon Apr  7 17:45:05 2014
+@@ -260,7 +260,7 @@
+     if ($Is_Cygwin) {
+ 	$perldll = $libperl;
+     } else {
+-	$perldll = 'perl5'.$Config{patchlevel}.'.'.$dlext;
++	$perldll = 'perl5'.$Config{patchlevel}.'.'.$so;
+     }
+ 
+     if ($dlsrc ne "dl_none.xs") {

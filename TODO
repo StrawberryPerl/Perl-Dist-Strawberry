@@ -1,4 +1,82 @@
-### set TERM= or set TERM=dumb
+### after-QA:
+- OpenCL-patched
+- pkg-config
+- portable + Math::Float128
+- PDL: test plplot (and other libs)
+
+### openssl lib/engines/*.dll
+### add IO::Socket::SOCKS
+### nc-config.bat 
+### do we want to introduce $config{mystrawberryperlroot} ?
+### set TERM= or set TERM=dumb ?
+### PDL should work out of box
+### netcdf.h in both hdf4/netcdf
+
+
+### gdb 
+    >> PDL edition (detached debug info?)
+    >> http://stackoverflow.com/questions/866721/how-to-generate-gcc-debug-symbol-outside-the-build-target
+    >> http://marcioandreyoliveira.blogspot.cz/2008/03/how-to-load-debug-symbols-with-gdb.html
+    >> https://www.technovelty.org/code/separate-debug-info.html
+    
+    
+    objcopy --only-keep-debug c:\strawberry\perl.test\bin\perl520.dll c:\strawberry\perl.test\bin\perl520.dll.debug
+    objcopy --strip-debug c:\strawberry\perl.test\bin\perl520.dll
+    objcopy --add-gnu-debuglink=c:\strawberry\perl.test\bin\perl520.dll.debug c:\strawberry\perl.test\bin\perl520.dll
+    objcopy --only-keep-debug c:\strawberry\perl.test\bin\perl.exe c:\strawberry\perl.test\bin\perl.exe.debug
+    objcopy --strip-debug c:\strawberry\perl.test\bin\perl.exe
+    objcopy --add-gnu-debuglink=c:\strawberry\perl.test\bin\perl.exe.debug c:\strawberry\perl.test\bin\perl.exe
+
+    objcopy --only-keep-debug perl520.dll perl520.dll.debug
+    objcopy --strip-debug perl520.dll
+    objcopy --add-gnu-debuglink=perl520.dll.debug perl520.dll
+    objcopy --only-keep-debug perl.exe perl.exe.debug
+    objcopy --strip-debug perl.exe
+    objcopy --add-gnu-debuglink=perl.exe.debug perl.exe
+    
+
+
+    objcopy --only-keep-debug perl.exe perl.exe.debug
+    objcopy --add-gnu-debuglink=perl.exe.debug perl.exe
+    objcopy --only-keep-debug perl.exe perl.exe.debug
+    objcopy --remove-section=.gnu_debuglink perl.exe
+    objcopy --strip-debug perl.exe
+    objcopy --add-gnu-debuglink=perl.exe.debug perl.exe
+    
+    
+
+    
+    
+    ////objcopy --add-gnu-debuglink=perl520.dll perl520.dll.debug
+
+    
+    gdb perl.exe
+    symbol-file c:/strawberry/perl520.dll.debug
+    show debug-file-directory
+    break RunPerl
+    run -e "$a=1; print $a*2"
+    next
+    
+    ccflags  ='-g -O2 -DDEBUGGING -DWIN32  -DPERL_TEXTMODE_SCRIPTS ... -fwrapv ...
+    optimize ='-g -O2 -DDEBUGGING',
+    ldflags  ='-g -L"C:\strawberry\perl\lib\CORE" -L"C:\strawberry\c\lib"'
+    lddlflags='-mdll -g -L"C:\strawberry\perl\lib\CORE" -L"C:\strawberry\c\lib"'
+    
+    ccflags  ='-s -O2 -DWIN32  -DPERL_TEXTMODE_SCRIPTS ...
+    optimize ='-s -O2',
+    ldflags  ='-s -L"C:\strawberry\perl\lib\CORE" -L"C:\strawberry\c\lib"'
+    lddlflags='-mdll -s -L"C:\strawberry\perl\lib\CORE" -L"C:\strawberry\c\lib"'
+    ccflags_nolargefiles=' -g -O2 -DDEBUGGING -DWIN32  -DPERL_TEXTMODE_SCRIPTS -DPERL_IMPLICIT_CONTEXT -DPERL_IMPLICIT_SYS -DUSE_PERLIO -fwrapv -fno-strict-aliasing -mms-bitfields'
+    ldflags_nolargefiles='-g -L"C
+
+    c:\strawberry\perl\lib\Config_heavy.pl 
+    s/(ccflags|optimize|ccflags_nolargefiles)(=.*?)-g -O2 -DDEBUGGING/$1-s -O2/;
+    s/(lddlflags|ldflags|ldflags_nolargefiles)(=.*?)-g /-s /;
+    
+
+### update GDBM related modules (extracted from core)
+
+################################################
 
 ### extlibs & config info
 lib                 pkgconfig           *-config
@@ -145,8 +223,6 @@ maybe simple GUI
 ### UninstallModules.pm via cpanm
 cpanm -U Capture::Tiny
 
-### what about gdb?
-detached debug info
 
 ### tools
 - update: dendef, gmake, dmake, mingw-runtime
