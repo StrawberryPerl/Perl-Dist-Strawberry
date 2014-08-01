@@ -73,7 +73,7 @@ sub run {
  
   # resolve values (only scalars) from config
   for (keys %{$self->{config}}) {
-    if (!ref $self->{config}->{$_}) {
+    if (defined $self->{config}->{$_} && !ref $self->{config}->{$_}) {
       $self->{config}->{$_} = $self->boss->resolve_name($self->{config}->{$_});
     }
   }

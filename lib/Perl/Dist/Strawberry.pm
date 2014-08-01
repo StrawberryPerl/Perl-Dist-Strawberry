@@ -134,14 +134,15 @@ sub do_job {
     $self->build_job_pre(); # dies on error
     $i = 0;
     for (@{$self->{build_job_steps}}) {
+      my $di = $_->{config}->{disable} // '';
       my $me = ref($_);
       $me =~ s/^Perl::Dist::Strawberry::Step:://;
       if ($_->{data}->{done}) {
         # loaded from restorepoint
         $self->message(0, "[step:$i] no need to run '$me'");
       }
-      elsif ($_->{config}->{disable}) {
-        $self->message(0, "[step:$i] skipping disabled '$me' BEWARE!!!");
+      elsif ($di) {
+        $self->message(0, "[step:$i] skipping disabled[$di] '$me' BEWARE!!!");
       }
       else {
         $self->message(0, "[step:$i] starting '$me'");
@@ -312,6 +313,7 @@ sub create_buildmachine {
   while (my ($k, $v) = each %$job) {
     if (my $vv = $self->global->{$k}) {
       $self->message(2, "parameter '$k=$vv' overridden from commandline");
+      $job->{$k} = $vv;
     }
     else {
       $self->global->{$k} = $v;

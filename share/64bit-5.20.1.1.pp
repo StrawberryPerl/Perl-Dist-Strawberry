@@ -116,8 +116,7 @@
             ###XXX https://rt.cpan.org/Ticket/Display.html?id=94515 + https://rt.cpan.org/Public/Bug/Display.html?id=92699
             '<package_url>/kmx/perl-modules-patched/ExtUtils-Depends-0.306_patched.tar.gz',
 
-            # XXX-HACK: 6.08 is broken
-            { module=>'LWP::UserAgent', skiptest=>1 },
+            { module=>'LWP::UserAgent', skiptest=>1 }, # XXX-HACK: 6.08 is broken
 
             ### # gdbm related (extracted from perl core)
             ### '<package_url>/kmx/perl-modules-patched/GDBM_File-1.15.tar.gz',
@@ -151,6 +150,24 @@
             qw/ File-Find-Rule File-HomeDir File-Listing File-Remove File-ShareDir File-Which File-Copy-Recursive File-Slurp File::Map /,
             qw/ IO::All Path::Tiny Path::Class /,
 
+            # math related
+            qw/ Math-Round Math-BigInt-GMP Math-GMP Math-MPC Math-MPFR /,
+            #qw/ Math::Pari /, # fails on 64bit
+            qw/ ExtUtils::F77 /, # fortran
+
+            # SSL & SSH & telnet
+            qw/ Net-SSLeay /,
+            { module=>'IO-Socket-SSL', skiptest=>1 }, # XXX-HACK: https://rt.cpan.org/Public/Bug/Display.html?id=95328
+            qw/ Crypt-SSLeay Net-SSH2 Net::Telnet /,
+
+            # network
+            qw/ IO::Socket::IP IO::Socket::INET6 IO::Socket::Socks /,
+            qw/ HTTP-Server-Simple /,
+            qw/ LWP::UserAgent /,
+            { module=>'LWP-Protocol-https', ignore_testfailure=>1 },    #XXX-TODO LWP-Protocol-https-6.04
+            qw/ Mojolicious /,
+            { module=>'WWW::Mechanize', skiptest=>1 }, # tests hang
+
             # data/text processing
             qw/ Text-Diff Text-Patch Text::CSV Text::CSV_XS Tie::Array::CSV Excel::Writer::XLSX Spreadsheet::ParseXLSX Spreadsheet::WriteExcel Spreadsheet::ParseExcel /,
 
@@ -159,22 +176,6 @@
             { module=>'DBD-mysql', makefilepl_param=>'--mysql_config=mysql_config' },
             { module=>'DBD::Oracle', makefilepl_param=>'-V 11.2.0.3.0', env=>{ ORACLE_HOME=>'z:\orainstant64' }, skiptest=>1 }, ## requires Oracle Instant Client 64bit!!!
             { module=>'DBIx-Class', ignore_testfailure=>1 },    #XXX-TODO ! Testing DBIx-Class-0.08270 failed
-
-            # math related
-            qw/ Math-Round Math-BigInt-GMP Math-GMP Math-MPC Math-MPFR /,
-            #'<package_url>/kmx/perl-modules-patched/Math-Pari-2.01080605_patched.tar.gz', #fails on 64bit
-            qw/ ExtUtils::F77 /, # fortran
-
-            # network
-            qw/ IO::Socket::IP IO::Socket::INET6 /,
-            qw/ HTTP-Server-Simple /,
-            qw/ LWP::UserAgent /,
-            { module=>'LWP-Protocol-https', ignore_testfailure=>1 },    #XXX-TODO LWP-Protocol-https-6.04
-            qw/ Mojolicious /,
-            { module=>'WWW::Mechanize', skiptest=>1 }, # tests hang
-
-            # SSL & SSH & telnet
-            qw/ Net-SSLeay Crypt-SSLeay IO-Socket-SSL Net-SSH2 Net::Telnet /,
 
             # crypto related
             { module =>'Convert-PEM', ignore_testfailure=>1 },                                  #XXX-TODO ! Testing Convert-PEM-0.08 failed
@@ -409,7 +410,7 @@
             'gnuplot'       => '<package_url>/kmx/64_libs/gcc48-2014Q3/64bit_gnuplot-4.6.5-bin_20140728.zip',
             'gsl'           => '<package_url>/kmx/64_libs/gcc48-2014Q3/64bit_gsl-1.16-bin_20140728.zip',
             'hdf4'          => '<package_url>/kmx/64_libs/gcc48-2014Q3/64bit_hdf-4.2.10-bin_20140728.zip',
-            'hdf5'          => '<package_url>/kmx/64_libs/gcc48-2014Q3/64bit_hdf5-1.8.12-bin_20140728.zip',
+            'hdf5'          => '<package_url>/kmx/64_libs/gcc48-2014Q3/64bit_hdf5-1.8.13-bin_20140728.zip',
             #'ncurses'       => '<package_url>/kmx/64_libs/gcc48-2014Q3/64bit_ncurses-5.9-bin_20140728.zip',
             'plplot'        => '<package_url>/kmx/64_libs/gcc48-2014Q3/64bit_plplot-5.10.0-bin_20140728.zip',
             'proj'          => '<package_url>/kmx/64_libs/gcc48-2014Q3/64bit_proj-4.8.0-bin_20140728.zip',
@@ -417,6 +418,7 @@
             'talib'         => '<package_url>/kmx/64_libs/gcc48-2014Q3/64bit_ta-lib-0.4.0-bin_20140728.zip',
             'netcdf'        => '<package_url>/kmx/64_libs/gcc48-2014Q3/64bit_netcdf-4.3.2-bin_20140728.zip',
             'lapack'        => '<package_url>/kmx/64_libs/gcc48-2014Q3/64bit_lapack-3.5.0-bin_20140728.zip',
+            'gdb'           => '<package_url>/kmx/64_tools/64bit_gdb-7.7.1-bin_20140727.zip',
         },
     },
     ### NEXT STEP ###########################

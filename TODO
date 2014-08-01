@@ -1,3 +1,5 @@
+### TermReadKey-2.32 / Changes 
+
 ### after-QA:
 - OpenCL-patched
 - pkg-config
@@ -5,12 +7,9 @@
 - PDL: test plplot (and other libs)
 
 ### openssl lib/engines/*.dll
-### add IO::Socket::SOCKS
-### nc-config.bat 
 ### do we want to introduce $config{mystrawberryperlroot} ?
 ### set TERM= or set TERM=dumb ?
 ### PDL should work out of box
-### netcdf.h in both hdf4/netcdf
 
 
 ### gdb 
