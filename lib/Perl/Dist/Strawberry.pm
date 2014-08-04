@@ -423,9 +423,9 @@ sub message {
 
 sub resolve_name {
   my ($self, $name) = @_;
-  if ($name =~ /^<(.*?)>/) {
+  if ($name =~ /<(package_url|dist_sharedir|image_dir)>/) {
     my $r = $self->global->{$1};
-    $name =~ s/^<(.*?)>/$r/;
+    $name =~ s/<(package_url|dist_sharedir|image_dir)>/$r/g if defined $r;
   }
   if ($name =~ m|^[a-zA-Z0-9]+://|) {
     #url

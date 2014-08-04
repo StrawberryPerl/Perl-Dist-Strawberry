@@ -427,10 +427,12 @@ sub _install_module {
       $env->{$var} = $self->boss->resolve_name($args{env}->{$var});
     }
   }
-  # resolve macros in module name
+  # resolve macros
+  $args{makefilepl_param} = $self->boss->resolve_name($args{makefilepl_param}) if defined $args{makefilepl_param};
+  $args{buildpl_param}    = $self->boss->resolve_name($args{buildpl_param})    if defined $args{buildpl_param};
   $args{module} = $self->boss->resolve_name($args{module});
   $args{module} =~ s|\\|/|g; # cpanm dislikes backslashes
-
+  
   my %params = ( '-url' => $self->global->{cpan_url}, '-install_to' => 'vendor', '-module' => $args{module} ); #XXX-TODO multiple modules?
   $params{'-out_dumper'}         = $dumper_file if $dumper_file;
   $params{'-out_nstore'}         = $nstore_file if $nstore_file;
@@ -443,6 +445,7 @@ sub _install_module {
   $params{'-interactivity'}      = $args{interactivity}      if defined $args{interactivity};
   $params{'-makefilepl_param'}   = $args{makefilepl_param}   if defined $args{makefilepl_param}; #XXX-TODO multiple args?
   $params{'-buildpl_param'}      = $args{buildpl_param}      if defined $args{buildpl_param};    #XXX-TODO multiple args?
+  
   # handle global test skip
   $params{'-skiptest'} = 1 unless $self->global->{test_modules};
   # Execute the module install script

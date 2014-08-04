@@ -102,6 +102,8 @@
         exceptions => [
           # possible 'do' options: ignore_testfailure | skiptest | skip
           # e.g. { do=>'ignore_testfailure', distribution=>'ExtUtils-MakeMaker-6.72' },
+          { do=>'ignore_testfailure', distribution=>'CGI-Fast-2.02' },
+          { do=>'ignore_testfailure', distribution=>'CGI.pm-4.03' },
         ]
     },
     ### NEXT STEP ###########################
@@ -111,10 +113,6 @@
             # IPC related
             { module=>'IPC-Run', skiptest=>1 }, #XXX-FIXME trouble with 'Terminating on signal SIGBREAK(21)'
             qw/ IPC-Run3 IPC-System-Simple /,
-
-            # XXX-HACK: xs.dll & d_libname_unique related patch
-            ###XXX https://rt.cpan.org/Ticket/Display.html?id=94515 + https://rt.cpan.org/Public/Bug/Display.html?id=92699
-            '<package_url>/kmx/perl-modules-patched/ExtUtils-Depends-0.306_patched.tar.gz',
 
             { module=>'LWP::UserAgent', skiptest=>1 }, # XXX-HACK: 6.08 is broken
 
@@ -242,7 +240,9 @@
             qw/ Template Template-Tiny /,
 
             # OO - moose, moo & co.
-            qw/ Moose MooseX-Types MooseX::Types::Structured MooseX::Declare MooseX::ClassAttribute MooseX::Role::Parameterized MooseX::NonMoose Moo /,
+            qw/ Moose MooseX-Types MooseX::Types::Structured /,
+            { module=>'MooseX::Declare', ignore_testfailure=>1 },       #XXX-TODO https://rt.cpan.org/Public/Bug/Display.html?id=97690
+            qw/ MooseX::ClassAttribute MooseX::Role::Parameterized MooseX::NonMoose Moo /,
 
             # OO - others
             qw/ Class::Accessor Class::Accessor::Lite Class::XSAccessor Class::Tiny Object::Tiny /,
@@ -428,7 +428,14 @@
         # modules specific to PDL edition
         modules => [
           qw/Devel::REPL Lexical::Persistence Astro::FITS::Header/,
-          { module=>'PDL', ignore_testfailure=>1 },
+          { module => 'http://cpan.metacpan.org/authors/id/C/CH/CHM/PDL-2.007_03.tar.gz',
+            ignore_testfailure => 1,
+            makefilepl_param => 'PDLCONF=<dist_sharedir>\pdl\perldl2.conf',
+            env => {
+              PLPLOT_LIB     => '<image_dir>\c\share\plplot',
+              PLPLOT_DRV_DIR => '<image_dir>\c\share\plplot',
+            },
+          },
         ],
     },
     ### NEXT STEP ###########################
