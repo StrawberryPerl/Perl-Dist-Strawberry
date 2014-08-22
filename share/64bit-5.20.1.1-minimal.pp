@@ -16,42 +16,9 @@
     {
         plugin  => 'Perl::Dist::Strawberry::Step::BinaryToolsAndLibs',
         install_packages => {
-            #tools
-            'dmake'         => '<package_url>/kmx/64_tools/64bit_dmake-4.12.2-bin_20140810.zip',
-            'gmake'         => '<package_url>/kmx/64_tools/64bit_gmake-4.0.GIT_20140810.zip',
-            'pexports'      => '<package_url>/kmx/64_tools/64bit_pexports-0.44-bin_20100110.zip',
-            'patch'         => '<package_url>/kmx/64_tools/64bit_patch-2.5.9-7-bin_20100110_UAC.zip',
-            #gcc & co.
+            'dmake'         => '<package_url>/kmx/64_tools/64bit_dmake-SVN20091127-bin_20111107.zip',
             'gcc-toolchain' => { url=>'<package_url>/kmx/64_gcctoolchain/mingw64-w64-gcc4.8.3_20140727.zip', install_to=>'c' },
             'gcc-license'   => '<package_url>/kmx/64_gcctoolchain/mingw64-w64-gcc4.8.3_20140727-lic.zip',
-            #libs
-            'bzip2'         => '<package_url>/kmx/64_libs/gcc48-2014Q3/64bit_bzip2-1.0.6-bin_20140728.zip',
-            'libdb'         => '<package_url>/kmx/64_libs/gcc48-2014Q3/64bit_db-6.1.19-bin_20140728.zip',
-            'libexpat'      => '<package_url>/kmx/64_libs/gcc48-2014Q3/64bit_expat-2.1.0-bin_20140728.zip',
-            'libfreeglut'   => '<package_url>/kmx/64_libs/gcc48-2014Q3/64bit_freeglut-2.8.1-bin_20140728.zip',
-            'libfreetype'   => '<package_url>/kmx/64_libs/gcc48-2014Q3/64bit_freetype-2.5.3-bin_20140728.zip',
-            'libgdbm'       => '<package_url>/kmx/64_libs/gcc48-2014Q3/64bit_gdbm-1.10-bin_20140728.zip',
-            'libgiflib'     => '<package_url>/kmx/64_libs/gcc48-2014Q3/64bit_giflib-5.0.6-bin_20140728.zip',
-            'libgmp'        => '<package_url>/kmx/64_libs/gcc48-2014Q3/64bit_gmp-5.1.3-bin_20140728.zip',
-            'libjpeg'       => '<package_url>/kmx/64_libs/gcc48-2014Q3/64bit_jpeg-9a-bin_20140728.zip',
-            'libgd'         => '<package_url>/kmx/64_libs/gcc48-2014Q3/64bit_libXpm-3.5.11-bin_20140728.zip',
-            'libffi'        => '<package_url>/kmx/64_libs/gcc48-2014Q3/64bit_libffi-3.1-bin_20140728.zip',
-            'liblibXpm'     => '<package_url>/kmx/64_libs/gcc48-2014Q3/64bit_libgd-2.1.0-bin_20140728.zip',
-            'liblibiconv'   => '<package_url>/kmx/64_libs/gcc48-2014Q3/64bit_libiconv-1.14-bin_20140728.zip',
-            'liblibpng'     => '<package_url>/kmx/64_libs/gcc48-2014Q3/64bit_libpng-1.6.12-bin_20140728.zip',
-            'liblibssh2'    => '<package_url>/kmx/64_libs/gcc48-2014Q3/64bit_libssh2-1.4.3-bin_20140728.zip',
-            'liblibxml2'    => '<package_url>/kmx/64_libs/gcc48-2014Q3/64bit_libxml2-2.9.1-bin_20140728.zip',
-            'liblibxslt'    => '<package_url>/kmx/64_libs/gcc48-2014Q3/64bit_libxslt-1.1.28-bin_20140728.zip',
-            'libmpc'        => '<package_url>/kmx/64_libs/gcc48-2014Q3/64bit_mpc-1.0.2-bin_20140728.zip',
-            'libmpfr'       => '<package_url>/kmx/64_libs/gcc48-2014Q3/64bit_mpfr-3.1.2-bin_20140728.zip',
-            'libopenssl'    => '<package_url>/kmx/64_libs/gcc48-2014Q3/64bit_openssl-1.0.1h-bin_20140728.zip',
-            'libpostgresql' => '<package_url>/kmx/64_libs/gcc48-2014Q3/64bit_postgresql-9.3.5-bin_20140728.zip',
-            'libt1lib'      => '<package_url>/kmx/64_libs/gcc48-2014Q3/64bit_t1lib-5.1.2-bin_20140728.zip',
-            'libtiff'       => '<package_url>/kmx/64_libs/gcc48-2014Q3/64bit_tiff-4.0.3-bin_20140728.zip',
-            'libxz'         => '<package_url>/kmx/64_libs/gcc48-2014Q3/64bit_xz-5.0.5-bin_20140728.zip',
-            'libzlib'       => '<package_url>/kmx/64_libs/gcc48-2014Q3/64bit_zlib-1.2.8-bin_20140728.zip',
-            #special cases
-            'libmysql'      => '<package_url>/kmx/64_libs/gcc44-2011/64bit_mysql-5.1.44-bin_20100304.zip',       # the latest DLL binary is missing some exports
         },
     },
     ### NEXT STEP ###########################
@@ -61,6 +28,7 @@
          { do=>'removefile', args=>[ '<image_dir>/c/i686-w64-mingw32/lib/libglut.a', '<image_dir>/c/i686-w64-mingw32/lib/libglut32.a' ] }, #XXX-32bit only workaround
          { do=>'movefile',   args=>[ '<image_dir>/c/lib/libdb-6.1.a', '<image_dir>/c/lib/libdb.a' ] }, #XXX ugly hack
          { do=>'removefile', args=>[ '<image_dir>/c/bin/gccbug' ] },
+         
        ],
     },
     ### NEXT STEP ###########################
@@ -77,11 +45,10 @@
             ### decoration
             '<dist_sharedir>/msi/files/perlexe.ico'             => 'win32/perlexe.ico',
             '<dist_sharedir>/perl-5.20/perlexe.rc.tt'           => 'win32/perlexe.rc',
-            '<dist_sharedir>/perl-5.20/win32_makefile.mk'       => 'win32/makefile.mk', # keep debug symbols
             '<dist_sharedir>/perl-5.20/win32_win32.h'           => 'win32/win32.h',     # fixing comments
             '<dist_sharedir>/perl-5.20/installperl'             => 'installperl',       # necessary for nonstandard $Config{dlext}
-            '<dist_sharedir>/perl-5.20/win32_config_H.gc'       => 'win32/config_H.gc', # enables gdbm/ndbm/odbm
-            '<dist_sharedir>/perl-5.20/win32_FindExt.pm'        => 'win32/FindExt.pm',  # enables gdbm/ndbm/odbm
+            #'<dist_sharedir>/perl-5.20/win32_config_H.gc'       => 'win32/config_H.gc', # enables gdbm/ndbm/odbm
+            #'<dist_sharedir>/perl-5.20/win32_FindExt.pm'        => 'win32/FindExt.pm',  # enables gdbm/ndbm/odbm
         },
         license => { #SRC paths are relative to the perl src root
             'Readme'   => '<image_dir>/licenses/perl/Readme',
@@ -307,7 +274,6 @@
          { do=>'apply_tt', args=>[ '<dist_sharedir>/extra-files/win32/Strawberry Perl Website.url.tt',             '<image_dir>/win32/Strawberry Perl Website.url' ] },
          # cleanup (remove unwanted files/dirs)
          { do=>'removefile', args=>[ '<image_dir>/perl/vendor/lib/Crypt/._test.pl', '<image_dir>/perl/vendor/lib/DBD/testme.tmp.pl' ] },
-         { do=>'removefile', args=>[ '<image_dir>/perl/bin/nssm_32.exe.bat', '<image_dir>/perl/bin/nssm_64.exe.bat' ] },
          { do=>'removefile_recursive', args=>[ '<image_dir>/perl', qr/.+\.dll\.AA[A-Z]$/i ] },
          { do=>'removedir', args=>[ '<image_dir>/perl/bin/freeglut.dll' ] }, #XXX OpenGL garbage
          # cleanup cpanm related files
@@ -429,7 +395,7 @@
         plugin => 'Perl::Dist::Strawberry::Step::InstallModules',
         # modules specific to PDL edition
         modules => [
-          qw/Devel::REPL Lexical::Persistence Astro::FITS::Header /, # Inline Inline::C
+          qw/Devel::REPL Lexical::Persistence Astro::FITS::Header Inline Inline::C/,
           { module => 'http://cpan.metacpan.org/authors/id/C/CH/CHM/PDL-2.007_03.tar.gz',
             ignore_testfailure => 1,
             makefilepl_param => 'PDLCONF=<dist_sharedir>\pdl\perldl2.conf',

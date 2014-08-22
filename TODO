@@ -1,3 +1,6 @@
+### rm perl/bin/nssm_32.exe.bat
+### rm perl/bin/nssm_64.exe.bat
+
 ### TermReadKey-2.32 / Changes 
 
 ### after-QA:

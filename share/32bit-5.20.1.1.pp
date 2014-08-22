@@ -17,8 +17,8 @@
         plugin  => 'Perl::Dist::Strawberry::Step::BinaryToolsAndLibs',
         install_packages => {
             #tools
-            'dmake'         => '<package_url>/kmx/32_tools/32bit_dmake-SVN20091127-bin_20111107.zip',
-            'mingw-make'    => '<package_url>/kmx/32_tools/32bit_gmake-3.82-bin_20110503.zip',
+            'dmake'         => '<package_url>/kmx/32_tools/32bit_dmake-4.12.2-bin_20140810.zip',
+            'gmake'         => '<package_url>/kmx/32_tools/32bit_gmake-4.0.GIT_20140810.zip',
             'pexports'      => '<package_url>/kmx/32_tools/32bit_pexports-0.44-bin_20100110.zip',
             'patch'         => '<package_url>/kmx/32_tools/32bit_patch-2.5.9-7-bin_20100110_UAC.zip',
             #gcc & co.
@@ -77,6 +77,7 @@
             ### decoration
             '<dist_sharedir>/msi/files/perlexe.ico'             => 'win32/perlexe.ico',
             '<dist_sharedir>/perl-5.20/perlexe.rc.tt'           => 'win32/perlexe.rc',
+            '<dist_sharedir>/perl-5.20/win32_makefile.mk'       => 'win32/makefile.mk', # keep debug symbols
             '<dist_sharedir>/perl-5.20/win32_win32.h'           => 'win32/win32.h',     # fixing comments
             '<dist_sharedir>/perl-5.20/installperl'             => 'installperl',       # necessary for nonstandard $Config{dlext}
             '<dist_sharedir>/perl-5.20/win32_config_H.gc'       => 'win32/config_H.gc', # enables gdbm/ndbm/odbm
@@ -306,6 +307,7 @@
          { do=>'apply_tt', args=>[ '<dist_sharedir>/extra-files/win32/Strawberry Perl Website.url.tt',             '<image_dir>/win32/Strawberry Perl Website.url' ] },
          # cleanup (remove unwanted files/dirs)
          { do=>'removefile', args=>[ '<image_dir>/perl/vendor/lib/Crypt/._test.pl', '<image_dir>/perl/vendor/lib/DBD/testme.tmp.pl' ] },
+         { do=>'removefile', args=>[ '<image_dir>/perl/bin/nssm_32.exe.bat', '<image_dir>/perl/bin/nssm_64.exe.bat' ] },
          { do=>'removefile_recursive', args=>[ '<image_dir>/perl', qr/.+\.dll\.AA[A-Z]$/i ] },
          { do=>'removedir', args=>[ '<image_dir>/perl/bin/freeglut.dll' ] }, #XXX OpenGL garbage
          # cleanup cpanm related files
@@ -427,7 +429,7 @@
         plugin => 'Perl::Dist::Strawberry::Step::InstallModules',
         # modules specific to PDL edition
         modules => [
-          qw/Devel::REPL Lexical::Persistence Astro::FITS::Header/,
+          qw/Devel::REPL Lexical::Persistence Astro::FITS::Header /, # Inline Inline::C
           { module => 'http://cpan.metacpan.org/authors/id/C/CH/CHM/PDL-2.007_03.tar.gz',
             ignore_testfailure => 1,
             makefilepl_param => 'PDLCONF=<dist_sharedir>\pdl\perldl2.conf',
