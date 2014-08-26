@@ -1,150 +1,115 @@
-### rm perl/bin/nssm_32.exe.bat
-### rm perl/bin/nssm_64.exe.bat
+BEWARE: Mostly unsorted ideas
+=============================
 
-### TermReadKey-2.32 / Changes 
+### upgrade to TermReadKey-2.32 / Changes 
 
-### after-QA:
+### add to after-QA:
 - OpenCL-patched
 - pkg-config
 - portable + Math::Float128
 - PDL: test plplot (and other libs)
 
 ### openssl lib/engines/*.dll
+
 ### do we want to introduce $config{mystrawberryperlroot} ?
+
 ### set TERM= or set TERM=dumb ?
-### PDL should work out of box
 
-
-### gdb 
-    >> PDL edition (detached debug info?)
-    >> http://stackoverflow.com/questions/866721/how-to-generate-gcc-debug-symbol-outside-the-build-target
-    >> http://marcioandreyoliveira.blogspot.cz/2008/03/how-to-load-debug-symbols-with-gdb.html
-    >> https://www.technovelty.org/code/separate-debug-info.html
-    
-    
-    objcopy --only-keep-debug c:\strawberry\perl.test\bin\perl520.dll c:\strawberry\perl.test\bin\perl520.dll.debug
-    objcopy --strip-debug c:\strawberry\perl.test\bin\perl520.dll
-    objcopy --add-gnu-debuglink=c:\strawberry\perl.test\bin\perl520.dll.debug c:\strawberry\perl.test\bin\perl520.dll
-    objcopy --only-keep-debug c:\strawberry\perl.test\bin\perl.exe c:\strawberry\perl.test\bin\perl.exe.debug
-    objcopy --strip-debug c:\strawberry\perl.test\bin\perl.exe
-    objcopy --add-gnu-debuglink=c:\strawberry\perl.test\bin\perl.exe.debug c:\strawberry\perl.test\bin\perl.exe
-
-    objcopy --only-keep-debug perl520.dll perl520.dll.debug
-    objcopy --strip-debug perl520.dll
-    objcopy --add-gnu-debuglink=perl520.dll.debug perl520.dll
-    objcopy --only-keep-debug perl.exe perl.exe.debug
-    objcopy --strip-debug perl.exe
-    objcopy --add-gnu-debuglink=perl.exe.debug perl.exe
-    
-
-
-    objcopy --only-keep-debug perl.exe perl.exe.debug
-    objcopy --add-gnu-debuglink=perl.exe.debug perl.exe
-    objcopy --only-keep-debug perl.exe perl.exe.debug
-    objcopy --remove-section=.gnu_debuglink perl.exe
-    objcopy --strip-debug perl.exe
-    objcopy --add-gnu-debuglink=perl.exe.debug perl.exe
-    
-    
-
-    
-    
-    ////objcopy --add-gnu-debuglink=perl520.dll perl520.dll.debug
-
-    
-    gdb perl.exe
-    symbol-file c:/strawberry/perl520.dll.debug
-    show debug-file-directory
-    break RunPerl
-    run -e "$a=1; print $a*2"
-    next
-    
-    ccflags  ='-g -O2 -DDEBUGGING -DWIN32  -DPERL_TEXTMODE_SCRIPTS ... -fwrapv ...
-    optimize ='-g -O2 -DDEBUGGING',
-    ldflags  ='-g -L"C:\strawberry\perl\lib\CORE" -L"C:\strawberry\c\lib"'
-    lddlflags='-mdll -g -L"C:\strawberry\perl\lib\CORE" -L"C:\strawberry\c\lib"'
-    
-    ccflags  ='-s -O2 -DWIN32  -DPERL_TEXTMODE_SCRIPTS ...
-    optimize ='-s -O2',
-    ldflags  ='-s -L"C:\strawberry\perl\lib\CORE" -L"C:\strawberry\c\lib"'
-    lddlflags='-mdll -s -L"C:\strawberry\perl\lib\CORE" -L"C:\strawberry\c\lib"'
-    ccflags_nolargefiles=' -g -O2 -DDEBUGGING -DWIN32  -DPERL_TEXTMODE_SCRIPTS -DPERL_IMPLICIT_CONTEXT -DPERL_IMPLICIT_SYS -DUSE_PERLIO -fwrapv -fno-strict-aliasing -mms-bitfields'
-    ldflags_nolargefiles='-g -L"C
-
-    c:\strawberry\perl\lib\Config_heavy.pl 
-    s/(ccflags|optimize|ccflags_nolargefiles)(=.*?)-g -O2 -DDEBUGGING/$1-s -O2/;
-    s/(lddlflags|ldflags|ldflags_nolargefiles)(=.*?)-g /-s /;
-    
+### gdb (now included in PDL edition)
+- what about detached debug info?
+- http://stackoverflow.com/questions/866721/how-to-generate-gcc-debug-symbol-outside-the-build-target
+- http://marcioandreyoliveira.blogspot.cz/2008/03/how-to-load-debug-symbols-with-gdb.html
+- https://www.technovelty.org/code/separate-debug-info.html
+   
+  objcopy --only-keep-debug perl.exe perl.exe.debug
+  objcopy --add-gnu-debuglink=perl.exe.debug perl.exe
+  objcopy --only-keep-debug perl.exe perl.exe.debug
+  objcopy --remove-section=.gnu_debuglink perl.exe
+  objcopy --strip-debug perl.exe
+  objcopy --add-gnu-debuglink=perl.exe.debug perl.exe
+  
+  ccflags  ='-g -O2 -DDEBUGGING -DWIN32  -DPERL_TEXTMODE_SCRIPTS ... -fwrapv ...
+  optimize ='-g -O2 -DDEBUGGING',
+  ldflags  ='-g -L"C:\strawberry\perl\lib\CORE" -L"C:\strawberry\c\lib"'
+  lddlflags='-mdll -g -L"C:\strawberry\perl\lib\CORE" -L"C:\strawberry\c\lib"'
+  
+  ccflags  ='-s -O2 -DWIN32  -DPERL_TEXTMODE_SCRIPTS ...
+  optimize ='-s -O2',
+  ldflags  ='-s -L"C:\strawberry\perl\lib\CORE" -L"C:\strawberry\c\lib"'
+  lddlflags='-mdll -s -L"C:\strawberry\perl\lib\CORE" -L"C:\strawberry\c\lib"'
+  ccflags_nolargefiles=' -g -O2 -DDEBUGGING -DWIN32  -DPERL_TEXTMODE_SCRIPTS -DPERL_IMPLICIT_CONTEXT -DPERL_IMPLICIT_SYS -DUSE_PERLIO -fwrapv -fno-strict-aliasing -mms-bitfields'
+  ldflags_nolargefiles='-g -L"C
+ 
+  c:\strawberry\perl\lib\Config_heavy.pl 
+  s/(ccflags|optimize|ccflags_nolargefiles)(=.*?)-g -O2 -DDEBUGGING/$1-s -O2/;
+  s/(lddlflags|ldflags|ldflags_nolargefiles)(=.*?)-g /-s /;
 
 ### update GDBM related modules (extracted from core)
 
 ################################################
 
 ### extlibs & config info
-lib                 pkgconfig           *-config
-gdbm-1.10           no                  
-db-6.0.30           no
-gmp-5.1.3           no
-mpfr-3.1.2          no
-mpc-1.0.2           no
-zlib-1.2.8          YES
-xz-5.0.5            YES
-libiconv-1.14       no
-expat-2.1.0         YES
-libxml2-2.9.1       YES                 YES
-libxslt-1.1.28      YES                 YES
-openssl-1.0.1g      YES
-libssh2-1.4.3       YES
-postgresql-9.3.4    YES
-freeglut-2.8.1      no
-giflib-5.0.6        no
-jpeg-9a             no
-tiff-4.0.3          YES
-libpng-1.6.10       YES                 YES
-libXpm-3.5.11       YES
-freetype-2.5.3      YES                 YES**
-libgd-2.1.0         YES                 YES**
-t1lib-5.1.2         no
-libffi-3.0.13       YES
-fftw-3.3.4          YES
-gsl-1.16            YES                 YES**
-proj-4.8.0          no????
-plplot-5.10.0       no????
-szip-2.1            no
-hdf-4.2.10          no
-hdf5-1.8.12         no
-netcdf-4.3.2        YES                 YES
-ta-lib-0.4.0        no                  YES**
-gnuplot-4.6.5       no
-ncurses-5.9         no                  YES
+lib                    pkgconfig           *-config
+gdbm-1.10           !! no                  
+db-6.0.30           !! no
+gmp-5.1.3           !! no
+mpfr-3.1.2          !! no
+mpc-1.0.2           !! no
+zlib-1.2.8             YES
+xz-5.0.5               YES
+libiconv-1.14       !! no
+expat-2.1.0            YES
+libxml2-2.9.1          YES                 YES
+libxslt-1.1.28         YES                 YES
+openssl-1.0.1g         YES
+libssh2-1.4.3          YES
+postgresql-9.3.4       YES
+freeglut-2.8.1      !! no
+giflib-5.0.6        !! no
+jpeg-9a             !! no
+tiff-4.0.3             YES
+libpng-1.6.10          YES                 YES
+libXpm-3.5.11          YES
+freetype-2.5.3         YES                 YES**
+libgd-2.1.0            YES                 YES**
+t1lib-5.1.2         !! no
+libffi-3.0.13          YES
+fftw-3.3.4             YES
+gsl-1.16               YES                 YES**
+proj-4.8.0             no????
+plplot-5.10.0          no????
+szip-2.1               no
+hdf-4.2.10             no
+hdf5-1.8.12            no
+netcdf-4.3.2           YES                 YES
+ta-lib-0.4.0           no                  YES**
+gnuplot-4.6.5          no
+ncurses-5.9            no                  YES
 
 ### PDL related
-Astro::FITS::Header
-PDL::IO::HDF5                   ### sam warnings + testfailure
-PDL::NetCDF                     ### patch needed + netcdf3 support fails
-PDL::Graphics::Prima            ### OK
-PDL::FFTW                       ### OK (not recommended)
-PDL::Graphics::Gnuplot          ### OK
-
-PDL::IO::Browser                ### (PDL-2.007) ncursesw not detected
-PDL::Graphics::PLplot           ### (PDL-2.007) Cannot find plplot library (libplplotd.dll), skipping PDL::Graphics::PLplot
-PDL::IO::HDF                    ### (PDL-2.007) Cannot find hdf library, libdf.a
-PDL::GSL::*                     ### (PDL-2.007) OK
-PDL::GIS::Proj                  ### (PDL-2.007) PROJ4 library found but cannot initialize projection, won't build
-PDL::Transform::Proj4           ### (PDL-2.007) ~~ dtto ~~
-Alien::GSL                      ### does not detect existing library
-Alien::FFTW3                    ### does not detect existing library
-
-PDL::FFTW3                      ### Sorry, Alien::FFTW3 doesn't work for Microsoft Windows
-
-PDL::LinearAlgebra              ### FAILS - unfriendly to gcc@MSWin32
-PDL::Ngrams
-PDL::Audio
-PDL::GSL::Randist
-PDL::CCS
-PDL::Stats
-PDL::VectorValued 
-PDL::Graphics::Prima
+- Astro::FITS::Header
+- PDL::IO::HDF5                   ### sam warnings + testfailure
+- PDL::NetCDF                     ### patch needed + netcdf3 support fails
+- PDL::Graphics::Prima            ### OK
+- PDL::Graphics::Gnuplot          ### OK
+- PDL::FFTW                       ### NO (not recommended by CHM)
+- PDL::IO::Browser                ### (PDL-2.007) ncursesw not detected
+- PDL::Graphics::PLplot           ### (PDL-2.007) Cannot find plplot library (libplplotd.dll), skipping PDL::Graphics::PLplot
+- PDL::IO::HDF                    ### (PDL-2.007) Cannot find hdf library, libdf.a
+- PDL::GSL::*                     ### (PDL-2.007) OK
+- PDL::GIS::Proj                  ### (PDL-2.007) PROJ4 library found but cannot initialize projection, won't build
+- PDL::Transform::Proj4           ### (PDL-2.007) ~~ dtto ~~
+- Alien::GSL                      ### does not detect existing library
+- Alien::FFTW3                    ### does not detect existing library
+- PDL::FFTW3                      ### Sorry, Alien::FFTW3 doesn't work for Microsoft Windows
+- PDL::LinearAlgebra              ### FAILS - unfriendly to gcc@MSWin32
+- PDL::Ngrams
+- PDL::Audio
+- PDL::GSL::Randist
+- PDL::CCS
+- PDL::Stats
+- PDL::VectorValued 
+- PDL::Graphics::Prima
 
 ### new modules - candidates
 - AnyEvent                      (642KB)

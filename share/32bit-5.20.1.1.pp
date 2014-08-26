@@ -66,8 +66,8 @@
     ### NEXT STEP ###########################
     {
         plugin     => 'Perl::Dist::Strawberry::Step::InstallPerlCore',
-        url        => 'https://github.com/Perl/perl5/archive/maint-5.20.tar.gz',
-        #url        => 'http://cpan.metacpan.org/authors/id/R/RJ/RJBS/perl-5.20.0.tar.gz',
+        #url        => 'https://github.com/Perl/perl5/archive/maint-5.20.tar.gz',
+        url        => 'https://cpan.metacpan.org/authors/id/S/SH/SHAY/perl-5.20.1-RC1.tar.gz',
         cf_email   => 'strawberry-perl@project', #IMPORTANT: keep 'strawberry-perl' before @
         perl_debug => 0,    # can be overridden by --perl_debug=N option
         perl_64bitint => 1, # ignored on 64bit, can be overridden by --perl_64bitint | --noperl_64bitint option
@@ -77,7 +77,7 @@
             ### decoration
             '<dist_sharedir>/msi/files/perlexe.ico'             => 'win32/perlexe.ico',
             '<dist_sharedir>/perl-5.20/perlexe.rc.tt'           => 'win32/perlexe.rc',
-            '<dist_sharedir>/perl-5.20/win32_makefile.mk'       => 'win32/makefile.mk', # keep debug symbols
+            ###'<dist_sharedir>/perl-5.20/win32_makefile.mk'       => 'win32/makefile.mk', # keep debug symbols
             '<dist_sharedir>/perl-5.20/win32_win32.h'           => 'win32/win32.h',     # fixing comments
             '<dist_sharedir>/perl-5.20/installperl'             => 'installperl',       # necessary for nonstandard $Config{dlext}
             '<dist_sharedir>/perl-5.20/win32_config_H.gc'       => 'win32/config_H.gc', # enables gdbm/ndbm/odbm
@@ -157,13 +157,14 @@
             # SSL & SSH & telnet
             qw/ Net-SSLeay /,
             { module=>'IO-Socket-SSL', skiptest=>1 }, # XXX-HACK: https://rt.cpan.org/Public/Bug/Display.html?id=95328
-            qw/ Crypt-SSLeay Net-SSH2 Net::Telnet /,
+            qw/ Net-SSH2 Net::Telnet /,
 
             # network
             qw/ IO::Socket::IP IO::Socket::INET6 IO::Socket::Socks /,
             qw/ HTTP-Server-Simple /,
             qw/ LWP::UserAgent /,
             { module=>'LWP-Protocol-https', ignore_testfailure=>1 },    #XXX-TODO LWP-Protocol-https-6.04
+            qw/ Crypt-SSLeay /, # must be after LWP-Protocol-https
             qw/ Mojolicious /,
             { module=>'WWW::Mechanize', skiptest=>1 }, # tests hang
 
@@ -256,7 +257,7 @@
             qw/ CPAN::SQLite Alien-Tidyp FCGI /,
             qw/ IO::Stringy IO::String /,
             qw/ V Modern::Perl Unicode::UTF8 Perl::Tidy /,
-            #qw/ FFI::Raw /,                                            #XXX-TODO https://github.com/ghedo/p5-FFI-Raw/issues/47
+            qw/ FFI::Raw /,
 
             # GUI - not yet
             #qw/IUP/,
@@ -430,7 +431,7 @@
         # modules specific to PDL edition
         modules => [
           qw/Devel::REPL Lexical::Persistence Astro::FITS::Header /, # Inline Inline::C
-          { module => 'http://cpan.metacpan.org/authors/id/C/CH/CHM/PDL-2.007_03.tar.gz',
+          { module => 'http://cpan.metacpan.org/authors/id/C/CH/CHM/PDL-2.007_04.tar.gz',
             ignore_testfailure => 1,
             makefilepl_param => 'PDLCONF=<dist_sharedir>\pdl\perldl2.conf',
             env => {
