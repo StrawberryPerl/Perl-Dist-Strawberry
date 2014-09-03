@@ -147,7 +147,8 @@
 
             # file related
             qw/ File-Find-Rule File-HomeDir File-Listing File-Remove File-ShareDir File-Which File-Copy-Recursive File-Slurp File::Map /,
-            qw/ IO::All Path::Tiny Path::Class /,
+            qw/ IO::All Path::Tiny /,
+            { module=>'Path::Class', ignore_testfailure=>1 }, # https://github.com/kenahoo/Path-Class/issues/32
 
             # math related
             qw/ Math-Round Math-BigInt-GMP Math-GMP Math-MPC Math-MPFR /,
