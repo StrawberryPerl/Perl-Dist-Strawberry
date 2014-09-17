@@ -67,7 +67,7 @@
     {
         plugin     => 'Perl::Dist::Strawberry::Step::InstallPerlCore',
         #url        => 'https://github.com/Perl/perl5/archive/maint-5.20.tar.gz',
-        url        => 'https://cpan.metacpan.org/authors/id/S/SH/SHAY/perl-5.20.1-RC1.tar.gz',
+        url        => 'https://cpan.metacpan.org/authors/id/S/SH/SHAY/perl-5.20.1.tar.gz',
         cf_email   => 'strawberry-perl@project', #IMPORTANT: keep 'strawberry-perl' before @
         perl_debug => 0,    # can be overridden by --perl_debug=N option
         perl_64bitint => 1, # ignored on 64bit, can be overridden by --perl_64bitint | --noperl_64bitint option

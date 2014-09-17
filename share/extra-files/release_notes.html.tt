@@ -1,18 +1,18 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html><!-- InstanceBegin template="/Templates/main.dwt" codeOutsideHTMLIsLocked="false" -->
+<html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-<!-- InstanceBeginEditable name="title" -->
+
 [%-IF beta==0 -%]
 <title>Strawberry Perl for Windows - [%app_version%]-[%bits%]bit Release Notes</title>
 [%-ELSE%]
 <title>Strawberry Perl for Windows - [%app_version%]-beta[%beta%]-[%bits%]bit Release Notes</title>
 [%-END%]
-<!-- InstanceEndEditable -->
+
 <link rel="shortcut icon" type="image/vnd.microsoft.icon" href="http://strawberryperl.com/favicon.ico">
 <link rel="stylesheet" type="text/css" href="http://strawberryperl.com/common.css">
 <link rel="stylesheet" type="text/css" href="http://strawberryperl.com/main.css">
-<!-- InstanceBeginEditable name="head" --><!-- InstanceEndEditable -->
+
 <style>
 .releasenotes .hidden { display: none; }
 .releasenotes .unhidden { display: block; }
@@ -33,7 +33,7 @@
 </script>
 </head>
 <body class="releasenotes">
-<!-- InstanceBeginEditable name="body" -->
+
 <img src="http://strawberryperl.com/images/320554_9491.jpg" alt="strawberries" width="357" height="728" border="0" align="right">
 <br />
 [%-IF beta==0 -%]
@@ -41,7 +41,7 @@
 [%-ELSE%]
 <h2>Strawberry Perl ([%app_version%]-beta[%beta%]-[%bits%]bit) Release Notes</h2>
 [%-END%]
-<p><i>Released: [%release_date%]</i></p>
+<p><i>Released: [%release_date%]/ with support of our sponsor <a href="http://XXXX">XXXX</a></i></p>
 <p>Check out what is new, what known issues there are, and frequently asked questions about this version of Strawberry Perl. As always, you're encouraged to tell us what you think.</p>
 
 <h3>What's new in this Strawberry Perl release: <span class="switch"><a href="javascript:unhide('whatsnew', 'whatsnew_switch')" id="whatsnew_switch">Collapse</a><br /></span>
@@ -131,7 +131,7 @@ function unhide(divID, switchID) {
   unhide('verlist', 'verlist_switch');
 </script>
 
-<!-- InstanceEndEditable -->
+
 </body>
-<!-- InstanceEnd -->
+
 </html>
