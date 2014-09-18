@@ -72,7 +72,7 @@ my $builder = $class->new(
             homepage    => 'http://strawberryperl.com/',
             bugtracker  => 'https://rt.cpan.org/Public/Dist/Display.html?Name=Perl-Dist-Strawberry',
             MailingList => "http://groups.google.com/group/perl.win32.vanilla",
-            Chat        => "irc://irc.perl.org/#win32",
+            IRC        => "irc://irc.perl.org/#win32",
         },
         no_index => {
             directory => [ 'share', 'HelperCA.dll_src' ],
