@@ -422,7 +422,7 @@ sub message {
 }
 
 sub resolve_name {
-  my ($self, $name) = @_;
+  my ($self, $name, $skip_canon) = @_;
   if ($name =~ /<(package_url|dist_sharedir|image_dir)>/) {
     my $r = $self->global->{$1};
     $name =~ s/<(package_url|dist_sharedir|image_dir)>/$r/g if defined $r;
@@ -432,8 +432,8 @@ sub resolve_name {
     $name =~ s|([^:]/)/*|$1|g; # // >>> /
   }
   else {
-    #filename
-    $name = canonpath($name);
+    # avoid canonpath for options like: "-opt=value" and URLs
+    $name = canonpath($name) unless $skip_canon || $name =~ /^(-|http:|ftp:)/;
   }
   return $name;
 }

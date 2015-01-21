@@ -427,9 +427,9 @@ sub _install_module {
       $env->{$var} = $self->boss->resolve_name($args{env}->{$var});
     }
   }
-  # resolve macros
-  $args{makefilepl_param} = $self->boss->resolve_name($args{makefilepl_param}) if defined $args{makefilepl_param};
-  $args{buildpl_param}    = $self->boss->resolve_name($args{buildpl_param})    if defined $args{buildpl_param};
+  # resolve macros (with skip canonpath)
+  $args{makefilepl_param} = $self->boss->resolve_name($args{makefilepl_param}, 1) if defined $args{makefilepl_param};
+  $args{buildpl_param}    = $self->boss->resolve_name($args{buildpl_param}, 1)    if defined $args{buildpl_param};
   $args{module} = $self->boss->resolve_name($args{module});
   $args{module} =~ s|\\|/|g; # cpanm dislikes backslashes
   
