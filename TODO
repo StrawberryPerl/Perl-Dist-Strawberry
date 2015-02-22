@@ -1,7 +1,9 @@
 BEWARE: Mostly unsorted ideas
 =============================
 
-### upgrade to TermReadKey-2.32 / Changes 
+### add some from: https://metacpan.org/pod/Bundle::libwin32
+
+### upgrade to TermReadKey-2.32
 
 ### add to after-QA:
 - OpenCL-patched

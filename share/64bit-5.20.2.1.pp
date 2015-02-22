@@ -45,7 +45,7 @@
             'libmpc'        => '<package_url>/kmx/64_libs/gcc48-2015Q1/64bit_mpc-1.0.2-bin_20150126.zip',
             'libmpfr'       => '<package_url>/kmx/64_libs/gcc48-2015Q1/64bit_mpfr-3.1.2-bin_20150126.zip',
             'libopenssl'    => '<package_url>/kmx/64_libs/gcc48-2015Q1/64bit_openssl-1.0.2-bin_20150126.zip',
-            'libpostgresql' => '<package_url>/kmx/64_libs/gcc48-2015Q1/64bit_postgresql-9.4.0-bin_20150126.zip',
+            'libpostgresql' => '<package_url>/kmx/64_libs/gcc48-2015Q1/64bit_postgresql-9.4.1-bin_20150207.zip',
             'libt1lib'      => '<package_url>/kmx/64_libs/gcc48-2015Q1/64bit_t1lib-5.1.2-bin_20150126.zip',
             'libtiff'       => '<package_url>/kmx/64_libs/gcc48-2015Q1/64bit_tiff-4.0.3-bin_20150126.zip',
             'libxz'         => '<package_url>/kmx/64_libs/gcc48-2015Q1/64bit_xz-5.2.0-bin_20150126.zip',
@@ -66,8 +66,9 @@
     ### NEXT STEP ###########################
     {
         plugin     => 'Perl::Dist::Strawberry::Step::InstallPerlCore',
-        url        => 'https://github.com/Perl/perl5/archive/maint-5.20.tar.gz',
-        #url        => 'https://cpan.metacpan.org/authors/id/S/SH/SHAY/perl-5.20.2.tar.gz',
+        #url        => 'https://github.com/Perl/perl5/archive/maint-5.20.tar.gz',
+        #url        => 'http://cpan.metacpan.org/authors/id/S/SH/SHAY/perl-5.20.2-RC1.tar.gz',
+        url        => 'http://search.cpan.org/CPAN/authors/id/S/SH/SHAY/perl-5.20.2.tar.gz',
         cf_email   => 'strawberry-perl@project', #IMPORTANT: keep 'strawberry-perl' before @
         perl_debug => 0,    # can be overridden by --perl_debug=N option
         perl_64bitint => 1, # ignored on 64bit, can be overridden by --perl_64bitint | --noperl_64bitint option
@@ -138,7 +139,7 @@
             qw/ Win32-ShellQuote Win32::Console Win32::Console::ANSI Win32::Job Win32::Daemon Win32::ServiceManager Win32::Service /,
 
             # term related
-            '<package_url>/kmx/perl-modules-patched/TermReadKey-2.31_patched.tar.gz', # special version needed XXX-report a bug https://metacpan.org/pod/Term::ReadKey
+            '<package_url>/kmx/perl-modules-patched/TermReadKey-2.31_patched.tar.gz', # https://metacpan.org/pod/Term::ReadKey https://rt.cpan.org/Ticket/Display.html?id=101933
             { module=>'Term::ReadLine::Perl', env=>{ PERL_MM_NONINTERACTIVE=>1 } },
 
             # compression
@@ -147,8 +148,7 @@
 
             # file related
             qw/ File-Find-Rule File-HomeDir File-Listing File-Remove File-ShareDir File-Which File-Copy-Recursive File-Slurp File::Map /,
-            qw/ IO::All Path::Tiny /,
-            { module=>'Path::Class', ignore_testfailure=>1 }, # https://github.com/kenahoo/Path-Class/issues/32
+            qw/ IO::All Path::Tiny Path::Class /,
 
             # math related
             qw/ Math-Round Math-BigInt-GMP Math-GMP Math-MPC Math-MPFR /,
@@ -183,13 +183,9 @@
             qw/ Convert-PEM /,
 
             # crypto
-            '<package_url>/kmx/perl-modules-patched/Crypt-OpenSSL-Random-0.04_patched.tar.gz',  #XXX-CHECK https://metacpan.org/pod/Crypt::OpenSSL::Random  https://rt.cpan.org/Public/Bug/Display.html?id=56455
-            '<package_url>/kmx/perl-modules-patched/Crypt-OpenSSL-Bignum-0.04_patched.tar.gz',  #XXX-CHECK https://metacpan.org/pod/Crypt::OpenSSL::Bignum  https://rt.cpan.org/Public/Bug/Display.html?id=84369
-            '<package_url>/kmx/perl-modules-patched/Crypt-OpenSSL-AES-0.02_patched.tar.gz',     #XXX-CHECK https://metacpan.org/pod/Crypt::OpenSSL::AES     https://rt.cpan.org/Public/Bug/Display.html?id=77605
-            '<package_url>/kmx/perl-modules-patched/Crypt-OpenSSL-DSA-0.14_patched.tar.gz',     #XXX-CHECK https://metacpan.org/pod/Crypt::OpenSSL::DSA     https://rt.cpan.org/Public/Bug/Display.html?id=84367
-            '<package_url>/kmx/perl-modules-patched/Crypt-OpenSSL-X509-1.804_patched.tar.gz',   #XXX-CHECK https://metacpan.org/pod/Crypt::OpenSSL::X509    https://github.com/dsully/perl-crypt-openssl-x509/pull/35
+            qw/ Crypt::OpenSSL::Bignum Crypt::OpenSSL::Random Crypt-OpenSSL-RSA Crypt::OpenSSL::DSA Crypt::OpenSSL::X509 /,
+            'KMX/Crypt-OpenSSL-AES-0.03.tar.gz',      #XXX-CHECK patched https://metacpan.org/pod/Crypt::OpenSSL::AES  https://rt.cpan.org/Public/Bug/Display.html?id=84369
             #Crypt-SMIME ?
-            'Crypt-OpenSSL-RSA',
             qw/ Crypt::Blowfish Crypt::CAST5_PP Crypt::DES Crypt::DES_EDE3 Crypt::DSA Crypt::IDEA Crypt::Rijndael Crypt::Twofish Crypt::Serpent Crypt::RC6 /,
             qw/ Crypt::CBC Crypt::CFB /,
             qw/ Digest-MD2 Digest-MD5 Digest-SHA Digest-SHA1 Crypt::RIPEMD160 Digest::Whirlpool Digest::HMAC Digest::CMAC /,
@@ -202,7 +198,6 @@
             #{ module =>'Module::Signature', ignore_testfailure=>1 },
 
             # date/time
-            ###'<package_url>/kmx/perl-modules-patched/DateTime-TimeZone-1.83_patched.tar.gz',     #XXX-TODO: remove after fixing https://rt.cpan.org/Ticket/Display.html?id=101589
             qw/ DateTime Date::Format /,
 
             # e-mail
@@ -437,8 +432,9 @@
           { module => 'Devel::REPL', ignore_testfailure => 1 },
           qw/Lexical::Persistence Astro::FITS::Header Astro::FITS::CFITSIO /,
           { module => 'Inline::C', ignore_testfailure => 1 },
-          { module => 'http://cpan.metacpan.org/authors/id/C/CH/CHM/PDL-2.007_08.tar.gz',
+          { module => 'http://cpan.metacpan.org/authors/id/C/CH/CHM/PDL-2.007_10.tar.gz',
             makefilepl_param => 'PDLCONF=<dist_sharedir>\pdl\perldl2.conf',
+            ignore_testfailure => 1,
             env => {
               PLPLOT_LIB     => '<image_dir>\c\share\plplot',
               PLPLOT_DRV_DIR => '<image_dir>\c\share\plplot',
