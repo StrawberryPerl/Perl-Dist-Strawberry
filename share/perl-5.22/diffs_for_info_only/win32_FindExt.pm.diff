@@ -1,0 +1,11 @@
+--- C:\strawberry_build\build\perl_core\perl-5.22.0-RC1\win32\FindExt.pm.backup	Wed May 13 22:19:31 2015
++++ C:\strawberry_build\build\perl_core\perl-5.22.0-RC1\win32\FindExt.pm	Thu May 14 19:31:06 2015
+@@ -5,7 +5,7 @@
+ use strict;
+ use warnings;
+ 
+-my $no = join('|',qw(GDBM_File ODBM_File NDBM_File DB_File
++my $no = join('|',qw(DB_File
+                      VMS.* Sys-Syslog IPC-SysV I18N-Langinfo));
+ $no = qr/^(?:$no)$/i;
+ 
