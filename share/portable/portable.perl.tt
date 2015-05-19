@@ -27,7 +27,6 @@ Config:
   incpath: c/include
   installarchlib: perl/lib
   installbin: perl/bin
-  installbin: perl/bin
   installhtml1dir: ''
   installhtml3dir: ''
   installhtmldir: ''
