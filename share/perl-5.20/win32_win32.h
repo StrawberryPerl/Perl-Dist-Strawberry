@@ -254,11 +254,6 @@ typedef unsigned short	mode_t;
 #define snprintf	_snprintf
 #define vsnprintf	_vsnprintf
 
-#ifdef USING_MSVC6
-/* VC6 has broken NaN semantics: NaN == NaN returns true instead of false */
-#define NAN_COMPARE_BROKEN 1
-#endif
-
 /* on VC2003, msvcrt.lib is missing these symbols */
 #if _MSC_VER >= 1300 && _MSC_VER < 1400
 #  pragma intrinsic(_rotl64,_rotr64)
@@ -331,7 +326,9 @@ extern  void	*sbrk(ptrdiff_t need);
 #endif
 extern	char *	getlogin(void);
 extern	int	chown(const char *p, uid_t o, gid_t g);
+#if !defined(__MINGW64_VERSION_MAJOR) || __MINGW64_VERSION_MAJOR < 4
 extern  int	mkstemp(const char *path);
+#endif
 #endif
 
 #undef	 Stat
