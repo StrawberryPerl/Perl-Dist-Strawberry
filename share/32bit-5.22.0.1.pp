@@ -8,7 +8,7 @@
 {
   app_version     => '5.22.0.1', #BEWARE: do not use '.0.0' in the last two version digits
   bits            => 32,
-  beta            => 1,
+  beta            => 0,
   app_fullname    => 'Strawberry Perl',
   app_simplename  => 'strawberry-perl',
   build_job_steps => [
@@ -27,7 +27,7 @@
             'bzip2'         => '<package_url>/kmx/32_libs/gcc49-2015Q2/32bit_bzip2-1.0.6-bin_20150519.zip',
             'libdb'         => '<package_url>/kmx/32_libs/gcc49-2015Q2/32bit_db-6.1.23-bin_20150519.zip',
             'libexpat'      => '<package_url>/kmx/32_libs/gcc49-2015Q2/32bit_expat-2.1.0-bin_20150519.zip',
-            'libfreeglut'   => '<package_url>/kmx/32_libs/gcc49-2015Q2/32bit_freeglut-3.0.0-bin_20150519.zip',
+            'libfreeglut'   => '<package_url>/kmx/32_libs/gcc49-2015Q2/32bit_freeglut-2.8.1-bin_20150519.zip',
             'libfreetype'   => '<package_url>/kmx/32_libs/gcc49-2015Q2/32bit_freetype-2.5.5-bin_20150519.zip',
             'libgdbm'       => '<package_url>/kmx/32_libs/gcc49-2015Q2/32bit_gdbm-1.11-bin_20150519.zip',
             'libgiflib'     => '<package_url>/kmx/32_libs/gcc49-2015Q2/32bit_giflib-5.1.1-bin_20150519.zip',
@@ -65,10 +65,8 @@
     ### NEXT STEP ###########################
     {
         plugin     => 'Perl::Dist::Strawberry::Step::InstallPerlCore',
-        url        => 'https://github.com/Perl/perl5/archive/blead.tar.gz',
-        #url        => 'https://github.com/Perl/perl5/archive/v5.21.11.tar.gz',
-        #url        => 'http://cpan.metacpan.org/authors/id/S/SH/SHAY/perl-5.20.2-RC1.tar.gz',
-        #url        => 'http://search.cpan.org/CPAN/authors/id/S/SH/SHAY/perl-5.20.2.tar.gz',
+        #url        => 'https://github.com/Perl/perl5/archive/blead.tar.gz',
+        url        => 'http://search.cpan.org/CPAN/authors/id/R/RJ/RJBS/perl-5.22.0-RC1.tar.gz',
         cf_email   => 'strawberry-perl@project', #IMPORTANT: keep 'strawberry-perl' before @
         perl_debug => 0,    # can be overridden by --perl_debug=N option
         perl_64bitint => 1, # ignored on 64bit, can be overridden by --perl_64bitint | --noperl_64bitint option
@@ -88,14 +86,6 @@
             'Copying'  => '<image_dir>/licenses/perl/Copying',
         },
     },
-    ### NEXT STEP ###########################
-##    {
-##        plugin => 'Perl::Dist::Strawberry::Step::InstallModules',
-##        modules => [
-##          # here is a place to (re)install/(up/down)grade modules needed before 'Perl::Dist::Strawberry::Step::UpgradeCpanModules'
-##          # e.g. { install_to=>'perl', module=>'Module::Name' },
-##        ],
-##    },
     ### NEXT STEP ###########################
     {
         plugin => 'Perl::Dist::Strawberry::Step::UpgradeCpanModules',
@@ -428,7 +418,7 @@
           qw/Lexical::Persistence Astro::FITS::Header Astro::FITS::CFITSIO /,
           { module => 'Inline::C', ignore_testfailure => 1 },
           { module => 'http://cpan.metacpan.org/authors/id/C/CH/CHM/PDL-2.007_17.tar.gz',
-            makefilepl_param => 'PDLCONF=<dist_sharedir>\pdl\perldl2.conf',
+            #makefilepl_param => 'PDLCONF=<dist_sharedir>\pdl\perldl2.conf',
             ignore_testfailure => 1,
             env => {
               PLPLOT_LIB     => '<image_dir>\c\share\plplot',
