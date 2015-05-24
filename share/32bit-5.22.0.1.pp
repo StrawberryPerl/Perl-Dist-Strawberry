@@ -66,7 +66,7 @@
     {
         plugin     => 'Perl::Dist::Strawberry::Step::InstallPerlCore',
         #url        => 'https://github.com/Perl/perl5/archive/blead.tar.gz',
-        url        => 'http://search.cpan.org/CPAN/authors/id/R/RJ/RJBS/perl-5.22.0-RC1.tar.gz',
+        url        => 'http://search.cpan.org/CPAN/authors/id/R/RJ/RJBS/perl-5.22.0-RC2.tar.gz',
         cf_email   => 'strawberry-perl@project', #IMPORTANT: keep 'strawberry-perl' before @
         perl_debug => 0,    # can be overridden by --perl_debug=N option
         perl_64bitint => 1, # ignored on 64bit, can be overridden by --perl_64bitint | --noperl_64bitint option
@@ -77,7 +77,7 @@
             '<dist_sharedir>/perl-5.22/perlexe.rc.tt'           => 'win32/perlexe.rc',
             '<dist_sharedir>/perl-5.22/win32_config_H.gc'       => 'win32/config_H.gc', # enables gdbm/ndbm/odbm
             '<dist_sharedir>/perl-5.22/win32_FindExt.pm'        => 'win32/FindExt.pm',  # enables gdbm/ndbm/odbm
-            '<dist_sharedir>/perl-5.22/win32_win32.c'           => 'win32/win32.c',
+            #'<dist_sharedir>/perl-5.22/win32_win32.c'           => 'win32/win32.c',
             '<dist_sharedir>/perl-5.22/win32_win32.h'           => 'win32/win32.h',
         },
         license => { #SRC paths are relative to the perl src root
@@ -92,8 +92,6 @@
         exceptions => [
           # possible 'do' options: ignore_testfailure | skiptest | skip
           # e.g. { do=>'ignore_testfailure', distribution=>'ExtUtils-MakeMaker-6.72' },
-          { do=>'ignore_testfailure', distribution=>'CGI-Fast-2.02' },
-          { do=>'ignore_testfailure', distribution=>'CGI.pm-4.03' },
         ]
     },
     ### NEXT STEP ###########################
@@ -102,8 +100,7 @@
         modules => [
             # IPC related
             { module=>'IPC-Run', skiptest=>1 }, #XXX-FIXME trouble with 'Terminating on signal SIGBREAK(21)'
-            { module=>'Capture::Tiny', ignore_testfailure=>1 }, #XXX-FIXME https://github.com/dagolden/Capture-Tiny/issues/29
-            qw/ IPC-Run3 IPC-System-Simple /,
+            qw/ Capture::Tiny IPC-Run3 IPC-System-Simple /,
 
             { module=>'LWP::UserAgent', skiptest=>1 }, # XXX-HACK: 6.08 is broken
 
@@ -119,8 +116,7 @@
             'ExtUtils::PkgConfig',
 
             # win32 related
-            { module=>'Win32API-Registry', ignore_testfailure=>1 }, #XXX-TODO: ! Testing Win32API-Registry-0.32 failed
-            { module=>'Win32-TieRegistry', ignore_testfailure=>1 }, #XXX-TODO: ! Testing Win32-TieRegistry-0.26 failed
+            qw/Win32API::Registry Win32::TieRegistry/,
             { module=>'Win32-OLE',         ignore_testfailure=>1 }, #XXX-TODO: ! Testing Win32-OLE-0.1711 failed
             { module=>'Win32::GuiTest',    skiptest=>1 },
             'http://strawberryperl.com/package/kmx/perl-modules-patched/Win32-API-0.80_patched.tar.gz', #XXX-TODO: ! new 32bit trouble with gcc-4.9
@@ -168,7 +164,7 @@
             qw/ DBI DBD-ODBC DBD-SQLite DBD-CSV DBD-ADO DBD-Pg DBIx-Simple /,
             { module=>'DBD-mysql', makefilepl_param=>'--mysql_config=mysql_config' },
             { module=>'DBD::Oracle', makefilepl_param=>'-V 12.1.0.2.0', env=>{ ORACLE_HOME=>'c:\ora12instant32' }, skiptest=>1 }, ## requires Oracle Instant Client 32bit!!!
-            { module=>'DBIx-Class', ignore_testfailure=>1 },    #XXX-TODO ! Testing DBIx-Class-0.08270 failed
+            qw/DBIx::Class/,
 
             # crypto related
             { module =>'Convert-PEM', ignore_testfailure=>1 },                                  #XXX-TODO ! Testing Convert-PEM-0.08 failed
