@@ -90,8 +90,6 @@
         exceptions => [
           # possible 'do' options: ignore_testfailure | skiptest | skip
           # e.g. { do=>'ignore_testfailure', distribution=>'ExtUtils-MakeMaker-6.72' },
-          { do=>'ignore_testfailure', distribution=>'CGI-Fast-2.02' },
-          { do=>'ignore_testfailure', distribution=>'CGI.pm-4.03' },
         ]
     },
     ### NEXT STEP ###########################
@@ -100,8 +98,7 @@
         modules => [
             # IPC related
             { module=>'IPC-Run', skiptest=>1 }, #XXX-FIXME trouble with 'Terminating on signal SIGBREAK(21)'
-            { module=>'Capture::Tiny', ignore_testfailure=>1 }, #XXX-FIXME https://github.com/dagolden/Capture-Tiny/issues/29
-            qw/ IPC-Run3 IPC-System-Simple /,
+            qw/ Capture::Tiny IPC-Run3 IPC-System-Simple /,
 
             { module=>'LWP::UserAgent', skiptest=>1 }, # XXX-HACK: 6.08 is broken
 
@@ -117,7 +114,7 @@
             'ExtUtils::PkgConfig',
 
             # win32 related
-            { module=>'Win32API-Registry', ignore_testfailure=>1 }, #XXX-TODO: ! Testing Win32API-Registry-0.32 failed
+            'Win32API-Registry',
             { module=>'Win32-TieRegistry', ignore_testfailure=>1 }, #XXX-TODO: ! Testing Win32-TieRegistry-0.26 failed
             { module=>'Win32-OLE',         ignore_testfailure=>1 }, #XXX-TODO: ! Testing Win32-OLE-0.1711 failed
             { module=>'Win32::GuiTest',    skiptest=>1 },
@@ -163,10 +160,9 @@
             qw/ Text-Diff Text-Patch Text::CSV Text::CSV_XS Tie::Array::CSV Excel::Writer::XLSX Spreadsheet::ParseXLSX Spreadsheet::WriteExcel Spreadsheet::ParseExcel /,
 
             # database stuff
-            qw/ DBI DBD-ODBC DBD-SQLite DBD-CSV DBD-ADO DBD-Pg DBIx-Simple /,
+            qw/ DBI DBD-ODBC DBD-SQLite DBD-CSV DBD-ADO DBD-Pg DBIx-Class DBIx-Simple /,
             { module=>'DBD-mysql', makefilepl_param=>'--mysql_config=mysql_config' },
             { module=>'DBD::Oracle', makefilepl_param=>'-V 12.1.0.2.0', env=>{ ORACLE_HOME=>'c:\ora12instant32' }, skiptest=>1 }, ## requires Oracle Instant Client 32bit!!!
-            { module=>'DBIx-Class', ignore_testfailure=>1 },    #XXX-TODO ! Testing DBIx-Class-0.08270 failed
 
             # crypto related
             { module =>'Convert-PEM', ignore_testfailure=>1 },                                  #XXX-TODO ! Testing Convert-PEM-0.08 failed
