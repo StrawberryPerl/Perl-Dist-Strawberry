@@ -66,7 +66,7 @@
     {
         plugin     => 'Perl::Dist::Strawberry::Step::InstallPerlCore',
         #url        => 'https://github.com/Perl/perl5/archive/blead.tar.gz',
-        url        => 'http://search.cpan.org/CPAN/authors/id/R/RJ/RJBS/perl-5.22.0-RC1.tar.gz',
+        url        => 'http://search.cpan.org/CPAN/authors/id/R/RJ/RJBS/perl-5.22.0-RC2.tar.gz',
         cf_email   => 'strawberry-perl@project', #IMPORTANT: keep 'strawberry-perl' before @
         perl_debug => 0,    # can be overridden by --perl_debug=N option
         perl_64bitint => 1, # ignored on 64bit, can be overridden by --perl_64bitint | --noperl_64bitint option
@@ -77,8 +77,6 @@
             '<dist_sharedir>/perl-5.22/perlexe.rc.tt'           => 'win32/perlexe.rc',
             '<dist_sharedir>/perl-5.22/win32_config_H.gc'       => 'win32/config_H.gc', # enables gdbm/ndbm/odbm
             '<dist_sharedir>/perl-5.22/win32_FindExt.pm'        => 'win32/FindExt.pm',  # enables gdbm/ndbm/odbm
-            '<dist_sharedir>/perl-5.22/win32_win32.c'           => 'win32/win32.c',
-            '<dist_sharedir>/perl-5.22/win32_win32.h'           => 'win32/win32.h',
         },
         license => { #SRC paths are relative to the perl src root
             'Readme'   => '<image_dir>/licenses/perl/Readme',
@@ -427,7 +425,7 @@
           },
           'http://search.cpan.org/CPAN/authors/id/C/CH/CHM/PDL-LinearAlgebra-0.08_03.tar.gz',
           ###XXX'PDL::Stats',
-          qw/ PDL::Graphics::Prima /,
+          { module=>'PDL::Graphics::Prima', ignore_testfailure => 1 },
           { module=>'PDL::Graphics::Gnuplot', skiptest=>1 },
         ],
     },
