@@ -185,7 +185,7 @@
             #{ module =>'Module::Signature', ignore_testfailure=>1 },
 
             # date/time
-            qw/ DateTime Date::Format /,
+            qw/ DateTime Date::Format DateTime::TimeZone::Local::Win32 /,
 
             # e-mail
             qw/ Email::MIME::Kit Email::Sender Email::Simple Email::Valid Email::Stuffer Mail::Send /,
