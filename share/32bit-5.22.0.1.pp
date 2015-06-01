@@ -122,6 +122,7 @@
             ###XXX Win32-Exe
             qw/ Win32-EventLog Win32-Process Win32-WinError Win32-File-Object Win32-UTCFileTime /,
             qw/ Win32-ShellQuote Win32::Console Win32::Console::ANSI Win32::Job Win32::Daemon Win32::ServiceManager Win32::Service /,
+            'http://strawberryperl.com/package/kmx/perl-modules-patched/Sys-Syslog-0.33_patched.tar.gz', #XXX-TODO
 
             # term related
             '<package_url>/kmx/perl-modules-patched/TermReadKey-2.31_patched.tar.gz', # https://metacpan.org/pod/Term::ReadKey https://rt.cpan.org/Ticket/Display.html?id=101933
@@ -185,7 +186,7 @@
             #{ module =>'Module::Signature', ignore_testfailure=>1 },
 
             # date/time
-            qw/ DateTime Date::Format /,
+            qw/ DateTime DateTime::Format::DateParse Date::Format /,
 
             # e-mail
             qw/ Email::MIME::Kit Email::Sender Email::Simple Email::Valid Email::Stuffer Mail::Send /,
@@ -411,7 +412,7 @@
           { module => 'Devel::REPL', ignore_testfailure => 1 },
           qw/Lexical::Persistence Astro::FITS::Header Astro::FITS::CFITSIO /,
           { module => 'Inline::C', ignore_testfailure => 1 },
-          { module => 'http://search.cpan.org/CPAN/authors/id/C/CH/CHM/PDL-2.007_17.tar.gz',
+          { module => 'PDL',
             #makefilepl_param => 'PDLCONF=<dist_sharedir>\pdl\perldl2.conf',
             ignore_testfailure => 1,
             env => {
