@@ -412,7 +412,7 @@
           { module => 'Devel::REPL', ignore_testfailure => 1 },
           qw/Lexical::Persistence Astro::FITS::Header Astro::FITS::CFITSIO /,
           { module => 'Inline::C', ignore_testfailure => 1 },
-          { module => 'PDL',
+          { module => 'http://search.cpan.org/CPAN/authors/id/C/CH/CHM/PDL-2.009_01.tar.gz',
             #makefilepl_param => 'PDLCONF=<dist_sharedir>\pdl\perldl2.conf',
             ignore_testfailure => 1,
             env => {
