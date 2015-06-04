@@ -1,6 +1,6 @@
 Changes for Perl extension Perl-Dist-Strawberry
 
-4.006   2015/05/XXX
+4.006   2015/06/04
         - fix for rt#82640 (#104467 portable.perl files contain duplicate entries)
         - used for building strawberry perl 5.22.0.1
 

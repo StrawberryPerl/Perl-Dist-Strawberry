@@ -66,7 +66,7 @@
     {
         plugin     => 'Perl::Dist::Strawberry::Step::InstallPerlCore',
         #url        => 'https://github.com/Perl/perl5/archive/blead.tar.gz',
-        url        => 'http://search.cpan.org/CPAN/authors/id/R/RJ/RJBS/perl-5.22.0-RC2.tar.gz',
+        url        => 'http://search.cpan.org/CPAN/authors/id/R/RJ/RJBS/perl-5.22.0.tar.gz',
         cf_email   => 'strawberry-perl@project', #IMPORTANT: keep 'strawberry-perl' before @
         perl_debug => 0,    # can be overridden by --perl_debug=N option
         perl_64bitint => 1, # ignored on 64bit, can be overridden by --perl_64bitint | --noperl_64bitint option
@@ -421,7 +421,7 @@
             },
           },
           'http://search.cpan.org/CPAN/authors/id/C/CH/CHM/PDL-LinearAlgebra-0.08_03.tar.gz',
-          ###XXX'PDL::Stats',
+          'http://strawberryperl.com/package/kmx/perl-modules-patched/PDL-Stats-0.6.5_patched.tar.gz', ###XXX
           { module=>'PDL::Graphics::Prima', ignore_testfailure => 1 },
           { module=>'PDL::Graphics::Gnuplot', skiptest=>1 },
         ],
