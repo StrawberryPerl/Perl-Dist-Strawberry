@@ -67,8 +67,7 @@
     {
         plugin     => 'Perl::Dist::Strawberry::Step::InstallPerlCore',
         #url        => 'https://github.com/Perl/perl5/archive/maint-5.20.tar.gz',
-        url        => 'http://search.cpan.org/CPAN/authors/id/S/SH/SHAY/perl-5.20.3-RC2.tar.gz',
-        #url        => 'http://search.cpan.org/CPAN/authors/id/S/SH/SHAY/perl-5.20.3.tar.gz',
+        url        => 'http://search.cpan.org/CPAN/authors/id/S/SH/SHAY/perl-5.20.3.tar.gz',
         cf_email   => 'strawberry-perl@project', #IMPORTANT: keep 'strawberry-perl' before @
         perl_debug => 0,    # can be overridden by --perl_debug=N option
         perl_64bitint => 1, # ignored on 64bit, can be overridden by --perl_64bitint | --noperl_64bitint option
@@ -88,14 +87,15 @@
             'Copying'  => '<image_dir>/licenses/perl/Copying',
         },
     },
-    ### NEXT STEP ###########################
-##    {
-##        plugin => 'Perl::Dist::Strawberry::Step::InstallModules',
-##        modules => [
-##          # here is a place to (re)install/(up/down)grade modules needed before 'Perl::Dist::Strawberry::Step::UpgradeCpanModules'
-##          # e.g. { install_to=>'perl', module=>'Module::Name' },
-##        ],
-##    },
+    # ### NEXT STEP ###########################
+    # {
+    #     plugin => 'Perl::Dist::Strawberry::Step::InstallModules',
+    #     modules => [
+    #       # here is a place to (re)install/(up/down)grade modules needed before 'Perl::Dist::Strawberry::Step::UpgradeCpanModules'
+    #       #{ install_to=>'perl', module=>'PJACKLAM/Math-BigInt-1.9997.tar.gz' },
+    #       #{ install_to=>'perl', module=>'PJACKLAM/Math-BigInt-FastCalc-0.31.tar.gz' },
+    #     ],
+    # },
     ### NEXT STEP ###########################
     {
         plugin => 'Perl::Dist::Strawberry::Step::UpgradeCpanModules',
@@ -105,6 +105,10 @@
           { do=>'ignore_testfailure', distribution=>'CGI-Fast-2.02' },
           { do=>'ignore_testfailure', distribution=>'CGI.pm-4.03' },
           { do=>'ignore_testfailure', distribution=>'Pod-Simple-3.31' },
+          # #XXX-FIXME
+          # { do=>'skip', distribution=>'Math-BigInt-1.999701' },
+          # { do=>'skip', distribution=>'Math-BigInt-FastCalc-0.32' },
+          # { do=>'skip', distribution=>'Math-BigRat-0.2608' },
         ]
     },
     ### NEXT STEP ###########################
@@ -206,7 +210,7 @@
             qw/ Email::MIME::Kit Email::Sender Email::Simple Email::Valid Email::Stuffer Mail::Send /,
             qw/ Net::SMTPS Net::SMTP Net::IMAP::Client Net::POP3 /,     #XXX-TODO Net::SSLGlue::POP3 broken, removed in 5.20.2
             #{ module=>'Net::DNS', ignore_testfailure=>1, makefilepl_param=>'--xs' }, # tests might fail due to network issues
-            { module=>'NLNETLABS/Net-DNS-0.83.tar.gz', ignore_testfailure=>1, makefilepl_param=>'--xs' },
+            { module=>'NLNETLABS/Net-DNS-1.01_05.tar.gz', ignore_testfailure=>1 },
 
             # graphics
             { module=>'GD', ignore_testfailure=>1 },                    #XXX-TODO ! Testing GD-2.53 failed
