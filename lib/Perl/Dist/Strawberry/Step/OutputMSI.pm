@@ -110,12 +110,12 @@ sub run {
   #XXX-FIXME -sice:ICE08|09|32|61 is a hack to handle:
   #light.exe : error LGHT0217 : Error executing ICE action 'ICE32'. The most common cause of this kind of ICE failure is an incorrectly registered
   #            scripting engine. See http://wix.sourceforge.net/faq.html#Error217 for details and how to solve this problem. The following string
-  #            format was not expected by the external UI message logger: "P˝i instalaci tohoto bal°üku zjistil instalaün° program neoüek†vanou
-  #            chybu. MÖße to znamenat, ße u tohoto bal°üku nastaly pot°ße. K¢d chyby je 2738. ".
+  #            format was not expected by the external UI message logger: "P≈ôi instalaci tohoto bal√≠ƒçku zjistil instalaƒçn√≠ program neoƒçek√°vanou
+  #            chybu. M≈Ø≈æe to znamenat, ≈æe u tohoto bal√≠ƒçku nastaly pot√≠≈æe. K√≥d chyby je 2738. ".
   #light.exe : error LGHT0217 : Error executing ICE action 'ICE08'. The most common cause of this kind of ICE failure is an incorrectly registered
   #            scripting engine. See http://wix.sourceforge.net/faq.html#Error217 for details and how to solve this problem. The following string
-  #            format was not expected by the external UI message logger: "P˝i instalaci tohoto bal°üku zjistil instalaün° program neoüek†vanou
-  #            chybu. MÖße to znamenat, ße u tohoto bal°üku nastaly pot°ße. K¢d chyby je 2738. ".
+  #            format was not expected by the external UI message logger: "P≈ôi instalaci tohoto bal√≠ƒçku zjistil instalaƒçn√≠ program neoƒçek√°vanou
+  #            chybu. M≈Ø≈æe to znamenat, ≈æe u tohoto bal√≠ƒçku nastaly pot√≠≈æe. K√≥d chyby je 2738. ".
   #light.exe : error LGHT0217 : Error executing ICE action 'ICE61'. The most common cause of this kind of ICE failure is an incorrectly registered
   #            scripting engine. See http://wix.sourceforge.net/faq.html#Error217 for details and how to solve this problem. The following string
   #            format was not expected by the external UI message logger: "The installer has encountered an unexpected error installing this 
