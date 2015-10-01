@@ -59,6 +59,7 @@ sub parse_options {
     'test_core!'        => \$self->global->{test_core},     #<flag>   default: 0 (0 = skip tests when installing perl core)
     'perl_debug=i'      => \$self->global->{perl_debug},    #<flag>   default: undef (0)
     'perl_64bitint!'    => \$self->global->{perl_64bitint}, #<flag>   default: undef (0)
+    'perl_ldouble!'     => \$self->global->{perl_ldouble},  #<flag>   default: undef (0)
     'verbosity=s'       => \$self->global->{verbosity},     #<level>  default: 2 (you can use values 1/silent to 5/verbose)
     'package_url=s'     => \$self->global->{package_url},   #<url>    default: http://strawberryperl.com/package/ (or use e.g. file://C|/pkgmirror/)
     'app_simplename=s'  => \$self->global->{app_simplename},#<name>   default: undef

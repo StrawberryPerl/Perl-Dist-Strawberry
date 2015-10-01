@@ -126,6 +126,10 @@ flag - default: 0 (0 = no debug, 1 = standard debug, 2 = separated .debug files 
 
 flag - default: 0 (1 = build perl core with USE_64BIT_INT / ignored on 64bit)
 
+=item B<-perl_ldouble>, B<-noperl_ldouble>
+
+flag - default: 0 (1 = build perl core with USE_LONG_DOUBLE)
+
 =item B<-app_simplename=name>, B<-app_fullname=name>, B<-beta=N>, 
 
 override job parameters: app_simplename, app_fullname, beta

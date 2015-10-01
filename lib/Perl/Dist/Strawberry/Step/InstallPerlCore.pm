@@ -102,6 +102,7 @@ sub run {
   
   # extract global settings passed from commandline
   my $dbg = defined $self->global->{perl_debug}    ? $self->global->{perl_debug}    : ($self->{config}->{perl_debug}    // 0);
+  my $uld = defined $self->global->{perl_ldouble}  ? $self->global->{perl_ldouble}  : ($self->{config}->{perl_ldouble}  // 0);
   my $u64 = defined $self->global->{perl_64bitint} ? $self->global->{perl_64bitint} : ($self->{config}->{perl_64bitint} // $self->{config}->{use_64_bit_int} // 0);
   # XXX use_64_bit_int is for backwards compatibility
 
@@ -122,6 +123,8 @@ sub run {
     
     # enable 64bit ints on 32bit perl
     push @make_args, 'USE_64_BIT_INT=define' if $u64 && $self->global->{bits} == 32;
+    # enable long doubles
+    push @make_args, 'USE_LONG_DOUBLE=define' if $uld;
     # enable BUILDOPTEXTRA
     push @make_args, "BUILDOPTEXTRA=$self->{config}->{buildoptextra}" if $self->{config}->{buildoptextra};
 
@@ -150,7 +153,7 @@ sub run {
 
     # Compile perl.
     my $rv;
-    $self->boss->message( 1, "Building perl $version (dbg=$dbg, u64=$u64)...\n" );
+    $self->boss->message( 1, "Building perl $version (dbg=$dbg, u64=$u64, uld=$uld)...\n" );
     $log = catfile($self->global->{debug_dir}, 'perl_dmake_all.log.txt');
 
     if ($self->global->{bits} == 64) {
