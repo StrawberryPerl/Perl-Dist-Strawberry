@@ -1,6 +1,17 @@
 BEWARE: Mostly unsorted ideas
 =============================
 
+###
++ Log::Log4perl
++ Time::Moment
+Reply
+Devel::NYTProf
+AnyEvent
+Type::Tiny
+Perl::Critic
+Devel::Cover
+App::PMUtils (too big)
+
 ### add some from: https://metacpan.org/pod/Bundle::libwin32
 
 ### upgrade to TermReadKey-2.32
