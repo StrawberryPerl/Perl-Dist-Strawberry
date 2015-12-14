@@ -3,7 +3,6 @@ BEWARE: Mostly unsorted ideas
 
 ###
 + Log::Log4perl
-+ Time::Moment
 Reply
 Devel::NYTProf
 AnyEvent
