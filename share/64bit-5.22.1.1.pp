@@ -423,7 +423,7 @@
               PLPLOT_DRV_DIR => '<image_dir>\c\share\plplot',
             },
           },
-          qw/ PDL::IO::CSV PDL::IO::DBI /; # PDL::IO::Image PDL::DateTime
+          qw/ PDL::IO::CSV PDL::IO::DBI /, # PDL::IO::Image PDL::DateTime
           qw/ PDL::LinearAlgebra PDL::Stats /,
           { module=>'PDL::Graphics::Prima', ignore_testfailure => 1 },
           { module=>'PDL::Graphics::Gnuplot', skiptest=>1 },
