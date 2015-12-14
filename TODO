@@ -13,8 +13,6 @@ App::PMUtils (too big)
 
 ### add some from: https://metacpan.org/pod/Bundle::libwin32
 
-### upgrade to TermReadKey-2.32
-
 ### add to after-QA:
 - OpenCL-patched
 - pkg-config
@@ -27,7 +25,7 @@ App::PMUtils (too big)
 
 ### set TERM= or set TERM=dumb ?
 
-### gdb (now included in PDL edition)
+### gdb
 - what about detached debug info?
 - http://stackoverflow.com/questions/866721/how-to-generate-gcc-debug-symbol-outside-the-build-target
 - http://marcioandreyoliveira.blogspot.cz/2008/03/how-to-load-debug-symbols-with-gdb.html

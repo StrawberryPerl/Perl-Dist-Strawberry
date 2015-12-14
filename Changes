@@ -1,5 +1,8 @@
 Changes for Perl extension Perl-Dist-Strawberry
 
+4.008   2015/????
+        - used for building strawberry perl 5.22.1.0
+
 4.007   2015/09/17
         - used for building strawberry perl 5.20.3.1
 
