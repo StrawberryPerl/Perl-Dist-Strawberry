@@ -2,6 +2,7 @@ BEWARE: Mostly unsorted ideas
 =============================
 
 ###
++ Net::DNS::Native
 + Log::Log4perl
 Reply
 Devel::NYTProf
