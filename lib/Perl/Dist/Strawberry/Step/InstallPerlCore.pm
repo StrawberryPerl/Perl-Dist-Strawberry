@@ -74,7 +74,7 @@ sub run {
   my $patch = $self->{config}->{patch};
   if ($patch) {
     while (my ($new, $dst) = each %$patch) {
-      $self->_patch_file($self->boss->resolve_name($new), catfile($unpack_to, $perlsrc, $dst), $tt_vars);
+      $self->_patch_file($self->boss->resolve_name($new), catfile($unpack_to, $perlsrc, $dst), catdir($unpack_to, $perlsrc), $tt_vars);
     }
   }
   

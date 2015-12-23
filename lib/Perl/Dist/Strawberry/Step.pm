@@ -12,7 +12,6 @@ use File::Copy             qw(copy);
 use Storable               qw(retrieve);
 use Template;
 use File::Slurp;
-use Text::Patch;
 use Text::Diff;
 use Win32;
 use Win32::File::Object;
@@ -188,7 +187,7 @@ sub _extract { #XXX-FIXME maybe remove leading _
     my @fl = @filelist = Archive::Tar->extract_archive( $from, 1 );
     @filelist = map { catfile( $to, $_ ) } @fl;
     die 'Error in archive extraction' if !@filelist;
-  } 
+  }
   elsif ( $from =~ /\.(tar\.xz|txz)$/ ) {
     # First attempt at trying to use .xz files. TODO: Improve.
     eval {
@@ -247,7 +246,7 @@ sub execute_standard {
   my $exit_code;
   my $rv = IPC::Run3::run3($cmd, \undef, $out, $err);
   $exit_code = $? if $rv;
-  $self->boss->message(4, "execute_standard exit_code=$exit_code\n");  
+  $self->boss->message(4, "execute_standard exit_code=$exit_code\n");
   return $exit_code;
 }
 
@@ -273,7 +272,7 @@ sub execute_special {
   my $rv = IPC::Run3::run3($cmd, \undef, $out, $err);
   $exit_code = $? if $rv;
   $self->boss->message(4, "execute_special exit_code=$exit_code\n");
-  
+
   return $exit_code;
 }
 
@@ -288,7 +287,7 @@ sub backup_file {
 }
 
 sub _patch_file {
-  my ($self, $new, $dst, $tt_vars, $no_backup) = @_;
+  my ($self, $new, $dst, $dir, $tt_vars, $no_backup) = @_;
 
   if (!-f $new) {
     warn "ERROR: non-existing file '$new'";
@@ -301,34 +300,42 @@ sub _patch_file {
     my $template = Template->new();
     write_file(catfile($self->global->{debug_dir}, 'TTvars_patch_file_'.time.'.txt'), pp($tt_vars)); #debug dump
     $template->process(\$indata, $tt_vars, \$outdata) || die $template->error();
-    
+
     my $r = $self->_unset_ro($dst);
     write_file($dst, $outdata);
     $self->_restore_ro($dst, $r);
-    
+
     write_file("$dst.diff", diff("$dst.backup", $dst)) if -f "$dst.backup";
   }
-  elsif ($new =~ /\.diff$/) {
+  elsif ($new =~ /\.(diff|patch)$/ && $dst =~ /\*$/) {
+    $self->boss->message(5, "_patch_file: applying DIFF on dir '$dir'\n");
+    #$self->_apply_patch($dir, $new);
+    {
+      my $wd = $self->_push_dir($dir);
+      system("patch -i $new -p1") == 0 or die "patch '$new' FAILED";
+    }
+  }
+  elsif ($new =~ /\.(diff|patch)$/) {
     $self->boss->message(5, "_patch_file: applying DIFF on '$dst'\n");
     copy($dst, "$dst.backup") if !$no_backup && -f $dst && !-f "$dst.backup";
     my $diff = read_file($new);
     my $indata = read_file($dst);
     my $outdata = patch($indata, $diff, STYLE=>"Unified");
-    
+
     my $r = $self->_unset_ro($dst);
     write_file($dst, $outdata);
     $self->_restore_ro($dst, $r);
-    
+
     write_file("$dst.diff", diff("$dst.backup", $dst)) if -f "$dst.backup";
   }
   else {
     $self->boss->message(5, "_patch_file: copying to '$dst'\n");
     copy($dst, "$dst.backup") if !$no_backup && -f $dst && !-f "$dst.backup";
-    
+
     my $r = $self->_unset_ro($dst);
     copy($new, $dst) or warn "ERROR: copy failed";
     $self->_restore_ro($dst, $r);
-    
+
     write_file("$dst.diff", diff("$dst.backup", $dst)) if -f "$dst.backup";
   }
 }
@@ -393,9 +400,9 @@ sub install_modlist {
       $success = 0;
     }
   }
-  
+
   $self->boss->message(2, "WARNING: empty distribution_list (that's not good)") unless scalar(@distlist_final)>0;
-  
+
   # store some output data
   $self->{data}->{output}->{distributions} = \@distlist_final;
 
@@ -423,7 +430,7 @@ sub _install_module {
   };
   # resolve macros in env{}
   if (defined $args{env} && ref $args{env} eq 'HASH') {
-    for my $var (keys %{$args{env}}) { 
+    for my $var (keys %{$args{env}}) {
       $env->{$var} = $self->boss->resolve_name($args{env}->{$var});
     }
   }
@@ -432,7 +439,7 @@ sub _install_module {
   $args{buildpl_param}    = $self->boss->resolve_name($args{buildpl_param}, 1)    if defined $args{buildpl_param};
   $args{module} = $self->boss->resolve_name($args{module});
   $args{module} =~ s|\\|/|g; # cpanm dislikes backslashes
-  
+
   my %params = ( '-url' => $self->global->{cpan_url}, '-install_to' => 'vendor', '-module' => $args{module} ); #XXX-TODO multiple modules?
   $params{'-out_dumper'}         = $dumper_file if $dumper_file;
   $params{'-out_nstore'}         = $nstore_file if $nstore_file;
@@ -445,7 +452,7 @@ sub _install_module {
   $params{'-interactivity'}      = $args{interactivity}      if defined $args{interactivity};
   $params{'-makefilepl_param'}   = $args{makefilepl_param}   if defined $args{makefilepl_param}; #XXX-TODO multiple args?
   $params{'-buildpl_param'}      = $args{buildpl_param}      if defined $args{buildpl_param};    #XXX-TODO multiple args?
-  
+
   # handle global test skip
   $params{'-skiptest'} = 1 unless $self->global->{test_modules};
   # Execute the module install script
@@ -456,6 +463,52 @@ sub _install_module {
   }
   my $data = retrieve($nstore_file) or die "ERROR: retrieve failed";
   return ($data->{installed}//[]), $rv;
+}
+
+# pure perl implementation of patch functionality
+sub _apply_patch {
+  my ($self, $dir_to_be_patched, $patch_file) = @_;
+  my ($src, $diff);
+
+  undef local $/;
+  open(DAT, $patch_file) or die "###ERROR### Cannot open file: '$patch_file'\n";
+  $diff = <DAT>;
+  close(DAT);
+  $diff =~ s/\r\n/\n/g; #normalise newlines
+  $diff =~ s/\ndiff /\nSpLiTmArKeRdiff /g;
+  my @patches = split('SpLiTmArKeR', $diff);
+
+  print STDERR "Applying patch file: '$patch_file'\n";
+  foreach my $p (@patches) {
+    next if $p =~ /^>From [0-9a-f]{40} /; #git intro
+    my ($old, $new) = $p =~ /\n---\s*(.+?)\n\+\+\+\s*(.+?)\n/s;
+    warn "SKIP: not a patch\n" and next unless defined $old && defined $new;
+    my $k = $old ne '/dev/null' ? $old : $new;
+    # doing the same like -p1 for 'patch'
+    $k =~ s|\\|/|g;
+    $k =~ s|^[^/]*/(.*)$|$1|;
+    $k = catfile($dir_to_be_patched, $k);
+    print STDERR "- gonna patch '$k'\n";
+
+    $src = "";
+    if (-f $k) {
+       open(SRC, $k) or die "###ERROR### Cannot open file: '$k'\n";
+       $src = <SRC>;
+       close(SRC);
+       $src =~ s/\r\n/\n/g; #normalise newlines
+    }
+
+    require Text::Patch;
+    my $out = eval { Text::Patch::patch( $src, $p, { STYLE => "Unified" } ) };
+    if ($out) {
+      open(OUT, ">", $k) or die "###ERROR### Cannot open file for writing: '$k'\n";
+      print(OUT $out);
+      close(OUT);
+    }
+    else {
+      warn "###WARN### Patching '$k' failed: $@";
+    }
+  }
 }
 
 1;
