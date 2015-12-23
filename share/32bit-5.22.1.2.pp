@@ -72,9 +72,6 @@
         perl_64bitint => 1, # ignored on 64bit, can be overridden by --perl_64bitint | --noperl_64bitint option
         #buildoptextra => '-D__USE_MINGW_ANSI_STDIO',
         patch => { #DST paths are relative to the perl src root
-            #'<dist_sharedir>/perl-5.22/CVE-2015-8607-1.patch'   => '*',
-            #'<dist_sharedir>/perl-5.22/CVE-2015-8607-2.patch'   => '*',
-            '<dist_sharedir>/perl-5.22/CVE-2015-8608.patch'     => '*',
             '<dist_sharedir>/msi/files/perlexe.ico'             => 'win32/perlexe.ico',
             '<dist_sharedir>/perl-5.22/win32_config.gc.tt'      => 'win32/config.gc',
             '<dist_sharedir>/perl-5.22/perlexe.rc.tt'           => 'win32/perlexe.rc',
