@@ -72,6 +72,7 @@
         perl_64bitint => 1, # ignored on 64bit, can be overridden by --perl_64bitint | --noperl_64bitint option
         #buildoptextra => '-D__USE_MINGW_ANSI_STDIO',
         patch => { #DST paths are relative to the perl src root
+            '<dist_sharedir>/perl-5.22/perl-5.22.1-CVE-2015-8608.patch' => '*',
             '<dist_sharedir>/msi/files/perlexe.ico'             => 'win32/perlexe.ico',
             '<dist_sharedir>/perl-5.22/win32_config.gc.tt'      => 'win32/config.gc',
             '<dist_sharedir>/perl-5.22/perlexe.rc.tt'           => 'win32/perlexe.rc',
@@ -185,6 +186,7 @@
             # tests fail on 5.18.x
             { module =>'Crypt::OpenPGP' },
             { module =>'<package_url>/kmx/perl-modules-patched/Module-Signature-0.79_patched.tar.gz' },
+            #XXX-CHECK https://rt.cpan.org/Public/Bug/Display.html?id=108377 https://metacpan.org/release/Module-Signature
 
             # date/time
             qw/ DateTime Date::Format DateTime::Format::DateParse DateTime::TimeZone::Local::Win32 Time::Moment /,
