@@ -10,7 +10,6 @@
 [%-END%]
 
 <link rel="shortcut icon" type="image/vnd.microsoft.icon" href="http://strawberryperl.com/favicon.ico">
-<link rel="stylesheet" type="text/css" href="http://strawberryperl.com/common.css">
 <link rel="stylesheet" type="text/css" href="http://strawberryperl.com/main.css">
 
 <style>
@@ -41,7 +40,7 @@
 [%-ELSE%]
 <h2>Strawberry Perl ([%app_version%]-beta[%beta%]-[%bits%]bit) Release Notes</h2>
 [%-END%]
-<p><i>Released: [%release_date%]/ with support of our sponsor <a href="http://XXXX">XXXX</a></i></p>
+<p><i>Released: [%release_date%] / with support of our sponsor <a href="http://www.enlightenedperl.org">Enlightened Perl Organisation</a></i></p>
 <p>Check out what is new, what known issues there are, and frequently asked questions about this version of Strawberry Perl. As always, you're encouraged to tell us what you think.</p>
 
 <h3>What's new in this Strawberry Perl release: <span class="switch"><a href="javascript:unhide('whatsnew', 'whatsnew_switch')" id="whatsnew_switch">Collapse</a><br /></span>
@@ -50,6 +49,20 @@
 <ul>
 <li>XXX-TODO Put blurb here.</li>
 <li>XXX-TODO Put blurb here.</li>
+<li>There is a special portable version with extra math related libraries and pre-installed <a href="http://pdl.perl.org">PDL</a> -
+<a href="http://strawberryperl.com/download/[%app_version%]/strawberry-perl-[%app_version%]-[%bits%]bit-PDL.zip">strawberry-perl-[%app_version%]-[%bits%]bit-PDL.zip</a></li>
+[%-IF bits==32 -%]
+<li>32bit Strawberry Perl is compiled <strong>with USE_64_BIT_INT enabled</strong> but there exists a version <strong>without USE_64_BIT_INT</strong> -
+<a href="http://strawberryperl.com/download/[%app_version%]/strawberry-perl-no64-[%app_version%]-32bit.zip">ZIP</a> and
+<a href="http://strawberryperl.com/download/[%app_version%]/strawberry-perl-no64-[%app_version%]-32bit-portable.zip">Portable ZIP</a></li>
+[%-END%]
+</ul>
+Bundled database clients:
+<ul>
+<li>MySQL: <a href="https://metacpan.org/pod/DBD::mysql">DBD::mysql</a> - works out of box</li>
+<li>PostgreSQL: <a href="https://metacpan.org/pod/DBD::Pg">DBD::Pg</a> - works out of box</li>
+<li>Oracle: <a href="https://metacpan.org/pod/DBD::Oracle">DBD::Oracle</a> - install [%bits%]bit Oracle Instant Client 12.x and make sure you have OCI.DLL in your PATH</li>
+<li>MS SQL: <a href="https://metacpan.org/pod/DBD::ODBC">DBD::ODBC</a> - install SQL Server ODBC client</li>
 </ul>
 </div>
 
@@ -59,6 +72,7 @@
 <ul>
 <li>XXX-TODO Put issues here.</li>
 <li>XXX-TODO Put issues here.</li>
+<li>MSI package is not signed</li>
 </ul>
 </div>
 

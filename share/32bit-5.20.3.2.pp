@@ -6,7 +6,7 @@
 # <image_dir>     is placeholder for c:\strawberry
 
 {
-  app_version     => '5.20.3.1', #BEWARE: do not use '.0.0' in the last two version digits
+  app_version     => '5.20.3.2', #BEWARE: do not use '.0.0' in the last two version digits
   bits            => 32,
   beta            => 0,
   app_fullname    => 'Strawberry Perl',
@@ -101,6 +101,7 @@
     {
         plugin => 'Perl::Dist::Strawberry::Step::InstallModules',
         modules => [
+            '<package_url>/kmx/perl-modules-patched/PathTools-3.60_patched.tar.gz', #XXX-CHECK CVE-2015-8607 https://metacpan.org/release/PathTools
             # IPC related
             { module=>'IPC-Run', skiptest=>1 }, #XXX-FIXME trouble with 'Terminating on signal SIGBREAK(21)'
             { module=>'Capture::Tiny', ignore_testfailure=>1 }, #XXX-FIXME https://github.com/dagolden/Capture-Tiny/issues/29
@@ -184,7 +185,7 @@
             qw/ Digest-MD2 Digest-MD5 Digest-SHA Digest-SHA1 Crypt::RIPEMD160 Digest::Whirlpool Digest::HMAC Digest::CMAC /,
             'Alt::Crypt::RSA::BigInt',                                                          #XXX-TODO: a hack Crypt-RSA without Math::PARI - https://metacpan.org/release/Crypt-RSA
             qw/ Crypt-DSA Crypt::DSA::GMP /,
-            qw/ Crypt::Random /, #fails on 64bit
+            { module=>'Crypt::Random', ignore_testfailure=>1 }, #fails on 64bit + https://rt.cpan.org/Public/Bug/Display.html?id=99880
 
             # tests fail on 5.18.x
             { module =>'Crypt::OpenPGP' },
