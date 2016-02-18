@@ -98,7 +98,6 @@
     {
         plugin => 'Perl::Dist::Strawberry::Step::InstallModules',
         modules => [
-            '<package_url>/kmx/perl-modules-patched/PathTools-3.60_patched.tar.gz', #XXX-CHECK CVE-2015-8607 https://metacpan.org/release/PathTools
             # IPC related
             { module=>'IPC-Run', skiptest=>1 }, #XXX-FIXME trouble with 'Terminating on signal SIGBREAK(21)'
             { module=>'Capture::Tiny', ignore_testfailure=>1 }, #XXX-FIXME https://github.com/dagolden/Capture-Tiny/issues/29
