@@ -113,6 +113,10 @@
             { module=>'B::Lint', ignore_testfailure=>1 }, #XXX-TODO https://rt.cpan.org/Public/Bug/Display.html?id=101115
             qw/ Archive::Extract CPANPLUS CPANPLUS::Dist::Build File::CheckTree Log::Message Module::Pluggable Object::Accessor Text::Soundex Term::UI Pod::LaTeX Tree::DAG_Node /,
 
+            # YAML, JSON & co.
+            { module=>'Cpanel::JSON::XS', ignore_testfailure=>1 }, #XXX-TODO https://github.com/rurban/Cpanel-JSON-XS/issues/57
+            qw/ JSON JSON::XS JSON::MaybeXS YAML YAML::Tiny YAML::XS /,
+
             # pkg-config related
             { module=>'PkgConfig', makefilepl_param=>'--script=pkg-config' },
             'ExtUtils::PkgConfig',
@@ -166,7 +170,8 @@
 
             # database stuff
             qw/ DBI DBD-ODBC DBD-SQLite DBD-CSV DBD-ADO DBIx-Class DBIx-Simple /,
-            { module=>'DBD::Pg' }, #XXX-TODO fails with -D__USE_MINGW_ANSI_STDIO (e.g. long double build)
+            #XXX-TODO DBD::Pg fails with -D__USE_MINGW_ANSI_STDIO (e.g. long double build)
+            ( $ENV{SKIP_LD_TROUBLE_MAKERS} ? () : ('DBD::Pg') ),
             { module=>'DBD::mysql', makefilepl_param=>'--mysql_config=mysql_config' },
             { module=>'DBD::Oracle', makefilepl_param=>'-V 12.1.0.2.0', env=>{ ORACLE_HOME=>'c:\ora12instant32' }, skiptest=>1 }, ## requires Oracle Instant Client 32bit!!!
 
@@ -210,9 +215,6 @@
             { module=>'Log::Report', ignore_testfailure=>1 },           #XXX_TODO fails on 5.19.11
             qw/ SOAP-Lite /,
             #qw/ XML::Compile::SOAP12 XML::Compile::SOAP11 XML::Compile::WSDL11 /,
-
-            # YAML, JSON & co.
-            qw/ JSON JSON::XS Cpanel::JSON::XS JSON::MaybeXS YAML YAML::Tiny YAML::XS /,
 
             # utils
             qw/ App::cpanminus App::cpanoutdated App::pmuninstall pler App-local-lib-Win32Helper App-module-version /,
