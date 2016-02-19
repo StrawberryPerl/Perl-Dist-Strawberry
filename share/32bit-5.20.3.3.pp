@@ -6,7 +6,7 @@
 # <image_dir>     is placeholder for c:\strawberry
 
 {
-  app_version     => '5.20.3.2', #BEWARE: do not use '.0.0' in the last two version digits
+  app_version     => '5.20.3.3', #BEWARE: do not use '.0.0' in the last two version digits
   bits            => 32,
   beta            => 0,
   app_fullname    => 'Strawberry Perl',
@@ -44,7 +44,7 @@
             'liblibxslt'    => '<package_url>/kmx/32_libs/gcc48-2015Q1/32bit_libxslt-1.1.28-bin_20150126.zip',
             'libmpc'        => '<package_url>/kmx/32_libs/gcc48-2015Q1/32bit_mpc-1.0.2-bin_20150126.zip',
             'libmpfr'       => '<package_url>/kmx/32_libs/gcc48-2015Q1/32bit_mpfr-3.1.2-bin_20150126.zip',
-            'libopenssl'    => '<package_url>/kmx/32_libs/gcc48-2015Q4/32bit_openssl-1.0.2e-bin_20151223.zip',
+            'libopenssl'    => '<package_url>/kmx/32_libs/gcc48-2016Q1/32bit_openssl-1.0.2f-bin_20160218.zip',
             'libpostgresql' => '<package_url>/kmx/32_libs/gcc48-2015Q1/32bit_postgresql-9.4.1-bin_20150207.zip',
             'libt1lib'      => '<package_url>/kmx/32_libs/gcc48-2015Q1/32bit_t1lib-5.1.2-bin_20150126.zip',
             'libtiff'       => '<package_url>/kmx/32_libs/gcc48-2015Q1/32bit_tiff-4.0.3-bin_20150126.zip',
@@ -74,6 +74,7 @@
         #buildoptextra => '-D__USE_MINGW_ANSI_STDIO',
         patch => { #DST paths are relative to the perl src root
             '<dist_sharedir>/perl-5.20/perl-5.20.3-CVE-2015-8608.patch' => '*',
+            '<dist_sharedir>/perl-5.20/perl-5.20.3-CVE-2016-2381.patch' => '*',
             '<dist_sharedir>/msi/files/perlexe.ico'             => 'win32/perlexe.ico',
             '<dist_sharedir>/perl-5.20/win32_config.gc.tt'      => 'win32/config.gc',
             '<dist_sharedir>/perl-5.20/perlexe.rc.tt'           => 'win32/perlexe.rc',
