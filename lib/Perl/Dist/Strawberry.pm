@@ -17,9 +17,7 @@ use File::ShareDir        qw();
 use Pod::Usage            qw(pod2usage);
 use LWP::UserAgent;
 
-# following recommendation from http://www.dagolden.com/index.php/369/version-numbers-should-be-boring/
-our $VERSION = "4.010";
-$VERSION = eval $VERSION;
+our $VERSION = '4.010';
 
 sub new {
   my $class = shift;
