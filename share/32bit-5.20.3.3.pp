@@ -44,7 +44,7 @@
             'liblibxslt'    => '<package_url>/kmx/32_libs/gcc48-2015Q1/32bit_libxslt-1.1.28-bin_20150126.zip',
             'libmpc'        => '<package_url>/kmx/32_libs/gcc48-2015Q1/32bit_mpc-1.0.2-bin_20150126.zip',
             'libmpfr'       => '<package_url>/kmx/32_libs/gcc48-2015Q1/32bit_mpfr-3.1.2-bin_20150126.zip',
-            'libopenssl'    => '<package_url>/kmx/32_libs/gcc48-2016Q1/32bit_openssl-1.0.2f-bin_20160218.zip',
+            'libopenssl'    => '<package_url>/kmx/32_libs/gcc48-2016Q1/32bit_openssl-1.0.2g-bin_20160306.zip',
             'libpostgresql' => '<package_url>/kmx/32_libs/gcc48-2015Q1/32bit_postgresql-9.4.1-bin_20150207.zip',
             'libt1lib'      => '<package_url>/kmx/32_libs/gcc48-2015Q1/32bit_t1lib-5.1.2-bin_20150126.zip',
             'libtiff'       => '<package_url>/kmx/32_libs/gcc48-2015Q1/32bit_tiff-4.0.3-bin_20150126.zip',
