@@ -431,7 +431,11 @@ sub _install_module {
   # resolve macros in env{}
   if (defined $args{env} && ref $args{env} eq 'HASH') {
     for my $var (keys %{$args{env}}) {
-      $env->{$var} = $self->boss->resolve_name($args{env}->{$var});
+      if ($var eq 'HARNESS_SKIP') { #should leave as is, RT#113182
+        $env->{$var} = $args{env}->{$var};
+      } else {
+        $env->{$var} = $self->boss->resolve_name($args{env}->{$var});
+      }
     }
   }
   # resolve macros (with skip canonpath)
