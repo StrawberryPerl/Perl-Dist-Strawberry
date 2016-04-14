@@ -191,7 +191,7 @@
 
             # tests fail on 5.18.x
             { module =>'Crypt::OpenPGP' },
-            { module =>'<package_url>/kmx/perl-modules-patched/Module-Signature-0.79_patched.tar.gz' },
+            #{ module =>'<package_url>/kmx/perl-modules-patched/Module-Signature-0.79_patched.tar.gz' },
             #XXX-CHECK https://rt.cpan.org/Public/Bug/Display.html?id=108377 https://metacpan.org/release/Module-Signature
 
             # date/time
