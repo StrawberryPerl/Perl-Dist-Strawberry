@@ -65,7 +65,7 @@
     ### NEXT STEP ###########################
     {
         plugin     => 'Perl::Dist::Strawberry::Step::InstallPerlCore',
-        url        => 'http://search.cpan.org/CPAN/authors/id/S/SH/SHAY/perl-5.22.2-RC1.tar.gz',
+        url        => 'http://search.cpan.org/CPAN/authors/id/S/SH/SHAY/perl-5.22.2.tar.gz',
         cf_email   => 'strawberry-perl@project', #IMPORTANT: keep 'strawberry-perl' before @
         perl_debug => 0,    # can be overridden by --perl_debug=N option
         perl_64bitint => 1, # ignored on 64bit, can be overridden by --perl_64bitint | --noperl_64bitint option
@@ -145,7 +145,7 @@
 
             # math related
             qw/ Math-Round Math-BigInt-GMP Math-GMP Math-MPFR Math-MPC /,
-            #qw/ Math::Pari /, # fails on 64bit
+            #{ module=>'Math::Pari', ignore_testfailure=>1 }, # fails on 64bit
             qw/ ExtUtils::F77 /,
 
             # SSL & SSH & telnet
@@ -215,7 +215,8 @@
             #qw/ XML::Compile::SOAP12 XML::Compile::SOAP11 XML::Compile::WSDL11 /,
 
             # utils
-            qw/ App::cpanminus App::cpanoutdated App::pmuninstall pler App-local-lib-Win32Helper App-module-version /,
+            qw/ App::cpanminus App::cpanoutdated App::pmuninstall pler App-module-version /,
+            'http://cpan.metacpan.org/authors/id/K/KM/KMX/App-local-lib-Win32Helper-0.992.tar.gz', #XXX-TODO patched version
 
             # par & ppm
             qw/ PAR PAR::Dist::FromPPD PAR::Dist::InstallPPD PAR::Repository::Client /,
