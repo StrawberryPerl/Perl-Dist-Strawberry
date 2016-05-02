@@ -1,5 +1,8 @@
 Changes for Perl extension Perl-Dist-Strawberry
 
+4.011   2016/05/02
+        - used for building strawberry perl 5.22.2.1
+
 4.010   2016/04/14
         - used for building strawberry perl 5.22.1.3 + 5.20.3.3
         - fix: environment variable HARNESS_SKIP should not be modified
