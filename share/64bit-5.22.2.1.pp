@@ -144,6 +144,7 @@
             qw/ IO::All Path::Tiny Path::Class /,
 
             # math related
+            { module=>'Devel::CheckLib', ignore_testfailure=>1 }, #XXX-TODO: Devel-CheckLib-1.07 fails (Could not remove assertlib3G0GLdko.exe: Permission denied)
             qw/ Math-Round Math-BigInt-GMP Math-GMP Math-MPFR Math-MPC /,
             #{ module=>'Math::Pari', ignore_testfailure=>1 }, # fails on 64bit
             qw/ ExtUtils::F77 /,
