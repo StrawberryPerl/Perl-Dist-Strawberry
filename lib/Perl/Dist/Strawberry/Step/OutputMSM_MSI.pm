@@ -297,7 +297,7 @@ sub _prepare_marked_tree {
 
   $self->boss->message(3, "generate tree - started (takes some time)");
   my $t = $self->_generate_tree($rootdir);  
-  $self->boss->message(3, "generate tree - items=", scalar(keys $self->{global_hash}));
+  $self->boss->message(3, "generate tree - items=", scalar(keys %{$self->{global_hash}}));
   
   # by default all go to MSM
   $self->_mark_tree($t, 'MSM');
@@ -306,10 +306,10 @@ sub _prepare_marked_tree {
   my @e;
   for my $i (@{$self->{config}->{exclude_msm}}) {
     if (ref($i) eq 'Regexp') {
-      push @e, grep {/$i/} (keys $self->{global_hash});
+      push @e, grep {/$i/} (keys %{$self->{global_hash}});
     }
     else {
-      push @e, grep {lc($_) eq lc($i)} (keys $self->{global_hash});
+      push @e, grep {lc($_) eq lc($i)} (keys %{$self->{global_hash}});
     }
   }
   $self->_mark_tree($self->{global_hash}->{$_}, 'MSI') for (@e);
@@ -318,10 +318,10 @@ sub _prepare_marked_tree {
   my @s;
   for my $i (@{$self->{config}->{exclude}}) {
     if (ref($i) eq 'Regexp') {
-      push @s, grep {/$i/} (keys $self->{global_hash});
+      push @s, grep {/$i/} (keys %{$self->{global_hash}});
     }
     else {
-      push @s, grep {lc($_) eq lc($i)} (keys $self->{global_hash});
+      push @s, grep {lc($_) eq lc($i)} (keys %{$self->{global_hash}});
     }
   }
   $self->_mark_tree($self->{global_hash}->{$_}, 'EXCLUDE') for (@s);
