@@ -418,7 +418,7 @@
         modules => [
           'DROLSKY/Params-Validate-1.26.tar.gz', #XXX-HACK https://rt.cpan.org/Public/Bug/Display.html?id=118103
           { module => 'Devel::REPL', ignore_testfailure => 1 },
-          qw/Lexical::Persistence Astro::FITS::Header /, #XXX-NEW-FAILURE Astro::FITS::CFITSIO
+          qw/Lexical::Persistence Astro::FITS::Header /, #XXX-NEW-FAILURE Astro::FITS::CFITSIO https://rt.cpan.org/Public/Bug/Display.html?id=118394
           { module => 'Inline::C', ignore_testfailure => 1 },
           { module => 'PDL',
             #makefilepl_param => 'PDLCONF=<dist_sharedir>\pdl\perldl2.conf',
