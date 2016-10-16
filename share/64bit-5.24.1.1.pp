@@ -408,7 +408,7 @@
             'netcdf'        => '<package_url>/kmx/64_libs/gcc49-2015Q2/64bit_netcdf-4.3.2-bin_20150519.zip',
             'gsl'           => '<package_url>/kmx/64_libs/gcc49-2015Q2/64bit_gsl-1.16-bin_20150519.zip',
             'lapack'        => '<package_url>/kmx/64_libs/gcc49-2015Q2/64bit_lapack-3.5.0-bin_20150519.zip',
-            'cfitsio'       => '<package_url>/kmx/64_libs/gcc49-2016Q2/64bit_cfitsio-3.38-bin_20160509.zip',
+            'cfitsio'       => '<package_url>/kmx/64_libs/gcc49-2016Q4/64bit_cfitsio-3.39-bin_20161015.zip',
         },
     },
     ### NEXT STEP ###########################
@@ -419,7 +419,7 @@
         modules => [
           'DROLSKY/Params-Validate-1.26.tar.gz', #XXX-HACK https://rt.cpan.org/Public/Bug/Display.html?id=118103
           { module => 'Devel::REPL', ignore_testfailure => 1 },
-          qw/Lexical::Persistence Astro::FITS::Header /, #XXX-NEW-FAILURE Astro::FITS::CFITSIO https://rt.cpan.org/Public/Bug/Display.html?id=118394
+          qw/Lexical::Persistence Astro::FITS::Header Astro::FITS::CFITSIO/,
           { module => 'Inline::C', ignore_testfailure => 1 },
           { module => 'PDL',
             #makefilepl_param => 'PDLCONF=<dist_sharedir>\pdl\perldl2.conf',
