@@ -15,7 +15,8 @@ set PERL5OPT=
 set PERL_MM_OPT=
 set PERL_MB_OPT=
 
-if not #%1# == ## "%drivep%\perl\bin\perl.exe" %* & goto END
+if "%1" == "/SETENV" goto END
+if not "%1" == "" "%drivep%\perl\bin\perl.exe" %* & goto END
 
 echo ----------------------------------------------
 echo  Welcome to Strawberry Perl Portable Edition!
