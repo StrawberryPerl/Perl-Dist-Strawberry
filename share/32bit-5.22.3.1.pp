@@ -99,8 +99,8 @@
         plugin => 'Perl::Dist::Strawberry::Step::InstallModules',
         modules => [
             # IPC related
-            { module=>'IPC-Run', skiptest=>1 }, #XXX-FIXME trouble with 'Terminating on signal SIGBREAK(21)' https://metacpan.org/release/IPC-Run
-            { module=>'Capture::Tiny', ignore_testfailure=>1 }, #XXX-FIXME https://github.com/dagolden/Capture-Tiny/issues/29
+            { module=>'IPC-Run', skiptest=>1 }, #XXX-TODO trouble with 'Terminating on signal SIGBREAK(21)' https://metacpan.org/release/IPC-Run
+            { module=>'Capture::Tiny', ignore_testfailure=>1 }, #XXX-TODO https://github.com/dagolden/Capture-Tiny/issues/29
             qw/ IPC-Run3 IPC-System-Simple /,
 
             { module=>'LWP::UserAgent', skiptest=>1 }, # XXX-HACK: 6.08 is broken
@@ -130,7 +130,7 @@
             'Win32::Exe',
             qw/ Win32-EventLog Win32-Process Win32-WinError Win32-File-Object Win32-UTCFileTime /,
             qw/ Win32-ShellQuote Win32::Console Win32::Console::ANSI Win32::Job Win32::Daemon Win32::ServiceManager Win32::Service /,
-            '<package_url>/kmx/perl-modules-patched/Sys-Syslog-0.33_patched.tar.gz', #XXX-XXX https://rt.cpan.org/Public/Bug/Display.html?id=104710
+            qw/ Sys::Syslog /,
 
             # term related
             qw/ Term::ReadKey /,
@@ -146,6 +146,7 @@
             qw/ IO::All Path::Tiny Path::Class /,
 
             # math related
+            { module=>'Devel::CheckLib', ignore_testfailure=>1 }, #XXX-TODO: Devel-CheckLib-1.07 fails (Could not remove assertlib3G0GLdko.exe: Permission denied)
             qw/ Math-Round Math-BigInt-GMP Math-GMP Math-MPFR Math-MPC /,
             { module=>'Math::Pari', ignore_testfailure=>1 }, # fails on 64bit
             qw/ ExtUtils::F77 /,
@@ -181,7 +182,7 @@
 
             # crypto
             qw/ Crypt::OpenSSL::Bignum Crypt::OpenSSL::Random Crypt-OpenSSL-RSA Crypt::OpenSSL::DSA Crypt::OpenSSL::X509 /,
-            'KMX/Crypt-OpenSSL-AES-0.03.tar.gz',      #XXX-CHECK patched https://metacpan.org/pod/Crypt::OpenSSL::AES  https://rt.cpan.org/Public/Bug/Display.html?id=77605
+            'KMX/Crypt-OpenSSL-AES-0.03.tar.gz',      #XXX-FIXME patched https://metacpan.org/pod/Crypt::OpenSSL::AES  https://rt.cpan.org/Public/Bug/Display.html?id=77605
             #Crypt-SMIME ?
             qw/ Crypt::CBC Crypt::Blowfish Crypt::CAST5_PP Crypt::DES Crypt::DES_EDE3 Crypt::DSA Crypt::IDEA Crypt::Rijndael Crypt::Twofish Crypt::Serpent Crypt::RC6 /,
             qw/ Digest-MD2 Digest-MD5 Digest-SHA Digest-SHA1 Crypt::RIPEMD160 Digest::Whirlpool Digest::HMAC Digest::CMAC /,
@@ -191,8 +192,7 @@
 
             # tests fail on 5.18.x
             { module =>'Crypt::OpenPGP' },
-            #{ module =>'<package_url>/kmx/perl-modules-patched/Module-Signature-0.79_patched.tar.gz' },
-            #XXX-CHECK https://rt.cpan.org/Public/Bug/Display.html?id=108377 https://metacpan.org/release/Module-Signature
+            #qw/ Module::Signature /, #XXX-TODO still not able to properly handle CRLF - https://metacpan.org/release/Module-Signature
 
             # date/time
             qw/ DateTime Date::Format DateTime::Format::DateParse DateTime::TimeZone::Local::Win32 Time::Moment /,
@@ -219,7 +219,7 @@
             # utils
             { module=>'Test::Script', ignore_testfailure=>1 },           #XXX_TODO https://github.com/plicease/Test-Script/issues/8
             qw/ App::cpanminus App::cpanoutdated App::pmuninstall pler App-module-version /,
-            'http://cpan.metacpan.org/authors/id/K/KM/KMX/App-local-lib-Win32Helper-0.992.tar.gz', #XXX-TODO patched version
+            'KMX/App-local-lib-Win32Helper-0.992.tar.gz', #XXX-FIXME patched version
 
             # par & ppm
             qw/ PAR PAR::Dist::FromPPD PAR::Dist::InstallPPD PAR::Repository::Client /,
@@ -416,7 +416,7 @@
         plugin => 'Perl::Dist::Strawberry::Step::InstallModules',
         # modules specific to PDL edition
         modules => [
-          'DROLSKY/Params-Validate-1.26.tar.gz', #XXX-HACK https://rt.cpan.org/Public/Bug/Display.html?id=118103
+          'DROLSKY/Params-Validate-1.26.tar.gz', #XXX-FIXME https://rt.cpan.org/Public/Bug/Display.html?id=118103
           { module => 'Devel::REPL', ignore_testfailure => 1 },
           qw/Lexical::Persistence Astro::FITS::Header Astro::FITS::CFITSIO/,
           { module => 'Inline::C', ignore_testfailure => 1 },
