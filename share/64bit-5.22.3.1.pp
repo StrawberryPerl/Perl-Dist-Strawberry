@@ -218,8 +218,7 @@
 
             # utils
             { module=>'Test::Script', ignore_testfailure=>1 },           #XXX_TODO https://github.com/plicease/Test-Script/issues/8
-            qw/ App::cpanminus App::cpanoutdated App::pmuninstall pler App-module-version /,
-            'KMX/App-local-lib-Win32Helper-0.992.tar.gz', #XXX-FIXME patched version
+            qw/ App::cpanminus App::cpanoutdated App::pmuninstall pler App-module-version App-local-lib-Win32Helper /,
 
             # par & ppm
             qw/ PAR PAR::Dist::FromPPD PAR::Dist::InstallPPD PAR::Repository::Client /,
