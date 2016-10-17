@@ -224,7 +224,7 @@
             qw/ PAR PAR::Dist::FromPPD PAR::Dist::InstallPPD PAR::Repository::Client /,
             # The build path in ppm.xml is derived from $ENV{TMP}. So set TMP to a dedicated location inside of the
             # distribution root to prevent it being locked to the temp directory of the build machine.
-            { module=>'<package_url>/kmx/perl-modules-patched/PPM-11.11_03.tar.gz', env=>{ TMP=>'<image_dir>\ppm' } },
+            { module=>'<package_url>/kmx/perl-modules-patched/PPM-11.11_03.tar.gz', env=>{ TMP=>'<image_dir>\ppm' } }, #XXX-FIXME
 
             # exceptions
             qw/ Try-Tiny Carp::Always autodie /,
