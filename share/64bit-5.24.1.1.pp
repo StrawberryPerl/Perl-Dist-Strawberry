@@ -51,7 +51,7 @@
             'libzlib'       => '<package_url>/kmx/64_libs/gcc49-2016Q2/64bit_zlib-1.2.8-bin_20160509.zip',
             #special cases
             'libmysql'      => '<package_url>/kmx/64_libs/gcc44-2011/64bit_mysql-5.1.44-bin_20100304.zip',       # the latest DLL binary is missing some exports
-           #'libmysql'      => '<package_url>/kmx/64_libs/gcc49-2016Q4/64bit_mysqlconn-6.1.6-bin_20161011.zip',
+           #'libmysql'      => '<package_url>/kmx/64_libs/gcc49-2016Q4/64bit_mysql-5.7.16-bin_20161018.zip',
         },
     },
     ### NEXT STEP ###########################
