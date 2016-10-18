@@ -91,7 +91,7 @@
           # possible 'do' options: ignore_testfailure | skiptest | skip
           # e.g. { do=>'ignore_testfailure', distribution=>'ExtUtils-MakeMaker-6.72' },
           { do=>'ignore_testfailure', distribution=>'Pod-Simple-3.31' },
-          { do=>'ignore_testfailure', distribution=>'IPC-Cmd-0.94' },
+          { do=>'ignore_testfailure', distribution=>qr/^IPC-Cmd-/ },
         ]
     },
     ### NEXT STEP ###########################
