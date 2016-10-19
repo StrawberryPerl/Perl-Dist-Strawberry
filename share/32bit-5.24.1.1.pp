@@ -50,8 +50,7 @@
             'libxz'         => '<package_url>/kmx/32_libs/gcc49-2016Q2/32bit_xz-5.2.2-bin_20160509.zip',
             'libzlib'       => '<package_url>/kmx/32_libs/gcc49-2016Q2/32bit_zlib-1.2.8-bin_20160509.zip',
             #special cases
-            'libmysql'      => '<package_url>/kmx/32_libs/gcc44-2011/32bit_mysql-5.1.44-bin_20100304.zip',       # the latest DLL binary is missing some exports
-           #'libmysql'      => '<package_url>/kmx/32_libs/gcc49-2016Q4/32bit_mysql-5.7.16-bin_20161018.zip',
+            'libmysql'      => '<package_url>/kmx/32_libs/gcc49-2016Q4/32bit_mysql-5.7.16-bin_20161018.zip',
         },
     },
     ### NEXT STEP ###########################
@@ -92,6 +91,8 @@
           # e.g. { do=>'ignore_testfailure', distribution=>'ExtUtils-MakeMaker-6.72' },
           { do=>'ignore_testfailure', distribution=>'Pod-Simple-3.31' },
           { do=>'ignore_testfailure', distribution=>qr/^IPC-Cmd-/ },
+          { do=>'ignore_testfailure', distribution=>qr/^Archive-Tar-/ }, # 2.12 fails
+          { do=>'ignore_testfailure', distribution=>qr/^Net-Ping-/ },    # 2.52 fails
         ]
     },
     ### NEXT STEP ###########################
@@ -173,7 +174,7 @@
             qw/ DBI DBD-ODBC DBD-SQLite DBD-CSV DBD-ADO DBIx-Class DBIx-Simple /,
             #XXX-TODO DBD::Pg fails with -D__USE_MINGW_ANSI_STDIO (e.g. long double build)
             ( $ENV{SKIP_LD_TROUBLE_MAKERS} ? () : ('DBD::Pg') ),
-            { module=>'DBD::mysql', makefilepl_param=>'--mysql_config=mysql_config' },
+            'MICHIELB/DBD-mysql-4.037_02.tar.gz', #XXX-FIXME need latest dev #{ module=>'DBD::mysql' },
             { module=>'DBD::Oracle', makefilepl_param=>'-V 12.1.0.2.0', env=>{ ORACLE_HOME=>'c:\ora12instant32' }, skiptest=>1 }, ## requires Oracle Instant Client 32bit!!!
 
             # crypto related
