@@ -174,7 +174,7 @@
             qw/ DBI DBD-ODBC DBD-SQLite DBD-CSV DBD-ADO DBIx-Class DBIx-Simple /,
             #XXX-TODO DBD::Pg fails with -D__USE_MINGW_ANSI_STDIO (e.g. long double build)
             ( $ENV{SKIP_LD_TROUBLE_MAKERS} ? () : ('DBD::Pg') ),
-            'MICHIELB/DBD-mysql-4.037_02.tar.gz', #XXX-FIXME need latest dev #{ module=>'DBD::mysql' },
+            { module=>'DBD::mysql' },
             { module=>'DBD::Oracle', makefilepl_param=>'-V 12.1.0.2.0', env=>{ ORACLE_HOME=>'c:\ora12instant32' }, skiptest=>1 }, ## requires Oracle Instant Client 32bit!!!
 
             # crypto related
@@ -196,6 +196,7 @@
             #qw/ Module::Signature /, #XXX-TODO still not able to properly handle CRLF - https://metacpan.org/release/Module-Signature
 
             # date/time
+            { module=>'Test2::Plugin::NoWarnings', ignore_testfailure=>1 }, #XXX-PREREQ-ONLY https://rt.cpan.org/Public/Bug/Display.html?id=118443
             qw/ DateTime Date::Format DateTime::Format::DateParse DateTime::TimeZone::Local::Win32 Time::Moment /,
 
             # e-mail
