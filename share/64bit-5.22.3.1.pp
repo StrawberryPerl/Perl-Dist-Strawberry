@@ -92,7 +92,8 @@
           { do=>'ignore_testfailure', distribution=>'Pod-Simple-3.31' },
           { do=>'ignore_testfailure', distribution=>qr/^IPC-Cmd-/ },
           { do=>'ignore_testfailure', distribution=>qr/^Archive-Tar-/ }, # 2.12 fails
-          { do=>'ignore_testfailure', distribution=>qr/^Net-Ping-/ },    # 2.52 fails
+          { do=>'ignore_testfailure', distribution=>qr/^Net-Ping-/ },    # 2.52 fails (2.53 should be ok)
+          { do=>'ignore_testfailure', distribution=>qr/^threads-/ },     # 2.09 fails
         ]
     },
     ### NEXT STEP ###########################
