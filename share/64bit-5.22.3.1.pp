@@ -220,7 +220,7 @@
             #qw/ XML::Compile::SOAP12 XML::Compile::SOAP11 XML::Compile::WSDL11 /,
 
             # utils
-            { module=>'Test::Script', ignore_testfailure=>1 },           #XXX_TODO https://github.com/plicease/Test-Script/issues/8
+            { module=>'Test::Script', ignore_testfailure=>1 },           #XXX-PREREQ-ONLY https://github.com/plicease/Test-Script/issues/8
             qw/ App::cpanminus App::cpanoutdated App::pmuninstall pler App-module-version App-local-lib-Win32Helper /,
 
             # par & ppm
@@ -237,7 +237,7 @@
 
             # OO - moose, moo & co.
             qw/ Moose MooseX-Types MooseX::Types::Structured /,
-            { module=>'MooseX::Declare', ignore_testfailure=>1 },       #XXX-TODO https://rt.cpan.org/Public/Bug/Display.html?id=97690
+            { module=>'MooseX::Declare', ignore_testfailure=>1 },       #XXX-PREREQ-ONLY https://rt.cpan.org/Public/Bug/Display.html?id=97690
             qw/ MooseX::ClassAttribute MooseX::Role::Parameterized MooseX::NonMoose Moo /,
 
             # OO - others
