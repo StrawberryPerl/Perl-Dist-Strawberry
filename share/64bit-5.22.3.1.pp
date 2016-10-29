@@ -197,6 +197,7 @@
             #qw/ Module::Signature /, #XXX-TODO still not able to properly handle CRLF - https://metacpan.org/release/Module-Signature
 
             # date/time
+            { module=>'Test2::Plugin::NoWarnings', ignore_testfailure=>1 }, #XXX-PREREQ-ONLY https://rt.cpan.org/Public/Bug/Display.html?id=118443
             qw/ DateTime Date::Format DateTime::Format::DateParse DateTime::TimeZone::Local::Win32 Time::Moment /,
 
             # e-mail
