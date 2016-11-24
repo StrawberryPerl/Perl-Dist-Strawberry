@@ -124,9 +124,7 @@ sub read_file {
       warn "Can't open '$path': $!" if not $quiet;
       return undef;
     }
-    my $content = '';
-    while ($file->sysread(my $buffer, 131072, 0)) { $content .= $buffer }
-    return $content;
+    return do { local $/; <$file> };
 }
 
 sub write_file {
