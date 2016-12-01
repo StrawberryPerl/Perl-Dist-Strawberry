@@ -21,9 +21,8 @@ echo  Welcome to Strawberry Perl Portable Edition!
 echo  * URL - http://www.strawberryperl.com/
 echo  * see README.TXT for more info
 echo ----------------------------------------------
-perl -MConfig -e "printf("""Perl executable: %%s\nPerl version   : %%vd / $Config{archname}\n""", $^X, $^V)" 2>nul
-if ERRORLEVEL==1 echo.&echo FATAL ERROR: 'perl' does not work; check if your strawberry pack is complete!
-echo.
+perl -MConfig -e "printf("""Perl executable: %%s\nPerl version   : %%vd / $Config{archname}\n\n""", $^X, $^V)" 2>nul
+if ERRORLEVEL==1 echo FATAL ERROR: 'perl' does not work; check if your strawberry pack is complete!
 
 cmd /K
 
