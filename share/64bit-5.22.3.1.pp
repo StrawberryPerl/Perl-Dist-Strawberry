@@ -417,7 +417,7 @@
         plugin => 'Perl::Dist::Strawberry::Step::InstallModules',
         # modules specific to PDL edition
         modules => [
-          'DROLSKY/Params-Validate-1.26.tar.gz', #XXX-FIXME v1.25 is broken however cpanm is not able to find v1.26 https://metacpan.org/pod/Params::Validate
+          ###'DROLSKY/Params-Validate-1.26.tar.gz', #XXX-FIXME v1.25 is broken however cpanm is not able to find v1.26 https://metacpan.org/pod/Params::Validate
           { module => 'Devel::REPL', ignore_testfailure => 1 },
           qw/Lexical::Persistence Astro::FITS::Header Astro::FITS::CFITSIO/,
           { module => 'Inline::C', ignore_testfailure => 1 },
