@@ -124,9 +124,7 @@ sub read_file {
       warn "Can't open '$path': $!" if not $quiet;
       return undef;
     }
-    my $content = '';
-    while ($file->sysread(my $buffer, 131072, 0)) { $content .= $buffer }
-    return $content;
+    return do { local $/; <$file> };
 }
 
 sub write_file {
@@ -151,17 +149,17 @@ sub relocate {
       exit(1);
   }
 
-  if (0 == scalar @$files) {
+  unless (@$files) {
       for (qw/relocation.txt perl1.reloc.txt perl2.reloc.txt/) {
         push @$files, "$new_location/$_" if -f "$new_location/$_";
       }
   }
 
-  if (0 == scalar @$files) {
+  unless (@$files) {
       @$files = bsd_glob catfile($new_location, '/*reloc*.txt');
   }
 
-  if (0 == scalar @$files) {
+  unless (@$files) {
       die "Nothing to relocate\n" if not $quiet;
       exit(1);
   }
