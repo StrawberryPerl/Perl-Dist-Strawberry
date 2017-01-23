@@ -586,3 +586,8 @@ useful platform for doing real work.
 L<Perl::Dist::Strawberry|Perl::Dist::Strawberry> is just a helper module for 
 the main script L<perldist_strawberry|perldist_strawberry> used for building
 Strawberry perl release packages (MSI, ZIP).
+
+=head1 LICENSE
+
+This software is free software; you can redistribute it and/or modify it under 
+the same terms as Perl itself.
