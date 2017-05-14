@@ -35,7 +35,7 @@ How to use Strawberry Perl Portable?
 
      c:\> cpan Module::Name
   
-  3. run other tools included in strawberry like: perldoc, gcc, dmake ...
+  3. run other tools included in strawberry like: perldoc, gcc, [%maketool || 'dmake'%] ...
 
 * If you want to use Strawberry Perl Portable not only from portableshell.bat,
   add c:\myperl\perl\site\bin, c:\myperl\perl\bin, and c:\myperl\c\bin

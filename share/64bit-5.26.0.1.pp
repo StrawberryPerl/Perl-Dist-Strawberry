@@ -11,46 +11,50 @@
   beta            => 0,
   app_fullname    => 'Strawberry Perl (64-bit)',
   app_simplename  => 'strawberry-perl',
+  maketool        => 'gmake', # 'dmake' or 'gmake'
   build_job_steps => [
     ### NEXT STEP ###########################
     {
         plugin  => 'Perl::Dist::Strawberry::Step::BinaryToolsAndLibs',
         install_packages => {
             #tools
-            'dmake'         => '<package_url>/kmx/64_tools/64bit_dmake-4.12.2-bin_20140810.zip',
-            'pexports'      => '<package_url>/kmx/64_tools/64bit_pexports-0.44-bin_20100110.zip',
+           #'dmake'         => '<package_url>/kmx/64_tools/64bit_dmake-4.12.2-bin_20140810.zip',
+           #'dmake'         => '<package_url>/kmx/64_tools/64bit_dmake-fake_20170512.zip',
+            'dmake'         => '<package_url>/kmx/64_tools/64bit_dmake-warn_20170512.zip',
+            'pexports'      => '<package_url>/kmx/64_tools/64bit_pexports-0.47-bin_20170426.zip',
+           #'patch'         => '<package_url>/kmx/64_tools/64bit_patch-2.7.5-bin_20170512.zip', #XXX-BROKEN
             'patch'         => '<package_url>/kmx/64_tools/64bit_patch-2.5.9-7-bin_20100110_UAC.zip',
             #gcc, gmake, gdb & co.
-            'gcc-toolchain' => { url=>'<package_url>/kmx/64_gcctoolchain/mingw64-w64-gcc4.9.2_20150513.zip', install_to=>'c' },
-            'gcc-license'   => '<package_url>/kmx/64_gcctoolchain/mingw64-w64-gcc4.9.2_20150513-lic.zip',
+            'gcc-toolchain' => { url=>'<package_url>/kmx/64_gcctoolchain/mingw64-w64-gcc7.1.0_20170512.zip', install_to=>'c' },
+            'gcc-license'   => '<package_url>/kmx/64_gcctoolchain/mingw64-w64-gcc7.1.0_20170512-lic.zip',
             #libs
-            'bzip2'         => '<package_url>/kmx/64_libs/gcc49-2016Q2/64bit_bzip2-1.0.6-bin_20160509.zip',
-            'libdb'         => '<package_url>/kmx/64_libs/gcc49-2016Q2/64bit_db-6.2.23-bin_20160509.zip',
-            'libexpat'      => '<package_url>/kmx/64_libs/gcc49-2016Q2/64bit_expat-2.1.1-bin_20160509.zip',
-            'libfreeglut'   => '<package_url>/kmx/64_libs/gcc49-2016Q2/64bit_freeglut-2.8.1-bin_20160509.zip',
-            'libfreetype'   => '<package_url>/kmx/64_libs/gcc49-2016Q2/64bit_freetype-2.6.3-bin_20160509.zip',
-            'libgdbm'       => '<package_url>/kmx/64_libs/gcc49-2016Q2/64bit_gdbm-1.10-bin_20160509.zip',
-            'libgiflib'     => '<package_url>/kmx/64_libs/gcc49-2016Q2/64bit_giflib-5.1.4-bin_20160509.zip',
-            'libgmp'        => '<package_url>/kmx/64_libs/gcc49-2016Q2/64bit_gmp-6.1.0-bin_20160509.zip',
-            'libjpeg'       => '<package_url>/kmx/64_libs/gcc49-2016Q2/64bit_jpeg-9b-bin_20160509.zip',
-            'libgd'         => '<package_url>/kmx/64_libs/gcc49-2016Q2/64bit_libXpm-3.5.11-bin_20160509.zip',
-            'libffi'        => '<package_url>/kmx/64_libs/gcc49-2016Q2/64bit_libffi-3.2.1-bin_20160509.zip',
-            'liblibXpm'     => '<package_url>/kmx/64_libs/gcc49-2016Q2/64bit_libgd-2.1.1-bin_20160509.zip',
-            'liblibiconv'   => '<package_url>/kmx/64_libs/gcc49-2016Q2/64bit_libiconv-1.14-bin_20160509.zip',
-            'liblibpng'     => '<package_url>/kmx/64_libs/gcc49-2016Q2/64bit_libpng-1.6.21-bin_20160509.zip',
-            'liblibssh2'    => '<package_url>/kmx/64_libs/gcc49-2016Q2/64bit_libssh2-1.7.0-bin_20160509.zip',
-            'liblibxml2'    => '<package_url>/kmx/64_libs/gcc49-2016Q2/64bit_libxml2-2.9.3-bin_20160509.zip',
-            'liblibxslt'    => '<package_url>/kmx/64_libs/gcc49-2016Q2/64bit_libxslt-1.1.28-bin_20160509.zip',
-            'libmpc'        => '<package_url>/kmx/64_libs/gcc49-2016Q2/64bit_mpc-1.0.3-bin_20160509.zip',
-            'libmpfr'       => '<package_url>/kmx/64_libs/gcc49-2016Q2/64bit_mpfr-3.1.4-bin_20160509.zip',
-            'libopenssl'    => '<package_url>/kmx/64_libs/gcc49-2016Q4/64bit_openssl-1.0.2j-bin_20161014.zip',
-            'libpostgresql' => '<package_url>/kmx/64_libs/gcc49-2016Q2/64bit_postgresql-9.5.2-bin_20160509.zip',
-            'libt1lib'      => '<package_url>/kmx/64_libs/gcc49-2016Q2/64bit_t1lib-5.1.2-bin_20160509.zip',
-            'libtiff'       => '<package_url>/kmx/64_libs/gcc49-2016Q2/64bit_tiff-4.0.6-bin_20160509.zip',
-            'libxz'         => '<package_url>/kmx/64_libs/gcc49-2016Q2/64bit_xz-5.2.2-bin_20160509.zip',
-            'libzlib'       => '<package_url>/kmx/64_libs/gcc49-2016Q2/64bit_zlib-1.2.8-bin_20160509.zip',
+            'bzip2'         => '<package_url>/kmx/64_libs/gcc71-2017Q2/64bit_bzip2-1.0.6-bin_20170512.zip',
+            'libdb'         => '<package_url>/kmx/64_libs/gcc71-2017Q2/64bit_db-6.2.32-bin_20170512.zip',
+            'libexpat'      => '<package_url>/kmx/64_libs/gcc71-2017Q2/64bit_expat-2.2.0-bin_20170512.zip',
+            'libfreeglut'   => '<package_url>/kmx/64_libs/gcc71-2017Q2/64bit_freeglut-3.0.0-bin_20170512.zip',
+            'libfreetype'   => '<package_url>/kmx/64_libs/gcc71-2017Q2/64bit_freetype-2.7.1-bin_20170512.zip',
+            'libgdbm'       => '<package_url>/kmx/64_libs/gcc71-2017Q2/64bit_gdbm-1.10-bin_20170512.zip',
+            'libgiflib'     => '<package_url>/kmx/64_libs/gcc71-2017Q2/64bit_giflib-5.1.4-bin_20170512.zip',
+            'libgmp'        => '<package_url>/kmx/64_libs/gcc71-2017Q2/64bit_gmp-6.1.2-bin_20170512.zip',
+            'libjpeg'       => '<package_url>/kmx/64_libs/gcc71-2017Q2/64bit_jpeg-9b-bin_20170512.zip',
+            'libgd'         => '<package_url>/kmx/64_libs/gcc71-2017Q2/64bit_libXpm-3.5.12-bin_20170512.zip',
+            'libffi'        => '<package_url>/kmx/64_libs/gcc71-2017Q2/64bit_libffi-3.2.1-bin_20170512.zip',
+            'liblibXpm'     => '<package_url>/kmx/64_libs/gcc71-2017Q2/64bit_libgd-2.2.4-bin_20170512.zip',
+            'liblibiconv'   => '<package_url>/kmx/64_libs/gcc71-2017Q2/64bit_libiconv-1.15-bin_20170512.zip',
+            'liblibpng'     => '<package_url>/kmx/64_libs/gcc71-2017Q2/64bit_libpng-1.6.29-bin_20170512.zip',
+            'liblibssh2'    => '<package_url>/kmx/64_libs/gcc71-2017Q2/64bit_libssh2-1.8.0-bin_20170512.zip',
+            'liblibxml2'    => '<package_url>/kmx/64_libs/gcc71-2017Q2/64bit_libxml2-2.9.4-bin_20170512.zip',
+            'liblibxslt'    => '<package_url>/kmx/64_libs/gcc71-2017Q2/64bit_libxslt-1.1.29-bin_20170512.zip',
+            'libmpc'        => '<package_url>/kmx/64_libs/gcc71-2017Q2/64bit_mpc-1.0.3-bin_20170512.zip',
+            'libmpfr'       => '<package_url>/kmx/64_libs/gcc71-2017Q2/64bit_mpfr-3.1.5-bin_20170512.zip',
+            'libopenssl'    => '<package_url>/kmx/64_libs/gcc71-2017Q2/64bit_openssl-1.1.0e-bin_20170512.zip',
+            'libpostgresql' => '<package_url>/kmx/64_libs/gcc71-2017Q2/64bit_postgresql-9.6.2-bin_20170512.zip',
+            'libt1lib'      => '<package_url>/kmx/64_libs/gcc71-2017Q2/64bit_t1lib-5.1.2-bin_20170512.zip',
+            'libtiff'       => '<package_url>/kmx/64_libs/gcc71-2017Q2/64bit_tiff-4.0.7-bin_20170512.zip',
+            'libxz'         => '<package_url>/kmx/64_libs/gcc71-2017Q2/64bit_xz-5.2.3-bin_20170512.zip',
+            'libzlib'       => '<package_url>/kmx/64_libs/gcc71-2017Q2/64bit_zlib-1.2.11-bin_20170512.zip',
             #special cases
-            'libmysql'      => '<package_url>/kmx/64_libs/gcc49-2016Q4/64bit_mysql-5.7.16-bin_20161018.zip',
+            'libmysql'      => '<package_url>/kmx/64_libs/gcc71-2017Q2/64bit_mysql-5.7.16-bin_20170512.zip',
         },
     },
     ### NEXT STEP ###########################
@@ -65,11 +69,11 @@
     ### NEXT STEP ###########################
     {
         plugin     => 'Perl::Dist::Strawberry::Step::InstallPerlCore',
-        url        => 'http://search.cpan.org/CPAN/authors/id/X/XS/XSAWYERX/perl-5.25.12.tar.gz',
+        url        => 'http://search.cpan.org/CPAN/authors/id/X/XS/XSAWYERX/perl-5.26.0-RC1.tar.gz',
         cf_email   => 'strawberry-perl@project', #IMPORTANT: keep 'strawberry-perl' before @
         perl_debug => 0,    # can be overridden by --perl_debug=N option
         perl_64bitint => 1, # ignored on 64bit, can be overridden by --perl_64bitint | --noperl_64bitint option
-        #buildoptextra => '-D__USE_MINGW_ANSI_STDIO',
+        buildoptextra => '-D__USE_MINGW_ANSI_STDIO',
         patch => { #DST paths are relative to the perl src root
             '<dist_sharedir>/msi/files/perlexe.ico'             => 'win32/perlexe.ico',
             '<dist_sharedir>/perl-5.26/win32_config.gc.tt'      => 'win32/config.gc',
@@ -136,8 +140,10 @@
             { module=>'Win32::GuiTest',     skiptest=>1 },
             { module=>'Win32::API',         ignore_testfailure=>1 }, #XXX-TODO: https://rt.cpan.org/Public/Bug/Display.html?id=107450
             'Win32::Exe',
+            { module=>'<package_url>/kmx/perl-modules-patched/Win32-Pipe-0.025_patched.tar.gz' }, #XXX-FIXME 
+            { module=>'<package_url>/kmx/perl-modules-patched/Win32-Daemon-20131206_patched.tar.gz' }, #XXX-FIXME
             qw/ Win32-EventLog Win32-Process Win32-WinError Win32-File-Object Win32-UTCFileTime /,
-            qw/ Win32-ShellQuote Win32::Console Win32::Console::ANSI Win32::Job Win32::Daemon Win32::ServiceManager Win32::Service /,
+            qw/ Win32-ShellQuote Win32::Console Win32::Console::ANSI Win32::Job Win32::ServiceManager Win32::Service /,
             qw/ Sys::Syslog /,
 
             # term related
@@ -156,11 +162,11 @@
             # math related
             { module=>'Devel::CheckLib', ignore_testfailure=>1 }, #XXX-TODO: Devel-CheckLib-1.07 fails (Could not remove assertlib3G0GLdko.exe: Permission denied)
             qw/ Math-Round Math-BigInt-GMP Math-GMP Math-MPFR Math-MPC /,
-            #{ module=>'Math::Pari', ignore_testfailure=>1 }, # fails on 64bit
+            #{ module=>'Math::Pari', ignore_testfailure=>1 }, # fails on 64bit + gmake trouble
             qw/ ExtUtils::F77 /,
 
             # SSL & SSH & telnet
-            qw/ Net-SSLeay /,
+            { module=>'Net-SSLeay', ignore_testfailure=>1 },
             { module=>'IO-Socket-SSL', skiptest=>1 }, # XXX-HACK: https://rt.cpan.org/Public/Bug/Display.html?id=95328
             qw/ Net-SSH2 Net::Telnet /,
 
@@ -169,7 +175,7 @@
             qw/ HTTP-Server-Simple /,
             qw/ LWP::UserAgent /,
             { module=>'LWP-Protocol-https', ignore_testfailure=>1 },    #XXX-TODO LWP-Protocol-https-6.04
-            qw/ Crypt-SSLeay /, # must be after LWP-Protocol-https
+            { module=>'<package_url>/kmx/perl-modules-patched/Crypt-SSLeay-0.72_patched.tar.gz' }, #XXX-FIXME
             { module=>'Mojolicious', env=>{ 'HARNESS_SUBCLASS'=>'TAP::Harness::Restricted', 'HARNESS_SKIP'=>'t/mojolicious/websocket_lite_app.t' } }, #https://github.com/kraih/mojo/issues/1011
             { module=>'WWW::Mechanize', skiptest=>1 }, # tests hang
 
@@ -180,17 +186,22 @@
             # database stuff
             qw/ DBI DBD-ODBC DBD-SQLite DBD-CSV DBD-ADO DBIx-Class DBIx-Simple /,
             #XXX-TODO DBD::Pg fails with -D__USE_MINGW_ANSI_STDIO (e.g. long double build)
-            ( $ENV{SKIP_LD_TROUBLE_MAKERS} ? () : ('DBD::Pg') ),
+            #XXX-TODO ( $ENV{SKIP_LD_TROUBLE_MAKERS} ? () : ('DBD::Pg') ),
+            { module=>'<package_url>/kmx/perl-modules-patched/DBD-Pg-3.6.0_patched.tar.gz' },
             { module=>'DBD::mysql' },
-            { module=>'DBD::Oracle', makefilepl_param=>'-V 12.1.0.2.0', env=>{ ORACLE_HOME=>'c:\ora12instant64' }, skiptest=>1 }, ## requires Oracle Instant Client 64bit!!!
+            { module=>'DBD::Oracle', makefilepl_param=>'-V 12.2.0.1.0', env=>{ ORACLE_HOME=>'c:\ora122instant64' }, skiptest=>1 }, ## requires Oracle Instant Client 64bit!!!
 
             # crypto related
             { module =>'Convert-PEM', ignore_testfailure=>1 },                                  #XXX-TODO ! Testing Convert-PEM-0.08 failed
             qw/ Convert-PEM /,
 
             # crypto
-            qw/ Crypt::OpenSSL::Bignum Crypt::OpenSSL::Random Crypt-OpenSSL-RSA Crypt::OpenSSL::DSA Crypt::OpenSSL::X509 /,
-            'KMX/Crypt-OpenSSL-AES-0.04.tar.gz',      #XXX-FIXME patched https://metacpan.org/pod/Crypt::OpenSSL::AES  https://rt.cpan.org/Public/Bug/Display.html?id=77605
+            qw/ CryptX Crypt::OpenSSL::Bignum Crypt::OpenSSL::DSA /,
+            { module=>'<package_url>/kmx/perl-modules-patched/Crypt-OpenSSL-Random-0.11_patched.tar.gz' }, #XXX-FIXME
+            { module=>'<package_url>/kmx/perl-modules-patched/Crypt-OpenSSL-RSA-0.28_patched.tar.gz' },    #XXX-FIXME
+            { module=>'<package_url>/kmx/perl-modules-patched/Crypt-OpenSSL-X509-1.807_patched.tar.gz' },  #XXX-FIXME
+            { module=>'<package_url>/kmx/perl-modules-patched/Crypt-OpenSSL-AES-0.05.tar.gz' },            #XXX-FIXME
+            ###'KMX/Crypt-OpenSSL-AES-0.05.tar.gz', #XXX-FIXME patched https://metacpan.org/pod/Crypt::OpenSSL::AES  https://rt.cpan.org/Public/Bug/Display.html?id=77605
             #Crypt-SMIME ?
             qw/ Crypt::CBC Crypt::Blowfish Crypt::CAST5_PP Crypt::DES Crypt::DES_EDE3 Crypt::DSA Crypt::IDEA Crypt::Rijndael Crypt::Twofish Crypt::Serpent Crypt::RC6 /,
             qw/ Digest-MD2 Digest-MD5 Digest-SHA Digest-SHA1 Crypt::RIPEMD160 Digest::Whirlpool Digest::HMAC Digest::CMAC /,
@@ -381,7 +392,7 @@
          { do=>'removefile', args=>[ '<image_dir>/README.txt', '<image_dir>/perl2.reloc.txt', '<image_dir>/perl1.reloc.txt', '<image_dir>/relocation.txt',
                                      '<image_dir>/update_env.pl.bat', '<image_dir>/relocation.pl.bat' ] },
          { do=>'createdir',  args=>[ '<image_dir>/data' ] },
-         { do=>'apply_tt',   args=>[ '<dist_sharedir>/portable/portable.perl.tt',       '<image_dir>/portable.perl', {gcchost=>'x86_64-w64-mingw32', gccver=>'4.9.2'} ] }, #XXX-GCC
+         { do=>'apply_tt',   args=>[ '<dist_sharedir>/portable/portable.perl.tt',       '<image_dir>/portable.perl', {gcchost=>'x86_64-w64-mingw32', gccver=>'7.1.0'} ] },
          { do=>'copyfile',   args=>[ '<dist_sharedir>/portable/portableshell.bat',      '<image_dir>/portableshell.bat' ] },
          { do=>'apply_tt',   args=>[ '<dist_sharedir>/portable/README.portable.txt.tt', '<image_dir>/README.txt' ] },
          # cleanup cpanm related files
@@ -403,18 +414,18 @@
         disable => $ENV{SKIP_PDL_STEP}, ### hack
         plugin  => 'Perl::Dist::Strawberry::Step::BinaryToolsAndLibs',
         install_packages => {
-            'fftw3'         => '<package_url>/kmx/64_libs/gcc49-2015Q2/64bit_fftw-3.3.4-bin_20150519.zip',
-            'gnuplot'       => '<package_url>/kmx/64_libs/gcc49-2015Q2/64bit_gnuplot-4.6.5-bin_20150519.zip',
-            'gsl'           => '<package_url>/kmx/64_libs/gcc49-2015Q2/64bit_gsl-1.16-bin_20150519.zip',
-            'hdf4'          => '<package_url>/kmx/64_libs/gcc49-2015Q2/64bit_hdf-4.2.11-bin_20150519.zip',
-            'hdf5'          => '<package_url>/kmx/64_libs/gcc49-2015Q2/64bit_hdf5-1.8.14-bin_20150519.zip',
-            'plplot'        => '<package_url>/kmx/64_libs/gcc49-2015Q2/64bit_plplot-5.11.0-bin_20150519.zip',
-            'proj'          => '<package_url>/kmx/64_libs/gcc49-2015Q2/64bit_proj-4.9.1-bin_20150519.zip',
-            'szip'          => '<package_url>/kmx/64_libs/gcc49-2015Q2/64bit_szip-2.1-bin_20150519.zip',
-            'talib'         => '<package_url>/kmx/64_libs/gcc49-2015Q2/64bit_ta-lib-0.4.0-bin_20150519.zip',
-            'netcdf'        => '<package_url>/kmx/64_libs/gcc49-2015Q2/64bit_netcdf-4.3.2-bin_20150519.zip',
-            'lapack'        => '<package_url>/kmx/64_libs/gcc49-2015Q2/64bit_lapack-3.5.0-bin_20150519.zip',
-            'cfitsio'       => '<package_url>/kmx/64_libs/gcc49-2016Q4/64bit_cfitsio-3.39-bin_20161015.zip',
+            'fftw3'         => '<package_url>/kmx/64_libs/gcc71-2017Q2/64bit_fftw-3.3.6-pl2-bin_20170512.zip',
+            'gnuplot'       => '<package_url>/kmx/64_libs/gcc49-2016Q2/64bit_gnuplot-5.0.3-bin_20160509.zip', #XXX-FIXME-XXX
+            'gsl'           => '<package_url>/kmx/64_libs/gcc71-2017Q2/64bit_gsl-2.3-bin_20170512.zip',
+           #'hdf4'          => '<package_url>/kmx/64_libs/gcc71-2017Q2/64bit_hdf-4.2.11-XXXXXXXXXXXXX.zip',
+            'hdf5'          => '<package_url>/kmx/64_libs/gcc71-2017Q2/64bit_hdf5-1.10.0-patch1-bin_20170512.zip',
+            'plplot'        => '<package_url>/kmx/64_libs/gcc71-2017Q2/64bit_plplot-5.11.1-bin_20170512.zip',
+            'proj'          => '<package_url>/kmx/64_libs/gcc71-2017Q2/64bit_proj-4.9.3-bin_20170512.zip',
+            'szip'          => '<package_url>/kmx/64_libs/gcc71-2017Q2/64bit_szip-2.1.1-bin_20170512.zip',
+            'talib'         => '<package_url>/kmx/64_libs/gcc71-2017Q2/64bit_ta-lib-0.4.0-bin_20170512.zip',
+           #'netcdf'        => '<package_url>/kmx/64_libs/gcc71-2017Q2/64bit_netcdf-4.3.2-XXXXXXXXXXXXX.zip',
+            'lapack'        => '<package_url>/kmx/64_libs/gcc71-2017Q2/64bit_lapack-3.7.0-bin_20170512.zip ',
+            'cfitsio'       => '<package_url>/kmx/64_libs/gcc71-2017Q2/64bit_cfitsio-3.41-bin_20170512.zip ',
         },
     },
     ### NEXT STEP ###########################
