@@ -98,6 +98,7 @@
           { do=>'ignore_testfailure', distribution=>qr/^Archive-Tar-/ }, # 2.12 fails
           { do=>'skip', distribution=>qr/^Net-Ping-/ },    # upgrade breaks other modules https://rt.cpan.org/Ticket/Display.html?id=118526
           { do=>'ignore_testfailure', distribution=>qr/^threads-/ },     # 2.09 fails
+          { do=>'ignore_testfailure', distribution=>qr/^ExtUtils-Install-2.08/ },     # 2.08 fails on 5.26.0
         ]
     },
     ### NEXT STEP ###########################
@@ -424,8 +425,8 @@
             'szip'          => '<package_url>/kmx/32_libs/gcc71-2017Q2/32bit_szip-2.1.1-bin_20170512.zip',
             'talib'         => '<package_url>/kmx/32_libs/gcc71-2017Q2/32bit_ta-lib-0.4.0-bin_20170512.zip',
            #'netcdf'        => '<package_url>/kmx/32_libs/gcc71-2017Q2/32bit_netcdf-4.3.2-XXXXXXXXXXXXX.zip',
-            'lapack'        => '<package_url>/kmx/32_libs/gcc71-2017Q2/32bit_lapack-3.7.0-bin_20170512.zip ',
-            'cfitsio'       => '<package_url>/kmx/32_libs/gcc71-2017Q2/32bit_cfitsio-3.41-bin_20170512.zip ',
+            'lapack'        => '<package_url>/kmx/32_libs/gcc71-2017Q2/32bit_lapack-3.7.0-bin_20170512.zip',
+            'cfitsio'       => '<package_url>/kmx/32_libs/gcc71-2017Q2/32bit_cfitsio-3.41-bin_20170512.zip',
         },
     },
     ### NEXT STEP ###########################
