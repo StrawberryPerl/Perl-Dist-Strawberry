@@ -28,33 +28,33 @@
             'gcc-toolchain' => { url=>'<package_url>/kmx/64_gcctoolchain/mingw64-w64-gcc7.1.0_20170512.zip', install_to=>'c' },
             'gcc-license'   => '<package_url>/kmx/64_gcctoolchain/mingw64-w64-gcc7.1.0_20170512-lic.zip',
             #libs
-            'bzip2'         => '<package_url>/kmx/64_libs/gcc71-2017Q2/64bit_bzip2-1.0.6-bin_20170512.zip',
-            'libdb'         => '<package_url>/kmx/64_libs/gcc71-2017Q2/64bit_db-6.2.32-bin_20170512.zip',
-            'libexpat'      => '<package_url>/kmx/64_libs/gcc71-2017Q2/64bit_expat-2.2.0-bin_20170512.zip',
-            'libfreeglut'   => '<package_url>/kmx/64_libs/gcc71-2017Q2/64bit_freeglut-3.0.0-bin_20170512.zip',
-            'libfreetype'   => '<package_url>/kmx/64_libs/gcc71-2017Q2/64bit_freetype-2.7.1-bin_20170512.zip',
-            'libgdbm'       => '<package_url>/kmx/64_libs/gcc71-2017Q2/64bit_gdbm-1.10-bin_20170512.zip',
-            'libgiflib'     => '<package_url>/kmx/64_libs/gcc71-2017Q2/64bit_giflib-5.1.4-bin_20170512.zip',
-            'libgmp'        => '<package_url>/kmx/64_libs/gcc71-2017Q2/64bit_gmp-6.1.2-bin_20170512.zip',
-            'libjpeg'       => '<package_url>/kmx/64_libs/gcc71-2017Q2/64bit_jpeg-9b-bin_20170512.zip',
-            'libgd'         => '<package_url>/kmx/64_libs/gcc71-2017Q2/64bit_libXpm-3.5.12-bin_20170512.zip',
-            'libffi'        => '<package_url>/kmx/64_libs/gcc71-2017Q2/64bit_libffi-3.2.1-bin_20170512.zip',
-            'liblibXpm'     => '<package_url>/kmx/64_libs/gcc71-2017Q2/64bit_libgd-2.2.4-bin_20170512.zip',
-            'liblibiconv'   => '<package_url>/kmx/64_libs/gcc71-2017Q2/64bit_libiconv-1.15-bin_20170512.zip',
-            'liblibpng'     => '<package_url>/kmx/64_libs/gcc71-2017Q2/64bit_libpng-1.6.29-bin_20170512.zip',
-            'liblibssh2'    => '<package_url>/kmx/64_libs/gcc71-2017Q2/64bit_libssh2-1.8.0-bin_20170512.zip',
-            'liblibxml2'    => '<package_url>/kmx/64_libs/gcc71-2017Q2/64bit_libxml2-2.9.4-bin_20170512.zip',
-            'liblibxslt'    => '<package_url>/kmx/64_libs/gcc71-2017Q2/64bit_libxslt-1.1.29-bin_20170512.zip',
-            'libmpc'        => '<package_url>/kmx/64_libs/gcc71-2017Q2/64bit_mpc-1.0.3-bin_20170512.zip',
-            'libmpfr'       => '<package_url>/kmx/64_libs/gcc71-2017Q2/64bit_mpfr-3.1.5-bin_20170512.zip',
-            'libopenssl'    => '<package_url>/kmx/64_libs/gcc71-2017Q2/64bit_openssl-1.1.0e-bin_20170512.zip',
-            'libpostgresql' => '<package_url>/kmx/64_libs/gcc71-2017Q2/64bit_postgresql-9.6.2-bin_20170512.zip',
-            'libt1lib'      => '<package_url>/kmx/64_libs/gcc71-2017Q2/64bit_t1lib-5.1.2-bin_20170512.zip',
-            'libtiff'       => '<package_url>/kmx/64_libs/gcc71-2017Q2/64bit_tiff-4.0.7-bin_20170512.zip',
-            'libxz'         => '<package_url>/kmx/64_libs/gcc71-2017Q2/64bit_xz-5.2.3-bin_20170512.zip',
-            'libzlib'       => '<package_url>/kmx/64_libs/gcc71-2017Q2/64bit_zlib-1.2.11-bin_20170512.zip',
+            'bzip2'         => '<package_url>/kmx/64_libs/gcc71-2017Q2/64bit_bzip2-1.0.6-bin_20170517.zip',
+            'libdb'         => '<package_url>/kmx/64_libs/gcc71-2017Q2/64bit_db-6.2.32-bin_20170517.zip',
+            'libexpat'      => '<package_url>/kmx/64_libs/gcc71-2017Q2/64bit_expat-2.2.0-bin_20170517.zip',
+            'libfreeglut'   => '<package_url>/kmx/64_libs/gcc71-2017Q2/64bit_freeglut-3.0.0-bin_20170517.zip',
+            'libfreetype'   => '<package_url>/kmx/64_libs/gcc71-2017Q2/64bit_freetype-2.7.1-bin_20170517.zip',
+            'libgdbm'       => '<package_url>/kmx/64_libs/gcc71-2017Q2/64bit_gdbm-1.10-bin_20170517.zip',
+            'libgiflib'     => '<package_url>/kmx/64_libs/gcc71-2017Q2/64bit_giflib-5.1.4-bin_20170517.zip',
+            'libgmp'        => '<package_url>/kmx/64_libs/gcc71-2017Q2/64bit_gmp-6.1.2-bin_20170517.zip',
+            'libjpeg'       => '<package_url>/kmx/64_libs/gcc71-2017Q2/64bit_jpeg-9b-bin_20170517.zip',
+            'libgd'         => '<package_url>/kmx/64_libs/gcc71-2017Q2/64bit_libXpm-3.5.12-bin_20170517.zip',
+            'libffi'        => '<package_url>/kmx/64_libs/gcc71-2017Q2/64bit_libffi-3.2.1-bin_20170517.zip',
+            'liblibXpm'     => '<package_url>/kmx/64_libs/gcc71-2017Q2/64bit_libgd-2.2.4-bin_20170517.zip',
+            'liblibiconv'   => '<package_url>/kmx/64_libs/gcc71-2017Q2/64bit_libiconv-1.15-bin_20170517.zip',
+            'liblibpng'     => '<package_url>/kmx/64_libs/gcc71-2017Q2/64bit_libpng-1.6.29-bin_20170517.zip',
+            'liblibssh2'    => '<package_url>/kmx/64_libs/gcc71-2017Q2/64bit_libssh2-1.8.0-bin_20170517.zip',
+            'liblibxml2'    => '<package_url>/kmx/64_libs/gcc71-2017Q2/64bit_libxml2-2.9.4-bin_20170517.zip',
+            'liblibxslt'    => '<package_url>/kmx/64_libs/gcc71-2017Q2/64bit_libxslt-1.1.29-bin_20170517.zip',
+            'libmpc'        => '<package_url>/kmx/64_libs/gcc71-2017Q2/64bit_mpc-1.0.3-bin_20170517.zip',
+            'libmpfr'       => '<package_url>/kmx/64_libs/gcc71-2017Q2/64bit_mpfr-3.1.5-bin_20170517.zip',
+            'libopenssl'    => '<package_url>/kmx/64_libs/gcc71-2017Q2/64bit_openssl-1.1.0e-bin_20170517.zip',
+            'libpostgresql' => '<package_url>/kmx/64_libs/gcc71-2017Q2/64bit_postgresql-9.6.3-bin_20170517.zip',
+            'libt1lib'      => '<package_url>/kmx/64_libs/gcc71-2017Q2/64bit_t1lib-5.1.2-bin_20170517.zip',
+            'libtiff'       => '<package_url>/kmx/64_libs/gcc71-2017Q2/64bit_tiff-4.0.7-bin_20170517.zip',
+            'libxz'         => '<package_url>/kmx/64_libs/gcc71-2017Q2/64bit_xz-5.2.3-bin_20170517.zip',
+            'libzlib'       => '<package_url>/kmx/64_libs/gcc71-2017Q2/64bit_zlib-1.2.11-bin_20170517.zip',
             #special cases
-            'libmysql'      => '<package_url>/kmx/64_libs/gcc71-2017Q2/64bit_mysql-5.7.16-bin_20170512.zip',
+            'libmysql'      => '<package_url>/kmx/64_libs/gcc71-2017Q2/64bit_mysql-5.7.16-bin_20170517.zip',
         },
     },
     ### NEXT STEP ###########################
@@ -180,6 +180,10 @@
             { module=>'Mojolicious', env=>{ 'HARNESS_SUBCLASS'=>'TAP::Harness::Restricted', 'HARNESS_SKIP'=>'t/mojolicious/websocket_lite_app.t' } }, #https://github.com/kraih/mojo/issues/1011
             { module=>'WWW::Mechanize', skiptest=>1 }, # tests hang
 
+            # XML & co.
+            qw/ XML-LibXML XML-LibXSLT XML-Parser XML-SAX XML-Simple /,
+            { module=>'XML::Twig', ignore_testfailure=>1 },             #XXX-TODO XML-Twig-3.52 fails
+
             # data/text processing
             { module=>'IO::Stringy', env=>{ 'HARNESS_SUBCLASS'=>'TAP::Harness::Restricted', 'HARNESS_SKIP'=>'t/IO_InnerFile.t' } }, #https://rt.cpan.org/Public/Bug/Display.html?id=103895
             qw/ Text-Diff Text-Patch Text::CSV Text::CSV_XS Tie::Array::CSV Excel::Writer::XLSX Spreadsheet::ParseXLSX Spreadsheet::WriteExcel Spreadsheet::ParseExcel /,
@@ -227,9 +231,6 @@
             { module=>'Imager', ignore_testfailure=>1 },                #XXX-TODO ! Testing Imager-0.98 failed
             qw/ Imager-File-GIF Imager-File-JPEG Imager-File-PNG Imager-File-TIFF Imager-Font-FT2 Imager-Font-W32 /,
             { module=>'OpenGL', ignore_testfailure=>1 },
-
-            # XML & co.
-            qw/ XML-LibXML XML-LibXSLT XML-Parser XML-SAX XML-Simple XML::Twig /,
 
             # XML/SOAP webservices
             'Log::Report',
@@ -415,18 +416,18 @@
         disable => $ENV{SKIP_PDL_STEP}, ### hack
         plugin  => 'Perl::Dist::Strawberry::Step::BinaryToolsAndLibs',
         install_packages => {
-            'fftw3'         => '<package_url>/kmx/64_libs/gcc71-2017Q2/64bit_fftw-3.3.6-pl2-bin_20170512.zip',
-            'gnuplot'       => '<package_url>/kmx/64_libs/gcc49-2016Q2/64bit_gnuplot-5.0.3-bin_20160509.zip', #XXX-FIXME-XXX
-            'gsl'           => '<package_url>/kmx/64_libs/gcc71-2017Q2/64bit_gsl-2.3-bin_20170512.zip',
-           #'hdf4'          => '<package_url>/kmx/64_libs/gcc71-2017Q2/64bit_hdf-4.2.11-XXXXXXXXXXXXX.zip',
-            'hdf5'          => '<package_url>/kmx/64_libs/gcc71-2017Q2/64bit_hdf5-1.10.0-patch1-bin_20170512.zip',
-            'plplot'        => '<package_url>/kmx/64_libs/gcc71-2017Q2/64bit_plplot-5.11.1-bin_20170512.zip',
-            'proj'          => '<package_url>/kmx/64_libs/gcc71-2017Q2/64bit_proj-4.9.3-bin_20170512.zip',
-            'szip'          => '<package_url>/kmx/64_libs/gcc71-2017Q2/64bit_szip-2.1.1-bin_20170512.zip',
-            'talib'         => '<package_url>/kmx/64_libs/gcc71-2017Q2/64bit_ta-lib-0.4.0-bin_20170512.zip',
-           #'netcdf'        => '<package_url>/kmx/64_libs/gcc71-2017Q2/64bit_netcdf-4.3.2-XXXXXXXXXXXXX.zip',
-            'lapack'        => '<package_url>/kmx/64_libs/gcc71-2017Q2/64bit_lapack-3.7.0-bin_20170512.zip',
-            'cfitsio'       => '<package_url>/kmx/64_libs/gcc71-2017Q2/64bit_cfitsio-3.41-bin_20170512.zip',
+            'fftw3'         => '<package_url>/kmx/64_libs/gcc71-2017Q2/64bit_fftw-3.3.6-pl2-bin_20170517.zip',
+            'gnuplot'       => '<package_url>/kmx/64_libs/gcc71-2017Q2/64bit_gnuplot-5.0.6_EXTRADLL-bin_20170517.zip', #XXX-FIXME-XXX
+            'gsl'           => '<package_url>/kmx/64_libs/gcc71-2017Q2/64bit_gsl-2.3-bin_20170517.zip',
+            'hdf4'          => '<package_url>/kmx/64_libs/gcc71-2017Q2/64bit_hdf-4.2.12-bin_20170517.zip',
+            'hdf5'          => '<package_url>/kmx/64_libs/gcc71-2017Q2/64bit_hdf5-1.10.1-bin_20170517.zip',
+            'plplot'        => '<package_url>/kmx/64_libs/gcc71-2017Q2/64bit_plplot-5.12.0-bin_20170517.zip',
+            'proj'          => '<package_url>/kmx/64_libs/gcc71-2017Q2/64bit_proj-4.9.3-bin_20170517.zip',
+            'szip'          => '<package_url>/kmx/64_libs/gcc71-2017Q2/64bit_szip-2.1.1-bin_20170517.zip',
+            'talib'         => '<package_url>/kmx/64_libs/gcc71-2017Q2/64bit_ta-lib-0.4.0-bin_20170517.zip',
+            'netcdf'        => '<package_url>/kmx/64_libs/gcc71-2017Q2/64bit_netcdf-4.4.1.1-bin_20170517.zip',
+            'lapack'        => '<package_url>/kmx/64_libs/gcc71-2017Q2/64bit_lapack-3.7.0-bin_20170517.zip',
+            'cfitsio'       => '<package_url>/kmx/64_libs/gcc71-2017Q2/64bit_cfitsio-3.41-bin_20170517.zip',
         },
     },
     ### NEXT STEP ###########################
@@ -447,8 +448,8 @@
               PLPLOT_DRV_DIR => '<image_dir>\c\share\plplot',
             },
           },
-          qw/ PDL::IO::CSV PDL::IO::DBI /, # PDL::IO::Image PDL::DateTime
-          qw/ PDL::LinearAlgebra PDL::Stats /,
+          qw/ PDL::IO::CSV PDL::IO::DBI PDL::DateTime PDL::Stats /, # PDL::IO::Image
+          #qw/ PDL::LinearAlgebra 
           { module=>'PDL::Graphics::Prima', ignore_testfailure => 1 },
           { module=>'PDL::Graphics::Gnuplot', skiptest=>1 },
         ],
