@@ -417,7 +417,7 @@
         plugin  => 'Perl::Dist::Strawberry::Step::BinaryToolsAndLibs',
         install_packages => {
             'fftw3'         => '<package_url>/kmx/32_libs/gcc71-2017Q2/32bit_fftw-3.3.6-pl2-bin_20170517.zip',
-            'gnuplot'       => '<package_url>/kmx/32_libs/gcc71-2017Q2/32bit_gnuplot-5.0.6_EXTRADLL-bin_20170517.zip', #XXX-FIXME-XXX
+            'gnuplot'       => '<package_url>/kmx/32_libs/gcc71-2017Q2/32bit_gnuplot-5.0.6-bin_20170517.zip',
             'gsl'           => '<package_url>/kmx/32_libs/gcc71-2017Q2/32bit_gsl-2.3-bin_20170517.zip',
             'hdf4'          => '<package_url>/kmx/32_libs/gcc71-2017Q2/32bit_hdf-4.2.12-bin_20170517.zip',
             'hdf5'          => '<package_url>/kmx/32_libs/gcc71-2017Q2/32bit_hdf5-1.10.1-bin_20170517.zip',
