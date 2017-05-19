@@ -449,7 +449,7 @@
             },
           },
           qw/ PDL::IO::CSV PDL::IO::DBI PDL::DateTime PDL::Stats /, # PDL::IO::Image
-          #qw/ PDL::LinearAlgebra 
+          { module=>'<package_url>/kmx/perl-modules-patched/PDL-LinearAlgebra-0.12_patched.tar.gz' }, #XXX-FIXME
           { module=>'PDL::Graphics::Prima', ignore_testfailure => 1 },
           { module=>'PDL::Graphics::Gnuplot', skiptest=>1 },
         ],
