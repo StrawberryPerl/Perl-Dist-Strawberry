@@ -69,7 +69,7 @@
     ### NEXT STEP ###########################
     {
         plugin     => 'Perl::Dist::Strawberry::Step::InstallPerlCore',
-        url        => 'http://search.cpan.org/CPAN/authors/id/X/XS/XSAWYERX/perl-5.26.0-RC1.tar.gz',
+        url        => 'http://search.cpan.org/CPAN/authors/id/X/XS/XSAWYERX/perl-5.26.0-RC2.tar.gz',
         cf_email   => 'strawberry-perl@project', #IMPORTANT: keep 'strawberry-perl' before @
         perl_debug => 0,    # can be overridden by --perl_debug=N option
         perl_64bitint => 1, # ignored on 64bit, can be overridden by --perl_64bitint | --noperl_64bitint option
@@ -121,6 +121,7 @@
             'http://chorny.net/strawberry/Unicode-LineBreak-2016.003.tar.gz', #https://github.com/hatukanezumi/Unicode-LineBreak/pull/3
 
             #removed from core in 5.20
+            { module=>'LEONT/Module-Build-0.42_23.tar.gz' }, #XXX-TODO 5.26.0 needs this (remove once 0.43 is released)
             { module=>'B::Lint',  ignore_testfailure=>1 }, #XXX-TODO https://rt.cpan.org/Public/Bug/Display.html?id=101115
             { module=>'CPANPLUS', env=>{ 'HARNESS_SUBCLASS'=>'TAP::Harness::Restricted', 'HARNESS_SKIP'=>'t/40_CPANPLUS-Internals-Report.t' } },
             #XXX-TODO https://rt.cpan.org/Public/Bug/Display.html?id=116479
@@ -426,7 +427,7 @@
             'szip'          => '<package_url>/kmx/64_libs/gcc71-2017Q2/64bit_szip-2.1.1-bin_20170517.zip',
             'talib'         => '<package_url>/kmx/64_libs/gcc71-2017Q2/64bit_ta-lib-0.4.0-bin_20170517.zip',
             'netcdf'        => '<package_url>/kmx/64_libs/gcc71-2017Q2/64bit_netcdf-4.4.1.1-bin_20170517.zip',
-            'lapack'        => '<package_url>/kmx/64_libs/gcc71-2017Q2/64bit_lapack-3.7.0-bin_20170517.zip',
+            'lapack'        => '<package_url>/kmx/64_libs/gcc71-2017Q2/64bit_lapack-3.7.0-bin_20170523.zip',
             'cfitsio'       => '<package_url>/kmx/64_libs/gcc71-2017Q2/64bit_cfitsio-3.41-bin_20170517.zip',
         },
     },
@@ -449,7 +450,6 @@
             },
           },
           qw/ PDL::IO::CSV PDL::IO::DBI PDL::DateTime PDL::Stats /, # PDL::IO::Image
-          { module=>'<package_url>/kmx/perl-modules-patched/PDL-LinearAlgebra-0.12_patched.tar.gz' }, #XXX-FIXME
           { module=>'PDL::Graphics::Prima', ignore_testfailure => 1 },
           { module=>'PDL::Graphics::Gnuplot', skiptest=>1 },
         ],
