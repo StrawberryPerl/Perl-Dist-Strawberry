@@ -149,7 +149,8 @@
             qw/ Sys::Syslog /,
 
             # term related
-            qw/ Term::ReadKey /,
+            'http://chorny.net/strawberry/TermReadKey-2.37_01.tar.gz', #https://github.com/jonathanstowe/TermReadKey/issues/25
+            #qw/ Term::ReadKey /,
             { module=>'Term::ReadLine::Perl', env=>{ PERL_MM_NONINTERACTIVE=>1 } },
 
             # compression
