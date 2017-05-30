@@ -97,6 +97,7 @@
           { do=>'ignore_testfailure', distribution=>qr/^IPC-Cmd-/ },
           { do=>'ignore_testfailure', distribution=>qr/^Archive-Tar-/ }, # 2.12 fails
           { do=>'skip', distribution=>qr/^Net-Ping-/ },    # upgrade breaks other modules https://rt.cpan.org/Ticket/Display.html?id=118526
+          { do=>'skip', distribution=>'ExtUtils-MakeMaker-7.26' },    # https://rt.cpan.org/Ticket/Display.html?id=121913
           { do=>'ignore_testfailure', distribution=>qr/^threads-/ },     # 2.09 fails
           { do=>'ignore_testfailure', distribution=>qr/^ExtUtils-Install-/ },     # 2.10 fails on 5.26.0
         ]
@@ -149,7 +150,8 @@
             qw/ Sys::Syslog /,
 
             # term related
-            qw/ Term::ReadKey /,
+            'http://chorny.net/strawberry/TermReadKey-2.37_01.tar.gz', #https://github.com/jonathanstowe/TermReadKey/issues/25
+            #qw/ Term::ReadKey /,
             { module=>'Term::ReadLine::Perl', env=>{ PERL_MM_NONINTERACTIVE=>1 } },
 
             # compression
