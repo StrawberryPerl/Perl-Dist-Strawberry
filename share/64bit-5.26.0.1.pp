@@ -122,7 +122,7 @@
             'http://chorny.net/strawberry/Unicode-LineBreak-2016.003.tar.gz', #https://github.com/hatukanezumi/Unicode-LineBreak/pull/3
 
             #removed from core in 5.20
-            { module=>'LEONT/Module-Build-0.42_23.tar.gz' }, #XXX-TODO 5.26.0 needs this (remove once 0.43 is released)
+            qw/ Module::Build /,
             { module=>'B::Lint',  ignore_testfailure=>1 }, #XXX-TODO https://rt.cpan.org/Public/Bug/Display.html?id=101115
             { module=>'CPANPLUS', env=>{ 'HARNESS_SUBCLASS'=>'TAP::Harness::Restricted', 'HARNESS_SKIP'=>'t/40_CPANPLUS-Internals-Report.t' } },
             #XXX-TODO https://rt.cpan.org/Public/Bug/Display.html?id=116479
