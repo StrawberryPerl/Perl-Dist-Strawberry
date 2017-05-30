@@ -47,7 +47,7 @@
             'liblibxslt'    => '<package_url>/kmx/64_libs/gcc71-2017Q2/64bit_libxslt-1.1.29-bin_20170517.zip',
             'libmpc'        => '<package_url>/kmx/64_libs/gcc71-2017Q2/64bit_mpc-1.0.3-bin_20170517.zip',
             'libmpfr'       => '<package_url>/kmx/64_libs/gcc71-2017Q2/64bit_mpfr-3.1.5-bin_20170517.zip',
-            'libopenssl'    => '<package_url>/kmx/64_libs/gcc71-2017Q2/64bit_openssl-1.1.0e-bin_20170517.zip',
+            'libopenssl'    => '<package_url>/kmx/64_libs/gcc71-2017Q2/64bit_openssl-1.1.0f-bin_20170529.zip',
             'libpostgresql' => '<package_url>/kmx/64_libs/gcc71-2017Q2/64bit_postgresql-9.6.3-bin_20170517.zip',
             'libt1lib'      => '<package_url>/kmx/64_libs/gcc71-2017Q2/64bit_t1lib-5.1.2-bin_20170517.zip',
             'libtiff'       => '<package_url>/kmx/64_libs/gcc71-2017Q2/64bit_tiff-4.0.7-bin_20170517.zip',
@@ -69,7 +69,7 @@
     ### NEXT STEP ###########################
     {
         plugin     => 'Perl::Dist::Strawberry::Step::InstallPerlCore',
-        url        => 'http://search.cpan.org/CPAN/authors/id/X/XS/XSAWYERX/perl-5.26.0-RC2.tar.gz',
+        url        => 'http://search.cpan.org/CPAN/authors/id/X/XS/XSAWYERX/perl-5.26.0.tar.gz',
         cf_email   => 'strawberry-perl@project', #IMPORTANT: keep 'strawberry-perl' before @
         perl_debug => 0,    # can be overridden by --perl_debug=N option
         perl_64bitint => 1, # ignored on 64bit, can be overridden by --perl_64bitint | --noperl_64bitint option
