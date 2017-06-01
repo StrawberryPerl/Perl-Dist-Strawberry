@@ -19,3 +19,7 @@ DESCRIPTION
     perldist_strawberry used for building Strawberry perl release packages
     (MSI, ZIP).
 
+LICENSE
+    This software is free software; you can redistribute it and/or modify it
+    under the same terms as Perl itself.
+
