@@ -93,11 +93,8 @@
         exceptions => [
           # possible 'do' options: ignore_testfailure | skiptest | skip
           # e.g. { do=>'ignore_testfailure', distribution=>'ExtUtils-MakeMaker-6.72' },
-          { do=>'ignore_testfailure', distribution=>'Pod-Simple-3.31' },
           { do=>'ignore_testfailure', distribution=>qr/^IPC-Cmd-/ },
           { do=>'ignore_testfailure', distribution=>qr/^Archive-Tar-/ }, # 2.12 fails
-          { do=>'skip', distribution=>qr/^Net-Ping-/ },    # upgrade breaks other modules https://rt.cpan.org/Ticket/Display.html?id=118526
-          { do=>'skip', distribution=>'ExtUtils-MakeMaker-7.26' },    # https://rt.cpan.org/Ticket/Display.html?id=121913
           { do=>'ignore_testfailure', distribution=>qr/^threads-/ },     # 2.09 fails
           { do=>'ignore_testfailure', distribution=>qr/^ExtUtils-Install-/ },     # 2.10 fails on 5.26.0
         ]
