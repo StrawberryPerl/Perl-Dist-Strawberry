@@ -1,0 +1,21 @@
+diff -ru perl-5.26.0/perl.h perl-5.26.0-patched/perl.h
+--- perl-5.26.0/perl.h	2017-05-30 11:58:05.000000000 +0200
++++ perl-5.26.0-patched/perl.h	2017-07-16 17:30:33.874268200 +0200
+@@ -6261,7 +6261,7 @@
+ #    ifdef __hpux
+ #        define strtoll __strtoll	/* secret handshake */
+ #    endif
+-#    ifdef WIN64
++#    if defined(WIN64) && defined(_MSC_VER)
+ #        define strtoll _strtoi64	/* secret handshake */
+ #    endif
+ #   if !defined(Strtol) && defined(HAS_STRTOLL)
+@@ -6295,7 +6295,7 @@
+ #    ifdef __hpux
+ #        define strtoull __strtoull	/* secret handshake */
+ #    endif
+-#    ifdef WIN64
++#    if defined(WIN64) && defined(_MSC_VER)
+ #        define strtoull _strtoui64	/* secret handshake */
+ #    endif
+ #    if !defined(Strtoul) && defined(HAS_STRTOULL)
