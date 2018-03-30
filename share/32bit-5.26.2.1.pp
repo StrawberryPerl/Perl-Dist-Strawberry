@@ -115,9 +115,6 @@
             # gdbm / db related
             qw/ BerkeleyDB DB_File DBM-Deep /,
 
-            #required for Log::Report
-            'http://chorny.net/strawberry/Unicode-LineBreak-2016.003.tar.gz', #https://github.com/hatukanezumi/Unicode-LineBreak/pull/3
-
             #removed from core in 5.20
             qw/ Module::Build /,
             { module=>'B::Lint',  ignore_testfailure=>1 }, #XXX-TODO https://rt.cpan.org/Public/Bug/Display.html?id=101115
