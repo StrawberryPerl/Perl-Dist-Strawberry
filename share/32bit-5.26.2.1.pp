@@ -131,8 +131,7 @@
             'ExtUtils::PkgConfig',
 
             # win32 related
-            'Win32API::Registry',
-            { module=>'Win32::TieRegistry', ignore_testfailure=>1 }, #XXX-TODO: ! Testing Win32-TieRegistry-0.26 failed
+            qw/Win32API::Registry Win32::TieRegistry/,
             { module=>'Win32::OLE',         ignore_testfailure=>1 }, #XXX-TODO: ! Testing Win32-OLE-0.1711 failed
             { module=>'Win32::GuiTest',     skiptest=>1 },
             { module=>'Win32::API',         ignore_testfailure=>1 }, #XXX-TODO: https://rt.cpan.org/Public/Bug/Display.html?id=107450
@@ -153,7 +152,8 @@
             qw/ IO-Compress-Lzma Compress-unLZMA Archive::Extract /,
 
             # file related
-            qw/ File-Find-Rule File-HomeDir File-Listing File-Remove File-ShareDir File-Which File-Copy-Recursive File::Map /,
+            qw/ File-Find-Rule File-HomeDir File-Listing File-Remove File-ShareDir File-Which File::Map/,
+            'http://backpan.cpantesters.org/authors/id/D/DM/DMUEY/File-Copy-Recursive-0.38.tar.gz', #https://rt.cpan.org/Ticket/Display.html?id=123971
             qw/ File::Slurp File::Slurper /,
             qw/ IO::All Path::Tiny Path::Class /,
 
@@ -164,15 +164,16 @@
             qw/ ExtUtils::F77 /,
 
             # SSL & SSH & telnet
-            { module=>'Net-SSLeay', ignore_testfailure=>1 },
-            { module=>'IO-Socket-SSL', skiptest=>1 }, # XXX-HACK: https://rt.cpan.org/Public/Bug/Display.html?id=95328
+            'Net-SSLeay',
+            { module=>'IO-Socket-SSL', env=>{ 'HARNESS_SUBCLASS'=>'TAP::Harness::Restricted', 'HARNESS_SKIP'=>'t/mitm.t t/verify_fingerprint.t t/session_ticket.t' } },
+            #https://github.com/noxxi/p5-io-socket-ssl/issues/30
             qw/ Net-SSH2 Net::Telnet /,
 
             # network
             qw/ IO::Socket::IP IO::Socket::INET6 IO::Socket::Socks /,
             qw/ HTTP-Server-Simple /,
             qw/ LWP::UserAgent /,
-            { module=>'LWP::Protocol::https', ignore_testfailure=>1 },    #XXX-TODO LWP-Protocol-https-6.04
+            { module=>'LWP::Protocol::https', env=>{ 'HARNESS_SUBCLASS'=>'TAP::Harness::Restricted', 'HARNESS_SKIP'=>'t/https_proxy.t' } }, #https://rt.perl.org/Ticket/Display.html?id=132863
             { module=>'<package_url>/kmx/perl-modules-patched/Crypt-SSLeay-0.72_patched.tar.gz' }, #XXX-FIXME
             { module=>'Mojolicious', env=>{ 'HARNESS_SUBCLASS'=>'TAP::Harness::Restricted', 'HARNESS_SKIP'=>'t/mojolicious/websocket_lite_app.t' } }, #https://github.com/kraih/mojo/issues/1011
             { module=>'WWW::Mechanize', skiptest=>1 }, # tests hang
@@ -190,7 +191,7 @@
             #XXX-TODO DBD::Pg fails with -D__USE_MINGW_ANSI_STDIO (e.g. long double build)
             #XXX-TODO ( $ENV{SKIP_LD_TROUBLE_MAKERS} ? () : ('DBD::Pg') ),
             { module=>'<package_url>/kmx/perl-modules-patched/DBD-Pg-3.6.0_patched.tar.gz' },
-            { module=>'DBD::mysql' },
+            'DBD::mysql',
             { module=>'DBD::Oracle', makefilepl_param=>'-V 12.2.0.1.0', env=>{ ORACLE_HOME=>'c:\ora122instant32' }, skiptest=>1 }, ## requires Oracle Instant Client 32bit!!!
 
             # crypto related
@@ -215,7 +216,6 @@
             #qw/ Module::Signature /, #XXX-TODO still not able to properly handle CRLF - https://metacpan.org/release/Module-Signature
 
             # date/time
-            { module=>'Test2::Plugin::NoWarnings', ignore_testfailure=>1 }, #XXX-PREREQ-ONLY https://rt.cpan.org/Public/Bug/Display.html?id=118443
             qw/ DateTime Date::Format DateTime::Format::DateParse DateTime::TimeZone::Local::Win32 Time::Moment /,
 
             # e-mail
@@ -225,8 +225,8 @@
             { module=>'Net::DNS', skiptest=>1 }, # tests might hang due to network issues
 
             # graphics
-            { module=>'GD', ignore_testfailure=>1 },                    #XXX-TODO ! Testing GD-2.53 failed
-            { module=>'Imager', ignore_testfailure=>1 },                #XXX-TODO ! Testing Imager-0.98 failed
+            'GD',
+            'http://chorny.net/strawberry/Imager-1.006.zip', #https://rt.cpan.org/Ticket/Display.html?id=124001
             qw/ Imager-File-GIF Imager-File-JPEG Imager-File-PNG Imager-File-TIFF Imager-Font-FT2 Imager-Font-W32 /,
             { module=>'OpenGL', ignore_testfailure=>1 },
 
@@ -248,7 +248,7 @@
             qw/ Try-Tiny Carp::Always autodie /,
 
             # templates
-            { module=>'Template', ignore_testfailure=>1 }, #XXX-NEW 5.26.0
+            { module=>'Template', env=>{ 'HARNESS_SUBCLASS'=>'TAP::Harness::Restricted', 'HARNESS_SKIP'=>'t/process_dir.t' } }, #XXX-NEW 5.26.0 https://github.com/abw/Template2/pull/67
             qw/ Template-Tiny /,
 
             # OO - moose, moo & co.
