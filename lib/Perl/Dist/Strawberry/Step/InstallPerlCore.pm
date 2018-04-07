@@ -116,7 +116,11 @@ sub run {
 
     # necessary workaround for building 32bit perl on 64bit Windows
     my @make_args = ("INST_DRV=$INST_DRV", "INST_TOP=$INST_TOP", "CCHOME=$CCHOME", "EMAIL=$cf_email");
-    push @make_args, 'GCC_4XX=define', 'GCCHELPERDLL=$(CCHOME)\bin\libgcc_s_sjlj-1.dll'; #perl-5.12/14 only
+
+    #HACK: perl-5.12/14 only
+    if ($self->global->{app_version} && $self->global->{app_version} =~ /^5\.(12|14)/) {
+      push @make_args, 'GCC_4XX=define', 'GCCHELPERDLL=$(CCHOME)\bin\libgcc_s_sjlj-1.dll';
+    }
 
     # enable debug build
     push @make_args, 'CFG=Debug' if $dbg > 0;
@@ -145,26 +149,27 @@ sub run {
       push @make_args, 'WIN64=undef';
     }
 
+    my $maketool = $self->global->{maketool} || 'dmake';
     #create debuging build scripts in 'win32' subdir
     my $set_simple_path = "set PATH=$image_dir\\c\\bin;\%SystemRoot\%\\system32;\%SystemRoot\%";
-    write_file('_do_dmake.bat', $set_simple_path."\n".join(' ', 'dmake', @make_args).' %*');
-    write_file('_do_dmake_install.bat', $set_simple_path."\n".join(' ', 'dmake', @make_args, 'install'));
-    write_file('_do_dmake_test.bat', $set_simple_path."\n".join(' ', 'dmake', @make_args, 'test'));
+    write_file('_do_make.bat', $set_simple_path."\n".join(' ', $maketool, @make_args).' %*');
+    write_file('_do_make_install.bat', $set_simple_path."\n".join(' ', $maketool, @make_args, 'install'));
+    write_file('_do_make_test.bat', $set_simple_path."\n".join(' ', $maketool, @make_args, 'test'));
 
     # Compile perl.
     my $rv;
     $self->boss->message( 1, "Building perl $version (dbg=$dbg, u64=$u64, uld=$uld)...\n" );
-    $log = catfile($self->global->{debug_dir}, 'perl_dmake_all.log.txt');
+    $log = catfile($self->global->{debug_dir}, 'perl_make_all.log.txt');
 
     if ($self->global->{bits} == 64) {
-      #XXX-FIXME-XXX 'dmake all' fails with redirected output for 64bit build via IPC::Run3
-      $rv = $self->execute_special(['dmake', @make_args, 'all'], undef, undef, $new_env);
+      #XXX-FIXME-XXX 'make all' fails with redirected output for 64bit build via IPC::Run3
+      $rv = $self->execute_special([$maketool, @make_args, 'all'], undef, undef, $new_env);
     }
     else {
-      $rv = $self->execute_special(['dmake', @make_args, 'all'], $log, $log, $new_env);
+      $rv = $self->execute_special([$maketool, @make_args, 'all'], $log, $log, $new_env);
     }
 
-    die "FATAL: dmake all FAILED!" unless(defined $rv && $rv == 0);
+    die "FATAL: $maketool all FAILED!" unless(defined $rv && $rv == 0);
 
     # Get information required for testing and installing perl.
     #my $long_build = Win32::GetLongPathName( rel2abs( $self->global->{build_dir} ) );
@@ -173,16 +178,16 @@ sub run {
     if ($self->global->{test_core}) {
       $new_env->{PERL_SKIP_TTY_TEST} = 1;
       $self->boss->message( 1, "Testing perl $version ...\n" );
-      $log = catfile($self->global->{debug_dir}, 'perl_dmake_test.log.txt');
-      $self->execute_special(['dmake', @make_args, 'test'], $log, $log, $new_env);
-      $self->boss->message( 1, "dmake test FAILED!") unless(defined $rv && $rv == 0);
+      $log = catfile($self->global->{debug_dir}, 'perl_make_test.log.txt');
+      $self->execute_special([$maketool, @make_args, 'test'], $log, $log, $new_env);
+      $self->boss->message( 1, "$maketool test FAILED!") unless(defined $rv && $rv == 0);
     }
 
     # Installing perl.
     $self->boss->message( 1, "Installing perl $version ...\n" );
-    $log = catfile($self->global->{debug_dir}, 'perl_dmake_install.log.txt');
-    $rv = $self->execute_special(['dmake', @make_args, 'install', 'UNINST=1'], $log, $log, $new_env);
-    die "FATAL: dmake install FAILED!" unless(defined $rv && $rv == 0);
+    $log = catfile($self->global->{debug_dir}, 'perl_make_install.log.txt');
+    $rv = $self->execute_special([$maketool, @make_args, 'install', 'UNINST=1'], $log, $log, $new_env);
+    die "FATAL: $maketool install FAILED!" unless(defined $rv && $rv == 0);
   }
   
   # Debug version with separated debug symbols [EXPERIMENTAL]
@@ -215,8 +220,12 @@ sub run {
   remove_tree("$image_dir/perl/html") if -d "$image_dir/perl/html";
   remove_tree("$image_dir/perl/man")  if -d "$image_dir/perl/man";
   
-  # If using gcc4, copy the helper dll into perl's bin directory.
+  # copy the helper dll into perl's bin directory.
   my $from;
+  $from = catfile($image_dir, qw/c bin libgcc_s_dw2-1.dll/);
+  copy($from, catfile($image_dir, qw/perl bin libgcc_s_dw2-1.dll/)) if -f $from;
+  $from = catfile($image_dir, qw/c bin libgcc_s_seh-1.dll/);
+  copy($from, catfile($image_dir, qw/perl bin libgcc_s_seh-1.dll/)) if -f $from;
   $from = catfile($image_dir, qw/c bin libgcc_s_sjlj-1.dll/);
   copy($from, catfile($image_dir, qw/perl bin libgcc_s_sjlj-1.dll/)) if -f $from;
   $from = catfile($image_dir, qw/c bin libstdc++-6.dll/);

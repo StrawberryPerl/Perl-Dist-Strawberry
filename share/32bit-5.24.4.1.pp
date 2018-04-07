@@ -6,7 +6,7 @@
 # <image_dir>     is placeholder for c:\strawberry
 
 {
-  app_version     => '5.24.1.1', #BEWARE: do not use '.0.0' in the last two version digits
+  app_version     => '5.24.4.1', #BEWARE: do not use '.0.0' in the last two version digits
   bits            => 32,
   beta            => 0,
   app_fullname    => 'Strawberry Perl',
@@ -43,7 +43,7 @@
             'liblibxslt'    => '<package_url>/kmx/32_libs/gcc49-2016Q2/32bit_libxslt-1.1.28-bin_20160509.zip',
             'libmpc'        => '<package_url>/kmx/32_libs/gcc49-2016Q2/32bit_mpc-1.0.3-bin_20160509.zip',
             'libmpfr'       => '<package_url>/kmx/32_libs/gcc49-2016Q2/32bit_mpfr-3.1.4-bin_20160509.zip',
-            'libopenssl'    => '<package_url>/kmx/32_libs/gcc49-2016Q4/32bit_openssl-1.0.2j-bin_20161014.zip',
+            'libopenssl'    => '<package_url>/kmx/32_libs/gcc49-2018Q2/32bit_openssl-1.0.2o-bin_20180406.zip',
             'libpostgresql' => '<package_url>/kmx/32_libs/gcc49-2016Q2/32bit_postgresql-9.5.2-bin_20160509.zip',
             'libt1lib'      => '<package_url>/kmx/32_libs/gcc49-2016Q2/32bit_t1lib-5.1.2-bin_20160509.zip',
             'libtiff'       => '<package_url>/kmx/32_libs/gcc49-2016Q2/32bit_tiff-4.0.6-bin_20160509.zip',
@@ -65,7 +65,7 @@
     ### NEXT STEP ###########################
     {
         plugin     => 'Perl::Dist::Strawberry::Step::InstallPerlCore',
-        url        => 'http://search.cpan.org/CPAN/authors/id/S/SH/SHAY/perl-5.24.1.tar.gz',
+        url        => 'https://cpan.metacpan.org/authors/id/S/SH/SHAY/perl-5.24.4-RC1.tar.gz',
         cf_email   => 'strawberry-perl@project', #IMPORTANT: keep 'strawberry-perl' before @
         perl_debug => 0,    # can be overridden by --perl_debug=N option
         perl_64bitint => 1, # ignored on 64bit, can be overridden by --perl_64bitint | --noperl_64bitint option
@@ -94,17 +94,18 @@
           { do=>'ignore_testfailure', distribution=>qr/^Archive-Tar-/ }, # 2.12 fails
           { do=>'skip', distribution=>qr/^Net-Ping-/ },    # upgrade breaks other modules https://rt.cpan.org/Ticket/Display.html?id=118526
           { do=>'ignore_testfailure', distribution=>qr/^threads-/ },     # 2.09 fails
+          { do=>'ignore_testfailure', distribution=>qr/^ExtUtils-Install-/ },     # 2.10 fails on 5.26.0
         ]
     },
     ### NEXT STEP ###########################
     {
         plugin => 'Perl::Dist::Strawberry::Step::InstallModules',
         modules => [
+            { module=>'Capture::Tiny', ignore_testfailure=>1 }, #XXX-TODO https://github.com/dagolden/Capture-Tiny/issues/29
             'TAP::Harness::Restricted', #to be able to skip only some tests
             # IPC related
             { module=>'IPC-Run', skiptest=>1 }, #XXX-TODO trouble with 'Terminating on signal SIGBREAK(21)' https://metacpan.org/release/IPC-Run
             { module=>'IPC-System-Simple', ignore_testfailure=>1 }, #XXX-TODO t/07_taint.t fails https://metacpan.org/release/IPC-System-Simple
-            { module=>'Capture::Tiny', ignore_testfailure=>1 }, #XXX-TODO https://github.com/dagolden/Capture-Tiny/issues/29
             qw/ IPC-Run3 /,
 
             { module=>'LWP::UserAgent', skiptest=>1 }, # XXX-HACK: 6.08 is broken
@@ -112,10 +113,8 @@
             # gdbm / db related
             qw/ BerkeleyDB DB_File DBM-Deep /,
 
-            #required for Log::Report
-            'http://chorny.net/strawberry/Unicode-LineBreak-2016.003.tar.gz', #https://github.com/hatukanezumi/Unicode-LineBreak/pull/3
-
             #removed from core in 5.20
+            qw/ Module::Build /,
             { module=>'B::Lint',  ignore_testfailure=>1 }, #XXX-TODO https://rt.cpan.org/Public/Bug/Display.html?id=101115
             { module=>'CPANPLUS', env=>{ 'HARNESS_SUBCLASS'=>'TAP::Harness::Restricted', 'HARNESS_SKIP'=>'t/40_CPANPLUS-Internals-Report.t' } },
             #XXX-TODO https://rt.cpan.org/Public/Bug/Display.html?id=116479
@@ -130,18 +129,19 @@
             'ExtUtils::PkgConfig',
 
             # win32 related
-            'Win32API::Registry',
-            { module=>'Win32::TieRegistry', ignore_testfailure=>1 }, #XXX-TODO: ! Testing Win32-TieRegistry-0.26 failed
+            qw/Win32API::Registry Win32::TieRegistry/,
             { module=>'Win32::OLE',         ignore_testfailure=>1 }, #XXX-TODO: ! Testing Win32-OLE-0.1711 failed
             { module=>'Win32::GuiTest',     skiptest=>1 },
             { module=>'Win32::API',         ignore_testfailure=>1 }, #XXX-TODO: https://rt.cpan.org/Public/Bug/Display.html?id=107450
             'Win32::Exe',
+            'Win32::Daemon',
             qw/ Win32-EventLog Win32-Process Win32-WinError Win32-File-Object Win32-UTCFileTime /,
-            qw/ Win32-ShellQuote Win32::Console Win32::Console::ANSI Win32::Job Win32::Daemon Win32::ServiceManager Win32::Service /,
+            qw/ Win32-ShellQuote Win32::Console Win32::Console::ANSI Win32::Job Win32::ServiceManager Win32::Service /,
             qw/ Sys::Syslog /,
 
             # term related
-            qw/ Term::ReadKey /,
+            'http://chorny.net/strawberry/TermReadKey-2.37_01.tar.gz', #https://github.com/jonathanstowe/TermReadKey/issues/25
+            #qw/ Term::ReadKey /,
             { module=>'Term::ReadLine::Perl', env=>{ PERL_MM_NONINTERACTIVE=>1 } },
 
             # compression
@@ -149,7 +149,8 @@
             qw/ IO-Compress-Lzma Compress-unLZMA Archive::Extract /,
 
             # file related
-            qw/ File-Find-Rule File-HomeDir File-Listing File-Remove File-ShareDir File-Which File-Copy-Recursive File::Map /,
+            qw/ File-Find-Rule File-HomeDir File-Listing File-Remove File-ShareDir File-Which File::Map/,
+            'http://cpan.metacpan.org/authors/id/D/DM/DMUEY/File-Copy-Recursive-0.38.tar.gz', # https://rt.cpan.org/Ticket/Display.html?id=123971 https://rt.cpan.org/Ticket/Display.html?id=123971
             qw/ File::Slurp File::Slurper /,
             qw/ IO::All Path::Tiny Path::Class /,
 
@@ -160,18 +161,23 @@
             qw/ ExtUtils::F77 /,
 
             # SSL & SSH & telnet
-            qw/ Net-SSLeay /,
-            { module=>'IO-Socket-SSL', skiptest=>1 }, # XXX-HACK: https://rt.cpan.org/Public/Bug/Display.html?id=95328
+            'Net-SSLeay',
+            { module=>'IO-Socket-SSL', env=>{ 'HARNESS_SUBCLASS'=>'TAP::Harness::Restricted', 'HARNESS_SKIP'=>'t/mitm.t t/verify_fingerprint.t t/session_ticket.t' } },
+            #https://github.com/noxxi/p5-io-socket-ssl/issues/30
             qw/ Net-SSH2 Net::Telnet /,
 
             # network
             qw/ IO::Socket::IP IO::Socket::INET6 IO::Socket::Socks /,
             qw/ HTTP-Server-Simple /,
             qw/ LWP::UserAgent /,
-            { module=>'LWP-Protocol-https', ignore_testfailure=>1 },    #XXX-TODO LWP-Protocol-https-6.04
-            qw/ Crypt-SSLeay /, # must be after LWP-Protocol-https
+            { module=>'LWP::Protocol::https', env=>{ 'HARNESS_SUBCLASS'=>'TAP::Harness::Restricted', 'HARNESS_SKIP'=>'t/https_proxy.t' } }, #https://rt.perl.org/Ticket/Display.html?id=132863
+            { module=>'<package_url>/kmx/perl-modules-patched/Crypt-SSLeay-0.72_patched.tar.gz' }, #XXX-FIXME
             { module=>'Mojolicious', env=>{ 'HARNESS_SUBCLASS'=>'TAP::Harness::Restricted', 'HARNESS_SKIP'=>'t/mojolicious/websocket_lite_app.t' } }, #https://github.com/kraih/mojo/issues/1011
             { module=>'WWW::Mechanize', skiptest=>1 }, # tests hang
+
+            # XML & co.
+            qw/ XML-LibXML XML-LibXSLT XML-Parser XML-SAX XML-Simple /,
+            { module=>'XML::Twig', ignore_testfailure=>1 },             #XXX-TODO XML-Twig-3.52 fails
 
             # data/text processing
             { module=>'IO::Stringy', env=>{ 'HARNESS_SUBCLASS'=>'TAP::Harness::Restricted', 'HARNESS_SKIP'=>'t/IO_InnerFile.t' } }, #https://rt.cpan.org/Public/Bug/Display.html?id=103895
@@ -181,7 +187,7 @@
             qw/ DBI DBD-ODBC DBD-SQLite DBD-CSV DBD-ADO DBIx-Class DBIx-Simple /,
             #XXX-TODO DBD::Pg fails with -D__USE_MINGW_ANSI_STDIO (e.g. long double build)
             ( $ENV{SKIP_LD_TROUBLE_MAKERS} ? () : ('DBD::Pg') ),
-            { module=>'DBD::mysql' },
+            'DBD::mysql',
             { module=>'DBD::Oracle', makefilepl_param=>'-V 12.1.0.2.0', env=>{ ORACLE_HOME=>'c:\ora12instant32' }, skiptest=>1 }, ## requires Oracle Instant Client 32bit!!!
 
             # crypto related
@@ -190,7 +196,7 @@
 
             # crypto
             qw/ Crypt::OpenSSL::Bignum Crypt::OpenSSL::Random Crypt-OpenSSL-RSA Crypt::OpenSSL::DSA Crypt::OpenSSL::X509 /,
-            'KMX/Crypt-OpenSSL-AES-0.03.tar.gz',      #XXX-FIXME patched https://metacpan.org/pod/Crypt::OpenSSL::AES  https://rt.cpan.org/Public/Bug/Display.html?id=77605
+            'KMX/Crypt-OpenSSL-AES-0.05.tar.gz', #XXX-FIXME patched https://metacpan.org/pod/Crypt::OpenSSL::AES  https://rt.cpan.org/Public/Bug/Display.html?id=77605
             #Crypt-SMIME ?
             qw/ Crypt::CBC Crypt::Blowfish Crypt::CAST5_PP Crypt::DES Crypt::DES_EDE3 Crypt::DSA Crypt::IDEA Crypt::Rijndael Crypt::Twofish Crypt::Serpent Crypt::RC6 /,
             qw/ Digest-MD2 Digest-MD5 Digest-SHA Digest-SHA1 Crypt::RIPEMD160 Digest::Whirlpool Digest::HMAC Digest::CMAC /,
@@ -198,27 +204,23 @@
             qw/ Crypt-DSA Crypt::DSA::GMP /,
             { module=>'Crypt::Random', ignore_testfailure=>1 }, #fails on 64bit + https://rt.cpan.org/Public/Bug/Display.html?id=99880
 
-            # tests fail on 5.18.x
-            { module =>'Crypt::OpenPGP' },
+            qw/ Bytes::Random::Secure Crypt::OpenPGP /,
             #qw/ Module::Signature /, #XXX-TODO still not able to properly handle CRLF - https://metacpan.org/release/Module-Signature
 
             # date/time
-            { module=>'Test2::Plugin::NoWarnings', ignore_testfailure=>1 }, #XXX-PREREQ-ONLY https://rt.cpan.org/Public/Bug/Display.html?id=118443
             qw/ DateTime Date::Format DateTime::Format::DateParse DateTime::TimeZone::Local::Win32 Time::Moment /,
 
             # e-mail
+            qw/ List::MoreUtils::XS List::MoreUtils /, # required by Net::IMAP::Client - https://rt.cpan.org/Public/Bug/Display.html?id=122875
             qw/ Email::MIME::Kit Email::Sender Email::Simple Email::Valid Email::Stuffer Mail::Send /,
             qw/ Net::SMTPS Net::SMTP Net::IMAP::Client Net::POP3 /,
             { module=>'Net::DNS', skiptest=>1 }, # tests might hang due to network issues
 
             # graphics
-            { module=>'GD', ignore_testfailure=>1 },                    #XXX-TODO ! Testing GD-2.53 failed
-            { module=>'Imager', ignore_testfailure=>1 },                #XXX-TODO ! Testing Imager-0.98 failed
+            'GD',
+            'http://chorny.net/strawberry/Imager-1.006.zip', #https://rt.cpan.org/Ticket/Display.html?id=124001
             qw/ Imager-File-GIF Imager-File-JPEG Imager-File-PNG Imager-File-TIFF Imager-Font-FT2 Imager-Font-W32 /,
             { module=>'OpenGL', ignore_testfailure=>1 },
-
-            # XML & co.
-            qw/ XML-LibXML XML-LibXSLT XML-Parser XML-SAX XML-Simple XML::Twig /,
 
             # XML/SOAP webservices
             'Log::Report',
@@ -238,7 +240,8 @@
             qw/ Try-Tiny Carp::Always autodie /,
 
             # templates
-            qw/ Template Template-Tiny /,
+            { module=>'Template', env=>{ 'HARNESS_SUBCLASS'=>'TAP::Harness::Restricted', 'HARNESS_SKIP'=>'t/process_dir.t' } }, #XXX-NEW 5.26.0 https://github.com/abw/Template2/pull/67
+            qw/ Template-Tiny /,
 
             # OO - moose, moo & co.
             qw/ Moose MooseX-Types MooseX::Types::Structured /,
@@ -423,7 +426,6 @@
         plugin => 'Perl::Dist::Strawberry::Step::InstallModules',
         # modules specific to PDL edition
         modules => [
-          ###'DROLSKY/Params-Validate-1.26.tar.gz', #XXX-FIXME v1.25 is broken however cpanm is not able to find v1.26 https://metacpan.org/pod/Params::Validate
           { module => 'Devel::REPL', ignore_testfailure => 1 },
           qw/Lexical::Persistence Astro::FITS::Header Astro::FITS::CFITSIO/,
           { module => 'Inline::C', ignore_testfailure => 1 },
@@ -435,8 +437,8 @@
               PLPLOT_DRV_DIR => '<image_dir>\c\share\plplot',
             },
           },
-          qw/ PDL::IO::CSV PDL::IO::DBI /, # PDL::IO::Image PDL::DateTime
-          qw/ PDL::LinearAlgebra PDL::Stats /,
+          qw/ PDL::IO::CSV PDL::IO::DBI PDL::DateTime PDL::Stats /, # PDL::IO::Image
+          qw/ PDL::LinearAlgebra /,
           { module=>'PDL::Graphics::Prima', ignore_testfailure => 1 },
           { module=>'PDL::Graphics::Gnuplot', skiptest=>1 },
         ],

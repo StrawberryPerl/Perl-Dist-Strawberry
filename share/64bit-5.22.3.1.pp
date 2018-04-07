@@ -65,7 +65,7 @@
     ### NEXT STEP ###########################
     {
         plugin     => 'Perl::Dist::Strawberry::Step::InstallPerlCore',
-        url        => 'http://search.cpan.org/CPAN/authors/id/S/SH/SHAY/perl-5.22.3-RC5.tar.gz',
+        url        => 'http://search.cpan.org/CPAN/authors/id/S/SH/SHAY/perl-5.22.3.tar.gz',
         cf_email   => 'strawberry-perl@project', #IMPORTANT: keep 'strawberry-perl' before @
         perl_debug => 0,    # can be overridden by --perl_debug=N option
         perl_64bitint => 1, # ignored on 64bit, can be overridden by --perl_64bitint | --noperl_64bitint option
@@ -92,7 +92,7 @@
           { do=>'ignore_testfailure', distribution=>'Pod-Simple-3.31' },
           { do=>'ignore_testfailure', distribution=>qr/^IPC-Cmd-/ },
           { do=>'ignore_testfailure', distribution=>qr/^Archive-Tar-/ }, # 2.12 fails
-          { do=>'ignore_testfailure', distribution=>qr/^Net-Ping-/ },    # 2.52 fails (2.53 should be ok)
+          { do=>'skip', distribution=>qr/^Net-Ping-/ },    # upgrade breaks other modules https://rt.cpan.org/Ticket/Display.html?id=118526
           { do=>'ignore_testfailure', distribution=>qr/^threads-/ },     # 2.09 fails
         ]
     },

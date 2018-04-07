@@ -6,7 +6,7 @@
 # <image_dir>     is placeholder for c:\strawberry
 
 {
-  app_version     => '5.24.1.1', #BEWARE: do not use '.0.0' in the last two version digits
+  app_version     => '5.24.2.1', #BEWARE: do not use '.0.0' in the last two version digits
   bits            => 32,
   beta            => 0,
   app_fullname    => 'Strawberry Perl',
@@ -43,7 +43,7 @@
             'liblibxslt'    => '<package_url>/kmx/32_libs/gcc49-2016Q2/32bit_libxslt-1.1.28-bin_20160509.zip',
             'libmpc'        => '<package_url>/kmx/32_libs/gcc49-2016Q2/32bit_mpc-1.0.3-bin_20160509.zip',
             'libmpfr'       => '<package_url>/kmx/32_libs/gcc49-2016Q2/32bit_mpfr-3.1.4-bin_20160509.zip',
-            'libopenssl'    => '<package_url>/kmx/32_libs/gcc49-2016Q4/32bit_openssl-1.0.2j-bin_20161014.zip',
+            'libopenssl'    => '<package_url>/kmx/32_libs/gcc49-2017Q3/32bit_openssl-1.0.2l-bin_20170716.zip',
             'libpostgresql' => '<package_url>/kmx/32_libs/gcc49-2016Q2/32bit_postgresql-9.5.2-bin_20160509.zip',
             'libt1lib'      => '<package_url>/kmx/32_libs/gcc49-2016Q2/32bit_t1lib-5.1.2-bin_20160509.zip',
             'libtiff'       => '<package_url>/kmx/32_libs/gcc49-2016Q2/32bit_tiff-4.0.6-bin_20160509.zip',
@@ -65,7 +65,7 @@
     ### NEXT STEP ###########################
     {
         plugin     => 'Perl::Dist::Strawberry::Step::InstallPerlCore',
-        url        => 'http://search.cpan.org/CPAN/authors/id/S/SH/SHAY/perl-5.24.1.tar.gz',
+        url        => 'http://search.cpan.org/CPAN/authors/id/S/SH/SHAY/perl-5.24.2.tar.gz',
         cf_email   => 'strawberry-perl@project', #IMPORTANT: keep 'strawberry-perl' before @
         perl_debug => 0,    # can be overridden by --perl_debug=N option
         perl_64bitint => 1, # ignored on 64bit, can be overridden by --perl_64bitint | --noperl_64bitint option
@@ -190,7 +190,8 @@
 
             # crypto
             qw/ Crypt::OpenSSL::Bignum Crypt::OpenSSL::Random Crypt-OpenSSL-RSA Crypt::OpenSSL::DSA Crypt::OpenSSL::X509 /,
-            'KMX/Crypt-OpenSSL-AES-0.03.tar.gz',      #XXX-FIXME patched https://metacpan.org/pod/Crypt::OpenSSL::AES  https://rt.cpan.org/Public/Bug/Display.html?id=77605
+            'KMX/Crypt-OpenSSL-AES-0.05.tar.gz',      #XXX-FIXME patched https://metacpan.org/pod/Crypt::OpenSSL::AES  https://rt.cpan.org/Public/Bug/Display.html?id=77605
+
             #Crypt-SMIME ?
             qw/ Crypt::CBC Crypt::Blowfish Crypt::CAST5_PP Crypt::DES Crypt::DES_EDE3 Crypt::DSA Crypt::IDEA Crypt::Rijndael Crypt::Twofish Crypt::Serpent Crypt::RC6 /,
             qw/ Digest-MD2 Digest-MD5 Digest-SHA Digest-SHA1 Crypt::RIPEMD160 Digest::Whirlpool Digest::HMAC Digest::CMAC /,
@@ -199,6 +200,7 @@
             { module=>'Crypt::Random', ignore_testfailure=>1 }, #fails on 64bit + https://rt.cpan.org/Public/Bug/Display.html?id=99880
 
             # tests fail on 5.18.x
+            qw/ Bytes::Random::Secure /,
             { module =>'Crypt::OpenPGP' },
             #qw/ Module::Signature /, #XXX-TODO still not able to properly handle CRLF - https://metacpan.org/release/Module-Signature
 
@@ -238,7 +240,8 @@
             qw/ Try-Tiny Carp::Always autodie /,
 
             # templates
-            qw/ Template Template-Tiny /,
+            { module=>'Template', ignore_testfailure=>1 },
+            qw/ Template-Tiny /,
 
             # OO - moose, moo & co.
             qw/ Moose MooseX-Types MooseX::Types::Structured /,
@@ -423,7 +426,6 @@
         plugin => 'Perl::Dist::Strawberry::Step::InstallModules',
         # modules specific to PDL edition
         modules => [
-          ###'DROLSKY/Params-Validate-1.26.tar.gz', #XXX-FIXME v1.25 is broken however cpanm is not able to find v1.26 https://metacpan.org/pod/Params::Validate
           { module => 'Devel::REPL', ignore_testfailure => 1 },
           qw/Lexical::Persistence Astro::FITS::Header Astro::FITS::CFITSIO/,
           { module => 'Inline::C', ignore_testfailure => 1 },

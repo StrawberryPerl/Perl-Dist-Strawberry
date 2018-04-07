@@ -45,7 +45,7 @@ How to use Strawberry Perl?
 
      c:\> cpan Module::Name
   
-  3. run other tools included in Strawberry Perl like: perldoc, gcc, dmake ...
+  3. run other tools included in Strawberry Perl like: perldoc, gcc, [%maketool || 'dmake'%] ...
 
 * You'll need a text editor to create perl scripts.  One is NOT included with 
   Strawberry Perl. A few options are Padre (which can be installed by running 
