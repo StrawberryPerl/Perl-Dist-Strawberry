@@ -153,7 +153,7 @@
 
             # file related
             qw/ File-Find-Rule File-HomeDir File-Listing File-Remove File-ShareDir File-Which File::Map/,
-            'http://backpan.cpantesters.org/authors/id/D/DM/DMUEY/File-Copy-Recursive-0.38.tar.gz', #https://rt.cpan.org/Ticket/Display.html?id=123971
+            'https://cpan.metacpan.org/authors/id/D/DM/DMUEY/File-Copy-Recursive-0.38.tar.gz', # https://rt.cpan.org/Ticket/Display.html?id=123971 https://rt.cpan.org/Ticket/Display.html?id=123971
             qw/ File::Slurp File::Slurper /,
             qw/ IO::All Path::Tiny Path::Class /,
 
@@ -189,7 +189,6 @@
             # database stuff
             qw/ DBI DBD-ODBC DBD-SQLite DBD-CSV DBD-ADO DBIx-Class DBIx-Simple /,
             #XXX-TODO DBD::Pg fails with -D__USE_MINGW_ANSI_STDIO (e.g. long double build)
-            #XXX-TODO ( $ENV{SKIP_LD_TROUBLE_MAKERS} ? () : ('DBD::Pg') ),
             { module=>'<package_url>/kmx/perl-modules-patched/DBD-Pg-3.6.0_patched.tar.gz' },
             'DBD::mysql',
             { module=>'DBD::Oracle', makefilepl_param=>'-V 12.2.0.1.0', env=>{ ORACLE_HOME=>'c:\ora122instant64' }, skiptest=>1 }, ## requires Oracle Instant Client 64bit!!!
@@ -434,7 +433,6 @@
         plugin => 'Perl::Dist::Strawberry::Step::InstallModules',
         # modules specific to PDL edition
         modules => [
-          ###'DROLSKY/Params-Validate-1.26.tar.gz', #XXX-FIXME v1.25 is broken however cpanm is not able to find v1.26 https://metacpan.org/pod/Params::Validate
           { module => 'Devel::REPL', ignore_testfailure => 1 },
           qw/Lexical::Persistence Astro::FITS::Header Astro::FITS::CFITSIO/,
           { module => 'Inline::C', ignore_testfailure => 1 },
