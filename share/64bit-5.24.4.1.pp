@@ -94,6 +94,7 @@
           { do=>'ignore_testfailure', distribution=>qr/^Archive-Tar-/ }, # 2.12 fails
           { do=>'skip', distribution=>qr/^Net-Ping-/ },    # upgrade breaks other modules https://rt.cpan.org/Ticket/Display.html?id=118526
           { do=>'ignore_testfailure', distribution=>qr/^threads-/ },     # 2.09 fails
+          { do=>'ignore_testfailure', distribution=>qr/^ExtUtils-Install-/ },     # 2.10 fails on 5.26.0
         ]
     },
     ### NEXT STEP ###########################
@@ -128,8 +129,7 @@
             'ExtUtils::PkgConfig',
 
             # win32 related
-            'Win32API::Registry',
-            { module=>'Win32::TieRegistry', ignore_testfailure=>1 }, #XXX-TODO: ! Testing Win32-TieRegistry-0.26 failed
+            qw/Win32API::Registry Win32::TieRegistry/,
             { module=>'Win32::OLE',         ignore_testfailure=>1 }, #XXX-TODO: ! Testing Win32-OLE-0.1711 failed
             { module=>'Win32::GuiTest',     skiptest=>1 },
             { module=>'Win32::API',         ignore_testfailure=>1 }, #XXX-TODO: https://rt.cpan.org/Public/Bug/Display.html?id=107450
@@ -171,7 +171,7 @@
             qw/ HTTP-Server-Simple /,
             qw/ LWP::UserAgent /,
             { module=>'LWP::Protocol::https', env=>{ 'HARNESS_SUBCLASS'=>'TAP::Harness::Restricted', 'HARNESS_SKIP'=>'t/https_proxy.t' } }, #https://rt.perl.org/Ticket/Display.html?id=132863
-            qw/ Crypt-SSLeay /, # must be after LWP-Protocol-https
+            { module=>'<package_url>/kmx/perl-modules-patched/Crypt-SSLeay-0.72_patched.tar.gz' }, #XXX-FIXME
             { module=>'Mojolicious', env=>{ 'HARNESS_SUBCLASS'=>'TAP::Harness::Restricted', 'HARNESS_SKIP'=>'t/mojolicious/websocket_lite_app.t' } }, #https://github.com/kraih/mojo/issues/1011
             { module=>'WWW::Mechanize', skiptest=>1 }, # tests hang
 
@@ -196,7 +196,7 @@
 
             # crypto
             qw/ Crypt::OpenSSL::Bignum Crypt::OpenSSL::Random Crypt-OpenSSL-RSA Crypt::OpenSSL::DSA Crypt::OpenSSL::X509 /,
-            'KMX/Crypt-OpenSSL-AES-0.05.tar.gz',      #XXX-FIXME patched https://metacpan.org/pod/Crypt::OpenSSL::AES  https://rt.cpan.org/Public/Bug/Display.html?id=77605
+            'KMX/Crypt-OpenSSL-AES-0.05.tar.gz', #XXX-FIXME patched https://metacpan.org/pod/Crypt::OpenSSL::AES  https://rt.cpan.org/Public/Bug/Display.html?id=77605
             #Crypt-SMIME ?
             qw/ Crypt::CBC Crypt::Blowfish Crypt::CAST5_PP Crypt::DES Crypt::DES_EDE3 Crypt::DSA Crypt::IDEA Crypt::Rijndael Crypt::Twofish Crypt::Serpent Crypt::RC6 /,
             qw/ Digest-MD2 Digest-MD5 Digest-SHA Digest-SHA1 Crypt::RIPEMD160 Digest::Whirlpool Digest::HMAC Digest::CMAC /,
@@ -208,7 +208,6 @@
             #qw/ Module::Signature /, #XXX-TODO still not able to properly handle CRLF - https://metacpan.org/release/Module-Signature
 
             # date/time
-            { module=>'Test2::Plugin::NoWarnings', ignore_testfailure=>1 }, #XXX-PREREQ-ONLY https://rt.cpan.org/Public/Bug/Display.html?id=118443
             qw/ DateTime Date::Format DateTime::Format::DateParse DateTime::TimeZone::Local::Win32 Time::Moment /,
 
             # e-mail
@@ -218,7 +217,7 @@
             { module=>'Net::DNS', skiptest=>1 }, # tests might hang due to network issues
 
             # graphics
-            { module=>'GD', ignore_testfailure=>1 },                    #XXX-TODO ! Testing GD-2.53 failed
+            'GD',
             'http://chorny.net/strawberry/Imager-1.006.zip', #https://rt.cpan.org/Ticket/Display.html?id=124001
             qw/ Imager-File-GIF Imager-File-JPEG Imager-File-PNG Imager-File-TIFF Imager-Font-FT2 Imager-Font-W32 /,
             { module=>'OpenGL', ignore_testfailure=>1 },

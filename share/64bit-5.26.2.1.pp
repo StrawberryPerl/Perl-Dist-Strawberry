@@ -189,7 +189,7 @@
             # database stuff
             qw/ DBI DBD-ODBC DBD-SQLite DBD-CSV DBD-ADO DBIx-Class DBIx-Simple /,
             #XXX-TODO DBD::Pg fails with -D__USE_MINGW_ANSI_STDIO (e.g. long double build)
-            { module=>'<package_url>/kmx/perl-modules-patched/DBD-Pg-3.6.0_patched.tar.gz' },
+            { module=>'<package_url>/kmx/perl-modules-patched/DBD-Pg-3.7.4_patched.tar.gz' },
             'DBD::mysql',
             { module=>'DBD::Oracle', makefilepl_param=>'-V 12.2.0.1.0', env=>{ ORACLE_HOME=>'c:\ora122instant64' }, skiptest=>1 }, ## requires Oracle Instant Client 64bit!!!
 
@@ -201,9 +201,8 @@
             qw/ CryptX Crypt::OpenSSL::Bignum Crypt::OpenSSL::DSA /,
             { module=>'<package_url>/kmx/perl-modules-patched/Crypt-OpenSSL-Random-0.11_patched.tar.gz' }, #XXX-FIXME
             { module=>'<package_url>/kmx/perl-modules-patched/Crypt-OpenSSL-RSA-0.28_patched.tar.gz' },    #XXX-FIXME
-            { module=>'<package_url>/kmx/perl-modules-patched/Crypt-OpenSSL-X509-1.807_patched.tar.gz' },  #XXX-FIXME
-            { module=>'<package_url>/kmx/perl-modules-patched/Crypt-OpenSSL-AES-0.05.tar.gz' },            #XXX-FIXME
-            ###'KMX/Crypt-OpenSSL-AES-0.05.tar.gz', #XXX-FIXME patched https://metacpan.org/pod/Crypt::OpenSSL::AES  https://rt.cpan.org/Public/Bug/Display.html?id=77605
+            { module=>'<package_url>/kmx/perl-modules-patched/Crypt-OpenSSL-X509-1.808_patched.tar.gz' },  #XXX-FIXME
+            'KMX/Crypt-OpenSSL-AES-0.05.tar.gz', #XXX-FIXME patched https://metacpan.org/pod/Crypt::OpenSSL::AES  https://rt.cpan.org/Public/Bug/Display.html?id=77605
             #Crypt-SMIME ?
             qw/ Crypt::CBC Crypt::Blowfish Crypt::CAST5_PP Crypt::DES Crypt::DES_EDE3 Crypt::DSA Crypt::IDEA Crypt::Rijndael Crypt::Twofish Crypt::Serpent Crypt::RC6 /,
             qw/ Digest-MD2 Digest-MD5 Digest-SHA Digest-SHA1 Crypt::RIPEMD160 Digest::Whirlpool Digest::HMAC Digest::CMAC /,
@@ -445,6 +444,7 @@
             },
           },
           qw/ PDL::IO::CSV PDL::IO::DBI PDL::DateTime PDL::Stats /, # PDL::IO::Image
+          qw/ PDL::LinearAlgebra /,
           { module=>'PDL::Graphics::Prima', ignore_testfailure => 1 },
           { module=>'PDL::Graphics::Gnuplot', skiptest=>1 },
         ],
