@@ -1,5 +1,5 @@
---- C:\strawberry_build\build\perl_core\perl-5.26.0\win32\config_H.gc.backup	Thu May 11 12:57:45 2017
-+++ C:\strawberry_build\build\perl_core\perl-5.26.0\win32\config_H.gc	Wed Apr 26 22:55:34 2017
+--- C:\strawberry_build\build\perl_core\perl-5.24.4\win32\config_H.gc.backup	Fri Mar 23 20:37:53 2018
++++ C:\strawberry_build\build\perl_core\perl-5.24.4\win32\config_H.gc	Mon May  2 18:48:40 2016
 @@ -645,14 +645,14 @@
   *	This symbol, if defined, indicates that <rpcsvc/dbm.h> exists and
   *	should be included.
@@ -26,7 +26,7 @@
  
  /* I_LIMITS:
   *	This symbol, if defined, indicates to the C program that it should
-@@ -2833,7 +2833,7 @@
+@@ -2792,7 +2792,7 @@
   *	parameter information. While ANSI C prototypes are supported in C++,
   *	K&R style function declarations will yield errors.
   */

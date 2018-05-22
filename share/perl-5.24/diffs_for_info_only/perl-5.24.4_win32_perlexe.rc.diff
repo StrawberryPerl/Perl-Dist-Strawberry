@@ -1,5 +1,5 @@
---- C:\strawberry_build\build\perl_core\perl-5.26.0\win32\perlexe.rc.backup	Thu May 11 12:57:45 2017
-+++ C:\strawberry_build\build\perl_core\perl-5.26.0\win32\perlexe.rc	Wed May 31 22:06:45 2017
+--- C:\strawberry_build\build\perl_core\perl-5.24.4\win32\perlexe.rc.backup	Thu Mar  1 13:12:36 2018
++++ C:\strawberry_build\build\perl_core\perl-5.24.4\win32\perlexe.rc	Sun Apr 15 17:34:45 2018
 @@ -6,3 +6,44 @@
  #ifdef INCLUDE_MANIFEST
  CREATEPROCESS_MANIFEST_RESOURCE_ID RT_MANIFEST "perlexe.manifest"
@@ -13,8 +13,8 @@
 +#define RCFLAG    VER_DEBUG
 +#endif
 +
-+#define RCVERSION       5,26,0,1
-+#define RCVERSION_STR   "5.26.0.1\0"
++#define RCVERSION       5,24,4,1
++#define RCVERSION_STR   "5.24.4.1\0"
 +
 +VS_VERSION_INFO VERSIONINFO
 +    FILEVERSION        RCVERSION
@@ -33,7 +33,7 @@
 +            VALUE "FileDescription",    "Perl interpreter\0"
 +            VALUE "FileVersion",        RCVERSION_STR
 +            VALUE "InternalName",       "perl.exe\0"
-+            VALUE "LegalCopyright",     "Copyright 1987-2017 Larry Wall, binaries by http://strawberryperl.com\0"
++            VALUE "LegalCopyright",     "Copyright 1987-2015 Larry Wall, binaries by http://strawberryperl.com\0"
 +            VALUE "OriginalFilename",   "perl.exe\0"
 +            VALUE "ProductName",        "Strawberry Perl\0"
 +            VALUE "ProductVersion",     RCVERSION_STR
