@@ -1,0 +1,37 @@
+--- C:\strawberry_build\build\perl_core\perl-5.28.0-RC1\win32\config_H.gc.backup	Mon May 21 12:44:04 2018
++++ C:\strawberry_build\build\perl_core\perl-5.28.0-RC1\win32\config_H.gc	Wed May 23 00:00:28 2018
+@@ -600,14 +600,14 @@
+  *	This symbol, if defined, indicates that <rpcsvc/dbm.h> exists and
+  *	should be included.
+  */
+-/*#define I_DBM	/ **/
++#define I_DBM	/**/
+ /*#define I_RPCSVC_DBM	/ **/
+ 
+ /* I_DLFCN:
+  *	This symbol, if defined, indicates that <dlfcn.h> exists and should
+  *	be included.
+  */
+-#define I_DLFCN		/**/
++/*#define I_DLFCN		/ **/
+ 
+ /* I_FCNTL:
+  *	This manifest constant tells the C program to include <fcntl.h>.
+@@ -618,7 +618,7 @@
+  *	This symbol, if defined, indicates that <gdbm.h> exists and should
+  *	be included.
+  */
+-/*#define I_GDBM	/ **/
++#define I_GDBM	/**/
+ 
+ /* I_LOCALE:
+  *	This symbol, if defined, indicates to the C program that it should
+@@ -2091,7 +2091,7 @@
+  *	parameter information. While ANSI C prototypes are supported in C++,
+  *	K&R style function declarations will yield errors.
+  */
+-/*#define I_NDBM	/ **/
++#define I_NDBM	/**/
+ /*#define I_GDBMNDBM	/ **/
+ /*#define I_GDBM_NDBM	/ **/
+ /*#define NDBM_H_USES_PROTOTYPES	/ **/
