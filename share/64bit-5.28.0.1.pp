@@ -18,11 +18,8 @@
         plugin  => 'Perl::Dist::Strawberry::Step::BinaryToolsAndLibs',
         install_packages => {
             #tools
-           #'dmake'         => '<package_url>/kmx/64_tools/64bit_dmake-4.12.2-bin_20140810.zip',
-           #'dmake'         => '<package_url>/kmx/64_tools/64bit_dmake-fake_20170512.zip',
             'dmake'         => '<package_url>/kmx/64_tools/64bit_dmake-warn_20170512.zip',
             'pexports'      => '<package_url>/kmx/64_tools/64bit_pexports-0.47-bin_20170426.zip',
-           #'patch'         => '<package_url>/kmx/64_tools/64bit_patch-2.7.5-bin_20170512.zip', #XXX-BROKEN
             'patch'         => '<package_url>/kmx/64_tools/64bit_patch-2.5.9-7-bin_20100110_UAC.zip',
             #gcc, gmake, gdb & co.
             'gcc-toolchain' => { url=>'<package_url>/kmx/64_gcctoolchain/mingw64-w64-gcc7.1.0_20170512.zip', install_to=>'c' },
@@ -99,7 +96,7 @@
     {
         plugin => 'Perl::Dist::Strawberry::Step::InstallModules',
         modules => [
-            { module=>'Capture::Tiny', ignore_testfailure=>1 }, #XXX-TODO https://github.com/dagolden/Capture-Tiny/issues/29
+            'Capture::Tiny',            #this used to fail
             'TAP::Harness::Restricted', #to be able to skip only some tests
             # IPC related
             { module=>'IPC-Run', skiptest=>1 }, #XXX-TODO trouble with 'Terminating on signal SIGBREAK(21)' https://metacpan.org/release/IPC-Run
@@ -114,13 +111,13 @@
             #removed from core in 5.20
             qw/ Module::Build /,
             { module=>'B::Lint',  ignore_testfailure=>1 }, #XXX-TODO-5.28 https://rt.cpan.org/Public/Bug/Display.html?id=101115
+            { module=>'Archive::Extract',  ignore_testfailure=>1 }, #XXX-TODO-5.28
             { module=>'CPANPLUS', env=>{ 'HARNESS_SUBCLASS'=>'TAP::Harness::Restricted', 'HARNESS_SKIP'=>'t/40_CPANPLUS-Internals-Report.t' } },
             #XXX-TODO https://rt.cpan.org/Public/Bug/Display.html?id=116479
-            qw/ Archive::Extract CPANPLUS::Dist::Build File::CheckTree Log::Message Module::Pluggable Object::Accessor Text::Soundex Term::UI Pod::LaTeX Tree::DAG_Node /,
+            qw/ CPANPLUS::Dist::Build File::CheckTree Log::Message Module::Pluggable Object::Accessor Text::Soundex Term::UI Pod::LaTeX Tree::DAG_Node /,
 
             # YAML, JSON & co.
-            { module=>'Cpanel::JSON::XS', ignore_testfailure=>1 }, #XXX-TODO https://github.com/rurban/Cpanel-JSON-XS/issues/57
-            qw/ JSON JSON::XS JSON::MaybeXS YAML YAML::Tiny YAML::XS /,
+            qw/ JSON Cpanel::JSON::XS JSON::XS JSON::MaybeXS YAML YAML::Tiny YAML::XS /,
 
             # pkg-config related
             { module=>'PkgConfig', makefilepl_param=>'--script=pkg-config' },
@@ -144,20 +141,18 @@
             { module=>'Term::ReadLine::Perl', env=>{ PERL_MM_NONINTERACTIVE=>1 } },
 
             # compression
-            { module=>'Archive::Zip', ignore_testfailure=>1 }, #XXX-TODO: https://rt.cpan.org/Public/Bug/Display.html?id=101442
-            qw/ IO-Compress-Lzma Compress-unLZMA Archive::Extract /,
+            qw/ Archive::Zip IO-Compress-Lzma Compress-unLZMA Archive::Extract /,
 
             # file related
             { module=>'File-ShareDir-Install', ignore_testfailure=>1 }, #XXX-TODO-5.28
             qw/ File-Find-Rule File-HomeDir File-Listing File-Remove File-ShareDir File-Which File::Map/,
-            'http://cpan.metacpan.org/authors/id/D/DM/DMUEY/File-Copy-Recursive-0.38.tar.gz', # https://rt.cpan.org/Ticket/Display.html?id=123971 https://rt.cpan.org/Ticket/Display.html?id=123971
+            'File-Copy-Recursive',      #this used to fail
             qw/ File::Slurp File::Slurper /,
             qw/ IO::All Path::Tiny Path::Class /,
 
             # math related
-            { module=>'Devel::CheckLib', ignore_testfailure=>1 }, #XXX-TODO: Devel-CheckLib-1.07 fails (Could not remove assertlib3G0GLdko.exe: Permission denied)
+            'Devel::CheckLib',  #this used to fail
             qw/ Math-Round Math-BigInt-GMP Math-GMP Math-MPFR Math-MPC /,
-            #{ module=>'Math::Pari', ignore_testfailure=>1 }, # fails on 64bit + gmake trouble
             qw/ ExtUtils::F77 /,
 
             # SSL & SSH & telnet
@@ -177,35 +172,32 @@
 
             # XML & co.
             qw/ XML-LibXML XML-LibXSLT XML-Parser XML-SAX XML-Simple /,
-            { module=>'XML::Twig', ignore_testfailure=>1 },             #XXX-TODO XML-Twig-3.52 fails
+            { module=>'XML::Twig', ignore_testfailure=>1 }, #XXX-TODO XML-Twig-3.52 fails
 
             # data/text processing
             { module=>'IO::Stringy', env=>{ 'HARNESS_SUBCLASS'=>'TAP::Harness::Restricted', 'HARNESS_SKIP'=>'t/IO_InnerFile.t' } }, #https://rt.cpan.org/Public/Bug/Display.html?id=103895
             qw/ Text-Diff Text-Patch Text::CSV Text::CSV_XS Tie::Array::CSV Excel::Writer::XLSX Spreadsheet::ParseXLSX Spreadsheet::WriteExcel Spreadsheet::ParseExcel /,
 
             # database stuff
-            qw/ DBI DBD-ODBC DBD-SQLite DBD-CSV DBD-ADO DBIx-Class DBIx-Simple /,
+            qw/ DBI DBD-ODBC DBD-SQLite DBD-ADO DBIx-Class DBIx-Simple /,
             #XXX-TODO DBD::Pg fails with -D__USE_MINGW_ANSI_STDIO (e.g. long double build)
             { module=>'<package_url>/kmx/perl-modules-patched/DBD-Pg-3.7.4_patched.tar.gz' },
             'DBD::mysql',
             { module=>'DBD::Oracle', makefilepl_param=>'-V 12.2.0.1.0', env=>{ ORACLE_HOME=>'c:\ora122instant64' }, skiptest=>1 }, ## requires Oracle Instant Client 64bit!!!
 
             # crypto related
-            { module =>'Convert-PEM', ignore_testfailure=>1 },                                  #XXX-TODO ! Testing Convert-PEM-0.08 failed
+            { module =>'Convert-PEM', ignore_testfailure=>1 }, #XXX-TODO Convert-PEM-0.08 fails
             qw/ Convert-PEM /,
 
             # crypto
-            qw/ CryptX Crypt::OpenSSL::Bignum Crypt::OpenSSL::DSA /,
-            { module=>'<package_url>/kmx/perl-modules-patched/Crypt-OpenSSL-Random-0.11_patched.tar.gz' }, #XXX-FIXME
-            { module=>'<package_url>/kmx/perl-modules-patched/Crypt-OpenSSL-RSA-0.28_patched.tar.gz' },    #XXX-FIXME
-            { module=>'<package_url>/kmx/perl-modules-patched/Crypt-OpenSSL-X509-1.808_patched.tar.gz' },  #XXX-FIXME
+            qw/ CryptX Crypt::OpenSSL::Bignum Crypt::OpenSSL::DSA Crypt-OpenSSL-RSA Crypt-OpenSSL-Random /,
+            '<package_url>/kmx/perl-modules-patched/Crypt-OpenSSL-X509-1.808_patched.tar.gz', #XXX-FIXME https://github.com/dsully/perl-crypt-openssl-x509/pull/70
             'KMX/Crypt-OpenSSL-AES-0.05.tar.gz', #XXX-FIXME patched https://metacpan.org/pod/Crypt::OpenSSL::AES  https://rt.cpan.org/Public/Bug/Display.html?id=77605
             #Crypt-SMIME ?
             qw/ Crypt::CBC Crypt::Blowfish Crypt::CAST5_PP Crypt::DES Crypt::DES_EDE3 Crypt::DSA Crypt::IDEA Crypt::Rijndael Crypt::Twofish Crypt::Serpent Crypt::RC6 /,
             qw/ Digest-MD2 Digest-MD5 Digest-SHA Digest-SHA1 Crypt::RIPEMD160 Digest::Whirlpool Digest::HMAC Digest::CMAC /,
-            'Alt::Crypt::RSA::BigInt',                                                          #XXX-TODO: a hack Crypt-RSA without Math::PARI - https://metacpan.org/release/Crypt-RSA
-            qw/ Crypt::DSA::GMP /,
-            #{ module=>'Crypt::Random', ignore_testfailure=>1 }, #fails on 64bit + https://rt.cpan.org/Public/Bug/Display.html?id=99880
+            'Alt::Crypt::RSA::BigInt',  #hack Crypt-RSA without Math::PARI - https://metacpan.org/release/Crypt-RSA
+            'Crypt::DSA::GMP',
 
             qw/ Bytes::Random::Secure Crypt::OpenPGP /,
             #qw/ Module::Signature /, #XXX-TODO still not able to properly handle CRLF - https://metacpan.org/release/Module-Signature
@@ -262,7 +254,7 @@
             { module=>'Alien::Tidyp', buildpl_param=>'--srctarball=http://strawberryperl.com/package/kmx/testing/tidyp-1.04.tar.gz' },
             qw/ CPAN::SQLite FCGI /,
             qw/ IO::String /,
-            { module=>'Unicode::UTF8', ignore_testfailure=>1 },
+            { module=>'Unicode::UTF8', ignore_testfailure=>1 }, #XXX-TODO-5.28
             qw/ V Modern::Perl Perl::Tidy /,
             qw/ FFI::Raw /,
 
