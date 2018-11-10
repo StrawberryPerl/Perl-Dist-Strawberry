@@ -6,52 +6,52 @@
 # <image_dir>     is placeholder for c:\strawberry
 
 {
-  app_version     => '5.20.3.2', #BEWARE: do not use '.0.0' in the last two version digits
+  app_version     => '5.28.1.1', #BEWARE: do not use '.0.0' in the last two version digits
   bits            => 32,
   beta            => 0,
   app_fullname    => 'Strawberry Perl',
   app_simplename  => 'strawberry-perl',
+  maketool        => 'gmake', # 'dmake' or 'gmake'
   build_job_steps => [
     ### NEXT STEP ###########################
     {
         plugin  => 'Perl::Dist::Strawberry::Step::BinaryToolsAndLibs',
         install_packages => {
             #tools
-            'dmake'         => '<package_url>/kmx/32_tools/32bit_dmake-4.12.2-bin_20140810.zip',
-            'gmake'         => '<package_url>/kmx/32_tools/32bit_gmake-4.0.GIT_20140810.zip',
-            'pexports'      => '<package_url>/kmx/32_tools/32bit_pexports-0.44-bin_20100110.zip',
+            'dmake'         => '<package_url>/kmx/32_tools/32bit_dmake-warn_20170512.zip',
+            'pexports'      => '<package_url>/kmx/32_tools/32bit_pexports-0.47-bin_20170426.zip',
             'patch'         => '<package_url>/kmx/32_tools/32bit_patch-2.5.9-7-bin_20100110_UAC.zip',
-            #gcc & co.
-            'gcc-toolchain' => { url=>'<package_url>/kmx/32_gcctoolchain/mingw64-w32-gcc4.8.3_20140727.zip', install_to=>'c' },
-            'gcc-license'   => '<package_url>/kmx/32_gcctoolchain/mingw64-w32-gcc4.8.3_20140727-lic.zip',
+            #gcc, gmake, gdb & co.
+            'gcc-toolchain' => { url=>'<package_url>/kmx/32_gcctoolchain/mingw64-w32-gcc7.1.0_20170512.zip', install_to=>'c' },
+            'gcc-license'   => '<package_url>/kmx/32_gcctoolchain/mingw64-w32-gcc7.1.0_20170512-lic.zip',
             #libs
-            'bzip2'         => '<package_url>/kmx/32_libs/gcc48-2015Q1/32bit_bzip2-1.0.6-bin_20150126.zip',
-            'libdb'         => '<package_url>/kmx/32_libs/gcc48-2015Q1/32bit_db-6.1.19-bin_20150126.zip',
-            'libexpat'      => '<package_url>/kmx/32_libs/gcc48-2015Q1/32bit_expat-2.1.0-bin_20150126.zip',
-            'libfreeglut'   => '<package_url>/kmx/32_libs/gcc48-2015Q1/32bit_freeglut-2.8.1-bin_20150126.zip',
-            'libfreetype'   => '<package_url>/kmx/32_libs/gcc48-2015Q1/32bit_freetype-2.5.5-bin_20150126.zip',
-            'libgdbm'       => '<package_url>/kmx/32_libs/gcc48-2015Q4/32bit_gdbm-1.10-bin_20151223.zip',
-            'libgiflib'     => '<package_url>/kmx/32_libs/gcc48-2015Q1/32bit_giflib-5.1.1-bin_20150126.zip',
-            'libgmp'        => '<package_url>/kmx/32_libs/gcc48-2015Q1/32bit_gmp-5.1.3-bin_20150126.zip',
-            'libjpeg'       => '<package_url>/kmx/32_libs/gcc48-2015Q1/32bit_jpeg-9a-bin_20150126.zip',
-            'libgd'         => '<package_url>/kmx/32_libs/gcc48-2015Q1/32bit_libXpm-3.5.11-bin_20150126.zip',
-            'libffi'        => '<package_url>/kmx/32_libs/gcc48-2015Q1/32bit_libffi-3.2.1-bin_20150126.zip',
-            'liblibXpm'     => '<package_url>/kmx/32_libs/gcc48-2015Q1/32bit_libgd-2.1.1-bin_20150126.zip',
-            'liblibiconv'   => '<package_url>/kmx/32_libs/gcc48-2015Q1/32bit_libiconv-1.14-bin_20150126.zip',
-            'liblibpng'     => '<package_url>/kmx/32_libs/gcc48-2015Q1/32bit_libpng-1.6.16-bin_20150126.zip',
-            'liblibssh2'    => '<package_url>/kmx/32_libs/gcc48-2015Q1/32bit_libssh2-1.4.3-bin_20150126.zip',
-            'liblibxml2'    => '<package_url>/kmx/32_libs/gcc48-2015Q1/32bit_libxml2-2.9.2-bin_20150126.zip',
-            'liblibxslt'    => '<package_url>/kmx/32_libs/gcc48-2015Q1/32bit_libxslt-1.1.28-bin_20150126.zip',
-            'libmpc'        => '<package_url>/kmx/32_libs/gcc48-2015Q1/32bit_mpc-1.0.2-bin_20150126.zip',
-            'libmpfr'       => '<package_url>/kmx/32_libs/gcc48-2015Q1/32bit_mpfr-3.1.2-bin_20150126.zip',
-            'libopenssl'    => '<package_url>/kmx/32_libs/gcc48-2015Q4/32bit_openssl-1.0.2e-bin_20151223.zip',
-            'libpostgresql' => '<package_url>/kmx/32_libs/gcc48-2015Q1/32bit_postgresql-9.4.1-bin_20150207.zip',
-            'libt1lib'      => '<package_url>/kmx/32_libs/gcc48-2015Q1/32bit_t1lib-5.1.2-bin_20150126.zip',
-            'libtiff'       => '<package_url>/kmx/32_libs/gcc48-2015Q1/32bit_tiff-4.0.3-bin_20150126.zip',
-            'libxz'         => '<package_url>/kmx/32_libs/gcc48-2015Q1/32bit_xz-5.2.0-bin_20150126.zip',
-            'libzlib'       => '<package_url>/kmx/32_libs/gcc48-2015Q1/32bit_zlib-1.2.8-bin_20150126.zip',
+            'bzip2'         => '<package_url>/kmx/32_libs/gcc71-2017Q2/32bit_bzip2-1.0.6-bin_20170517.zip',
+            'libdb'         => '<package_url>/kmx/32_libs/gcc71-2017Q2/32bit_db-6.2.32-bin_20170517.zip',
+            'libexpat'      => '<package_url>/kmx/32_libs/gcc71-2017Q2/32bit_expat-2.2.0-bin_20170517.zip',
+            'libfreeglut'   => '<package_url>/kmx/32_libs/gcc71-2017Q2/32bit_freeglut-3.0.0-bin_20170517.zip',
+            'libfreetype'   => '<package_url>/kmx/32_libs/gcc71-2017Q2/32bit_freetype-2.7.1-bin_20170517.zip',
+            'libgdbm'       => '<package_url>/kmx/32_libs/gcc71-2017Q2/32bit_gdbm-1.10-bin_20170517.zip',
+            'libgiflib'     => '<package_url>/kmx/32_libs/gcc71-2017Q2/32bit_giflib-5.1.4-bin_20170517.zip',
+            'libgmp'        => '<package_url>/kmx/32_libs/gcc71-2017Q2/32bit_gmp-6.1.2-bin_20170517.zip',
+            'libjpeg'       => '<package_url>/kmx/32_libs/gcc71-2017Q2/32bit_jpeg-9b-bin_20170517.zip',
+            'libgd'         => '<package_url>/kmx/32_libs/gcc71-2017Q2/32bit_libXpm-3.5.12-bin_20170517.zip',
+            'libffi'        => '<package_url>/kmx/32_libs/gcc71-2017Q2/32bit_libffi-3.2.1-bin_20170517.zip',
+            'liblibXpm'     => '<package_url>/kmx/32_libs/gcc71-2017Q2/32bit_libgd-2.2.4-bin_20170517.zip',
+            'liblibiconv'   => '<package_url>/kmx/32_libs/gcc71-2017Q2/32bit_libiconv-1.15-bin_20170517.zip',
+            'liblibpng'     => '<package_url>/kmx/32_libs/gcc71-2017Q2/32bit_libpng-1.6.29-bin_20170517.zip',
+            'liblibssh2'    => '<package_url>/kmx/32_libs/gcc71-2017Q2/32bit_libssh2-1.8.0-bin_20170517.zip',
+            'liblibxml2'    => '<package_url>/kmx/32_libs/gcc71-2017Q2/32bit_libxml2-2.9.4-bin_20170517.zip',
+            'liblibxslt'    => '<package_url>/kmx/32_libs/gcc71-2017Q2/32bit_libxslt-1.1.29-bin_20170517.zip',
+            'libmpc'        => '<package_url>/kmx/32_libs/gcc71-2017Q2/32bit_mpc-1.0.3-bin_20170517.zip',
+            'libmpfr'       => '<package_url>/kmx/32_libs/gcc71-2017Q2/32bit_mpfr-3.1.5-bin_20170517.zip',
+            'libopenssl'    => '<package_url>/kmx/32_libs/gcc71-2018Q2/32bit_openssl-1.1.0h-bin_20180331.zip',
+            'libpostgresql' => '<package_url>/kmx/32_libs/gcc71-2017Q2/32bit_postgresql-9.6.3-bin_20170517.zip',
+            'libt1lib'      => '<package_url>/kmx/32_libs/gcc71-2017Q2/32bit_t1lib-5.1.2-bin_20170517.zip',
+            'libtiff'       => '<package_url>/kmx/32_libs/gcc71-2017Q2/32bit_tiff-4.0.7-bin_20170517.zip',
+            'libxz'         => '<package_url>/kmx/32_libs/gcc71-2017Q2/32bit_xz-5.2.3-bin_20170517.zip',
+            'libzlib'       => '<package_url>/kmx/32_libs/gcc71-2017Q2/32bit_zlib-1.2.11-bin_20170517.zip',
             #special cases
-            'libmysql'      => '<package_url>/kmx/32_libs/gcc44-2011/32bit_mysql-5.1.44-bin_20100304.zip',       # the latest DLL binary is missing some exports
+            'libmysql'      => '<package_url>/kmx/32_libs/gcc71-2017Q2/32bit_mysql-5.7.16-bin_20170517.zip',
         },
     },
     ### NEXT STEP ###########################
@@ -66,19 +66,16 @@
     ### NEXT STEP ###########################
     {
         plugin     => 'Perl::Dist::Strawberry::Step::InstallPerlCore',
-       #url        => 'https://github.com/Perl/perl5/archive/maint-5.20.tar.gz',
-        url        => 'http://search.cpan.org/CPAN/authors/id/S/SH/SHAY/perl-5.20.3.tar.gz',
+        url        => 'http://cpan.metacpan.org/authors/id/X/XS/XSAWYERX/perl-5.28.0.tar.gz',
         cf_email   => 'strawberry-perl@project', #IMPORTANT: keep 'strawberry-perl' before @
         perl_debug => 0,    # can be overridden by --perl_debug=N option
         perl_64bitint => 1, # ignored on 64bit, can be overridden by --perl_64bitint | --noperl_64bitint option
-        #buildoptextra => '-D__USE_MINGW_ANSI_STDIO',
+        buildoptextra => '-D__USE_MINGW_ANSI_STDIO',
         patch => { #DST paths are relative to the perl src root
-            '<dist_sharedir>/perl-5.20/perl-5.20.3-CVE-2015-8608.patch' => '*',
             '<dist_sharedir>/msi/files/perlexe.ico'             => 'win32/perlexe.ico',
-            '<dist_sharedir>/perl-5.20/win32_config.gc.tt'      => 'win32/config.gc',
-            '<dist_sharedir>/perl-5.20/perlexe.rc.tt'           => 'win32/perlexe.rc',
-            '<dist_sharedir>/perl-5.20/win32_config_H.gc'       => 'win32/config_H.gc', # enables gdbm/ndbm/odbm
-            '<dist_sharedir>/perl-5.20/win32_FindExt.pm'        => 'win32/FindExt.pm',  # enables gdbm/ndbm/odbm
+            '<dist_sharedir>/perl-5.28/win32_config.gc.tt'      => 'win32/config.gc',
+            '<dist_sharedir>/perl-5.28/perlexe.rc.tt'           => 'win32/perlexe.rc',
+            '<dist_sharedir>/perl-5.28/win32_config_H.gc'       => 'win32/config_H.gc', # enables gdbm/ndbm/odbm
         },
         license => { #SRC paths are relative to the perl src root
             'Readme'   => '<image_dir>/licenses/perl/Readme',
@@ -90,22 +87,21 @@
     {
         plugin => 'Perl::Dist::Strawberry::Step::UpgradeCpanModules',
         exceptions => [
-          # possible 'do' options: ignore_testfailure | skiptest | skip
-          # e.g. { do=>'ignore_testfailure', distribution=>'ExtUtils-MakeMaker-6.72' },
-          { do=>'ignore_testfailure', distribution=>'CGI-Fast-2.02' },
-          { do=>'ignore_testfailure', distribution=>'CGI.pm-4.03' },
-          { do=>'ignore_testfailure', distribution=>'Pod-Simple-3.31' },
+          # possible 'do' options: ignore_testfailure | skiptest | skip - e.g. 
+          #{ do=>'ignore_testfailure', distribution=>'ExtUtils-MakeMaker-6.72' },
+          #{ do=>'ignore_testfailure', distribution=>qr/^IPC-Cmd-/ },
         ]
     },
     ### NEXT STEP ###########################
     {
         plugin => 'Perl::Dist::Strawberry::Step::InstallModules',
         modules => [
-            '<package_url>/kmx/perl-modules-patched/PathTools-3.60_patched.tar.gz', #XXX-CHECK CVE-2015-8607 https://metacpan.org/release/PathTools
+            'Capture::Tiny',            #this used to fail
+            'TAP::Harness::Restricted', #to be able to skip only some tests
             # IPC related
-            { module=>'IPC-Run', skiptest=>1 }, #XXX-FIXME trouble with 'Terminating on signal SIGBREAK(21)'
-            { module=>'Capture::Tiny', ignore_testfailure=>1 }, #XXX-FIXME https://github.com/dagolden/Capture-Tiny/issues/29
-            qw/ IPC-Run3 IPC-System-Simple /,
+            { module=>'IPC-Run', skiptest=>1 }, #XXX-TODO trouble with 'Terminating on signal SIGBREAK(21)' https://metacpan.org/release/IPC-Run
+            { module=>'IPC-System-Simple', ignore_testfailure=>1 }, #XXX-TODO t/07_taint.t fails https://metacpan.org/release/IPC-System-Simple
+            qw/ IPC-Run3 /,
 
             { module=>'LWP::UserAgent', skiptest=>1 }, # XXX-HACK: 6.08 is broken
 
@@ -113,128 +109,137 @@
             qw/ BerkeleyDB DB_File DBM-Deep /,
 
             #removed from core in 5.20
-            { module=>'B::Lint', ignore_testfailure=>1 }, #XXX-TODO https://rt.cpan.org/Public/Bug/Display.html?id=101115
-            qw/ Archive::Extract CPANPLUS CPANPLUS::Dist::Build File::CheckTree Log::Message Module::Pluggable Object::Accessor Text::Soundex Term::UI Pod::LaTeX Tree::DAG_Node /,
+            qw/ Module::Build /,
+            { module=>'B::Lint',  ignore_testfailure=>1 }, #XXX-TODO-5.28 https://rt.cpan.org/Public/Bug/Display.html?id=101115
+            { module=>'Archive::Extract',  ignore_testfailure=>1 }, #XXX-TODO-5.28/64bit
+            { module=>'CPANPLUS', env=>{ 'HARNESS_SUBCLASS'=>'TAP::Harness::Restricted', 'HARNESS_SKIP'=>'t/40_CPANPLUS-Internals-Report.t' } },
+            #XXX-TODO https://rt.cpan.org/Public/Bug/Display.html?id=116479
+            qw/ CPANPLUS::Dist::Build File::CheckTree Log::Message Module::Pluggable Object::Accessor Text::Soundex Term::UI Pod::LaTeX Tree::DAG_Node /,
+
+            # YAML, JSON & co.
+            qw/ JSON Cpanel::JSON::XS JSON::XS JSON::MaybeXS YAML YAML::Tiny YAML::XS /,
 
             # pkg-config related
             { module=>'PkgConfig', makefilepl_param=>'--script=pkg-config' },
             'ExtUtils::PkgConfig',
 
             # win32 related
-            'Win32API::Registry',
-            { module=>'Win32::TieRegistry', ignore_testfailure=>1 }, #XXX-TODO: ! Testing Win32-TieRegistry-0.26 failed
-            { module=>'Win32::OLE',         ignore_testfailure=>1 }, #XXX-TODO: ! Testing Win32-OLE-0.1711 failed
+            qw/Win32API::Registry Win32::TieRegistry/,
+            { module=>'Win32::OLE',         ignore_testfailure=>1 }, #XXX-TODO-5.28: Testing Win32-OLE-0.1712 failed
             { module=>'Win32::GuiTest',     skiptest=>1 },
             { module=>'Win32::API',         ignore_testfailure=>1 }, #XXX-TODO: https://rt.cpan.org/Public/Bug/Display.html?id=107450
             'Win32::Exe',
+            { module=>'<package_url>/kmx/perl-modules-patched/Win32-Pipe-0.025_patched.tar.gz' }, #XXX-FIXME 
+            { module=>'<package_url>/kmx/perl-modules-patched/Win32-Daemon-20131206_patched.tar.gz' }, #XXX-FIXME
             qw/ Win32-EventLog Win32-Process Win32-WinError Win32-File-Object Win32-UTCFileTime /,
-            qw/ Win32-ShellQuote Win32::Console Win32::Console::ANSI Win32::Job Win32::Daemon Win32::ServiceManager Win32::Service /,
-            '<package_url>/kmx/perl-modules-patched/Sys-Syslog-0.33_patched.tar.gz', #XXX-XXX https://rt.cpan.org/Public/Bug/Display.html?id=104710
+            qw/ Win32-ShellQuote Win32::Console Win32::Console::ANSI Win32::Job Win32::ServiceManager Win32::Service /,
+            qw/ Sys::Syslog /,
 
             # term related
-            qw/ Term::ReadKey /,
+            'http://chorny.net/strawberry/TermReadKey-2.37_01.tar.gz', #https://github.com/jonathanstowe/TermReadKey/issues/25
+            #qw/ Term::ReadKey /,
             { module=>'Term::ReadLine::Perl', env=>{ PERL_MM_NONINTERACTIVE=>1 } },
 
             # compression
-            { module=>'Archive::Zip', ignore_testfailure=>1 }, #XXX-TODO: https://rt.cpan.org/Public/Bug/Display.html?id=101442
-            qw/ IO-Compress-Lzma Compress-unLZMA Archive::Extract /,
+            qw/ Archive::Zip IO-Compress-Lzma Compress-unLZMA Archive::Extract /,
 
             # file related
-            qw/ File-Find-Rule File-HomeDir File-Listing File-Remove File-ShareDir File-Which File-Copy-Recursive File::Map /,
+            { module=>'File-ShareDir-Install', ignore_testfailure=>1 }, #XXX-TODO-5.28
+            qw/ File-Find-Rule File-HomeDir File-Listing File-Remove File-ShareDir File-Which File::Map/,
+            'http://cpan.metacpan.org/authors/id/D/DM/DMUEY/File-Copy-Recursive-0.38.tar.gz', # https://rt.cpan.org/Ticket/Display.html?id=123971 https://rt.cpan.org/Ticket/Display.html?id=123971
             qw/ File::Slurp File::Slurper /,
             qw/ IO::All Path::Tiny Path::Class /,
 
             # math related
+            'Devel::CheckLib',  #this used to fail
             qw/ Math-Round Math-BigInt-GMP Math-GMP Math-MPFR Math-MPC /,
-            qw/ Math::Pari /, # fails on 64bit
             qw/ ExtUtils::F77 /,
 
             # SSL & SSH & telnet
-            qw/ Net-SSLeay /,
-            { module=>'IO-Socket-SSL', skiptest=>1 }, # XXX-HACK: https://rt.cpan.org/Public/Bug/Display.html?id=95328
+            'Net-SSLeay',
+            { module=>'IO-Socket-SSL', env=>{ 'HARNESS_SUBCLASS'=>'TAP::Harness::Restricted', 'HARNESS_SKIP'=>'t/mitm.t t/verify_fingerprint.t t/session_ticket.t' } },
+            #https://github.com/noxxi/p5-io-socket-ssl/issues/30
             qw/ Net-SSH2 Net::Telnet /,
 
             # network
             qw/ IO::Socket::IP IO::Socket::INET6 IO::Socket::Socks /,
             qw/ HTTP-Server-Simple /,
             qw/ LWP::UserAgent /,
-            { module=>'LWP-Protocol-https', ignore_testfailure=>1 },    #XXX-TODO LWP-Protocol-https-6.04
-            qw/ Crypt-SSLeay /, # must be after LWP-Protocol-https
-            qw/ Mojolicious /,
+            { module=>'LWP::Protocol::https', env=>{ 'HARNESS_SUBCLASS'=>'TAP::Harness::Restricted', 'HARNESS_SKIP'=>'t/https_proxy.t' } }, #https://rt.perl.org/Ticket/Display.html?id=132863
+            { module=>'<package_url>/kmx/perl-modules-patched/Crypt-SSLeay-0.72_patched.tar.gz' }, #XXX-FIXME
+            { module=>'Mojolicious', env=>{ 'HARNESS_SUBCLASS'=>'TAP::Harness::Restricted', 'HARNESS_SKIP'=>'t/mojolicious/websocket_lite_app.t' } }, #https://github.com/kraih/mojo/issues/1011
             { module=>'WWW::Mechanize', skiptest=>1 }, # tests hang
 
+            # XML & co.
+            qw/ XML-LibXML XML-LibXSLT XML-Parser XML-SAX XML-Simple /,
+            { module=>'XML::Twig', ignore_testfailure=>1 }, #XXX-TODO XML-Twig-3.52 fails
+
             # data/text processing
-            { module=>'IO::Stringy', ignore_testfailure=>1 },
+            { module=>'IO::Stringy', env=>{ 'HARNESS_SUBCLASS'=>'TAP::Harness::Restricted', 'HARNESS_SKIP'=>'t/IO_InnerFile.t' } }, #https://rt.cpan.org/Public/Bug/Display.html?id=103895
             qw/ Text-Diff Text-Patch Text::CSV Text::CSV_XS Tie::Array::CSV Excel::Writer::XLSX Spreadsheet::ParseXLSX Spreadsheet::WriteExcel Spreadsheet::ParseExcel /,
 
             # database stuff
-            qw/ DBI DBD-ODBC DBD-SQLite DBD-CSV DBD-ADO DBIx-Class DBIx-Simple /,
-            { module=>'DBD::Pg' }, #XXX-TODO fails with -D__USE_MINGW_ANSI_STDIO (e.g. long double build)
-            { module=>'DBD::mysql', makefilepl_param=>'--mysql_config=mysql_config' },
-            { module=>'DBD::Oracle', makefilepl_param=>'-V 11.2.0.3.0', env=>{ ORACLE_HOME=>'z:\orainstant32' }, skiptest=>1 }, ## requires Oracle Instant Client 32bit!!!
+            qw/ DBI DBD-ODBC DBD-SQLite DBD-ADO DBIx-Class DBIx-Simple /,
+            #XXX-TODO DBD::Pg fails with -D__USE_MINGW_ANSI_STDIO (e.g. long double build)
+            { module=>'<package_url>/kmx/perl-modules-patched/DBD-Pg-3.7.4_patched.tar.gz' },
+            'DBD::mysql',
+            { module=>'DBD::Oracle', makefilepl_param=>'-V 12.2.0.1.0', env=>{ ORACLE_HOME=>'c:\ora122instant32' }, skiptest=>1 }, ## requires Oracle Instant Client 32bit!!!
 
             # crypto related
-            { module =>'Convert-PEM', ignore_testfailure=>1 },                                  #XXX-TODO ! Testing Convert-PEM-0.08 failed
+            { module =>'Convert-PEM', ignore_testfailure=>1 }, #XXX-TODO Convert-PEM-0.08 fails
             qw/ Convert-PEM /,
 
             # crypto
-            qw/ Crypt::OpenSSL::Bignum Crypt::OpenSSL::Random Crypt-OpenSSL-RSA Crypt::OpenSSL::DSA Crypt::OpenSSL::X509 /,
-            'KMX/Crypt-OpenSSL-AES-0.03.tar.gz',      #XXX-CHECK patched https://metacpan.org/pod/Crypt::OpenSSL::AES  https://rt.cpan.org/Public/Bug/Display.html?id=77605
+            qw/ CryptX Crypt::OpenSSL::Bignum Crypt::OpenSSL::DSA Crypt-OpenSSL-RSA Crypt-OpenSSL-Random Crypt-OpenSSL-X509 /,
+            'KMX/Crypt-OpenSSL-AES-0.05.tar.gz', #XXX-FIXME patched https://metacpan.org/pod/Crypt::OpenSSL::AES  https://rt.cpan.org/Public/Bug/Display.html?id=77605
             #Crypt-SMIME ?
             qw/ Crypt::CBC Crypt::Blowfish Crypt::CAST5_PP Crypt::DES Crypt::DES_EDE3 Crypt::DSA Crypt::IDEA Crypt::Rijndael Crypt::Twofish Crypt::Serpent Crypt::RC6 /,
             qw/ Digest-MD2 Digest-MD5 Digest-SHA Digest-SHA1 Crypt::RIPEMD160 Digest::Whirlpool Digest::HMAC Digest::CMAC /,
-            'Alt::Crypt::RSA::BigInt',                                                          #XXX-TODO: a hack Crypt-RSA without Math::PARI - https://metacpan.org/release/Crypt-RSA
-            qw/ Crypt-DSA Crypt::DSA::GMP /,
-            { module=>'Crypt::Random', ignore_testfailure=>1 }, #fails on 64bit + https://rt.cpan.org/Public/Bug/Display.html?id=99880
+            'Alt::Crypt::RSA::BigInt',  #hack Crypt-RSA without Math::PARI - https://metacpan.org/release/Crypt-RSA
+            'Crypt::DSA::GMP',
 
-            # tests fail on 5.18.x
-            { module =>'Crypt::OpenPGP' },
-            { module =>'<package_url>/kmx/perl-modules-patched/Module-Signature-0.79_patched.tar.gz' },
-            #XXX-CHECK https://rt.cpan.org/Public/Bug/Display.html?id=108377 https://metacpan.org/release/Module-Signature
+            qw/ Bytes::Random::Secure Crypt::OpenPGP /,
+            #qw/ Module::Signature /, #XXX-TODO still not able to properly handle CRLF - https://metacpan.org/release/Module-Signature
 
             # date/time
             qw/ DateTime Date::Format DateTime::Format::DateParse DateTime::TimeZone::Local::Win32 Time::Moment /,
 
             # e-mail
+            qw/ List::MoreUtils::XS List::MoreUtils /, # required by Net::IMAP::Client - https://rt.cpan.org/Public/Bug/Display.html?id=122875
             qw/ Email::MIME::Kit Email::Sender Email::Simple Email::Valid Email::Stuffer Mail::Send /,
             qw/ Net::SMTPS Net::SMTP Net::IMAP::Client Net::POP3 /,
             { module=>'Net::DNS', skiptest=>1 }, # tests might hang due to network issues
 
             # graphics
-            { module=>'GD', ignore_testfailure=>1 },                    #XXX-TODO ! Testing GD-2.53 failed
-            { module=>'Imager', ignore_testfailure=>1 },                #XXX-TODO ! Testing Imager-0.98 failed
+            'GD',
+            'http://chorny.net/strawberry/Imager-1.006.zip', #https://rt.cpan.org/Ticket/Display.html?id=124001
             qw/ Imager-File-GIF Imager-File-JPEG Imager-File-PNG Imager-File-TIFF Imager-Font-FT2 Imager-Font-W32 /,
             { module=>'OpenGL', ignore_testfailure=>1 },
 
-            # XML & co.
-            qw/ XML-LibXML XML-LibXSLT XML-Parser XML-SAX XML-Simple XML::Twig /,
-
             # XML/SOAP webservices
-            { module=>'Log::Report', ignore_testfailure=>1 },           #XXX_TODO fails on 5.19.11
+            'Log::Report',
             qw/ SOAP-Lite /,
             #qw/ XML::Compile::SOAP12 XML::Compile::SOAP11 XML::Compile::WSDL11 /,
 
-            # YAML, JSON & co.
-            qw/ JSON JSON::XS Cpanel::JSON::XS JSON::MaybeXS YAML YAML::Tiny YAML::XS /,
-
             # utils
-            qw/ App::cpanminus App::cpanoutdated App::pmuninstall pler App-local-lib-Win32Helper App-module-version /,
+            qw/ App::cpanminus App::cpanoutdated App::pmuninstall pler App-module-version App-local-lib-Win32Helper /,
 
             # par & ppm
             qw/ PAR PAR::Dist::FromPPD PAR::Dist::InstallPPD PAR::Repository::Client /,
             # The build path in ppm.xml is derived from $ENV{TMP}. So set TMP to a dedicated location inside of the
             # distribution root to prevent it being locked to the temp directory of the build machine.
-            { module=>'<package_url>/kmx/perl-modules-patched/PPM-11.11_03.tar.gz', env=>{ TMP=>'<image_dir>\ppm' } },
+            { module=>'<package_url>/kmx/perl-modules-patched/PPM-11.11_03.tar.gz', env=>{ TMP=>'<image_dir>\ppm' } }, #XXX-FIXME
 
             # exceptions
             qw/ Try-Tiny Carp::Always autodie /,
 
             # templates
-            qw/ Template Template-Tiny /,
+            { module=>'Template', env=>{ 'HARNESS_SUBCLASS'=>'TAP::Harness::Restricted', 'HARNESS_SKIP'=>'t/process_dir.t' } }, #XXX-NEW 5.26.0 https://github.com/abw/Template2/pull/67
+            qw/ Template-Tiny /,
 
             # OO - moose, moo & co.
             qw/ Moose MooseX-Types MooseX::Types::Structured /,
-            { module=>'MooseX::Declare', ignore_testfailure=>1 },       #XXX-TODO https://rt.cpan.org/Public/Bug/Display.html?id=97690
+            { module=>'MooseX::Declare', ignore_testfailure=>1 },       #XXX-PREREQ-ONLY https://rt.cpan.org/Public/Bug/Display.html?id=97690
             qw/ MooseX::ClassAttribute MooseX::Role::Parameterized MooseX::NonMoose Moo /,
 
             # OO - others
@@ -248,7 +253,8 @@
             { module=>'Alien::Tidyp', buildpl_param=>'--srctarball=http://strawberryperl.com/package/kmx/testing/tidyp-1.04.tar.gz' },
             qw/ CPAN::SQLite FCGI /,
             qw/ IO::String /,
-            qw/ V Modern::Perl Unicode::UTF8 Perl::Tidy /,
+            { module=>'Unicode::UTF8', ignore_testfailure=>1 }, #XXX-TODO-5.28
+            qw/ V Modern::Perl Perl::Tidy /,
             qw/ FFI::Raw /,
 
             # GUI - not yet
@@ -373,7 +379,7 @@
          { do=>'removefile', args=>[ '<image_dir>/README.txt', '<image_dir>/perl2.reloc.txt', '<image_dir>/perl1.reloc.txt', '<image_dir>/relocation.txt',
                                      '<image_dir>/update_env.pl.bat', '<image_dir>/relocation.pl.bat' ] },
          { do=>'createdir',  args=>[ '<image_dir>/data' ] },
-         { do=>'apply_tt',   args=>[ '<dist_sharedir>/portable/portable.perl.tt',       '<image_dir>/portable.perl', {gcchost=>'i686-w64-mingw32', gccver=>'4.8.3'} ] },
+         { do=>'apply_tt',   args=>[ '<dist_sharedir>/portable/portable.perl.tt',       '<image_dir>/portable.perl', {gcchost=>'i686-w64-mingw32', gccver=>'7.1.0'} ] },
          { do=>'copyfile',   args=>[ '<dist_sharedir>/portable/portableshell.bat',      '<image_dir>/portableshell.bat' ] },
          { do=>'apply_tt',   args=>[ '<dist_sharedir>/portable/README.portable.txt.tt', '<image_dir>/README.txt' ] },
          # cleanup cpanm related files
@@ -395,20 +401,18 @@
         disable => $ENV{SKIP_PDL_STEP}, ### hack
         plugin  => 'Perl::Dist::Strawberry::Step::BinaryToolsAndLibs',
         install_packages => {
-            'fftw3'         => '<package_url>/kmx/32_libs/gcc48-2015Q1/32bit_fftw-3.3.4-bin_20150126.zip',
-            'gnuplot'       => '<package_url>/kmx/32_libs/gcc48-2015Q1/32bit_gnuplot-4.6.6-bin_20150126.zip',
-            'gsl'           => '<package_url>/kmx/32_libs/gcc48-2015Q1/32bit_gsl-1.16-bin_20150126.zip',
-            'hdf4'          => '<package_url>/kmx/32_libs/gcc48-2015Q1/32bit_hdf-4.2.10-bin_20150126.zip',
-            'hdf5'          => '<package_url>/kmx/32_libs/gcc48-2015Q1/32bit_hdf5-1.8.14-bin_20150126.zip',
-            'plplot'        => '<package_url>/kmx/32_libs/gcc48-2015Q1/32bit_plplot-5.10.0-bin_20150126.zip',
-            'proj'          => '<package_url>/kmx/32_libs/gcc48-2015Q1/32bit_proj-4.8.0-bin_20150126.zip',
-            'szip'          => '<package_url>/kmx/32_libs/gcc48-2015Q1/32bit_szip-2.1-bin_20150126.zip',
-            'talib'         => '<package_url>/kmx/32_libs/gcc48-2015Q1/32bit_ta-lib-0.4.0-bin_20150126.zip',
-            'netcdf'        => '<package_url>/kmx/32_libs/gcc48-2015Q1/32bit_netcdf-4.3.2-bin_20150126.zip',
-            'lapack'        => '<package_url>/kmx/32_libs/gcc48-2015Q1/32bit_lapack-3.5.0-bin_20150126.zip',
-            'cfitsio'       => '<package_url>/kmx/32_libs/gcc48-2015Q1/32bit_cfitsio-3.37-bin_20150126.zip',
-            #spec. tools
-            'gdb'           => '<package_url>/kmx/32_tools/32bit_gdb-7.7.1-bin_20140727.zip',
+            'fftw3'         => '<package_url>/kmx/32_libs/gcc71-2017Q2/32bit_fftw-3.3.6-pl2-bin_20170517.zip',
+            'gnuplot'       => '<package_url>/kmx/32_libs/gcc71-2017Q2/32bit_gnuplot-5.0.6-bin_20170517.zip',
+            'gsl'           => '<package_url>/kmx/32_libs/gcc71-2017Q2/32bit_gsl-2.3-bin_20170517.zip',
+            'hdf4'          => '<package_url>/kmx/32_libs/gcc71-2017Q2/32bit_hdf-4.2.12-bin_20170517.zip',
+            'hdf5'          => '<package_url>/kmx/32_libs/gcc71-2017Q2/32bit_hdf5-1.10.1-bin_20170517.zip',
+            'plplot'        => '<package_url>/kmx/32_libs/gcc71-2017Q2/32bit_plplot-5.12.0-bin_20170517.zip',
+            'proj'          => '<package_url>/kmx/32_libs/gcc71-2017Q2/32bit_proj-4.9.3-bin_20170517.zip',
+            'szip'          => '<package_url>/kmx/32_libs/gcc71-2017Q2/32bit_szip-2.1.1-bin_20170517.zip',
+            'talib'         => '<package_url>/kmx/32_libs/gcc71-2017Q2/32bit_ta-lib-0.4.0-bin_20170517.zip',
+            'netcdf'        => '<package_url>/kmx/32_libs/gcc71-2017Q2/32bit_netcdf-4.4.1.1-bin_20170517.zip',
+            'lapack'        => '<package_url>/kmx/32_libs/gcc71-2017Q2/32bit_lapack-3.7.0-bin_20170523.zip',
+            'cfitsio'       => '<package_url>/kmx/32_libs/gcc71-2017Q2/32bit_cfitsio-3.41-bin_20170517.zip',
         },
     },
     ### NEXT STEP ###########################
@@ -417,9 +421,11 @@
         plugin => 'Perl::Dist::Strawberry::Step::InstallModules',
         # modules specific to PDL edition
         modules => [
+          { module => 'File::Next', ignore_testfailure => 1 }, #XXX-TODO-5.28 / PREREQ-ONLY
           { module => 'Devel::REPL', ignore_testfailure => 1 },
-          qw/Lexical::Persistence Astro::FITS::Header Astro::FITS::CFITSIO /,
+          qw/Lexical::Persistence Astro::FITS::Header Astro::FITS::CFITSIO/,
           { module => 'Inline::C', ignore_testfailure => 1 },
+          { module => 'Module::Compile', ignore_testfailure => 1 }, #XXX-TODO-5.28 / PREREQ-ONLY
           { module => 'PDL',
             #makefilepl_param => 'PDLCONF=<dist_sharedir>\pdl\perldl2.conf',
             ignore_testfailure => 1,
@@ -428,8 +434,8 @@
               PLPLOT_DRV_DIR => '<image_dir>\c\share\plplot',
             },
           },
-          qw/ PDL::IO::CSV PDL::IO::DBI /, # PDL::IO::Image PDL::DateTime
-          qw/ PDL::LinearAlgebra PDL::Stats /,
+          qw/ PDL::IO::CSV PDL::IO::DBI PDL::DateTime PDL::Stats /, # PDL::IO::Image
+          qw/ PDL::LinearAlgebra /,
           { module=>'PDL::Graphics::Prima', ignore_testfailure => 1 },
           { module=>'PDL::Graphics::Gnuplot', skiptest=>1 },
         ],
@@ -458,7 +464,6 @@
     },
     ### NEXT STEP ###########################
     {
-       disable => $ENV{SKIP_PDL_STEP}, ### hack
        plugin => 'Perl::Dist::Strawberry::Step::OutputLogZIP', # no options needed
     },
   ],
