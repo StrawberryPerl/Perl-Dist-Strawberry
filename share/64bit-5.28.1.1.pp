@@ -137,8 +137,8 @@
             qw/ Sys::Syslog /,
 
             # term related
-            'http://chorny.net/strawberry/TermReadKey-2.37_01.tar.gz', #https://github.com/jonathanstowe/TermReadKey/issues/25
-            #qw/ Term::ReadKey /,
+          ##'http://chorny.net/strawberry/TermReadKey-2.37_01.tar.gz', #https://github.com/jonathanstowe/TermReadKey/issues/25
+            { module=>'Term::ReadKey', ignore_testfailure=>1 },
             { module=>'Term::ReadLine::Perl', env=>{ PERL_MM_NONINTERACTIVE=>1 } },
 
             # compression
@@ -215,7 +215,8 @@
 
             # graphics
             'GD',
-            { module=>'http://chorny.net/strawberry/Imager-1.006.zip', ignore_testfailure=>1 }, #https://rt.cpan.org/Ticket/Display.html?id=124001
+          ##{ module=>'http://chorny.net/strawberry/Imager-1.006.zip', ignore_testfailure=>1 }, #https://rt.cpan.org/Ticket/Display.html?id=124001
+            { module=>'Imager', ignore_testfailure=>1 }, #https://rt.cpan.org/Ticket/Display.html?id=124001
             qw/ Imager-File-GIF Imager-File-JPEG Imager-File-PNG Imager-File-TIFF Imager-Font-FT2 Imager-Font-W32 /,
             { module=>'OpenGL', ignore_testfailure=>1 },
 
