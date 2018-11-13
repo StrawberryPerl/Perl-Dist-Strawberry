@@ -120,7 +120,8 @@
             { module=>'B::Lint',  ignore_testfailure=>1 }, #XXX-TODO https://rt.cpan.org/Public/Bug/Display.html?id=101115
             { module=>'CPANPLUS', env=>{ 'HARNESS_SUBCLASS'=>'TAP::Harness::Restricted', 'HARNESS_SKIP'=>'t/40_CPANPLUS-Internals-Report.t' } },
             #XXX-TODO https://rt.cpan.org/Public/Bug/Display.html?id=116479
-            qw/ Archive::Extract CPANPLUS::Dist::Build File::CheckTree Log::Message Module::Pluggable Object::Accessor Text::Soundex Term::UI Pod::LaTeX Tree::DAG_Node /,
+            { module=>'Archive::Extract',  ignore_testfailure=>1 }, #XXX-TODO-5.28/64bit
+            qw/ CPANPLUS::Dist::Build File::CheckTree Log::Message Module::Pluggable Object::Accessor Text::Soundex Term::UI Pod::LaTeX Tree::DAG_Node /,
 
             # YAML, JSON & co.
             { module=>'Cpanel::JSON::XS', ignore_testfailure=>1 }, #XXX-TODO https://github.com/rurban/Cpanel-JSON-XS/issues/57
@@ -148,13 +149,15 @@
             { module=>'Term::ReadLine::Perl', env=>{ PERL_MM_NONINTERACTIVE=>1 } },
 
             # compression
-            { module=>'Archive::Zip', ignore_testfailure=>1 }, #XXX-TODO: https://rt.cpan.org/Public/Bug/Display.html?id=101442
+            { module=>'Archive::Zip', ignore_testfailure=>1 }, #XXX-TODO t/25_traversal.t
             qw/ IO-Compress-Lzma Compress-unLZMA Archive::Extract /,
 
             # file related
+            { module=>'File-ShareDir-Install', ignore_testfailure=>1 }, #XXX-TODO-5.28
             qw/ File-Find-Rule File-HomeDir File-Listing File-Remove File-ShareDir File-Which File::Map/,
             'http://cpan.metacpan.org/authors/id/D/DM/DMUEY/File-Copy-Recursive-0.38.tar.gz', # https://rt.cpan.org/Ticket/Display.html?id=123971 https://rt.cpan.org/Ticket/Display.html?id=123971
-            qw/ File::Slurp File::Slurper /,
+            { module=>'File::Slurp', ignore_testfailure=>1 },
+            qw/ File::Slurper /,
             qw/ IO::All Path::Tiny Path::Class /,
 
             # math related
@@ -224,7 +227,7 @@
 
             # graphics
             'GD',
-            'http://chorny.net/strawberry/Imager-1.006.zip', #https://rt.cpan.org/Ticket/Display.html?id=124001
+            { module=>'http://chorny.net/strawberry/Imager-1.006.zip', ignore_testfailure=>1 }, #https://rt.cpan.org/Ticket/Display.html?id=124001
             qw/ Imager-File-GIF Imager-File-JPEG Imager-File-PNG Imager-File-TIFF Imager-Font-FT2 Imager-Font-W32 /,
             { module=>'OpenGL', ignore_testfailure=>1 },
 
