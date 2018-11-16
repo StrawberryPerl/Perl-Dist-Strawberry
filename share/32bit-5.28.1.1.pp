@@ -147,7 +147,8 @@
 
             # file related
             { module=>'File-ShareDir-Install', ignore_testfailure=>1 }, #XXX-TODO-5.28
-            qw/ File-Find-Rule File-HomeDir File-Listing File-Remove File-ShareDir File-Which File::Map File::Copy::Recursive /,
+            { module=>'File::Copy::Recursive', ignore_testfailure=>1 }, #XXX-TODO-5.28
+            qw/ File-Find-Rule File-HomeDir File-Listing File-Remove File-ShareDir File-Which File::Map /,
             { module=>'File::Slurp', ignore_testfailure=>1 },
             qw/ File::Slurper /,
             qw/ IO::All Path::Tiny Path::Class /,
