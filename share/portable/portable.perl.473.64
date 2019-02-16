@@ -19,6 +19,7 @@ minicpan:
 HomeDir:
   my_home: data
   my_data: data
+  my_documents: data
 Config:
   archlib: perl/lib
   archlibexp: perl/lib
