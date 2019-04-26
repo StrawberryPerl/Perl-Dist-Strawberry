@@ -44,7 +44,7 @@
             'liblibxslt'    => '<package_url>/kmx/64_libs/gcc71-2017Q2/64bit_libxslt-1.1.29-bin_20170517.zip',
             'libmpc'        => '<package_url>/kmx/64_libs/gcc71-2017Q2/64bit_mpc-1.0.3-bin_20170517.zip',
             'libmpfr'       => '<package_url>/kmx/64_libs/gcc71-2017Q2/64bit_mpfr-3.1.5-bin_20170517.zip',
-            'libopenssl'    => '<package_url>/kmx/64_libs/gcc71-2018Q4/64bit_openssl-1.1.0i-bin_20181113.zip',
+            'libopenssl'    => '<package_url>/kmx/64_libs/gcc71-2019Q2/64bit_openssl-1.1.0j-bin_20190426.zip',
             'libpostgresql' => '<package_url>/kmx/64_libs/gcc71-2017Q2/64bit_postgresql-9.6.3-bin_20170517.zip',
             'libt1lib'      => '<package_url>/kmx/64_libs/gcc71-2017Q2/64bit_t1lib-5.1.2-bin_20170517.zip',
             'libtiff'       => '<package_url>/kmx/64_libs/gcc71-2017Q2/64bit_tiff-4.0.7-bin_20170517.zip',
