@@ -137,7 +137,6 @@
             qw/ Sys::Syslog /,
 
             # term related
-          ##'http://chorny.net/strawberry/TermReadKey-2.37_01.tar.gz', #https://github.com/jonathanstowe/TermReadKey/issues/25
             { module=>'Term::ReadKey', ignore_testfailure=>1 },
             { module=>'Term::ReadLine::Perl', env=>{ PERL_MM_NONINTERACTIVE=>1 } },
 
@@ -183,9 +182,8 @@
 
             # database stuff
             qw/ DBI DBD-ODBC DBD-SQLite DBD-CSV DBD-ADO DBIx-Class DBIx-Simple /,
-            #XXX-TODO DBD::Pg fails with -D__USE_MINGW_ANSI_STDIO (e.g. long double build)
-            { module=>'<package_url>/kmx/perl-modules-patched/DBD-Pg-3.7.4_patched.tar.gz' },
-            'DBD::mysql',
+            { module=>'DBD::Pg' },
+            { module=>'DBD::mysql' },
             { module=>'DBD::Oracle', makefilepl_param=>'-V 12.2.0.1.0', env=>{ ORACLE_HOME=>'c:\ora122instant32' }, skiptest=>1 }, ## requires Oracle Instant Client 32bit!!!
 
             # crypto related
