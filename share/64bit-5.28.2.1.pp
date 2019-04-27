@@ -159,7 +159,7 @@
 
             # SSL & SSH & telnet
             'Net-SSLeay',
-            { module=>'IO-Socket-SSL', env=>{ 'HARNESS_SUBCLASS'=>'TAP::Harness::Restricted', 'HARNESS_SKIP'=>'t/mitm.t t/verify_fingerprint.t t/session_ticket.t' } },
+            { module=>'IO-Socket-SSL', env=>{ 'HARNESS_SUBCLASS'=>'TAP::Harness::Restricted', 'HARNESS_SKIP'=>'t/nonblock.t t/mitm.t t/verify_fingerprint.t t/session_ticket.t' } },
             #https://github.com/noxxi/p5-io-socket-ssl/issues/30
             qw/ Net-SSH2 Net::Telnet /,
 
