@@ -98,6 +98,7 @@
         plugin => 'Perl::Dist::Strawberry::Step::InstallModules',
         modules => [
             { module=>'Capture::Tiny', ignore_testfailure=>1 }, #XXX-TODO https://github.com/dagolden/Capture-Tiny/issues/29
+            { module=>'Path::Tiny', ignore_testfailure=>1 }, #XXX-TODO 5.30 t/zzz-spec.t fails https://github.com/dagolden/Path-Tiny/issues/228
             'TAP::Harness::Restricted', #to be able to skip only some tests
             # IPC related
             { module=>'IPC-Run', skiptest=>1 }, #XXX-TODO trouble with 'Terminating on signal SIGBREAK(21)' https://metacpan.org/release/IPC-Run
