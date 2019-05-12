@@ -67,7 +67,7 @@
     ### NEXT STEP ###########################
     {
         plugin     => 'Perl::Dist::Strawberry::Step::InstallPerlCore',
-        url        => 'https://cpan.metacpan.org/authors/id/X/XS/XSAWYERX/perl-5.29.10.tar.gz',
+        url        => 'https://cpan.metacpan.org/authors/id/X/XS/XSAWYERX/perl-5.30.0-RC1.tar.gz',
         cf_email   => 'strawberry-perl@project', #IMPORTANT: keep 'strawberry-perl' before @
         perl_debug => 0,    # can be overridden by --perl_debug=N option
         perl_64bitint => 1, # ignored on 64bit, can be overridden by --perl_64bitint | --noperl_64bitint option
