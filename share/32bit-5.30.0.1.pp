@@ -22,8 +22,8 @@
             'pexports'      => '<package_url>/kmx/32_tools/32bit_pexports-0.47-bin_20170426.zip',
             'patch'         => '<package_url>/kmx/32_tools/32bit_patch-2.5.9-7-bin_20100110_UAC.zip',
             #gcc, gmake, gdb & co.
-            'gcc-toolchain' => { url=>'<package_url>/kmx/32_gcctoolchain/mingw64-w32-gcc7.1.0_20170512.zip', install_to=>'c' },
-            'gcc-license'   => '<package_url>/kmx/32_gcctoolchain/mingw64-w32-gcc7.1.0_20170512-lic.zip',
+            'gcc-toolchain' => { url=>'<package_url>/kmx/32_gcctoolchain/mingw64-w32-gcc8.3.0_20190316.zip', install_to=>'c' },
+            'gcc-license'   => '<package_url>/kmx/32_gcctoolchain/mingw64-w32-gcc8.3.0_20190316-lic.zip',
             #libs
             'bzip2'         => '<package_url>/kmx/32_libs/gcc71-2017Q2/32bit_bzip2-1.0.6-bin_20170517.zip',
             'libdb'         => '<package_url>/kmx/32_libs/gcc71-2017Q2/32bit_db-6.2.32-bin_20170517.zip',
@@ -254,12 +254,13 @@
             { module=>'Data-Dump-Streamer', ignore_testfailure=>1 },    #XXX-TODO ! Testing Data-Dump-Streamer-2.37 failed
 
             # misc
-            { module=>'Alien::Tidyp', buildpl_param=>'--srctarball=http://strawberryperl.com/package/kmx/testing/tidyp-1.04.tar.gz' },
+            #{ module=>'Alien::Tidyp', buildpl_param=>'--srctarball=http://strawberryperl.com/package/kmx/testing/tidyp-1.04.tar.gz' }, #gcc 8.3 failure
             qw/ CPAN::SQLite FCGI /,
             qw/ IO::String /,
             { module=>'Unicode::UTF8', ignore_testfailure=>1 }, #XXX-TODO-5.28
             qw/ V Modern::Perl Perl::Tidy /,
             qw/ FFI::Raw /,
+            qw/ PadWalker Devel::vscode /,
 
             # GUI - not yet
             #qw/IUP/,
@@ -383,7 +384,7 @@
          { do=>'removefile', args=>[ '<image_dir>/README.txt', '<image_dir>/perl2.reloc.txt', '<image_dir>/perl1.reloc.txt', '<image_dir>/relocation.txt',
                                      '<image_dir>/update_env.pl.bat', '<image_dir>/relocation.pl.bat' ] },
          { do=>'createdir',  args=>[ '<image_dir>/data' ] },
-         { do=>'apply_tt',   args=>[ '<dist_sharedir>/portable/portable.perl.tt',       '<image_dir>/portable.perl', {gcchost=>'i686-w64-mingw32', gccver=>'7.1.0'} ] },
+         { do=>'apply_tt',   args=>[ '<dist_sharedir>/portable/portable.perl.tt',       '<image_dir>/portable.perl', {gcchost=>'i686-w64-mingw32', gccver=>'8.3.0'} ] },
          { do=>'copyfile',   args=>[ '<dist_sharedir>/portable/portableshell.bat',      '<image_dir>/portableshell.bat' ] },
          { do=>'apply_tt',   args=>[ '<dist_sharedir>/portable/README.portable.txt.tt', '<image_dir>/README.txt' ] },
          # cleanup cpanm related files
