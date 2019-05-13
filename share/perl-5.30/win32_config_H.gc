@@ -607,7 +607,7 @@
  *	This symbol, if defined, indicates that <dlfcn.h> exists and should
  *	be included.
  */
-/*#define I_DLFCN		/ **/
+#define I_DLFCN		/**/
 
 /* I_FCNTL:
  *	This manifest constant tells the C program to include <fcntl.h>.
@@ -2308,8 +2308,8 @@
  *	Can we handle GCC builtin for telling that certain values are more
  *	likely
  */
-#define HAS_BUILTIN_EXPECT	/**/
-/*#define HAS_BUILTIN_CHOOSE_EXPR	/ **/
+#define HAS_BUILTIN_EXPECT	/* we have gcc-8.3 */
+#define HAS_BUILTIN_CHOOSE_EXPR	/* we have gcc-8.3 */
 
 /* HAS_C99_VARIADIC_MACROS:
  *	If defined, the compiler supports C99 variadic macros.
