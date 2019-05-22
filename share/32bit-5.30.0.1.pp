@@ -25,31 +25,38 @@
             'gcc-toolchain' => { url=>'<package_url>/kmx/32_gcctoolchain/mingw64-w32-gcc8.3.0_20190316.zip', install_to=>'c' },
             'gcc-license'   => '<package_url>/kmx/32_gcctoolchain/mingw64-w32-gcc8.3.0_20190316-lic.zip',
             #libs
-            'bzip2'         => '<package_url>/kmx/32_libs/gcc71-2017Q2/32bit_bzip2-1.0.6-bin_20170517.zip',
-            'libdb'         => '<package_url>/kmx/32_libs/gcc71-2017Q2/32bit_db-6.2.32-bin_20170517.zip',
-            'libexpat'      => '<package_url>/kmx/32_libs/gcc71-2017Q2/32bit_expat-2.2.0-bin_20170517.zip',
-            'libfreeglut'   => '<package_url>/kmx/32_libs/gcc71-2017Q2/32bit_freeglut-3.0.0-bin_20170517.zip',
-            'libfreetype'   => '<package_url>/kmx/32_libs/gcc71-2017Q2/32bit_freetype-2.7.1-bin_20170517.zip',
-            'libgdbm'       => '<package_url>/kmx/32_libs/gcc71-2017Q2/32bit_gdbm-1.10-bin_20170517.zip',
-            'libgiflib'     => '<package_url>/kmx/32_libs/gcc71-2017Q2/32bit_giflib-5.1.4-bin_20170517.zip',
-            'libgmp'        => '<package_url>/kmx/32_libs/gcc71-2017Q2/32bit_gmp-6.1.2-bin_20170517.zip',
-            'libjpeg'       => '<package_url>/kmx/32_libs/gcc71-2017Q2/32bit_jpeg-9b-bin_20170517.zip',
-            'libgd'         => '<package_url>/kmx/32_libs/gcc71-2017Q2/32bit_libXpm-3.5.12-bin_20170517.zip',
-            'libffi'        => '<package_url>/kmx/32_libs/gcc71-2017Q2/32bit_libffi-3.2.1-bin_20170517.zip',
-            'liblibXpm'     => '<package_url>/kmx/32_libs/gcc71-2017Q2/32bit_libgd-2.2.4-bin_20170517.zip',
-            'liblibiconv'   => '<package_url>/kmx/32_libs/gcc71-2017Q2/32bit_libiconv-1.15-bin_20170517.zip',
-            'liblibpng'     => '<package_url>/kmx/32_libs/gcc71-2017Q2/32bit_libpng-1.6.29-bin_20170517.zip',
-            'liblibssh2'    => '<package_url>/kmx/32_libs/gcc71-2017Q2/32bit_libssh2-1.8.0-bin_20170517.zip',
-            'liblibxml2'    => '<package_url>/kmx/32_libs/gcc71-2017Q2/32bit_libxml2-2.9.4-bin_20170517.zip',
-            'liblibxslt'    => '<package_url>/kmx/32_libs/gcc71-2017Q2/32bit_libxslt-1.1.29-bin_20170517.zip',
-            'libmpc'        => '<package_url>/kmx/32_libs/gcc71-2017Q2/32bit_mpc-1.0.3-bin_20170517.zip',
-            'libmpfr'       => '<package_url>/kmx/32_libs/gcc71-2017Q2/32bit_mpfr-3.1.5-bin_20170517.zip',
-            'libopenssl'    => '<package_url>/kmx/32_libs/gcc71-2019Q2/32bit_openssl-1.1.0j-bin_20190426.zip',
-            'libpostgresql' => '<package_url>/kmx/32_libs/gcc71-2017Q2/32bit_postgresql-9.6.3-bin_20170517.zip',
-            'libt1lib'      => '<package_url>/kmx/32_libs/gcc71-2017Q2/32bit_t1lib-5.1.2-bin_20170517.zip',
-            'libtiff'       => '<package_url>/kmx/32_libs/gcc71-2017Q2/32bit_tiff-4.0.7-bin_20170517.zip',
-            'libxz'         => '<package_url>/kmx/32_libs/gcc71-2017Q2/32bit_xz-5.2.3-bin_20170517.zip',
-            'libzlib'       => '<package_url>/kmx/32_libs/gcc71-2017Q2/32bit_zlib-1.2.11-bin_20170517.zip',
+            'bzip2'         => '<package_url>/kmx/32_libs/gcc83-2019Q2/32bit_bzip2-1.0.6-bin_20190513.zip',
+            'db'            => '<package_url>/kmx/32_libs/gcc83-2019Q2/32bit_db-6.2.38-bin_20190513.zip',
+            'expat'         => '<package_url>/kmx/32_libs/gcc83-2019Q2/32bit_expat-2.2.6-bin_20190513.zip',
+            'fontconfig'    => '<package_url>/kmx/32_libs/gcc83-2019Q2/32bit_fontconfig-2.13.1-bin_20190513.zip',
+            'freeglut'      => '<package_url>/kmx/32_libs/gcc83-2019Q2/32bit_freeglut-3.0.0-bin_20190513.zip',
+            'freetype'      => '<package_url>/kmx/32_libs/gcc83-2019Q2/32bit_freetype-2.10.0-bin_20190513.zip',
+            'gdbm'          => '<package_url>/kmx/32_libs/gcc83-2019Q2/32bit_gdbm-1.18-bin_20190513.zip',
+            'giflib'        => '<package_url>/kmx/32_libs/gcc83-2019Q2/32bit_giflib-5.1.9-bin_20190513.zip',
+            'gmp'           => '<package_url>/kmx/32_libs/gcc83-2019Q2/32bit_gmp-6.1.2-bin_20190513.zip',
+            'graphite2'     => '<package_url>/kmx/32_libs/gcc83-2019Q2/32bit_graphite2-1.3.13-bin_20190513.zip',
+            'harfbuzz'      => '<package_url>/kmx/32_libs/gcc83-2019Q2/32bit_harfbuzz-2.3.1-bin_20190513.zip',
+            'jpeg'          => '<package_url>/kmx/32_libs/gcc83-2019Q2/32bit_jpeg-9c-bin_20190513.zip',
+            'libffi'        => '<package_url>/kmx/32_libs/gcc83-2019Q2/32bit_libffi-3.2.1-bin_20190513.zip',
+            'libgd'         => '<package_url>/kmx/32_libs/gcc83-2019Q2/32bit_libgd-2.2.5-bin_20190513.zip',
+            'liblibiconv'   => '<package_url>/kmx/32_libs/gcc83-2019Q2/32bit_libiconv-1.16-bin_20190513.zip',
+            'libidn2'       => '<package_url>/kmx/32_libs/gcc83-2019Q2/32bit_libidn2-2.1.1-bin_20190513.zip',
+            'liblibpng'     => '<package_url>/kmx/32_libs/gcc83-2019Q2/32bit_libpng-1.6.37-bin_20190513.zip',
+            'liblibssh2'    => '<package_url>/kmx/32_libs/gcc83-2019Q2/32bit_libssh2-1.8.2-bin_20190513.zip',
+            'libunistring'  => '<package_url>/kmx/32_libs/gcc83-2019Q2/32bit_libunistring-0.9.10-bin_20190513.zip',
+            'liblibxml2'    => '<package_url>/kmx/32_libs/gcc83-2019Q2/32bit_libxml2-2.9.9-bin_20190513.zip',
+            'liblibXpm'     => '<package_url>/kmx/32_libs/gcc83-2019Q2/32bit_libXpm-3.5.12-bin_20190513.zip',
+            'liblibxslt'    => '<package_url>/kmx/32_libs/gcc83-2019Q2/32bit_libxslt-1.1.33-bin_20190513.zip',
+            'mpc'           => '<package_url>/kmx/32_libs/gcc83-2019Q2/32bit_mpc-1.1.0-bin_20190513.zip',
+            'mpfr'          => '<package_url>/kmx/32_libs/gcc83-2019Q2/32bit_mpfr-4.0.2-bin_20190513.zip',
+            'openssl'       => '<package_url>/kmx/32_libs/gcc83-2019Q2/32bit_openssl-1.1.1b-bin_20190513.zip',
+            'postgresql'    => '<package_url>/kmx/32_libs/gcc83-2019Q2/32bit_postgresql-11.3-bin_20190513.zip',
+            'readline'      => '<package_url>/kmx/32_libs/gcc83-2019Q2/32bit_readline-8.0-bin_20190513.zip',
+            't1lib'         => '<package_url>/kmx/32_libs/gcc83-2019Q2/32bit_t1lib-5.1.2-bin_20190513.zip',
+            'termcap'       => '<package_url>/kmx/32_libs/gcc83-2019Q2/32bit_termcap-1.3.1-bin_20190513.zip',
+            'tiff'          => '<package_url>/kmx/32_libs/gcc83-2019Q2/32bit_tiff-4.0.10-bin_20190513.zip',
+            'xz'            => '<package_url>/kmx/32_libs/gcc83-2019Q2/32bit_xz-5.2.4-bin_20190513.zip',
+            'zlib'          => '<package_url>/kmx/32_libs/gcc83-2019Q2/32bit_zlib-1.2.11-bin_20190513.zip',
             #special cases
             'libmysql'      => '<package_url>/kmx/32_libs/gcc71-2017Q2/32bit_mysql-5.7.16-bin_20170517.zip',
         },
@@ -67,7 +74,7 @@
     ### NEXT STEP ###########################
     {
         plugin     => 'Perl::Dist::Strawberry::Step::InstallPerlCore',
-        url        => 'https://cpan.metacpan.org/authors/id/X/XS/XSAWYERX/perl-5.30.0-RC1.tar.gz',
+        url        => 'https://cpan.metacpan.org/authors/id/X/XS/XSAWYERX/perl-5.30.0.tar.gz',
         cf_email   => 'strawberry-perl@project', #IMPORTANT: keep 'strawberry-perl' before @
         perl_debug => 0,    # can be overridden by --perl_debug=N option
         perl_64bitint => 1, # ignored on 64bit, can be overridden by --perl_64bitint | --noperl_64bitint option
@@ -106,6 +113,9 @@
             qw/ IPC-Run3 /,
 
             { module=>'LWP::UserAgent', skiptest=>1 }, # XXX-HACK: 6.08 is broken
+
+            # install cpanm as soon as possible
+            qw/ App::cpanminus /,
 
             # gdbm / db related
             qw/ BerkeleyDB DB_File DBM-Deep /,
@@ -159,9 +169,9 @@
             qw/ ExtUtils::F77 /,
 
             # SSL & SSH & telnet
-            'Net-SSLeay',
-            { module=>'IO-Socket-SSL', env=>{ 'HARNESS_SUBCLASS'=>'TAP::Harness::Restricted', 'HARNESS_SKIP'=>'t/nonblock.t t/mitm.t t/verify_fingerprint.t t/session_ticket.t' } },
-            #https://github.com/noxxi/p5-io-socket-ssl/issues/30
+            { module=>'Net-SSLeay', ignore_testfailure=>1 }, # openssl-1.1.1 related
+            'Mozilla::CA', # optional dependency of IO-Socket-SSL
+            { module=>'IO-Socket-SSL', skiptest=>1, env=>{ 'HARNESS_SUBCLASS'=>'TAP::Harness::Restricted', 'HARNESS_SKIP'=>'t/nonblock.t t/mitm.t t/verify_fingerprint.t t/session_ticket.t t/sni_verify.t' } },
             qw/ Net-SSH2 Net::Telnet /,
 
             # network
@@ -226,7 +236,7 @@
             #qw/ XML::Compile::SOAP12 XML::Compile::SOAP11 XML::Compile::WSDL11 /,
 
             # utils
-            qw/ App::cpanminus App::cpanoutdated App::pmuninstall pler App-module-version App-local-lib-Win32Helper /,
+            qw/ App::cpanoutdated App::pmuninstall pler App-module-version App-local-lib-Win32Helper /,
 
             # par & ppm
             qw/ PAR PAR::Dist::FromPPD PAR::Dist::InstallPPD PAR::Repository::Client /,
