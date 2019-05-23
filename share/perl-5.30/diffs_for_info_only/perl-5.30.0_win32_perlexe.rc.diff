@@ -1,5 +1,5 @@
---- C:\strawberry_build\build\perl_core\perl-5.30.0-RC1\win32\perlexe.rc.backup	Wed Jun 27 13:17:57 2018
-+++ C:\strawberry_build\build\perl_core\perl-5.30.0-RC1\win32\perlexe.rc	Sun May 12 18:42:51 2019
+--- C:\strawberry_build\build\perl_core\perl-5.30.0\win32\perlexe.rc.backup	Wed Jun 27 13:17:57 2018
++++ C:\strawberry_build\build\perl_core\perl-5.30.0\win32\perlexe.rc	Thu May 23 14:59:09 2019
 @@ -6,3 +6,44 @@
  #ifdef INCLUDE_MANIFEST
  CREATEPROCESS_MANIFEST_RESOURCE_ID RT_MANIFEST "perlexe.manifest"

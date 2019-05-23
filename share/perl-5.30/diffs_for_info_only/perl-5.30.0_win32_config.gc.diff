@@ -1,5 +1,5 @@
---- C:\strawberry_build\build\perl_core\perl-5.30.0-RC1\win32\config.gc.backup	Sat May 11 11:50:20 2019
-+++ C:\strawberry_build\build\perl_core\perl-5.30.0-RC1\win32\config.gc	Sun May 12 18:42:51 2019
+--- C:\strawberry_build\build\perl_core\perl-5.30.0\win32\config.gc.backup	Sat May 11 11:50:20 2019
++++ C:\strawberry_build\build\perl_core\perl-5.30.0\win32\config.gc	Thu May 23 14:59:09 2019
 @@ -22,8 +22,8 @@
  api_version='~PERL_API_VERSION~'
  api_versionstring='~PERL_API_REVISION~.~PERL_API_VERSION~.~PERL_API_SUBVERSION~'
@@ -186,7 +186,7 @@
  mydomain=''
  myhostname=''
 -myuname=''
-+myuname='Win32 strawberry-perl 5.30.0.1 #1 Sun May 12 18:42:50 2019 i386'
++myuname='Win32 strawberry-perl-no64 5.30.0.1 #1 Thu May 23 14:59:09 2019 i386'
  n='-n'
  need_va_copy='undef'
  netdb_hlen_type='int'
