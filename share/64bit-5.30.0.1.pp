@@ -120,6 +120,11 @@
             # gdbm / db related
             qw/ BerkeleyDB DB_File DBM-Deep /,
 
+            # BUG: this should be built with core but is not (at least not by 5.30.0)
+            '<package_url>/kmx/perl-modules-patched/GDBM_File-1.18.tar.gz',
+            '<package_url>/kmx/perl-modules-patched/NDBM_File-1.15.tar.gz',
+            '<package_url>/kmx/perl-modules-patched/ODBM_File-1.16.tar.gz',
+
             #removed from core in 5.20
             qw/ Module::Build /,
             { module=>'B::Lint',  ignore_testfailure=>1 }, #XXX-TODO https://rt.cpan.org/Public/Bug/Display.html?id=101115
@@ -175,7 +180,7 @@
             qw/ Net-SSH2 Net::Telnet /,
 
             # network
-            qw/ IO::Socket::IP IO::Socket::INET6 IO::Socket::Socks /,
+            qw/ IO::Socket::IP IO::Socket::INET6 IO::Socket::Socks EV /,
             qw/ HTTP-Server-Simple /,
             qw/ LWP::UserAgent /,
             { module=>'LWP::Protocol::https', env=>{ 'HARNESS_SUBCLASS'=>'TAP::Harness::Restricted', 'HARNESS_SKIP'=>'t/https_proxy.t' } }, #https://rt.perl.org/Ticket/Display.html?id=132863
@@ -416,7 +421,7 @@
         disable => $ENV{SKIP_PDL_STEP}, ### hack
         plugin  => 'Perl::Dist::Strawberry::Step::BinaryToolsAndLibs',
         install_packages => {
-            'cfitsio'       => '<package_url>/kmx/64_libs/gcc83-2019Q2/64bit_cfitsio-3.41-bin_20190522.zip',
+            'cfitsio'       => '<package_url>/kmx/64_libs/gcc83-2019Q2/64bit_cfitsio-3.47-bin_20190522.zip',
             'fftw3'         => '<package_url>/kmx/64_libs/gcc83-2019Q2/64bit_fftw-3.3.8-bin_20190522.zip',
             'gnuplot'       => '<package_url>/kmx/64_libs/gcc83-2019Q2/64bit_gnuplot-5.2.6-bin_20190522.zip',
             'gsl'           => '<package_url>/kmx/64_libs/gcc83-2019Q2/64bit_gsl-2.5-bin_20190522.zip',

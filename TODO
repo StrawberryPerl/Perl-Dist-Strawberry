@@ -124,7 +124,6 @@ ncurses-5.9            no                  YES
 
 ### new modules - candidates
 - AnyEvent                      (642KB)
-- EV                            (550KB  - 1095)
 - Devel::NYTProf                (1.23MB - 2326)
 - POE                           (1.25MB - 3583)
 - PAR::Packer                   (9.9MB)
@@ -134,7 +133,6 @@ ncurses-5.9            no                  YES
 - SQL::Translator               (2.6MB)
 - Wx                            (88MB)
 - Padre                         (97MB incl. Wx)
-- CryptX                        (1MB)
 
 ### Test FAILS
 ! Testing Convert-PEM-0.08 failed
