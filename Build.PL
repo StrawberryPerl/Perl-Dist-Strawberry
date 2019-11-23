@@ -68,9 +68,9 @@ my $builder = $class->new(
     },
     meta_merge => {
         resources => {
-            repository  => 'https://github.com/StrawberryPerl/Perl-Dist-Strawberry',
             homepage    => 'http://strawberryperl.com/',
-            bugtracker  => 'https://rt.cpan.org/Public/Dist/Display.html?Name=Perl-Dist-Strawberry',
+            repository  => 'https://github.com/StrawberryPerl/Perl-Dist-Strawberry',
+            bugtracker  => 'https://github.com/StrawberryPerl/Perl-Dist-Strawberry/issues',
             MailingList => "http://groups.google.com/group/perl.win32.vanilla",
             IRC        => "irc://irc.perl.org/#win32",
         },
