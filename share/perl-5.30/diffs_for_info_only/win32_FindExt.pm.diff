@@ -1,0 +1,11 @@
+--- C:\strawberry_build\build\perl_core\perl-5.30.1\win32\FindExt.pm.backup	Thu Oct 24 22:18:21 2019
++++ C:\strawberry_build\build\perl_core\perl-5.30.1\win32\FindExt.pm	Sun Feb  9 14:14:11 2020
+@@ -5,7 +5,7 @@
+ use strict;
+ use warnings;
+ 
+-my $no = join('|',qw(Amiga.* GDBM_File ODBM_File NDBM_File DB_File
++my $no = join('|',qw(Amiga.* DB_File
+                      VMS.* Sys-Syslog IPC-SysV));
+ $no = qr/^(?:$no)$/i;
+ 

@@ -1,5 +1,5 @@
---- C:\strawberry_build\build\perl_core\perl-5.30.0\win32\perlexe.rc.backup	Wed Jun 27 13:17:57 2018
-+++ C:\strawberry_build\build\perl_core\perl-5.30.0\win32\perlexe.rc	Thu May 23 14:59:09 2019
+--- C:\strawberry_build\build\perl_core\perl-5.30.1\win32\perlexe.rc.backup	Thu Oct 24 22:18:22 2019
++++ C:\strawberry_build\build\perl_core\perl-5.30.1\win32\perlexe.rc	Sun Feb  9 14:27:00 2020
 @@ -6,3 +6,44 @@
  #ifdef INCLUDE_MANIFEST
  CREATEPROCESS_MANIFEST_RESOURCE_ID RT_MANIFEST "perlexe.manifest"
@@ -13,8 +13,8 @@
 +#define RCFLAG    VER_DEBUG
 +#endif
 +
-+#define RCVERSION       5,30,0,1
-+#define RCVERSION_STR   "5.30.0.1\0"
++#define RCVERSION       5,30,2,1
++#define RCVERSION_STR   "5.30.2.1\0"
 +
 +VS_VERSION_INFO VERSIONINFO
 +    FILEVERSION        RCVERSION

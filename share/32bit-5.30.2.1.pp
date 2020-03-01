@@ -29,7 +29,7 @@
             'db'            => '<package_url>/kmx/32_libs/gcc83-2019Q2/32bit_db-6.2.38-bin_20190522.zip',
             'expat'         => '<package_url>/kmx/32_libs/gcc83-2019Q2/32bit_expat-2.2.6-bin_20190522.zip',
             'fontconfig'    => '<package_url>/kmx/32_libs/gcc83-2019Q2/32bit_fontconfig-2.13.1-bin_20190522.zip',
-            'freeglut'      => '<package_url>/kmx/32_libs/gcc83-2019Q2/32bit_freeglut-3.0.0-bin_20190522.zip',
+            'freeglut'      => '<package_url>/kmx/32_libs/gcc83-2020Q1/32bit_freeglut-2.8.1-bin_20200209.zip',
             'freetype'      => '<package_url>/kmx/32_libs/gcc83-2019Q2/32bit_freetype-2.10.0-bin_20190522.zip',
             'gdbm'          => '<package_url>/kmx/32_libs/gcc83-2019Q2/32bit_gdbm-1.18-bin_20190522.zip',
             'giflib'        => '<package_url>/kmx/32_libs/gcc83-2019Q2/32bit_giflib-5.1.9-bin_20190522.zip',
@@ -74,7 +74,7 @@
     ### NEXT STEP ###########################
     {
         plugin     => 'Perl::Dist::Strawberry::Step::InstallPerlCore',
-        url        => 'http://cpan.metacpan.org/authors/id/S/SH/SHAY/perl-5.30.1.tar.gz',
+        url        => 'http://cpan.metacpan.org/authors/id/S/SH/SHAY/perl-5.30.2-RC1.tar.gz',
         cf_email   => 'strawberry-perl@project', #IMPORTANT: keep 'strawberry-perl' before @
         perl_debug => 0,    # can be overridden by --perl_debug=N option
         perl_64bitint => 1, # ignored on 64bit, can be overridden by --perl_64bitint | --noperl_64bitint option
@@ -84,6 +84,7 @@
             '<dist_sharedir>/perl-5.30/win32_config.gc.tt'      => 'win32/config.gc',
             '<dist_sharedir>/perl-5.30/perlexe.rc.tt'           => 'win32/perlexe.rc',
             '<dist_sharedir>/perl-5.30/win32_config_H.gc'       => 'win32/config_H.gc', # enables gdbm/ndbm/odbm
+            '<dist_sharedir>/perl-5.30/win32_FindExt.pm'        => 'win32/FindExt.pm',
         },
         license => { #SRC paths are relative to the perl src root
             'Readme'   => '<image_dir>/licenses/perl/Readme',
@@ -120,11 +121,6 @@
 
             # gdbm / db related
             qw/ BerkeleyDB DB_File DBM-Deep /,
-
-            # BUG: this should be built with core but is not (at least not by 5.30.0)
-            '<package_url>/kmx/perl-modules-patched/GDBM_File-1.18.tar.gz',
-            '<package_url>/kmx/perl-modules-patched/NDBM_File-1.15.tar.gz',
-            '<package_url>/kmx/perl-modules-patched/ODBM_File-1.16.tar.gz',
 
             #removed from core in 5.20
             qw/ Module::Build /,
@@ -458,8 +454,8 @@
           },
           qw/ PDL::IO::CSV PDL::IO::DBI PDL::DateTime PDL::Stats /, # PDL::IO::Image
           qw/ PDL::LinearAlgebra /,
-          { module=>'PDL::Graphics::Prima', ignore_testfailure => 1 }, # does not compile with 5.30.1 XXX-FIXME
-          { module=>'PDL::Graphics::Gnuplot', skiptest=>1 },
+          ##{ module=>'PDL::Graphics::Prima', ignore_testfailure => 1 }, # does not compile with 5.30.1 XXX-FIXME
+          ##{ module=>'PDL::Graphics::Gnuplot', skiptest=>1 },
         ],
     },
     ### NEXT STEP ###########################
