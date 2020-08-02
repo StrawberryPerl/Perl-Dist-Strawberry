@@ -1,0 +1,40 @@
+--- C:\strawberry_build\build\perl_core\perl-5.32.0\win32\config_H.gc.backup	Mon Jun 15 01:01:25 2020
++++ C:\strawberry_build\build\perl_core\perl-5.32.0\win32\config_H.gc	Sun Aug  2 16:55:35 2020
+@@ -600,7 +600,7 @@
+  *	This symbol, if defined, indicates that <rpcsvc/dbm.h> exists and
+  *	should be included.
+  */
+-/*#define I_DBM	/ **/
++#define I_DBM	/**/
+ /*#define I_RPCSVC_DBM	/ **/
+ 
+ /* I_DLFCN:
+@@ -618,7 +618,7 @@
+  *	This symbol, if defined, indicates that <gdbm.h> exists and should
+  *	be included.
+  */
+-/*#define I_GDBM	/ **/
++#define I_GDBM	/**/
+ 
+ /* I_LOCALE:
+  *	This symbol, if defined, indicates to the C program that it should
+@@ -2080,7 +2080,7 @@
+  *	parameter information. While ANSI C prototypes are supported in C++,
+  *	K&R style function declarations will yield errors.
+  */
+-/*#define I_NDBM	/ **/
++#define I_NDBM	/**/
+ /*#define I_GDBMNDBM	/ **/
+ /*#define I_GDBM_NDBM	/ **/
+ /*#define NDBM_H_USES_PROTOTYPES	/ **/
+@@ -2308,8 +2308,8 @@
+  *	Can we handle GCC builtin for telling that certain values are more
+  *	likely
+  */
+-/*#define HAS_BUILTIN_EXPECT	/ **/
+-/*#define HAS_BUILTIN_CHOOSE_EXPR	/ **/
++#define HAS_BUILTIN_EXPECT	/* we have gcc-8.3 */
++#define HAS_BUILTIN_CHOOSE_EXPR	/* we have gcc-8.3 */
+ 
+ /* HAS_C99_VARIADIC_MACROS:
+  *	If defined, the compiler supports C99 variadic macros.
