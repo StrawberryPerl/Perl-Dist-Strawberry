@@ -8,11 +8,11 @@ What is Strawberry Perl PDL?
 ---------------------------------
 
 * 'Perl' is a programming language suitable for writing simple scripts as well
-  as complex applications. See http://perldoc.perl.org/perlintro.html
+  as complex applications. See https://perldoc.perl.org/perlintro.html
 
 * 'Strawberry Perl' is a perl environment for Microsoft Windows containing all
   you need to run and develop perl applications. It is designed to be as close
-  as possible to perl environment on UNIX systems. See http://strawberryperl.com/
+  as possible to perl environment on UNIX systems. See https://strawberryperl.com/
 
 * 'Strawberry Perl PDL' is Strawberry Perl with pre-installed Perl Data Language,
   related modules and libraries - see http://pdl.perl.org/

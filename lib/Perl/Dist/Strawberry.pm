@@ -28,7 +28,7 @@ sub new {
         working_dir   => 'c:\strawberry_build',
         image_dir     => 'c:\strawberry',
         cpan_url      => 'http://cpan.strawberryperl.com',
-        package_url   => 'http://strawberryperl.com/package/',
+        package_url   => 'https://strawberryperl.com/package/',
         test_modules  => 1,
         test_core     => 0,
         offline       => 0,
@@ -59,7 +59,7 @@ sub parse_options {
     'perl_64bitint!'    => \$self->global->{perl_64bitint}, #<flag>   default: undef (0)
     'perl_ldouble!'     => \$self->global->{perl_ldouble},  #<flag>   default: undef (0)
     'verbosity=s'       => \$self->global->{verbosity},     #<level>  default: 2 (you can use values 1/silent to 5/verbose)
-    'package_url=s'     => \$self->global->{package_url},   #<url>    default: http://strawberryperl.com/package/ (or use e.g. file://C|/pkgmirror/)
+    'package_url=s'     => \$self->global->{package_url},   #<url>    default: https://strawberryperl.com/package/ (or use e.g. file://C|/pkgmirror/)
     'app_simplename=s'  => \$self->global->{app_simplename},#<name>   default: undef
     'app_fullname=s'    => \$self->global->{app_fullname},  #<name>   default: undef
     'beta=i'            => \$self->global->{beta},          #<name>   default: undef
@@ -576,7 +576,7 @@ Strawberry Perl is a binary distribution of Perl for the Windows operating
 system.  It includes a bundled compiler and pre-installed modules that offer
 the ability to install XS CPAN modules directly from CPAN.
 
-You can download Strawberry Perl from L<http://strawberryperl.com|http://strawberryperl.com>
+You can download Strawberry Perl from L<https://strawberryperl.com|https://strawberryperl.com>
 
 The purpose of the Strawberry Perl series is to provide a practical Win32 Perl
 environment for experienced Perl developers to experiment with and test the

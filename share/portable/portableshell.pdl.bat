@@ -21,7 +21,7 @@ if not "%1" == "" "%~dp0perl\bin\perl.exe" %* & goto ENDLOCAL
 
 echo ----------------------------------------------
 echo  Welcome to Strawberry Perl PDL Edition!
-echo  * URL - http://strawberryperl.com + http://pdl.perl.org
+echo  * URL - https://strawberryperl.com + http://pdl.perl.org
 echo  * to launch perl script run:      perl c:\my\scripts\pdl-test.pl
 echo  * to start PDL console run:       pdl2
 echo  * to update PDL run:              cpanm PDL

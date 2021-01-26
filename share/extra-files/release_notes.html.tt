@@ -9,8 +9,8 @@
 <title>Strawberry Perl for Windows - [%app_version%]-beta[%beta%]-[%bits%]bit Release Notes</title>
 [%-END%]
 
-<link rel="shortcut icon" type="image/vnd.microsoft.icon" href="http://strawberryperl.com/favicon.ico">
-<link rel="stylesheet" type="text/css" href="http://strawberryperl.com/main.css">
+<link rel="shortcut icon" type="image/vnd.microsoft.icon" href="https://strawberryperl.com/favicon.ico">
+<link rel="stylesheet" type="text/css" href="https://strawberryperl.com/main.css">
 
 <style>
 .releasenotes .hidden { display: none; }
@@ -33,7 +33,7 @@
 </head>
 <body class="releasenotes">
 
-<img src="http://strawberryperl.com/images/320554_9491.jpg" alt="strawberries" width="357" height="728" border="0" align="right">
+<img src="https://strawberryperl.com/images/320554_9491.jpg" alt="strawberries" width="357" height="728" border="0" align="right">
 <br />
 [%-IF beta==0 -%]
 <h2>Strawberry Perl ([%app_version%]-[%bits%]bit) Release Notes</h2>
@@ -50,11 +50,11 @@
 <li>XXX-TODO Put blurb here.</li>
 <li>XXX-TODO Put blurb here.</li>
 <li>There is a special portable version with extra math related libraries and pre-installed <a href="http://pdl.perl.org">PDL</a> -
-<a href="http://strawberryperl.com/download/[%app_version%]/strawberry-perl-[%app_version%]-[%bits%]bit-PDL.zip">strawberry-perl-[%app_version%]-[%bits%]bit-PDL.zip</a></li>
+<a href="https://strawberryperl.com/download/[%app_version%]/strawberry-perl-[%app_version%]-[%bits%]bit-PDL.zip">strawberry-perl-[%app_version%]-[%bits%]bit-PDL.zip</a></li>
 [%-IF bits==32 -%]
 <li>32bit Strawberry Perl is compiled <strong>with USE_64_BIT_INT enabled</strong> but there exists a version <strong>without USE_64_BIT_INT</strong> -
-<a href="http://strawberryperl.com/download/[%app_version%]/strawberry-perl-no64-[%app_version%]-32bit.zip">ZIP</a> and
-<a href="http://strawberryperl.com/download/[%app_version%]/strawberry-perl-no64-[%app_version%]-32bit-portable.zip">Portable ZIP</a></li>
+<a href="https://strawberryperl.com/download/[%app_version%]/strawberry-perl-no64-[%app_version%]-32bit.zip">ZIP</a> and
+<a href="https://strawberryperl.com/download/[%app_version%]/strawberry-perl-no64-[%app_version%]-32bit-portable.zip">Portable ZIP</a></li>
 [%-END%]
 </ul>
 Bundled database clients:

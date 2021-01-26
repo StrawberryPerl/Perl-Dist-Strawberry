@@ -17,7 +17,7 @@ perldist_strawberry - Build strawberry-perl-like distribution for MS Windows
 
 =head1 DESCRIPTION
 
-This script is used by Strawberry Perl [L<http://strawberryperl.com|http://strawberryperl.com>]
+This script is used by Strawberry Perl [L<https://strawberryperl.com|https://strawberryperl.com>]
 project for building release packages (MSI, MSM, ZIP, portable/ZIP).
 
 =head1 SYNOPSIS
@@ -96,7 +96,7 @@ default: http://cpan.strawberryperl.com (or use local mirror e.g. file://C|/cpan
 
 =item B<-package_url=(url)>
 
-default: http://strawberryperl.com/package/ (or use local mirror e.g. file://C|/pkgmirror/)
+default: https://strawberryperl.com/package/ (or use local mirror e.g. file://C|/pkgmirror/)
 
 =item B<-test_modules>, B<-notest_modules>
 
