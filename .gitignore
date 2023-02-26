@@ -18,3 +18,6 @@ MYMETA.yml
 MANIFEST
 /META.json
 /MYMETA.json
+
+*.iml
+/.idea/
