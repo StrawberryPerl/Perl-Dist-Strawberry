@@ -420,9 +420,9 @@ sub _install_module {
   $shortname =~ s|[\\/]+|_|g;
   $shortname =~ s/\.(tar\.gz|tar\.bz2|zip|tar|gz)$//;
   my $script_pl = $self->boss->resolve_name("<dist_sharedir>/utils/CPANMINUS_install_module.pl");
-  my $log         = catfile($self->global->{debug_dir}, "mod_install_".$now."_".$shortname.".log.txt");
-  my $dumper_file = catfile($self->global->{debug_dir}, "mod_install_".$now."_".$shortname.".list.dumper.txt");
-  my $nstore_file = catfile($self->global->{debug_dir}, "mod_install_".$now."_".$shortname.".list.nstore.txt");
+  my $log         = catfile($self->global->{debug_dir}, "mod_install_${shortname}_${now}.log.txt");
+  my $dumper_file = catfile($self->global->{debug_dir}, "mod_install_${shortname}_${now}.list.dumper.txt");
+  my $nstore_file = catfile($self->global->{debug_dir}, "mod_install_${shortname}_${now}.list.nstore.txt");
 
   my $env = {
     PERL_MM_USE_DEFAULT=>1, AUTOMATED_TESTING=>undef, RELEASE_TESTING=>undef,
