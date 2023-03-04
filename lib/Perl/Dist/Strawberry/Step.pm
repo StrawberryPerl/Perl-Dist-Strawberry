@@ -288,7 +288,11 @@ sub backup_file {
 
 sub _patch_file {
   my ($self, $new, $dst, $dir, $tt_vars, $no_backup) = @_;
+$self->boss->message(5, "PATCHING '$new' '$dst' '$dir' $tt_vars $no_backup\n");
 
+if ($dst =~ /\*$/) {
+    warn "WE IS PATCHIN '$new'";
+}
   if (!-f $new) {
     warn "ERROR: non-existing file '$new'";
   }
@@ -462,7 +466,7 @@ sub _install_module {
   # Execute the module install script
   my $rv = $self->execute_special(['perl', $script_pl, %params], $log, $log, $env);
   unless(defined $rv && $rv == 0) {
-    rename $log, catfile($self->global->{debug_dir}, "mod_install_FAIL_".$now."_".$shortname.".log.txt");
+    rename $log, catfile($self->global->{debug_dir}, "mod_install_${shortname}_FAIL_${now}.log.txt");
     return [], $rv;
   }
   my $data = retrieve($nstore_file) or die "ERROR: retrieve failed";
@@ -516,3 +520,4 @@ sub _apply_patch {
 }
 
 1;
+
