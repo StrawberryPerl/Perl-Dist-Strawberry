@@ -7,7 +7,10 @@ set SP=z:\sp532
 set PATH=%SP%\c\bin;%SP%\perl\bin;%SP%\perl\site\bin;%PATH%
 
 :: update blib - requires Build.PL to have been run
-..\Build
+set OLD_CD=%cd%
+cd ..
+call Build
+cd %OLD_CD%
 
 set SKIP_MSI_STEP=1
 set SKIP_PDL_STEP=1
