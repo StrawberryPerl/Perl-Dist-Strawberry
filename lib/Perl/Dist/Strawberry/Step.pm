@@ -293,7 +293,15 @@ $self->boss->message(5, "PATCHING '$new' '$dst' '$dir' $tt_vars $no_backup\n");
 if ($dst =~ /\*$/) {
     warn "WE IS PATCHIN '$new'";
 }
-  if (!-f $new) {
+  if ($new eq 'config_H.gc' and ref($dst) =~ /HASH/) {
+    $self->boss->message(5, "_patch_file: using hash of values to update config_H.gc'\n");
+    $self->_update_config_H_gc ("$dir/win32/config_H.gc", $dst);
+  }
+  elsif ($new eq 'config.gc' and ref($dst) =~ /HASH/) {
+    $self->boss->message(5, "_patch_file: using hash of values to update config.gc'\n");
+    $self->_update_config_gc ("$dir/win32/config.gc", $dst);
+  }
+  elsif (!-f $new) {
     warn "ERROR: non-existing file '$new'";
   }
   elsif ($new =~ /\.tt$/) {
@@ -518,6 +526,97 @@ sub _apply_patch {
     }
   }
 }
+
+sub _update_config_H_gc {
+    my ($self, $fname, $update_hash) = @_;
+
+    die "update hash arg is not a hash ref"
+      if not ref($update_hash) =~ /HASH/;
+
+    open my $fh, $fname or die "Unable to open $fname, $!";
+
+    my $output;
+    while (defined (my $line = <$fh>)) {
+        $line =~ s/[\r\n]+$//;
+        if ($line =~ /#define\s+(\w+)/ and exists $update_hash->{$1}) {
+            my $key = $1;
+            $line
+              = !defined $update_hash->{$key}    ? "/*#define $key\t\t/ **/"
+              : $update_hash->{$key} eq 'define' ? "#define $key\t\t/* */"
+              : "$update_hash->{$key}";
+        }
+        $output .= "$line\n";
+    }
+
+    $fh->close;
+
+
+    rename $fname, "$fname.orig" or die $!;
+    open my $ofh, '>', $fname or die "Unable to open $fname to write to, $!";
+    print {$ofh} $output;
+    $ofh->close;
+
+}
+
+sub _update_config_gc {
+    my ($self, $fname, $update_hash) = @_;
+
+    die "update hash arg is not a hash ref"
+      if not ref($update_hash) =~ /HASH/;
+
+    open my $fh, $fname or die "Unable to open $fname, $!";
+
+    my @lines = (<$fh>);
+    close $fh;
+
+    my %data;
+    my @output;
+    my @perl_lines; #  lines starting with PERL
+
+    while (defined(my $line = shift @lines)) {
+        $line =~ s/[\r\n]+$//;
+        if ($line =~ /^#/) {
+            #  headers stay as they are
+            push @output, $line;
+        }
+        elsif ($line =~ /^PERL/) {
+            push @perl_lines, $line;
+        }
+        else {
+            $line =~ m/^([\w]+)=(.+)$/;
+            $data{$1} = $2;
+        }
+    }
+
+    #  fix up quoting of values
+    foreach my $val (values %$update_hash) {
+        next if $val =~ /^'/;  # assumes symmetry, i.e. opening and closing
+        $val = "'$val'";
+    }
+
+    @data{keys %$update_hash} = values %$update_hash;
+#foreach my $key (sort keys %$update_hash) {
+#
+  #$self->boss->message(3, "Setting config, $key => $update_hash->{$key}");
+  #$data{$key} = $update_hash->{$key};
+#}
+
+    my (@ucfirst_lines, @lcfirst_lines);
+    foreach my $key (grep {/^[A-Z]/} keys %data) {
+        push @ucfirst_lines, "$key=$data{$key}";
+    }
+    foreach my $key (grep {/^[_a-z]/} keys %data) {
+        push @lcfirst_lines, "$key=$data{$key}";
+    }
+    push @output, (sort @ucfirst_lines), (sort @lcfirst_lines), @perl_lines;
+
+    rename $fname, "$fname.orig" or die $!;
+    open my $ofh, '>', $fname or die "Unable to open $fname to write to, $!";
+    say {$ofh} join "\n", @output;
+    $ofh->close;
+
+}
+
 
 1;
 

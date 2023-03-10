@@ -422,6 +422,10 @@ sub message {
 
 sub resolve_name {
   my ($self, $name, $skip_canon) = @_;
+
+  #  don't change references
+  return $name if ref ($name);
+
   if ($name =~ /<(package_url|dist_sharedir|image_dir)>/) {
     my $r = $self->global->{$1};
     $name =~ s/<(package_url|dist_sharedir|image_dir)>/$r/g if defined $r;
