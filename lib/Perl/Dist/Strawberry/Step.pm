@@ -588,6 +588,9 @@ sub _update_config_gc {
         }
     }
 
+    my $default_config_hash = $self->_get_default_config_hash;
+    @data{keys %$default_config_hash} = values %$default_config_hash;
+
     #  fix up quoting of values
     foreach my $val (values %$update_hash) {
         next if $val =~ /^'/;  # assumes symmetry, i.e. opening and closing
@@ -617,6 +620,76 @@ sub _update_config_gc {
 
 }
 
+sub _get_default_config_hash {
+    my $h = {
+        archlib    => '~INST_TOP~\lib',
+        archlibexp => '~INST_TOP~\lib',
+        bin        => '~INST_TOP~\bin',
+        binexp     => '~INST_TOP~\bin',
+        d_vendorarch   => 'define',
+        d_vendorbin    => 'define',
+        d_vendorlib    => 'define',
+        d_vendorscript => 'define',
+        dlext          => 'xs.dll',
+        installarchlib      => '~INST_TOP~\lib',
+        installbin          => '~INST_TOP~\bin',
+        installhtmldir      => '',
+        installhtmlhelpdir  => '',
+        installman1dir      => '',
+        installman3dir      => '',
+        installprefix       => '~INST_TOP~',
+        installprefixexp    => '~INST_TOP~',
+        installprivlib      => '~INST_TOP~\lib',
+        installscript       => '~INST_TOP~\bin',
+        installsitearch     => '~INST_TOP~\site\lib',
+        installsitebin      => '~INST_TOP~\site\bin',
+        installsitelib      => '~INST_TOP~\site\lib',
+        installsitescript   => '~INST_TOP~\site\bin',
+        installvendorarch   => '~INST_TOP~\vendor\lib',
+        installvendorbin    => '~INST_TOP~\bin',
+        installvendorlib    => '~INST_TOP~\vendor\lib',
+        installvendorscript => '~INST_TOP~\bin',
+        man1dir         => '',
+        man1direxp      => '',
+        man3dir         => '',
+        man3direxp      => '',
+        perlpath        => '~INST_TOP~\bin\perl.exe',
+        privlib         => '~INST_TOP~\lib',
+        privlibexp      => '~INST_TOP~\lib',
+        scriptdir       => '~INST_TOP~\bin',
+        scriptdirexp    => '~INST_TOP~\bin',
+        sitearch        => '~INST_TOP~\site\lib',
+        sitearchexp     => '~INST_TOP~\site\lib',
+        sitebin         => '~INST_TOP~\site\bin',
+        sitebinexp      => '~INST_TOP~\site\bin',
+        sitelib         => '~INST_TOP~\site\lib',
+        sitelibexp      => '~INST_TOP~\site\lib',
+        siteprefix      => '~INST_TOP~\site',
+        siteprefixexp   => '~INST_TOP~\site',
+        sitescript      => '~INST_TOP~\site\bin',
+        sitescriptexp   => '~INST_TOP~\site\bin',
+        usevendorprefix => 'define',
+        usrinc          => 'C:\strawberry\c\include',
+        vendorarch      => '~INST_TOP~\vendor\lib',
+        vendorarchexp   => '~INST_TOP~\vendor\lib',
+        vendorbin       => '~INST_TOP~\bin',
+        vendorbinexp    => '~INST_TOP~\bin',
+        vendorlib       => '~INST_TOP~\vendor\lib',
+        vendorlibexp    => '~INST_TOP~\vendor\lib',
+        vendorprefix    => '~INST_TOP~\vendor',
+        vendorprefixexp => '~INST_TOP~\vendor',
+        vendorscript    => '~INST_TOP~\bin',
+        vendorscriptexp => '~INST_TOP~\bin',
+    };
+
+    #  fix up quoting of values - saves a heap of editing
+    foreach my $val (values %$h) {
+        next if $val =~ /^'/;  # assumes symmetry, i.e. opening and closing
+        $val = "'$val'";
+    }
+
+    return $h;
+}
 
 1;
 
