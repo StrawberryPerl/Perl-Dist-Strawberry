@@ -551,7 +551,8 @@ sub _update_config_H_gc {
     $fh->close;
 
 
-    rename $fname, "$fname.orig" or die $!;
+    #  long name but otherwise we interfere with patch backups
+    rename $fname, "$fname.orig.before_hash_update" or die $!;
     open my $ofh, '>', $fname or die "Unable to open $fname to write to, $!";
     print {$ofh} $output;
     $ofh->close;
@@ -613,7 +614,8 @@ sub _update_config_gc {
     }
     push @output, (sort @ucfirst_lines), (sort @lcfirst_lines), @perl_lines;
 
-    rename $fname, "$fname.orig" or die $!;
+    #  long name but otherwise we interfere with patch backups
+    rename $fname, "$fname.orig.before_hash_update" or die $!;
     open my $ofh, '>', $fname or die "Unable to open $fname to write to, $!";
     say {$ofh} join "\n", @output;
     $ofh->close;
