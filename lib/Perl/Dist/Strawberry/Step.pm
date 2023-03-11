@@ -682,6 +682,12 @@ sub _get_default_config_hash {
         vendorscriptexp => '~INST_TOP~\bin',
     };
 
+    use POSIX qw(strftime);
+    my $time        = strftime "%a %b %e %H:%M:%S %Y", gmtime();
+    my $bits        = $self->global->{bits};
+    my $app_version = $self->global->{app_version};
+    $h->{my_uname}  = "Win32 strawberry-perl $app_version # $now_string x${bits}";
+
     #  fix up quoting of values - saves a heap of editing
     foreach my $val (values %$h) {
         next if $val =~ /^'/;  # assumes symmetry, i.e. opening and closing

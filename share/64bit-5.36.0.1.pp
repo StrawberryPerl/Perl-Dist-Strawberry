@@ -124,7 +124,7 @@
                 i_dbm                 => 'define',
                 i_gdbm                => 'define',
                 i_ndbm                => 'define',
-                myuname               => 'Win32 strawberry-perl 5.36.0.1 #1 Sat 04 Mar 2023 x64 tempvaluesonly',
+                #myuname               => 'Win32 strawberry-perl 5.36.0.1 #1 Sat 04 Mar 2023 x64 tempvaluesonly',
                 osvers                => '10',
             },
         },
