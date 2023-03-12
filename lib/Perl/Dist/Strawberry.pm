@@ -452,7 +452,9 @@ sub mirror_url {
 
   # Check if the file already is downloaded.
   my $file = $url;
-  $file =~ s|^.+\/||;# Delete anything before the last forward slash, leaves only the filename.
+  # Delete anything before the last slash, leaves only the filename.
+  # The backward slashes allow for file URLs.
+  $file =~ s|^.+[/\\]||;
   my $target = catfile( $dir, $file );
 
   return $target if $self->global->{offline} and -f $target;
