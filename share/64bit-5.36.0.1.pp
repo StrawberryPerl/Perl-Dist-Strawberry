@@ -33,7 +33,7 @@
             'libmysql'      => '<package_url>/kmx/64_libs/gcc71-2017Q2/64bit_mysql-5.7.16-bin_20170517.zip',
             #  gcc10 libs - not all are needed
             bzip2        => 'file:///z:/extlib/_out/64bit_bzip2-1.0.6-bin_20230302.zip',
-            db           => 'file:///z:/extlib/_out/64bit_db-6.2.38-bin_20230302.zip',
+            db           => 'file:///z:/extlib/_out/64bit_db-6.2.38-bin_20230312.zip',
             expat        => 'file:///z:/extlib/_out/64bit_expat-2.2.6-bin_20230302.zip',
             fftw         => 'file:///z:/extlib/_out/64bit_fftw-3.3.8-bin_20230302.zip',
             fontconfig   => 'file:///z:/extlib/_out/64bit_fontconfig-2.13.1-bin_20230302.zip',
@@ -95,7 +95,8 @@
     ### NEXT STEP ###########################
     {
         plugin     => 'Perl::Dist::Strawberry::Step::InstallPerlCore',
-        url        => 'https://cpan.metacpan.org/authors/id/R/RJ/RJBS/perl-5.36.0.tar.gz',
+        #url        => 'https://cpan.metacpan.org/authors/id/R/RJ/RJBS/perl-5.36.0.tar.gz',
+        url        => 'https://www.cpan.org/src/5.0/perl-5.36.0.tar.gz',
         cf_email   => 'strawberry-perl@project', #IMPORTANT: keep 'strawberry-perl' before @
         perl_debug => 0,    # can be overridden by --perl_debug=N option
         perl_64bitint => 1, # ignored on 64bit, can be overridden by --perl_64bitint | --noperl_64bitint option
