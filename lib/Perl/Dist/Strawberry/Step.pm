@@ -551,7 +551,8 @@ sub _update_config_H_gc {
     $fh->close;
 
 
-    rename $fname, "$fname.orig" or die $!;
+    #  long name but otherwise we interfere with patch backups
+    rename $fname, "$fname.orig.before_hash_update" or die $!;
     open my $ofh, '>', $fname or die "Unable to open $fname to write to, $!";
     print {$ofh} $output;
     $ofh->close;
@@ -613,7 +614,8 @@ sub _update_config_gc {
     }
     push @output, (sort @ucfirst_lines), (sort @lcfirst_lines), @perl_lines;
 
-    rename $fname, "$fname.orig" or die $!;
+    #  long name but otherwise we interfere with patch backups
+    rename $fname, "$fname.orig.before_hash_update" or die $!;
     open my $ofh, '>', $fname or die "Unable to open $fname to write to, $!";
     say {$ofh} join "\n", @output;
     $ofh->close;
@@ -621,6 +623,8 @@ sub _update_config_gc {
 }
 
 sub _get_default_config_hash {
+    my $self = shift;
+
     my $h = {
         archlib    => '~INST_TOP~\lib',
         archlibexp => '~INST_TOP~\lib',
@@ -686,7 +690,7 @@ sub _get_default_config_hash {
     my $time        = strftime "%a %b %e %H:%M:%S %Y", gmtime();
     my $bits        = $self->global->{bits};
     my $app_version = $self->global->{app_version};
-    $h->{my_uname}  = "Win32 strawberry-perl $app_version # $now_string x${bits}";
+    $h->{my_uname}  = "Win32 strawberry-perl $app_version # $time x${bits}";
 
     #  fix up quoting of values - saves a heap of editing
     foreach my $val (values %$h) {
