@@ -33,7 +33,8 @@
             'libmysql'      => '<package_url>/kmx/64_libs/gcc71-2017Q2/64bit_mysql-5.7.16-bin_20170517.zip',
             #  gcc10 libs - not all are needed
             bzip2        => 'file:///z:/extlib/_out/64bit_bzip2-1.0.6-bin_20230302.zip',
-            db           => 'file:///z:/extlib/_out/64bit_db-6.2.38-bin_20230312.zip',
+            #db           => 'file:///z:/extlib/_out/64bit_db-6.2.38-bin_20230312.zip',
+            db           => '<package_url>/kmx/64_libs/gcc83-2019Q2/64bit_db-6.2.38-bin_20190522.zip',
             expat        => 'file:///z:/extlib/_out/64bit_expat-2.2.6-bin_20230302.zip',
             fftw         => 'file:///z:/extlib/_out/64bit_fftw-3.3.8-bin_20230302.zip',
             fontconfig   => 'file:///z:/extlib/_out/64bit_fontconfig-2.13.1-bin_20230302.zip',
@@ -211,8 +212,9 @@
             qw/ File-Find-Rule File-HomeDir File-Listing File-Remove File-ShareDir File-Which File::Map /,
             { module=>'File::Slurp', ignore_testfailure=>1 },
             qw/ File::Slurper /,
-            qw/ IO::All Path::Tiny Path::Class /,
-
+	    { module=>'IO::All', env=>{ 'HARNESS_SUBCLASS'=>'TAP::Harness::Restricted', 'HARNESS_SKIP'=>'t/link.t' } },  # https://github.com/StrawberryPerl/Perl-Dist-Strawberry/issues/67
+            { module=>'Path::Class', env=>{ 'HARNESS_SUBCLASS'=>'TAP::Harness::Restricted', 'HARNESS_SKIP'=>'t/01-basic.t' } }, # https://github.com/StrawberryPerl/Perl-Dist-Strawberry/issues/65 
+            qw/ Path::Tiny /,
             # math related
             'Devel::CheckLib',  #this used to fail
             qw/ Math-Round Math-BigInt-GMP Math-GMP Math-MPFR Math-MPC /,
@@ -226,7 +228,7 @@
             # EV4.32 + perl-5.30 fails XXX-FIXME
             qw/ HTTP-Server-Simple /,
             { module=>'<package_url>/kmx/perl-modules-patched/Crypt-SSLeay-0.72_patched.tar.gz' }, #XXX-FIXME
-            { module=>'Mojolicious', env=>{ 'HARNESS_SUBCLASS'=>'TAP::Harness::Restricted', 'HARNESS_SKIP'=>'t/mojolicious/websocket_lite_app.t' } }, #https://github.com/kraih/mojo/issues/1011
+            { module=>'Mojolicious', env=>{ 'HARNESS_SUBCLASS'=>'TAP::Harness::Restricted', 'HARNESS_SKIP'=>'t/mojolicious/websocket_lite_app.t t/mojo/file.t' } }, #https://github.com/kraih/mojo/issues/1011, https://github.com/StrawberryPerl/Perl-Dist-Strawberry/issues/67
             { module=>'WWW::Mechanize', skiptest=>1 }, # tests hang
 
             # XML & co.
