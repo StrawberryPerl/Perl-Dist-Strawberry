@@ -175,9 +175,10 @@
             qw/ Module::Build /,
             { module=>'B::Lint',  ignore_testfailure=>1 }, #XXX-TODO https://rt.cpan.org/Public/Bug/Display.html?id=101115 #XXX-FAIL-5.32.1
             { module=>'Archive::Extract',  ignore_testfailure=>1 }, #XXX-TODO-5.28/64bit
-            { module=>'CPANPLUS', env=>{ 'HARNESS_SUBCLASS'=>'TAP::Harness::Restricted', 'HARNESS_SKIP'=>'t/40_CPANPLUS-Internals-Report.t' } },
+            # { module=>'CPANPLUS', env=>{ 'HARNESS_SUBCLASS'=>'TAP::Harness::Restricted', 'HARNESS_SKIP'=>'t/40_CPANPLUS-Internals-Report.t' } },
             #XXX-TODO https://rt.cpan.org/Public/Bug/Display.html?id=116479
-            qw/ CPANPLUS::Dist::Build File::CheckTree Log::Message Module::Pluggable Object::Accessor Text::Soundex Term::UI Pod::LaTeX Tree::DAG_Node /,
+            # qw/ CPANPLUS::Dist::Build /,
+            qw/ File::CheckTree Log::Message Module::Pluggable Object::Accessor Text::Soundex Term::UI Pod::LaTeX Tree::DAG_Node /,
 
             # YAML, JSON & co.
             qw/ JSON Cpanel::JSON::XS JSON::XS JSON::MaybeXS YAML YAML::Tiny YAML::XS /,
@@ -187,7 +188,8 @@
             'ExtUtils::PkgConfig',
 
             # win32 related
-            qw/Win32API::Registry Win32::TieRegistry/,
+            { module=>'Win32API::Registry',         ignore_testfailure=>1 }, # https://github.com/StrawberryPerl/Perl-Dist-Strawberry/issues/66
+            qw/Win32::TieRegistry/,
             { module=>'Win32::OLE',         ignore_testfailure=>1 }, #XXX-TODO: ! Testing Win32-OLE-0.1711 #XXX-FAIL-5.32.1
             { module=>'Win32::GuiTest',     skiptest=>1 },
             { module=>'Win32::API',         ignore_testfailure=>1 }, #XXX-TODO: https://rt.cpan.org/Public/Bug/Display.html?id=107450
@@ -232,6 +234,8 @@
             { module=>'WWW::Mechanize', skiptest=>1 }, # tests hang
 
             # XML & co.
+
+            { module=>'Alien::Libxml2', env=>{ 'PKG_CONFIG_PATH'=>'C:\strawberry\c\lib\pkgconfig' } }, # alien probe needs to find the pkgconfig file 
             qw/ XML-LibXML XML-LibXSLT XML-Parser XML-SAX XML-Simple /,
             { module=>'XML::Twig', ignore_testfailure=>1 }, #XXX-TODO XML-Twig-3.52 fails
 
@@ -241,10 +245,14 @@
 
             # database stuff
             { module=>'Module::Find', env=>{ 'HARNESS_SUBCLASS'=>'TAP::Harness::Restricted', 'HARNESS_SKIP'=>'t/07-symlinks.t' } }, # https://github.com/StrawberryPerl/Perl-Dist-Strawberry/issues/67 
-            qw/ DBI DBD-ODBC DBD-SQLite DBD-CSV DBD-ADO DBIx-Class DBIx-Simple /,
+
+            { module=>'Config::Any', env=>{ 'HARNESS_SUBCLASS'=>'TAP::Harness::Restricted', 'HARNESS_SKIP'=>'t/10-branches.t' } }, # https://github.com/StrawberryPerl/Perl-Dist-Strawberry/issues/73 needed for DBIx::Class 
+            { module=>'DBD::SQLite', env=>{ 'HARNESS_SUBCLASS'=>'TAP::Harness::Restricted', 'HARNESS_SKIP'=>'t/33_non_latin_path.t' } }, # https://github.com/StrawberryPerl/Perl-Dist-Strawberry/issues/68 
+            qw/ DBI DBD-ODBC DBD-CSV DBD-ADO DBIx-Class DBIx-Simple /,
             'https://cpan.metacpan.org/authors/id/T/TU/TURNSTEP/DBD-Pg-3.8.0.tar.gz', ###{ module=>'DBD::Pg' },
             { module=>'DBD::mysql' },
-            { module=>'DBD::Oracle', makefilepl_param=>'-V 12.2.0.1.0', env=>{ ORACLE_HOME=>'c:\ora122instant64' }, skiptest=>1 }, ## requires Oracle Instant Client 64bit!!!
+            #  SKIP DBD::Oracle for 5.36 until we can sort out what files to use
+            # { module=>'DBD::Oracle', makefilepl_param=>'-V 12.2.0.1.0', env=>{ ORACLE_HOME=>'c:\ora122instant64' }, skiptest=>1 }, ## requires Oracle Instant Client 64bit!!!
 
             # crypto related
             { module =>'Convert-PEM', ignore_testfailure=>1 }, #XXX-TODO Convert-PEM-0.08 fails
@@ -302,7 +310,7 @@
 
             # OO - moose, moo & co.
             qw/ Moose MooseX-Types MooseX::Types::Structured /,
-            { module=>'MooseX::Declare', ignore_testfailure=>1 },       #XXX-PREREQ-ONLY https://rt.cpan.org/Public/Bug/Display.html?id=97690
+            #{ module=>'MooseX::Declare', ignore_testfailure=>1 },       #XXX-PREREQ-ONLY https://rt.cpan.org/Public/Bug/Display.html?id=97690
             qw/ MooseX::ClassAttribute MooseX::Role::Parameterized MooseX::NonMoose Moo /,
 
             # OO - others
