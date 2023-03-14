@@ -104,12 +104,10 @@
         buildoptextra => '-D__USE_MINGW_ANSI_STDIO',
         patch => { #DST paths are relative to the perl src root
             '<dist_sharedir>/msi/files/perlexe.ico'             => 'win32/perlexe.ico',
-            #'<dist_sharedir>/perl-5.36/win32_config.gc.tt'      => 'win32/config.gc',
             '<dist_sharedir>/perl-5.36/perlexe.rc.tt'           => 'win32/perlexe.rc',
             '<dist_sharedir>/perl-5.36/perl_pr19663.diff'       => '*',
             '<dist_sharedir>/perl-5.36/rt142390.patch'          => '*',
-            #'<dist_sharedir>/perl-5.36/win32_config.gc.diff'    => '*',
-            #'<dist_sharedir>/perl-5.36/win32_config_H.gc.diff'  => '*',
+            '<dist_sharedir>/perl-5.36/perl_pr20008.diff'          => '*',
             'config_H.gc'                                 => {
                 I_DBM  => 'define',
                 I_GDBM => 'define',
