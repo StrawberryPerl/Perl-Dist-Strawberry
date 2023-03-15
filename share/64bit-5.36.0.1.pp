@@ -176,7 +176,8 @@
             # { module=>'CPANPLUS', env=>{ 'HARNESS_SUBCLASS'=>'TAP::Harness::Restricted', 'HARNESS_SKIP'=>'t/40_CPANPLUS-Internals-Report.t' } },
             #XXX-TODO https://rt.cpan.org/Public/Bug/Display.html?id=116479
             # qw/ CPANPLUS::Dist::Build /,
-            qw/ File::CheckTree Log::Message Module::Pluggable Object::Accessor Text::Soundex Term::UI Pod::LaTeX Tree::DAG_Node /,
+            qw/ File::CheckTree Log::Message Module::Pluggable Object::Accessor Text::Soundex Term::UI Tree::DAG_Node /,
+            # qw /Pod::Latex/, #  disabled - https://github.com/StrawberryPerl/Perl-Dist-Strawberry/issues/75
 
             # YAML, JSON & co.
             qw/ JSON Cpanel::JSON::XS JSON::XS JSON::MaybeXS YAML YAML::Tiny YAML::XS /,
