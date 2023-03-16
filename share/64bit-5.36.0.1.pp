@@ -20,10 +20,10 @@
         plugin  => 'Perl::Dist::Strawberry::Step::BinaryToolsAndLibs',
         install_packages => {
             #tools
-            'dmake'         => '<package_url>/kmx/64_tools/64bit_dmake-warn_20170512.zip',
+            #'dmake'         => '<package_url>/kmx/64_tools/64bit_dmake-warn_20170512.zip',
             #'gmake'         => '<package_url>/kmx/64_tools/64bit_gmake-4.0.GIT_20140810.zip',
-            'pexports'      => '<package_url>/kmx/64_tools/64bit_pexports-0.47-bin_20170426.zip',
-            'patch'         => '<package_url>/kmx/64_tools/64bit_patch-2.5.9-7-bin_20100110_UAC.zip',
+            #'pexports'      => '<package_url>/kmx/64_tools/64bit_pexports-0.47-bin_20170426.zip',
+            #'patch'         => '<package_url>/kmx/64_tools/64bit_patch-2.5.9-7-bin_20100110_UAC.zip',
             #gcc, gmake, gdb & co.
             #'gcc-toolchain' => { url=>'<package_url>/kmx/64_gcctoolchain/mingw64-w64-gcc8.3.0_20190316.zip', install_to=>'c' },
             #'gcc-toolchain' => { url=>'file:///z:/winlibs-x86_64-posix-seh-gcc-11.2.0-llvm-13.0.0-mingw-w64ucrt-9.0.0-r2.zip', install_to=>'c' },
