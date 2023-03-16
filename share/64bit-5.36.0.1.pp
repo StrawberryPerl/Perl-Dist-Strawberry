@@ -288,7 +288,7 @@
 
             # XML/SOAP webservices
             'Log::Report',
-            qw/ SOAP-Lite /,
+            qw/ HTTP::Daemon SOAP-Lite /,
             #qw/ XML::Compile::SOAP12 XML::Compile::SOAP11 XML::Compile::WSDL11 /,
 
             # utils
