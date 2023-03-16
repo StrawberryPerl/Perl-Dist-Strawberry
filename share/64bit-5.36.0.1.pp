@@ -28,7 +28,7 @@
             #'gcc-toolchain' => { url=>'<package_url>/kmx/64_gcctoolchain/mingw64-w64-gcc8.3.0_20190316.zip', install_to=>'c' },
             #'gcc-toolchain' => { url=>'file:///z:/winlibs-x86_64-posix-seh-gcc-11.2.0-llvm-13.0.0-mingw-w64ucrt-9.0.0-r2.zip', install_to=>'c' },
             'gcc-toolchain' => { url => 'file:///z:/winlibs.zip', install_to => 'c' },
-            'gcc-license'   => '<package_url>/kmx/64_gcctoolchain/mingw64-w64-gcc8.3.0_20190316-lic.zip',
+            #'gcc-license'   => '<package_url>/kmx/64_gcctoolchain/mingw64-w64-gcc8.3.0_20190316-lic.zip',
             #special cases
             'libmysql'      => '<package_url>/kmx/64_libs/gcc71-2017Q2/64bit_mysql-5.7.16-bin_20170517.zip',
             #  gcc10 libs - not all are needed
