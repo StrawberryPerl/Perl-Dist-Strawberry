@@ -4,7 +4,7 @@
 ::set PERL_USE_UNSAFE_INC=1
 
 set SP=z:\sp532
-set PATH=%PATH%;%SP%\c\bin;%SP%\perl\bin;%SP%\perl\site\bin
+set PATH=Z:\mingw64\bin;%SP%\c\bin;%SP%\perl\bin;%SP%\perl\site\bin;%PATH%
 set PERLEXE=%SP%\perl\bin\perl
 
 :: update blib - requires Build.PL to have been run
