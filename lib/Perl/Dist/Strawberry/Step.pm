@@ -439,6 +439,7 @@ sub _install_module {
   my $env = {
     PERL_MM_USE_DEFAULT=>1, AUTOMATED_TESTING=>undef, RELEASE_TESTING=>undef,
     PERL5_CPANPLUS_HOME=>$self->global->{build_ENV}->{APPDATA}, #workaround for CPANPLUS
+    PKG_CONFIG_PATH => ($self->global->{image_dir} . '/c/lib/pkgconf'),  #  just to be sure
   };
   # resolve macros in env{}
   if (defined $args{env} && ref $args{env} eq 'HASH') {
@@ -690,7 +691,7 @@ sub _get_default_config_hash {
     my $time        = strftime "%a %b %e %H:%M:%S %Y", gmtime();
     my $bits        = $self->global->{bits};
     my $app_version = $self->global->{app_version};
-    $h->{my_uname}  = "Win32 strawberry-perl $app_version # $time x${bits}";
+    $h->{myuname}   = "Win32 strawberry-perl $app_version # $time x${bits}";
 
     #  fix up quoting of values - saves a heap of editing
     foreach my $val (values %$h) {
