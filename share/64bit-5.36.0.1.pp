@@ -125,7 +125,7 @@
                 i_dbm                 => 'define',
                 i_gdbm                => 'define',
                 i_ndbm                => 'define',
-                #myuname               => 'Win32 strawberry-perl 5.36.0.1 #1 Sat 04 Mar 2023 x64 tempvaluesonly',
+                myuname               => 'Win32 strawberry-perl 5.36.0.1 #1 Sat 04 Mar 2023 x64 tempvaluesonly',
                 osvers                => '10',
             },
         },
@@ -167,6 +167,9 @@
             # install cpanm as soon as possible
             qw/ App::cpanminus /,
 
+            # https://github.com/StrawberryPerl/Perl-Dist-Strawberry/issues/80
+            'https://cpan.metacpan.org/authors/id/X/XA/XAOC/ExtUtils-Depends-0.8000.tar.gz',  
+
             # gdbm / db related
             qw/ BerkeleyDB DB_File DBM-Deep /,
 
@@ -174,9 +177,9 @@
             qw/ Module::Build /,
             { module=>'B::Lint',  ignore_testfailure=>1 }, #XXX-TODO https://rt.cpan.org/Public/Bug/Display.html?id=101115 #XXX-FAIL-5.32.1
             { module=>'Archive::Extract',  ignore_testfailure=>1 }, #XXX-TODO-5.28/64bit
-            # { module=>'CPANPLUS', env=>{ 'HARNESS_SUBCLASS'=>'TAP::Harness::Restricted', 'HARNESS_SKIP'=>'t/40_CPANPLUS-Internals-Report.t' } },
+            { module=>'CPANPLUS', env=>{ 'HARNESS_SUBCLASS'=>'TAP::Harness::Restricted', 'HARNESS_SKIP'=>'t/40_CPANPLUS-Internals-Report.t' } },
             #XXX-TODO https://rt.cpan.org/Public/Bug/Display.html?id=116479
-            # qw/ CPANPLUS::Dist::Build /,
+            qw/ CPANPLUS::Dist::Build /,
             qw/ File::CheckTree Log::Message Module::Pluggable Object::Accessor Text::Soundex Term::UI Tree::DAG_Node /,
             # qw /Pod::Latex/, #  disabled - https://github.com/StrawberryPerl/Perl-Dist-Strawberry/issues/75
 
