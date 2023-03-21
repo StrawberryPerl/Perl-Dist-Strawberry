@@ -326,7 +326,9 @@
 
             # misc
             #{ module=>'Alien::Tidyp', buildpl_param=>'--srctarball=http://strawberryperl.com/package/kmx/testing/tidyp-1.04.tar.gz' }, #gcc 8.3 failure
-            qw/ CPAN::SQLite FCGI /,
+            qw/ CPAN::SQLite /,
+            { module => 'FCGI', env => { 'HARNESS_SUBCLASS'=>'TAP::Harness::Restricted', 'HARNESS_SKIP'=>'t/02-unix_doma
+in_socket.t' } },
             qw/ IO::String /,
             { module=>'Unicode::UTF8', ignore_testfailure=>1 }, #XXX-TODO-5.28
             qw/ V Modern::Perl Perl::Tidy /,
