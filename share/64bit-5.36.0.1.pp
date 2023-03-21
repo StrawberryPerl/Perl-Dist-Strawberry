@@ -333,6 +333,8 @@
             qw/ FFI::Raw FFI::Platypus /,
             qw/ PadWalker Devel::vscode /,
 
+            qw/ Devel::NYTProf /,
+
             # GUI - not yet
             #qw/IUP/,
         ],
