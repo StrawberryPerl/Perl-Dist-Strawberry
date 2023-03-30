@@ -1,0 +1,28 @@
+name: irc-notify
+
+on:
+  issues:
+    types: [opened,assigned,closed,reopened]
+  issue_comment:
+    types: [created]
+  pull_request:
+    types: [closed,assigned,converted_to_draft,ready_for_review,review_requested]
+  pull_request_review:
+    types: [submitted]
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    if: ${{ always() }}
+    steps:
+      - uses: zmughal-github-actions/events-to-irc@main
+        with:
+          target-notifications: true
+          repository_owner: 'StrawberryPerl'
+          irc-channel: '#win32'
+          irc-server: 'irc.perl.org'
+          irc-port: '6667'
+          irc-nickname: 'sp-commits'
+          irc-tls: false
+          irc-notice: false # false for now due to channel mode
