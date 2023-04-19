@@ -55,7 +55,7 @@
             libXpm       => 'file:///z:/extlib/_out/64bit_libXpm-3.5.12-bin_20230302.zip',
             libcerf      => 'file:///z:/extlib/_out/64bit_libcerf-1.3-bin_20230302.zip',
             libffi       => 'file:///z:/extlib/_out/64bit_libffi-3.2.1-bin_20230302.zip',
-            libgd        => 'file:///z:/extlib/_out/64bit_libgd-2.2.5-bin_20230302.zip',
+            libgd        => 'file:///z:/extlib/_out/64bit_libgd-2.3.2-bin_20230419.zip',
             libiconv     => 'file:///z:/extlib/_out/64bit_libiconv-1.17-bin_20230302.zip',
             libidn2      => 'file:///z:/extlib/_out/64bit_libidn2-2.1.1-bin_20230302.zip',
             libpng       => 'file:///z:/extlib/_out/64bit_libpng-1.6.37-bin_20230302.zip',
@@ -98,6 +98,7 @@
         plugin     => 'Perl::Dist::Strawberry::Step::InstallPerlCore',
         #url        => 'https://cpan.metacpan.org/authors/id/R/RJ/RJBS/perl-5.36.0.tar.gz',
         url        => 'https://www.cpan.org/src/5.0/perl-5.36.0.tar.gz',
+        #url        => 'https://cpan.metacpan.org/authors/id/S/SH/SHAY/perl-5.36.1-RC3.tar.gz',
         cf_email   => 'strawberry-perl@project', #IMPORTANT: keep 'strawberry-perl' before @
         perl_debug => 0,    # can be overridden by --perl_debug=N option
         perl_64bitint => 1, # ignored on 64bit, can be overridden by --perl_64bitint | --noperl_64bitint option
@@ -121,6 +122,7 @@
                 #d_builtin_expect      => 'define',
                 d_mkstemp             => 'define',
                 d_ndbm                => 'define',
+                #d_symlink             => 'undef', # many cpan modules fail tests when defined
                 i_db                  => 'define',
                 i_dbm                 => 'define',
                 i_gdbm                => 'define',
@@ -143,6 +145,7 @@
           #{ do=>'ignore_testfailure', distribution=>'ExtUtils-MakeMaker-6.72' },
           #{ do=>'ignore_testfailure', distribution=>qr/^IPC-Cmd-/ },
           { do=>'ignore_testfailure', distribution=>qr/^Net-Ping-/ }, # 2.72 fails
+          { do=>'ignore_testfailure', distribution=>qr/^Archive-Tar-/ }, # 3.02 fails
         ]
     },
     ### NEXT STEP ###########################
@@ -214,7 +217,8 @@
             # file related
             { module=>'File-ShareDir-Install', ignore_testfailure=>1 }, #XXX-TODO-5.28
             { module=>'File::Copy::Recursive', ignore_testfailure=>1 }, #XXX-FAIL-5.32.1
-            qw/ File-Find-Rule File-HomeDir File-Listing File-Remove File-ShareDir File-Which File::Map /,
+            { module => 'https://github.com/StrawberryPerl/Perl-Dist-Strawberry/releases/download/dev_20230318/File-Find-Rule-0.34_01.tar.gz' }, #  https://github.com/StrawberryPerl/Perl-Dist-Strawberry/issues/88
+            qw/ File-HomeDir File-Listing File-Remove File-ShareDir File-Which File::Map /,
             { module=>'File::Slurp', ignore_testfailure=>1 },
             qw/ File::Slurper /,
 	    { module=>'IO::All', env=>{ 'HARNESS_SUBCLASS'=>'TAP::Harness::Restricted', 'HARNESS_SKIP'=>'t/link.t' } },  # https://github.com/StrawberryPerl/Perl-Dist-Strawberry/issues/67
@@ -229,6 +233,8 @@
             qw/ Net-SSH2 Net::Telnet /,
 
             # network
+            # https://github.com/StrawberryPerl/Perl-Dist-Strawberry/issues/72
+            { module => 'https://github.com/StrawberryPerl/Perl-Dist-Strawberry/releases/download/dev_20230318/Socket6-0.29_01.tar.gz' },
             qw/ IO::Socket::IP IO::Socket::INET6 IO::Socket::Socks /,
             # EV4.32 + perl-5.30 fails XXX-FIXME
             qw/ HTTP-Server-Simple /,
@@ -262,7 +268,8 @@
             qw/ Convert-PEM /,
 
             # crypto
-            qw/ CryptX Crypt::OpenSSL::Bignum Crypt::OpenSSL::DSA Crypt-OpenSSL-RSA Crypt-OpenSSL-Random Crypt-OpenSSL-X509 /,
+            #qw / Crypt::OpenSSL::DSA /, # https://github.com/StrawberryPerl/Perl-Dist-Strawberry/issues/86
+            qw/ CryptX Crypt::OpenSSL::Bignum Crypt-OpenSSL-RSA Crypt-OpenSSL-Random Crypt-OpenSSL-X509 /,
             'KMX/Crypt-OpenSSL-AES-0.05.tar.gz', #XXX-FIXME patched https://metacpan.org/pod/Crypt::OpenSSL::AES  https://rt.cpan.org/Public/Bug/Display.html?id=77605
             #Crypt-SMIME ?
             qw/ Crypt::CBC Crypt::Blowfish Crypt::CAST5_PP Crypt::DES Crypt::DES_EDE3 Crypt::DSA Crypt::IDEA Crypt::Rijndael Crypt::Twofish Crypt::Serpent Crypt::RC6 /,
