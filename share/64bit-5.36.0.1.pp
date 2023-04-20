@@ -79,6 +79,7 @@
             tiff         => 'file:///z:/extlib/_out/64bit_tiff-4.5.0-bin_20230302.zip',
             xz           => 'file:///z:/extlib/_out/64bit_xz-5.2.4-bin_20230302.zip',
             zlib         => 'file:///z:/extlib/_out/64bit_zlib-1.2.11-bin_20230302.zip',
+            patch        => 'file:///z:/extlib/_out/64bit_patch-2.7.5-bin_20230420.zip',
 
 
         },
@@ -295,7 +296,9 @@
           ##{ module=>'http://chorny.net/strawberry/Imager-1.006.zip', ignore_testfailure=>1 }, #https://rt.cpan.org/Ticket/Display.html?id=124001
             { module=>'Imager', ignore_testfailure=>1 }, #https://rt.cpan.org/Ticket/Display.html?id=124001
             qw/ Imager-File-GIF Imager-File-JPEG Imager-File-PNG Imager-File-TIFF Imager-Font-FT2 Imager-Font-W32 /,
-            { module=>'OpenGL', ignore_testfailure=>1 },
+            # Disable for now - tests fail when run under gmake but pass under prove. 
+            # There have also been no updates since 2016 and local installs work quickly.
+            # { module=>'OpenGL', ignore_testfailure=>1 },
 
             # XML/SOAP webservices
             'Log::Report',
