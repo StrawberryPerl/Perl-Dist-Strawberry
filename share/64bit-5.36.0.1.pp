@@ -63,8 +63,8 @@
             libssh2      => 'file:///z:/extlib/_out/64bit_libssh2-1.10.0-bin_20230302.zip',
             libunistring => 'file:///z:/extlib/_out/64bit_libunistring-0.9.10-bin_20230302.zip',
             libuv        => 'file:///z:/extlib/_out/64bit_libuv-v1.28.0-bin_20230302.zip',
-            libxml2      => 'file:///z:/extlib/_out/64bit_libxml2-2.9.9-bin_20230302.zip',
-            libxslt      => 'file:///z:/extlib/_out/64bit_libxslt-1.1.33-bin_20230302.zip',
+            libxml2      => 'file:///z:/extlib/_out/64bit_libxml2-2.10.4-bin_20230420.zip',
+            libxslt      => 'file:///z:/extlib/_out/64bit_libxslt-1.1.37-bin_20230420.zip',
             mpc          => 'file:///z:/extlib/_out/64bit_mpc-1.3.1-bin_20230315.zip',
             mpfr         => 'file:///z:/extlib/_out/64bit_mpfr-4.2.0-bin_20230315.zip',
             netcdf       => 'file:///z:/extlib/_out/64bit_netcdf-c-4.9.0-bin_20230302.zip',
@@ -334,8 +334,7 @@
             # misc
             #{ module=>'Alien::Tidyp', buildpl_param=>'--srctarball=http://strawberryperl.com/package/kmx/testing/tidyp-1.04.tar.gz' }, #gcc 8.3 failure
             qw/ CPAN::SQLite /,
-            { module => 'FCGI', env => { 'HARNESS_SUBCLASS'=>'TAP::Harness::Restricted', 'HARNESS_SKIP'=>'t/02-unix_doma
-in_socket.t' } },
+            { module => 'FCGI', env => { 'HARNESS_SUBCLASS'=>'TAP::Harness::Restricted', 'HARNESS_SKIP'=>'t/02-unix_domain_socket.t' } },
             qw/ IO::String /,
             { module=>'Unicode::UTF8', ignore_testfailure=>1 }, #XXX-TODO-5.28
             qw/ V Modern::Perl Perl::Tidy /,
