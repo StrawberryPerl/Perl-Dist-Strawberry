@@ -185,6 +185,9 @@
             #XXX-TODO https://rt.cpan.org/Public/Bug/Display.html?id=116479
             qw/ CPANPLUS::Dist::Build /,
             qw/ File::CheckTree Log::Message Module::Pluggable Object::Accessor Text::Soundex Term::UI Tree::DAG_Node /,
+
+            #  https://github.com/StrawberryPerl/Perl-Dist-Strawberry/issues/92
+            { module => 'https://github.com/StrawberryPerl/Perl-Dist-Strawberry/releases/download/dev_20230318/Pod-Parser-1.65_01.tar.gz' },
             # qw /Pod::Latex/, #  disabled - https://github.com/StrawberryPerl/Perl-Dist-Strawberry/issues/75
 
             # YAML, JSON & co.
