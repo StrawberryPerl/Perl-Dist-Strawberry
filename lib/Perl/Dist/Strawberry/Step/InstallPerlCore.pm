@@ -238,6 +238,8 @@ sub run {
   copy($from, catfile($image_dir, qw/perl bin libstdc++-6.dll/)) if -f $from;
   $from = catfile($image_dir, qw/c bin libwinpthread-1.dll/);
   copy($from, catfile($image_dir, qw/perl bin libwinpthread-1.dll/)) if -f $from;
+  $from = catfile($image_dir, qw/c bin libmcfgthread-1.dll/);
+  copy($from, catfile($image_dir, qw/perl bin libmcfgthread-1.dll/)) if -f $from;
 
   # Delete a2p.exe (Can't relocate a binary).
   my $a = catfile($image_dir, 'perl', 'bin', 'a2p.exe');
