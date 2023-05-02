@@ -288,7 +288,7 @@ sub backup_file {
 
 sub _patch_file {
   my ($self, $new, $dst, $dir, $tt_vars, $no_backup) = @_;
-$self->boss->message(5, "PATCHING '$new' '$dst' '$dir' $tt_vars $no_backup\n");
+$self->boss->message(5, "PATCHING '$new' '$dst' '$dir' $tt_vars " . ($no_backup||'') . "\n");
 
 if ($dst =~ /\*$/) {
     warn "WE IS PATCHIN '$new'";
