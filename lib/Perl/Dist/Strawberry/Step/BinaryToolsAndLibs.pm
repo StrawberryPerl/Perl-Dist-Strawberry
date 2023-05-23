@@ -45,7 +45,7 @@ sub run {
 
   my $files;
   my $pkgs = $self->{config}->{install_packages};
-  for my $p (keys %$pkgs) {
+  for my $p ( sort keys %$pkgs) {
     $files = $self->_install($p, $pkgs->{$p});
     $self->boss->message(5, "pkg='$p'");
   }
