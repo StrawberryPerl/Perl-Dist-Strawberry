@@ -688,7 +688,7 @@ sub _get_default_config_hash {
     };
 
     use POSIX qw(strftime);
-    my $time        = strftime "%a %b %e %H:%M:%S %Y", gmtime();
+    my $time        = strftime '%H:%M:%S %a %B %d %Y', gmtime(); 
     my $bits        = $self->global->{bits};
     my $app_version = $self->global->{app_version};
     $h->{myuname}   = "Win32 strawberry-perl $app_version # $time x${bits}";
