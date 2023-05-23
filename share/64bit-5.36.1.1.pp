@@ -27,6 +27,7 @@
             'libmysql'      => '<package_url>/kmx/64_libs/gcc71-2017Q2/64bit_mysql-5.7.16-bin_20170517.zip',
             #  gcc10 libs - not all are needed
             extlibs_gcc13_collated => 'https://github.com/StrawberryPerl/build-extlibs/releases/download/dev_gcc13.1_20230502/extlibs_gcc13_collated_20230502.zip',
+            libgd           => 'https://github.com/StrawberryPerl/build-extlibs/releases/download/dev_gcc13.1_20230502/64bit_libgd-2.3.2-bin_20230502.zip',
             zdb_gcc83       => '<package_url>/kmx/64_libs/gcc83-2019Q2/64bit_db-6.2.38-bin_20190522.zip',
 
         },
@@ -58,6 +59,7 @@
             '<dist_sharedir>/perl-5.36/rt142390.patch'          => '*',
             '<dist_sharedir>/perl-5.36/perl_pr20008.diff'       => '*',
             '<dist_sharedir>/perl-5.36/perl_pr20136.patch'      => '*',
+            '<dist_sharedir>/perl-5.36/perl_pr19912_commit1.patch'      => '*',
             #'<dist_sharedir>/perl-5.36/GNUmakefile'             => 'win32/GNUmakefile',
             'config_H.gc'                                 => {
                 I_DBM  => 'define',
