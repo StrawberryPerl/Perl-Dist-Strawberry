@@ -28,7 +28,9 @@
             #  gcc10 libs - not all are needed
             extlibs_gcc13_collated => 'https://github.com/StrawberryPerl/build-extlibs/releases/download/dev_gcc13.1_20230502/extlibs_gcc13_collated_20230502.zip',
             libgd           => 'https://github.com/StrawberryPerl/build-extlibs/releases/download/dev_gcc13.1_20230502/64bit_libgd-2.3.2-bin_20230502.zip',
-            zdb_gcc83       => '<package_url>/kmx/64_libs/gcc83-2019Q2/64bit_db-6.2.38-bin_20190522.zip',
+            zgdb            => 'https://github.com/StrawberryPerl/build-extlibs/releases/download/dev_gcc13.1_20230502/64bit_gdb-13.1-bin_20230527.zip',
+            #zdb             => 'file:///Z:/extlib/_out/64bit_db-6.2.38-bin_20230527.zip',
+            #zdb_gcc83       => '<package_url>/kmx/64_libs/gcc83-2019Q2/64bit_db-6.2.38-bin_20190522.zip',
 
         },
     },
@@ -78,7 +80,7 @@
                 i_dbm                 => 'define',
                 i_gdbm                => 'define',
                 i_ndbm                => 'define',
-                myuname               => 'Win32 strawberry-perl 5.36.0.1 #1 Sat 04 Mar 2023 x64 tempvaluesonly',
+                #myuname               => 'Win32 strawberry-perl 5.36.0.1 #1 Sat 04 Mar 2023 x64 tempvaluesonly',
                 osvers                => '10',
             },
         },
