@@ -69,13 +69,14 @@
                 I_NDBM => 'define',
                 #HAS_BUILTIN_EXPECT      => 'define',
                 HAS_BUILTIN_CHOOSE_EXPR => 'define',
+                HAS_SYMLINK             => 'define',
             },
             'config.gc'                                 => {  # see Step.pm for list of default updates 
                 d_builtin_choose_expr => 'define',
                 #d_builtin_expect      => 'define',
                 d_mkstemp             => 'define',
                 d_ndbm                => 'define',
-                #d_symlink             => 'undef', # many cpan modules fail tests when defined
+                d_symlink             => 'define', # many cpan modules fail tests when defined
                 i_db                  => 'define',
                 i_dbm                 => 'define',
                 i_gdbm                => 'define',
