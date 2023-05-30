@@ -439,6 +439,7 @@ sub _install_module {
   my $env = {
     PERL_MM_USE_DEFAULT=>1, AUTOMATED_TESTING=>undef, RELEASE_TESTING=>undef,
     PERL5_CPANPLUS_HOME=>$self->global->{build_ENV}->{APPDATA}, #workaround for CPANPLUS
+    PERL_CPANM_HOME => ($self->global->{build_ENV}->{APPDATA} . '/.cpanm'), # GH#101
     PKG_CONFIG_PATH => ($self->global->{image_dir} . '/c/lib/pkgconf'),  #  just to be sure
   };
   # resolve macros in env{}
