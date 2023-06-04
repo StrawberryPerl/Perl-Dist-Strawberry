@@ -302,6 +302,12 @@
 
             qw/ Devel::NYTProf /,
 
+
+            #  Task::Kensho deps that have issues
+            # https://github.com/StrawberryPerl/Perl-Dist-Strawberry/issues/103
+            { module=>'Test::MockObject', env=>{ 'HARNESS_SUBCLASS'=>'TAP::Harness::Restricted', 'HARNESS_SKIP'=>'t/extends.t' } },
+            { module => 'https://github.com/StrawberryPerl/Perl-Dist-Strawberry/releases/download/dev_20230318/String-Escape-2010.002.tar.gz' },
+
             # GUI - not yet
             #qw/IUP/,
         ],
