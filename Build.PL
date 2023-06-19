@@ -30,7 +30,7 @@ my $builder = $class->new(
         'Module::Build'         => '0.38',
     },
     requires            => {
-        'perl'                  => '5.012',
+        'perl'                  => '5.014',
         'Module::Build'         => '0.38',
     },
     build_requires      => {

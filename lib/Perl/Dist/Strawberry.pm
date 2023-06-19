@@ -1,6 +1,6 @@
 package Perl::Dist::Strawberry;
 
-use 5.012;
+use 5.014;
 use warnings;
 
 use Data::Dump            qw(pp);
@@ -489,7 +489,8 @@ sub zip_dir {
   $level //= 1;
   $self->message(3, "started: zip_dir('$dir', '$zip_filename', $level)\n");
   die "ERROR: non-existing dir '$dir'" unless -d $dir;
-  my @items = File::Find::Rule->in($dir);
+  $dir =~ s{\\}{/}g;  #  normalise paths
+  my @items = map {s{\\}{/}gr} File::Find::Rule->in($dir);
   my $zip = Archive::Zip->new();
   for my $fs_name (@items) {
     (my $archive_name = $fs_name) =~ s|^\Q$dir\E[/\\]*||i;
