@@ -55,22 +55,15 @@
         patch => { #DST paths are relative to the perl src root
             '<dist_sharedir>/msi/files/perlexe.ico'             => 'win32/perlexe.ico',
             '<dist_sharedir>/perl-5.36/perlexe.rc.tt'           => 'win32/perlexe.rc',
-            #'<dist_sharedir>/perl-5.36/perl_pr19663.diff'       => '*',
-            #'<dist_sharedir>/perl-5.36/rt142390.patch'          => '*',
-            #'<dist_sharedir>/perl-5.36/perl_pr20008.diff'       => '*',
-            #'<dist_sharedir>/perl-5.36/perl_pr20136.patch'      => '*',
-            #'<dist_sharedir>/perl-5.36/perl_pr19912_commit1.patch'      => '*',
             'config_H.gc'                                 => {
                 I_DBM  => 'define',
                 I_GDBM => 'define',
                 I_NDBM => 'define',
-                #HAS_BUILTIN_EXPECT      => 'define',
                 HAS_BUILTIN_CHOOSE_EXPR => 'define',
                 HAS_SYMLINK             => 'define',
             },
             'config.gc'                                 => {  # see Step.pm for list of default updates 
                 d_builtin_choose_expr => 'define',
-                #d_builtin_expect      => 'define',
                 d_mkstemp             => 'define',
                 d_ndbm                => 'define',
                 d_symlink             => 'define', # many cpan modules fail tests when defined
@@ -431,7 +424,7 @@
          { do=>'removefile', args=>[ '<image_dir>/README.txt', '<image_dir>/perl2.reloc.txt', '<image_dir>/perl1.reloc.txt', '<image_dir>/relocation.txt',
                                      '<image_dir>/update_env.pl.bat', '<image_dir>/relocation.pl.bat' ] },
          { do=>'createdir',  args=>[ '<image_dir>/data' ] },
-         { do=>'apply_tt',   args=>[ '<dist_sharedir>/portable/portable.perl.tt',       '<image_dir>/portable.perl', {gcchost=>'x86_64-w64-mingw32', gccver=>'8.3.0'} ] },
+         { do=>'apply_tt',   args=>[ '<dist_sharedir>/portable/portable.perl.tt',       '<image_dir>/portable.perl', {gcchost=>'x86_64-w64-mingw32', gccver=>'13.1.0'} ] },
          { do=>'copyfile',   args=>[ '<dist_sharedir>/portable/portableshell.bat',      '<image_dir>/portableshell.bat' ] },
          { do=>'apply_tt',   args=>[ '<dist_sharedir>/portable/README.portable.txt.tt', '<image_dir>/README.txt' ] },
          # cleanup cpanm related files
