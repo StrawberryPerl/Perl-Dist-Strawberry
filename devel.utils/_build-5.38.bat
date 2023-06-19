@@ -3,7 +3,7 @@
 
 ::set PERL_USE_UNSAFE_INC=1
 
-set SP=z:\sp536
+set SP=z:\sp532
 set PATH=Z:\mingw64\bin;%SP%\c\bin;%SP%\perl\bin;%SP%\perl\site\bin;%PATH%
 set PERLEXE=%SP%\perl\bin\perl
 
@@ -15,6 +15,7 @@ cd %OLD_CD%
 
 set MAKEFLAGS=-j8
 set TEST_JOBS=8
+set LC_ALL=C
 
 set SKIP_MSI_STEP=1
 set SKIP_PDL_STEP=1
