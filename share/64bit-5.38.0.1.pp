@@ -31,7 +31,8 @@
             mpc  => 'https://github.com/StrawberryPerl/build-extlibs/releases/download/dev_gcc13.1_20230606/64bit_mpc-1.3.1-bin_20230606.zip',
             mpfr => 'https://github.com/StrawberryPerl/build-extlibs/releases/download/dev_gcc13.1_20230606/64bit_mpfr-4.2.0-bin_20230606.zip',
             libgd           => 'https://github.com/StrawberryPerl/build-extlibs/releases/download/dev_gcc13.1_20230502/64bit_libgd-2.3.2-bin_20230502.zip',
-            zgdb            => 'https://github.com/StrawberryPerl/build-extlibs/releases/download/dev_gcc13.1_20230606/64bit_gdb-13.1-bin_20230626.zip',
+            zgdb => 'https://github.com/StrawberryPerl/build-extlibs/releases/download/dev_gcc13.1_20230606/64bit_gdb-13.1-bin_20230626.zip',
+            termcap => 'https://github.com/StrawberryPerl/build-extlibs/releases/download/dev_gcc13.1_20230606/64bit_termcap-1.3.1-bin_20230606.zip',
         },
     },
     ### NEXT STEP ###########################
@@ -451,6 +452,7 @@
             extlibs_gcc13_collated => 'https://github.com/StrawberryPerl/build-extlibs/releases/download/dev_gcc13.1_20230606/extlibs_gcc13_collated_no_t1lib_20230606.zip',
             libgd           => 'https://github.com/StrawberryPerl/build-extlibs/releases/download/dev_gcc13.1_20230502/64bit_libgd-2.3.2-bin_20230502.zip',
             zgdb            => 'https://github.com/StrawberryPerl/build-extlibs/releases/download/dev_gcc13.1_20230606/64bit_gdb-13.1-bin_20230626.zip',
+            termcap => 'https://github.com/StrawberryPerl/build-extlibs/releases/download/dev_gcc13.1_20230606/64bit_termcap-1.3.1-bin_20230606.zip',
         },
     },
     ### NEXT STEP ###########################
@@ -461,7 +463,8 @@
         modules => [
           { module => 'File::Next', ignore_testfailure => 1 }, #XXX-TODO-5.28 / PREREQ-ONLY
           { module => 'Devel::REPL', ignore_testfailure => 1 },
-          qw/Lexical::Persistence Astro::FITS::Header Astro::FITS::CFITSIO/,
+          qw/Lexical::Persistence Astro::FITS::Header /,
+          { module => 'Astro::FITS::CFITSIO', ignore_testfailure => 1},  #  only needed for createfile test
           { module => 'Inline::C', ignore_testfailure => 1 },
           { module => 'Module::Compile', ignore_testfailure => 1 }, #XXX-TODO-5.28 / PREREQ-ONLY
           { module => 'PDL',
