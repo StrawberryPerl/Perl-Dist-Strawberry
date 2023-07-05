@@ -43,6 +43,8 @@
          { do=>'movefile',   args=>[ '<image_dir>/c/lib/libdb-6.1.a', '<image_dir>/c/lib/libdb.a' ] }, #XXX ugly hack
          { do=>'removefile', args=>[ '<image_dir>/c/bin/gccbug', '<image_dir>/c/bin/ld.gold.exe', '<image_dir>/c/bin/ld.bfd.exe' ] },
          { do=>'removefile_recursive', args=>[ '<image_dir>/c', qr/.+\.la$/i ] }, # https://rt.cpan.org/Public/Bug/Display.html?id=127184
+         { do=>'make_rw', args=>[ '<image_dir>/c/include/db.h' ] },     #  band-aid for ro flag on db headers
+         { do=>'make_rw', args=>[ '<image_dir>/c/include/db_cxx.h' ] }, 
        ],
     },
     ### NEXT STEP ###########################
@@ -454,6 +456,14 @@
             zgdb            => 'https://github.com/StrawberryPerl/build-extlibs/releases/download/dev_gcc13.1_20230606/64bit_gdb-13.1-bin_20230626.zip',
             termcap => 'https://github.com/StrawberryPerl/build-extlibs/releases/download/dev_gcc13.1_20230606/64bit_termcap-1.3.1-bin_20230606.zip',
         },
+    },
+    ### NEXT STEP ###########################
+    {
+       plugin => 'Perl::Dist::Strawberry::Step::FilesAndDirs',
+       commands => [
+         { do=>'make_rw', args=>[ '<image_dir>/c/include/db.h' ] },     #  band-aid for ro flag on db headers
+         { do=>'make_rw', args=>[ '<image_dir>/c/include/db_cxx.h' ] },
+       ],
     },
     ### NEXT STEP ###########################
     {
