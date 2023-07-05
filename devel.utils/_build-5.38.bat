@@ -17,8 +17,8 @@ set MAKEFLAGS=-j8
 set TEST_JOBS=8
 set LC_ALL=C
 
-set SKIP_MSI_STEP=1
-set SKIP_PDL_STEP=1
-%PERLEXE% -Mblib ..\script\perldist_strawberry -job ..\share\64bit-5.38.0.1.pp -notest_core -beta=0 -nointeractive -restorepoints -wixbin_dir=z:\sw\wix311 -cpan_url https://cpan.metacpan.org
+::set SKIP_MSI_STEP=1
+::set SKIP_PDL_STEP=1
+%PERLEXE% -Mblib ..\script\perldist_strawberry -job ..\share\64bit-5.38.0.1.pp -notest_core -beta=0 -interactive -restorepoints -wixbin_dir=z:\sw\wix311 -cpan_url https://cpan.metacpan.org
 
 
