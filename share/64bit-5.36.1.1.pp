@@ -225,7 +225,7 @@
             qw/ Convert-PEM /,
 
             # crypto
-            #qw / Crypt::OpenSSL::DSA /, # https://github.com/StrawberryPerl/Perl-Dist-Strawberry/issues/86
+            qw / Crypt::OpenSSL::DSA /, # https://github.com/StrawberryPerl/Perl-Dist-Strawberry/issues/86
             qw/ CryptX Crypt::OpenSSL::Bignum Crypt-OpenSSL-RSA Crypt-OpenSSL-Random Crypt-OpenSSL-X509 /,
             'KMX/Crypt-OpenSSL-AES-0.05.tar.gz', #XXX-FIXME patched https://metacpan.org/pod/Crypt::OpenSSL::AES  https://rt.cpan.org/Public/Bug/Display.html?id=77605
             #Crypt-SMIME ?
