@@ -21,17 +21,18 @@
         install_packages => {
             #tools
             #gcc, gmake, gdb & co.
-            'gcc-toolchain' => { url => 'https://github.com/StrawberryPerl/build-extlibs/releases/download/dev_gcc13.1_20230502/winlibs_gcc13.1.zip', install_to => 'c' },
+            'gcc-toolchain' => { url => 'https://github.com/StrawberryPerl/build-extlibs/releases/download/dev_gcc13.1_20230606/winlibs_gcc13.1r5.zip', install_to => 'c' },
             patch => 'https://github.com/StrawberryPerl/build-extlibs/releases/download/dev_gcc10.3_20230313/64bit_patch-2.7.5-bin_20230420.zip',
             #special cases
             'libmysql'      => '<package_url>/kmx/64_libs/gcc71-2017Q2/64bit_mysql-5.7.16-bin_20170517.zip',
-            #  gcc10 libs - not all are needed
-            extlibs_gcc13_collated => 'https://github.com/StrawberryPerl/build-extlibs/releases/download/dev_gcc13.1_20230502/extlibs_gcc13_collated_20230502.zip',
+            #  gcc13 libs
+            extlibs_gcc13_collated => 'https://github.com/StrawberryPerl/build-extlibs/releases/download/dev_gcc13.1_20230606/extlibs_gcc13_collated_nonpdl_no_t1lib_20230606.zip',
+            gmp  => 'https://github.com/StrawberryPerl/build-extlibs/releases/download/dev_gcc13.1_20230606/64bit_gmp-6.2.1-bin_20230606.zip',
+            mpc  => 'https://github.com/StrawberryPerl/build-extlibs/releases/download/dev_gcc13.1_20230606/64bit_mpc-1.3.1-bin_20230606.zip',
+            mpfr => 'https://github.com/StrawberryPerl/build-extlibs/releases/download/dev_gcc13.1_20230606/64bit_mpfr-4.2.0-bin_20230606.zip',
             libgd           => 'https://github.com/StrawberryPerl/build-extlibs/releases/download/dev_gcc13.1_20230502/64bit_libgd-2.3.2-bin_20230502.zip',
-            zgdb            => 'https://github.com/StrawberryPerl/build-extlibs/releases/download/dev_gcc13.1_20230502/64bit_gdb-13.1-bin_20230527.zip',
-            #zdb             => 'file:///Z:/extlib/_out/64bit_db-6.2.38-bin_20230527.zip',
-            #zdb_gcc83       => '<package_url>/kmx/64_libs/gcc83-2019Q2/64bit_db-6.2.38-bin_20190522.zip',
-
+            zgdb => 'https://github.com/StrawberryPerl/build-extlibs/releases/download/dev_gcc13.1_20230606/64bit_gdb-13.1-bin_20230626.zip',
+            termcap => 'https://github.com/StrawberryPerl/build-extlibs/releases/download/dev_gcc13.1_20230606/64bit_termcap-1.3.1-bin_20230606.zip',
         },
     },
     ### NEXT STEP ###########################
@@ -42,6 +43,8 @@
          { do=>'movefile',   args=>[ '<image_dir>/c/lib/libdb-6.1.a', '<image_dir>/c/lib/libdb.a' ] }, #XXX ugly hack
          { do=>'removefile', args=>[ '<image_dir>/c/bin/gccbug', '<image_dir>/c/bin/ld.gold.exe', '<image_dir>/c/bin/ld.bfd.exe' ] },
          { do=>'removefile_recursive', args=>[ '<image_dir>/c', qr/.+\.la$/i ] }, # https://rt.cpan.org/Public/Bug/Display.html?id=127184
+         { do=>'make_rw', args=>[ '<image_dir>/c/include/db.h' ] },     #  band-aid for ro flag on db headers
+         { do=>'make_rw', args=>[ '<image_dir>/c/include/db_cxx.h' ] },
        ],
     },
     ### NEXT STEP ###########################
@@ -156,7 +159,8 @@
             { module=>'Win32::OLE',         ignore_testfailure=>1 }, #XXX-TODO: ! Testing Win32-OLE-0.1711 #XXX-FAIL-5.32.1
             { module=>'Win32::GuiTest',     skiptest=>1 },
             { module=>'Win32::API',         ignore_testfailure=>1 }, #XXX-TODO: https://rt.cpan.org/Public/Bug/Display.html?id=107450
-            'Win32::Exe',
+            # one or more dependencies don't like parallel make
+            { module => 'Win32::Exe', env => {MAKEFLAGS => '', TEST_JOBS => ''} }, 
             { module=>'<package_url>/kmx/perl-modules-patched/Win32-Pipe-0.025_patched.tar.gz' }, #XXX-FIXME 
             qw/ Win32-Daemon Win32-EventLog Win32-Process Win32-WinError Win32-File-Object Win32-UTCFileTime /,
             qw/ Win32-ShellQuote Win32::Console Win32::Console::ANSI Win32::Job Win32::ServiceManager Win32::Service Win32::Clipboard /,
@@ -202,7 +206,8 @@
             # XML & co.
 
             { module=>'Alien::Libxml2', env=>{ 'PKG_CONFIG_PATH'=>'C:\strawberry\c\lib\pkgconfig' } }, # alien probe needs to find the pkgconfig file 
-            qw/ XML-LibXML XML-LibXSLT XML-Parser XML-SAX XML-Simple /,
+            qw/ XML-LibXML XML-LibXSLT XML-Parser XML-SAX /,
+            { module => 'XML::Simple', env => {MAKEFLAGS => '', TEST_JOBS => ''} },
             { module=>'XML::Twig', ignore_testfailure=>1 }, #XXX-TODO XML-Twig-3.52 fails
 
             # data/text processing
@@ -266,7 +271,7 @@
 
             # par & ppm
             qw/ PAR PAR::Dist::FromPPD PAR::Dist::InstallPPD PAR::Repository::Client /,
-            qw / PAR::Packer /,
+            { module => 'PAR::Packer', env => { MAKEFLAGS => '', TEST_JOBS => '' } },
             # The build path in ppm.xml is derived from $ENV{TMP}. So set TMP to a dedicated location inside of the
             # distribution root to prevent it being locked to the temp directory of the build machine.
             { module=>'<package_url>/kmx/perl-modules-patched/PPM-11.11_04.tar.gz', env=>{ TMP=>'<image_dir>\ppm' } }, #XXX-FIXME
@@ -452,7 +457,20 @@
         disable => $ENV{SKIP_PDL_STEP}, ### hack
         plugin  => 'Perl::Dist::Strawberry::Step::BinaryToolsAndLibs',
         install_packages => {
+            #  redownloads some libs but they are the same as the main download
+            extlibs_gcc13_collated => 'https://github.com/StrawberryPerl/build-extlibs/releases/download/dev_gcc13.1_20230606/extlibs_gcc13_collated_no_t1lib_20230606.zip',
+            libgd           => 'https://github.com/StrawberryPerl/build-extlibs/releases/download/dev_gcc13.1_20230502/64bit_libgd-2.3.2-bin_20230502.zip',
+            zgdb            => 'https://github.com/StrawberryPerl/build-extlibs/releases/download/dev_gcc13.1_20230606/64bit_gdb-13.1-bin_20230626.zip',
+            termcap => 'https://github.com/StrawberryPerl/build-extlibs/releases/download/dev_gcc13.1_20230606/64bit_termcap-1.3.1-bin_20230606.zip',
         },
+    },
+    ### NEXT STEP ###########################
+    {
+       plugin => 'Perl::Dist::Strawberry::Step::FilesAndDirs',
+       commands => [
+         { do=>'make_rw', args=>[ '<image_dir>/c/include/db.h' ] },     #  band-aid for ro flag on db headers
+         { do=>'make_rw', args=>[ '<image_dir>/c/include/db_cxx.h' ] },
+       ],
     },
     ### NEXT STEP ###########################
     {
