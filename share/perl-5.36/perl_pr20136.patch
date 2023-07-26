@@ -1,0 +1,41 @@
+From cc51139c88a245c5942733f231181798cd3b310f Mon Sep 17 00:00:00 2001
+From: Kenneth Olwing <knth@cpan.org>
+Date: Thu, 25 Aug 2022 18:48:26 +0200
+Subject: [PATCH] Change optimization level for Win32 builds
+
+This fixes #20136.
+
+Building on Windows 11 with the Strawberry 5.32.1 (gcc 8.3.0) toolchain,
+multiple errors in the tests are seen. Worse, building on Windows 10
+no test errors crop up, but the resulting perl will still crash and die
+when run the tests manually on Windows 11.
+
+Changing the optimization level to -Os as found in #20024, the build now
+and tests now succeed.
+---
+ win32/GNUmakefile | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
+
+diff --git a/win32/GNUmakefile b/win32/GNUmakefile
+index 7b91d35ab004..81ded707b946 100644
+--- a/win32/GNUmakefile
++++ b/win32/GNUmakefile
+@@ -608,11 +608,16 @@ LIBFILES	+= -lquadmath
+ endif
+ 
+ ifeq ($(CFG),Debug)
+-OPTIMIZE	= -g -O2
++# According to https://gcc.gnu.org/onlinedocs/gcc-8.3.0/gcc/Optimize-Options.html
++# -Og should provide some optimizations while still giving convenient debugging
++OPTIMIZE	= -g -Og
+ LINK_DBG	= -g
+ DEFINES		+= -DDEBUGGING
+ else
+-OPTIMIZE	= -O2
++# In https://github.com/Perl/perl5/issues/20081 it is found that the previous
++# optimization level -O2 causes generated code that fails in mysterious ways
++# when run on Win11 (*even* if it was built and successfully tested on Win10!).
++OPTIMIZE	= -Os
+ LINK_DBG	= -s
+ endif
+ 

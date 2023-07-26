@@ -1,0 +1,103 @@
+From 11c0968b321f527a61803b68c4b1cb05e2bb78e5 Mon Sep 17 00:00:00 2001
+From: sisyphus <sisyphus@cpan.org>
+Date: Mon, 25 Apr 2022 20:11:28 +1000
+Subject: [PATCH 1/3] Fix dist/IO/poll.h for mingw-w64 runtimes 9.0 and later
+
+---
+ dist/IO/poll.h | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
+
+diff --git a/dist/IO/poll.h b/dist/IO/poll.h
+index 08de2506cdb2..0b025c0ad20d 100644
+--- a/dist/IO/poll.h
++++ b/dist/IO/poll.h
+@@ -10,7 +10,7 @@
+ #ifndef POLL_H
+ #  define POLL_H
+ 
+-#if (defined(HAS_POLL) && defined(I_POLL)) || defined(POLLWRBAND)
++#if (defined(HAS_POLL) && defined(I_POLL)) || (defined(POLLWRBAND) && !defined(_WIN32))
+ #  include <poll.h>
+ #elif (defined(HAS_POLL) && defined(I_SYS_POLL))
+ #  include <sys/poll.h>
+@@ -22,11 +22,16 @@
+ 
+ #define EMULATE_POLL_WITH_SELECT
+ 
++#ifdef _WIN32
++#  include <winsock2.h>
++#endif
++
+ #ifdef poll
+ # undef poll
+ #endif
+ #define poll Perl_my_poll
+ 
++#if WINVER < 0x0600
+ typedef struct pollfd {
+     int fd;
+     short events;
+@@ -48,6 +53,8 @@ typedef struct pollfd {
+ #define	POLLHUP		0x0010
+ #define	POLLNVAL	0x0020
+ 
++#endif
++
+ int poll (struct pollfd *, unsigned long, int);
+ 
+ #ifndef HAS_POLL
+
+From baf5354a4ef7c7c9dc886e9f0eeaebc65833d25d Mon Sep 17 00:00:00 2001
+From: sisyphus <sisyphus@cpan.org>
+Date: Mon, 25 Apr 2022 20:19:38 +1000
+Subject: [PATCH 2/3] define d_inetntop and d_inetpton for mingw builds
+
+---
+ win32/config.gc | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/win32/config.gc b/win32/config.gc
+index 9d44768f64d1..6005e72bfa60 100644
+--- a/win32/config.gc
++++ b/win32/config.gc
+@@ -307,8 +307,8 @@ d_ilogbl='define'
+ d_inc_version_list='undef'
+ d_index='undef'
+ d_inetaton='undef'
+-d_inetntop='undef'
+-d_inetpton='undef'
++d_inetntop='define'
++d_inetpton='define'
+ d_int64_t='undef'
+ d_ip_mreq='undef'
+ d_ip_mreq_source='undef'
+
+From 75d119e39549ce67ed6c0c8fabfcb943f2187866 Mon Sep 17 00:00:00 2001
+From: sisyphus <sisyphus@cpan.org>
+Date: Mon, 25 Apr 2022 20:22:23 +1000
+Subject: [PATCH 3/3] define HAS_INETPTON and HAS_INETNTOP for mingw builds
+
+---
+ win32/config_H.gc | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/win32/config_H.gc b/win32/config_H.gc
+index 3644377b7973..2533efd05908 100644
+--- a/win32/config_H.gc
++++ b/win32/config_H.gc
+@@ -2809,13 +2809,13 @@
+  *	This symbol, if defined, indicates that the inet_ntop() function
+  *	is available to parse IPv4 and IPv6 strings.
+  */
+-/*#define HAS_INETNTOP		/ **/
++#define HAS_INETNTOP		/**/
+ 
+ /* HAS_INETPTON:
+  *	This symbol, if defined, indicates that the inet_pton() function
+  *	is available to parse IPv4 and IPv6 strings.
+  */
+-/*#define HAS_INETPTON		/ **/
++#define HAS_INETPTON		/**/
+ 
+ /* HAS_INT64_T:
+  *	This symbol will defined if the C compiler supports int64_t.

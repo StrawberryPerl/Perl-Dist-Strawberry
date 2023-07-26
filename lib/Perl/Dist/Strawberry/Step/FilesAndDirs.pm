@@ -171,6 +171,11 @@ sub _do_job {
       $self->boss->message(4, "gonna smartmove '$src' >> '$dst'");
       File::Copy::Recursive::rmove_glob($src, $dst) or warn "rmove_glob failed [$src]>[$dst]: $!"; #just warn when wildcard has no match
     }
+    elsif ($cmd eq 'make_rw') {
+      my ($src) = ($self->boss->resolve_name($args->[0]));
+      $self->boss->message(4, "gonna make '$src' read-write");
+      $self->_unset_ro($src);
+    }
     else {
       #XXX-TODO
       die "FATAL: '$cmd' not implemented";

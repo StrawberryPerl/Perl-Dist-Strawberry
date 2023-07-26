@@ -1,0 +1,27 @@
+--- perl-5.37.0-20220604/cpan/Socket/Socket.xs_socket_poll      2022-06-04 12:25:26 +1000
++++ perl-5.37.0-20220604/cpan/Socket/Socket.xs  2022-06-04 14:53:08 +1000
+@@ -98,6 +98,14 @@
+ 
+ #endif
+ 
++/*
++ * The Windows implementations of inet_ntop and inet_pton are available
++ * whenever (and only when) InetNtopA is defined.
++ * Use those implementations whenever they are available.
++ * Else use the implementations provided below.
++*/
++#ifndef InetNtopA
++
+ static int inet_pton(int af, const char *src, void *dst)
+ {
+   struct sockaddr_storage ss;
+@@ -146,6 +154,8 @@
+     return dst;
+ }
+ 
++#endif /* InetNtopA  not defined */
++
+ #define HAS_INETPTON
+ #define HAS_INETNTOP
+ #endif
+

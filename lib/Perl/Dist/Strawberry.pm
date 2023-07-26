@@ -1,6 +1,6 @@
 package Perl::Dist::Strawberry;
 
-use 5.012;
+use 5.014;
 use warnings;
 
 use Data::Dump            qw(pp);
@@ -422,6 +422,10 @@ sub message {
 
 sub resolve_name {
   my ($self, $name, $skip_canon) = @_;
+
+  #  don't change references
+  return $name if ref ($name);
+
   if ($name =~ /<(package_url|dist_sharedir|image_dir)>/) {
     my $r = $self->global->{$1};
     $name =~ s/<(package_url|dist_sharedir|image_dir)>/$r/g if defined $r;
@@ -485,7 +489,8 @@ sub zip_dir {
   $level //= 1;
   $self->message(3, "started: zip_dir('$dir', '$zip_filename', $level)\n");
   die "ERROR: non-existing dir '$dir'" unless -d $dir;
-  my @items = File::Find::Rule->in($dir);
+  $dir =~ s{\\}{/}g;  #  normalise paths
+  my @items = map {s{\\}{/}gr} File::Find::Rule->in($dir);
   my $zip = Archive::Zip->new();
   for my $fs_name (@items) {
     (my $archive_name = $fs_name) =~ s|^\Q$dir\E[/\\]*||i;

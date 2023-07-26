@@ -288,8 +288,20 @@ sub backup_file {
 
 sub _patch_file {
   my ($self, $new, $dst, $dir, $tt_vars, $no_backup) = @_;
+$self->boss->message(5, "PATCHING '$new' '$dst' '$dir' $tt_vars " . ($no_backup||'') . "\n");
 
-  if (!-f $new) {
+if ($dst =~ /\*$/) {
+    warn "WE IS PATCHIN '$new'";
+}
+  if ($new eq 'config_H.gc' and ref($dst) =~ /HASH/) {
+    $self->boss->message(5, "_patch_file: using hash of values to update config_H.gc'\n");
+    $self->_update_config_H_gc ("$dir/win32/config_H.gc", $dst);
+  }
+  elsif ($new eq 'config.gc' and ref($dst) =~ /HASH/) {
+    $self->boss->message(5, "_patch_file: using hash of values to update config.gc'\n");
+    $self->_update_config_gc ("$dir/win32/config.gc", $dst);
+  }
+  elsif (!-f $new) {
     warn "ERROR: non-existing file '$new'";
   }
   elsif ($new =~ /\.tt$/) {
@@ -427,6 +439,8 @@ sub _install_module {
   my $env = {
     PERL_MM_USE_DEFAULT=>1, AUTOMATED_TESTING=>undef, RELEASE_TESTING=>undef,
     PERL5_CPANPLUS_HOME=>$self->global->{build_ENV}->{APPDATA}, #workaround for CPANPLUS
+    PERL_CPANM_HOME => ($self->global->{build_ENV}->{APPDATA} . '/.cpanm'), # GH#101
+    PKG_CONFIG_PATH => ($self->global->{image_dir} . '/c/lib/pkgconf'),  #  just to be sure
   };
   # resolve macros in env{}
   if (defined $args{env} && ref $args{env} eq 'HASH') {
@@ -462,7 +476,7 @@ sub _install_module {
   # Execute the module install script
   my $rv = $self->execute_special(['perl', $script_pl, %params], $log, $log, $env);
   unless(defined $rv && $rv == 0) {
-    rename $log, catfile($self->global->{debug_dir}, "mod_install_FAIL_".$now."_".$shortname.".log.txt");
+    rename $log, catfile($self->global->{debug_dir}, "mod_install_${shortname}_FAIL_${now}.log.txt");
     return [], $rv;
   }
   my $data = retrieve($nstore_file) or die "ERROR: retrieve failed";
@@ -515,4 +529,179 @@ sub _apply_patch {
   }
 }
 
+sub _update_config_H_gc {
+    my ($self, $fname, $update_hash) = @_;
+
+    die "update hash arg is not a hash ref"
+      if not ref($update_hash) =~ /HASH/;
+
+    open my $fh, $fname or die "Unable to open $fname, $!";
+
+    my $output;
+    while (defined (my $line = <$fh>)) {
+        $line =~ s/[\r\n]+$//;
+        if ($line =~ /#define\s+(\w+)/ and exists $update_hash->{$1}) {
+            my $key = $1;
+            $line
+              = !defined $update_hash->{$key}    ? "/*#define $key\t\t/ **/"
+              : $update_hash->{$key} eq 'define' ? "#define $key\t\t/* */"
+              : "$update_hash->{$key}";
+        }
+        $output .= "$line\n";
+    }
+
+    $fh->close;
+
+
+    #  long name but otherwise we interfere with patch backups
+    rename $fname, "$fname.orig.before_hash_update" or die $!;
+    open my $ofh, '>', $fname or die "Unable to open $fname to write to, $!";
+    print {$ofh} $output;
+    $ofh->close;
+
+}
+
+sub _update_config_gc {
+    my ($self, $fname, $update_hash) = @_;
+
+    die "update hash arg is not a hash ref"
+      if not ref($update_hash) =~ /HASH/;
+
+    open my $fh, $fname or die "Unable to open $fname, $!";
+
+    my @lines = (<$fh>);
+    close $fh;
+
+    my %data;
+    my @output;
+    my @perl_lines; #  lines starting with PERL
+
+    while (defined(my $line = shift @lines)) {
+        $line =~ s/[\r\n]+$//;
+        if ($line =~ /^#/) {
+            #  headers stay as they are
+            push @output, $line;
+        }
+        elsif ($line =~ /^PERL/) {
+            push @perl_lines, $line;
+        }
+        else {
+            $line =~ m/^([\w]+)=(.+)$/;
+            $data{$1} = $2;
+        }
+    }
+
+    my $default_config_hash = $self->_get_default_config_hash;
+    @data{keys %$default_config_hash} = values %$default_config_hash;
+
+    #  fix up quoting of values
+    foreach my $val (values %$update_hash) {
+        next if $val =~ /^'/;  # assumes symmetry, i.e. opening and closing
+        $val = "'$val'";
+    }
+
+    @data{keys %$update_hash} = values %$update_hash;
+#foreach my $key (sort keys %$update_hash) {
+#
+  #$self->boss->message(3, "Setting config, $key => $update_hash->{$key}");
+  #$data{$key} = $update_hash->{$key};
+#}
+
+    my (@ucfirst_lines, @lcfirst_lines);
+    foreach my $key (grep {/^[A-Z]/} keys %data) {
+        push @ucfirst_lines, "$key=$data{$key}";
+    }
+    foreach my $key (grep {/^[_a-z]/} keys %data) {
+        push @lcfirst_lines, "$key=$data{$key}";
+    }
+    push @output, (sort @ucfirst_lines), (sort @lcfirst_lines), @perl_lines;
+
+    #  long name but otherwise we interfere with patch backups
+    rename $fname, "$fname.orig.before_hash_update" or die $!;
+    open my $ofh, '>', $fname or die "Unable to open $fname to write to, $!";
+    say {$ofh} join "\n", @output;
+    $ofh->close;
+
+}
+
+sub _get_default_config_hash {
+    my $self = shift;
+
+    my $h = {
+        archlib    => '~INST_TOP~\lib',
+        archlibexp => '~INST_TOP~\lib',
+        bin        => '~INST_TOP~\bin',
+        binexp     => '~INST_TOP~\bin',
+        d_vendorarch   => 'define',
+        d_vendorbin    => 'define',
+        d_vendorlib    => 'define',
+        d_vendorscript => 'define',
+        dlext          => 'xs.dll',
+        installarchlib      => '~INST_TOP~\lib',
+        installbin          => '~INST_TOP~\bin',
+        installhtmldir      => '',
+        installhtmlhelpdir  => '',
+        installman1dir      => '',
+        installman3dir      => '',
+        installprefix       => '~INST_TOP~',
+        installprefixexp    => '~INST_TOP~',
+        installprivlib      => '~INST_TOP~\lib',
+        installscript       => '~INST_TOP~\bin',
+        installsitearch     => '~INST_TOP~\site\lib',
+        installsitebin      => '~INST_TOP~\site\bin',
+        installsitelib      => '~INST_TOP~\site\lib',
+        installsitescript   => '~INST_TOP~\site\bin',
+        installvendorarch   => '~INST_TOP~\vendor\lib',
+        installvendorbin    => '~INST_TOP~\bin',
+        installvendorlib    => '~INST_TOP~\vendor\lib',
+        installvendorscript => '~INST_TOP~\bin',
+        man1dir         => '',
+        man1direxp      => '',
+        man3dir         => '',
+        man3direxp      => '',
+        perlpath        => '~INST_TOP~\bin\perl.exe',
+        privlib         => '~INST_TOP~\lib',
+        privlibexp      => '~INST_TOP~\lib',
+        scriptdir       => '~INST_TOP~\bin',
+        scriptdirexp    => '~INST_TOP~\bin',
+        sitearch        => '~INST_TOP~\site\lib',
+        sitearchexp     => '~INST_TOP~\site\lib',
+        sitebin         => '~INST_TOP~\site\bin',
+        sitebinexp      => '~INST_TOP~\site\bin',
+        sitelib         => '~INST_TOP~\site\lib',
+        sitelibexp      => '~INST_TOP~\site\lib',
+        siteprefix      => '~INST_TOP~\site',
+        siteprefixexp   => '~INST_TOP~\site',
+        sitescript      => '~INST_TOP~\site\bin',
+        sitescriptexp   => '~INST_TOP~\site\bin',
+        usevendorprefix => 'define',
+        usrinc          => 'C:\strawberry\c\include',
+        vendorarch      => '~INST_TOP~\vendor\lib',
+        vendorarchexp   => '~INST_TOP~\vendor\lib',
+        vendorbin       => '~INST_TOP~\bin',
+        vendorbinexp    => '~INST_TOP~\bin',
+        vendorlib       => '~INST_TOP~\vendor\lib',
+        vendorlibexp    => '~INST_TOP~\vendor\lib',
+        vendorprefix    => '~INST_TOP~\vendor',
+        vendorprefixexp => '~INST_TOP~\vendor',
+        vendorscript    => '~INST_TOP~\bin',
+        vendorscriptexp => '~INST_TOP~\bin',
+    };
+
+    use POSIX qw(strftime);
+    my $time        = strftime '%H:%M:%S %a %B %d %Y', gmtime(); 
+    my $bits        = $self->global->{bits};
+    my $app_version = $self->global->{app_version};
+    $h->{myuname}   = "Win32 strawberry-perl $app_version # $time x${bits}";
+
+    #  fix up quoting of values - saves a heap of editing
+    foreach my $val (values %$h) {
+        next if $val =~ /^'/;  # assumes symmetry, i.e. opening and closing
+        $val = "'$val'";
+    }
+
+    return $h;
+}
+
 1;
+
