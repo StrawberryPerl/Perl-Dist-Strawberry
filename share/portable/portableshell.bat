@@ -1,5 +1,7 @@
 @echo off
 
+REM This script may also be set as the "Command line" of a Windows Terminal profile
+
 if not "%1" == "/SETENV" setlocal
 
 set PATH=%~dp0perl\site\bin;%~dp0perl\bin;%~dp0c\bin;%PATH%
@@ -29,8 +31,8 @@ exit /b %ERRORLEVEL%
 :INTERACTIVE
 echo ----------------------------------------------
 echo  Welcome to Strawberry Perl Portable Edition!
-echo  * URL - http://www.strawberryperl.com/
-echo  * see README.TXT for more info
+echo  * URL - https://www.strawberryperl.com/
+echo  * See README.TXT for more info
 echo ----------------------------------------------
 perl -MConfig -e "printf("""Perl executable: %%s\nPerl version   : %%vd / $Config{archname}\n\n""", $^X, $^V)" 2>nul
 if ERRORLEVEL==1 echo FATAL ERROR: 'perl' does not work; check if your strawberry pack is complete!
