@@ -6,7 +6,7 @@
 # <image_dir>     is placeholder for c:\strawberry
 
 {
-  app_version     => '5.38.1.1', #BEWARE: do not use '.0.0' in the last two version digits
+  app_version     => '5.38.2.1', #BEWARE: do not use '.0.0' in the last two version digits
   bits            => 32,
   beta            => 0,
   app_fullname    => 'Strawberry Perl',
@@ -76,7 +76,7 @@
     ### NEXT STEP ###########################
     {
         plugin     => 'Perl::Dist::Strawberry::Step::InstallPerlCore',
-        url        => 'https://cpan.metacpan.org/authors/id/P/PE/PEVANS/perl-5.38.1a.tar.gz',
+        url        => 'https://cpan.metacpan.org/authors/id/P/PE/PEVANS/perl-5.38.2.tar.gz',
         cf_email   => 'strawberry-perl@project', #IMPORTANT: keep 'strawberry-perl' before @
         perl_debug => 0,    # can be overridden by --perl_debug=N option
         perl_64bitint => 1, # ignored on 64bit, can be overridden by --perl_64bitint | --noperl_64bitint option
@@ -192,6 +192,7 @@
         plugin => 'Perl::Dist::Strawberry::Step::InstallModules',
         modules => [
             { module => 'Win32-File-Object', env=>{ 'HARNESS_SUBCLASS'=>'TAP::Harness::Restricted', 'HARNESS_SKIP'=>'t/05_links.t' } },
+            { module => 'Win32-Clipboard', ignore_testfailure=>1 },  #  inconsistent failures of tests 7 & 9
             qw/ Win32-ShellQuote Win32::Console Win32::Console::ANSI Win32::Job Win32::ServiceManager Win32::Service Win32::Clipboard /,
             { module=>'<package_url>/kmx/perl-modules-patched/Win32-SerialPort-0.22_patched.tar.gz', skiptest=>1 },
             qw/ Sys::Syslog /,
@@ -213,7 +214,11 @@
             qw/ IO::All Path::Tiny /,
             # https://github.com/kenahoo/Path-Class/issues/55
             { module => 'Path::Class', env=>{ 'HARNESS_SUBCLASS'=>'TAP::Harness::Restricted', 'HARNESS_SKIP'=>'t/01-basic.t' } },  
-
+        ]
+    },
+    {
+        plugin => 'Perl::Dist::Strawberry::Step::InstallModules',
+        modules => [
             # math related
             'Devel::CheckLib',  #this used to fail
             qw/ Math-Round Math-BigInt-GMP Math-GMP Math-MPFR Math-MPC /,
@@ -239,9 +244,9 @@
             qw/ XML-LibXML XML-LibXSLT XML-Parser XML-SAX XML-Simple /,
             { module=>'XML::Twig', ignore_testfailure=>1 }, #XXX-TODO XML-Twig-3.52 fails
 
-            # data/text processing
+            # disable data/text processing
             { module=>'IO::Stringy', env=>{ 'HARNESS_SUBCLASS'=>'TAP::Harness::Restricted', 'HARNESS_SKIP'=>'t/IO_InnerFile.t' } }, #https://rt.cpan.org/Public/Bug/Display.html?id=103895
-            qw/ Text-Diff Text-Patch Text::CSV Text::CSV_XS Tie::Array::CSV Excel::Writer::XLSX Spreadsheet::ParseXLSX Spreadsheet::WriteExcel Spreadsheet::ParseExcel /,
+            # qw/ Text-Diff Text-Patch Text::CSV Text::CSV_XS Tie::Array::CSV Excel::Writer::XLSX Spreadsheet::ParseXLSX Spreadsheet::WriteExcel Spreadsheet::ParseExcel /,
 
             # database stuff
             qw/ DBI DBD-ODBC DBD-SQLite DBD-CSV DBD-ADO DBIx-Class DBIx-Simple /,

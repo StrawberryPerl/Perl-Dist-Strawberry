@@ -12,8 +12,5 @@ set PERL_USE_UNSAFE_INC=1
 
 set SKIP_MSI_STEP=
 set SKIP_PDL_STEP=1
-perl -Mblib ..\script\perldist_strawberry -job ..\share\32bit-5.38.1.1.pp -notest_core -beta=0 -interactive -restorepoints -wixbin_dir=z:\sw\wix311 -cpan_url https://cpan.metacpan.org
+perl -Mblib ..\script\perldist_strawberry -job ..\share\32bit-5.38.2.1.pp -test_core -beta=0 -interactive -restorepoints -wixbin_dir=z:\sw\wix311 -cpan_url https://cpan.metacpan.org
 
-::set SKIP_MSI_STEP=1
-::set SKIP_PDL_STEP=1
-::perl -Mblib ..\script\perldist_strawberry -job ..\share\32bit-5.38.1.1.pp -notest_core -beta=0 -noperl_64bitint -app_simplename=strawberry-perl-no64 -nointeractive -norestorepoints -wixbin_dir=z:\sw\wix311
