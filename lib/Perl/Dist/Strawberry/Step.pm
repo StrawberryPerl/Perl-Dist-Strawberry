@@ -291,7 +291,7 @@ sub _patch_file {
 $self->boss->message(5, "PATCHING '$new' '$dst' '$dir' $tt_vars " . ($no_backup||'') . "\n");
 
 if ($dst =~ /\*$/) {
-    warn "WE IS PATCHIN '$new'";
+    warn "WE ARE PATCHIN '$new'";
 }
   if ($new eq 'config_H.gc' and ref($dst) =~ /HASH/) {
     $self->boss->message(5, "_patch_file: using hash of values to update config_H.gc'\n");
@@ -324,7 +324,7 @@ if ($dst =~ /\*$/) {
     #$self->_apply_patch($dir, $new);
     {
       my $wd = $self->_push_dir($dir);
-      system("patch -i $new -p1") == 0 or die "patch '$new' FAILED";
+      system("patch --binary -i $new -p1") == 0 or die "patch '$new' FAILED";
     }
   }
   elsif ($new =~ /\.(diff|patch)$/) {
