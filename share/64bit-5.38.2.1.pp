@@ -121,6 +121,12 @@
 
             # https://github.com/StrawberryPerl/Perl-Dist-Strawberry/issues/80
             'https://cpan.metacpan.org/authors/id/X/XA/XAOC/ExtUtils-Depends-0.8000.tar.gz',  
+        ]
+    },
+    ### NEXT STEP ###########################
+    {
+        plugin => 'Perl::Dist::Strawberry::Step::InstallModules',
+        modules => [
 
             # gdbm / db related
             qw/ BerkeleyDB DB_File /,
@@ -149,6 +155,12 @@
             { module=>'PkgConfig', makefilepl_param=>'--script=pkg-config' },
             'ExtUtils::PkgConfig',
 
+        ]
+    },
+    ### NEXT STEP ###########################
+    {
+        plugin => 'Perl::Dist::Strawberry::Step::InstallModules',
+        modules => [
             # win32 related
             { module=>'Win32API::Registry',         ignore_testfailure=>1 }, # https://github.com/StrawberryPerl/Perl-Dist-Strawberry/issues/66
             qw/Win32::TieRegistry/,
@@ -172,6 +184,12 @@
             { module=>'Archive::Zip', ignore_testfailure=>1 }, #XXX-TODO t/25_traversal.t
             qw/ IO-Compress-Lzma Compress-unLZMA Archive::Extract /,
 
+        ]
+    },
+    ### NEXT STEP ###########################
+    {
+        plugin => 'Perl::Dist::Strawberry::Step::InstallModules',
+        modules => [
             # file related
             { module=>'File-ShareDir-Install', ignore_testfailure=>1 }, #XXX-TODO-5.28
             { module=>'File::Copy::Recursive', ignore_testfailure=>1 }, #XXX-FAIL-5.32.1
@@ -187,6 +205,12 @@
             qw/ Math-Round Math-BigInt-GMP Math-GMP Math-MPFR Math-MPC /,
             qw/ ExtUtils::F77 /,
 
+        ]
+    },
+    ### NEXT STEP ###########################
+    {
+        plugin => 'Perl::Dist::Strawberry::Step::InstallModules',
+        modules => [
             # SSH & telnet
             qw/ Net-SSH2 Net::Telnet /,
 
@@ -200,6 +224,12 @@
             { module=>'Mojolicious', env=>{ 'HARNESS_SUBCLASS'=>'TAP::Harness::Restricted', 'HARNESS_SKIP'=>'t/mojolicious/websocket_lite_app.t t/mojo/file.t' } }, #https://github.com/kraih/mojo/issues/1011, https://github.com/StrawberryPerl/Perl-Dist-Strawberry/issues/67
             { module=>'WWW::Mechanize', skiptest=>1 }, # tests hang
 
+        ]
+    },
+    ### NEXT STEP ###########################
+    {
+        plugin => 'Perl::Dist::Strawberry::Step::InstallModules',
+        modules => [
             # XML & co.
 
             { module=>'Alien::Libxml2', env=>{ 'PKG_CONFIG_PATH'=>'C:\strawberry\c\lib\pkgconfig' } }, # alien probe needs to find the pkgconfig file 
@@ -222,6 +252,12 @@
             #  SKIP DBD::Oracle for 5.36 until we can sort out what files to use
             # { module=>'DBD::Oracle', makefilepl_param=>'-V 12.2.0.1.0', env=>{ ORACLE_HOME=>'c:\ora122instant64' }, skiptest=>1 }, ## requires Oracle Instant Client 64bit!!!
 
+        ]
+    },
+    ### NEXT STEP ###########################
+    {
+        plugin => 'Perl::Dist::Strawberry::Step::InstallModules',
+        modules => [
             # crypto related
             { module =>'Convert-PEM', ignore_testfailure=>1 }, #XXX-TODO Convert-PEM-0.08 fails
             qw/ Convert-PEM /,
@@ -249,6 +285,12 @@
             qw/ Net::SMTPS Net::SMTP Net::IMAP::Client Net::POP3 /,
             { module=>'Net::DNS', skiptest=>1 }, # tests might hang due to network issues
 
+        ]
+    },
+    ### NEXT STEP ###########################
+    {
+        plugin => 'Perl::Dist::Strawberry::Step::InstallModules',
+        modules => [
             # graphics
             'GD',
           ##{ module=>'http://chorny.net/strawberry/Imager-1.006.zip', ignore_testfailure=>1 }, #https://rt.cpan.org/Ticket/Display.html?id=124001
@@ -266,6 +308,12 @@
             # utils
             qw/ App::cpanoutdated App::pmuninstall pler App-module-version App-local-lib-Win32Helper /,
 
+        ]
+    },
+    ### NEXT STEP ###########################
+    {
+        plugin => 'Perl::Dist::Strawberry::Step::InstallModules',
+        modules => [
             # par & ppm
             qw/ PAR PAR::Dist::FromPPD PAR::Dist::InstallPPD PAR::Repository::Client /,
             { module => 'PAR::Packer', env => { MAKEFLAGS => '', TEST_JOBS => '' } },
@@ -288,6 +336,12 @@
             # OO - others
             qw/ Class::Accessor Class::Accessor::Lite Class::XSAccessor Class::Tiny Object::Tiny /,
 
+        ]
+    },
+    ### NEXT STEP ###########################
+    {
+        plugin => 'Perl::Dist::Strawberry::Step::InstallModules',
+        modules => [
             # dumpers
             qw/ Data::Dump Data::Printer /,
             { module=>'Data-Dump-Streamer', ignore_testfailure=>1 },    #XXX-TODO ! Testing Data-Dump-Streamer-2.37 failed
