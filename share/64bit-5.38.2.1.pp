@@ -34,6 +34,7 @@
             libgd           => 'https://github.com/StrawberryPerl/build-extlibs/releases/download/dev_gcc13.1_20230502/64bit_libgd-2.3.2-bin_20230502.zip',
             zgdb => 'https://github.com/StrawberryPerl/build-extlibs/releases/download/dev_gcc13.1_20230606/64bit_gdb-13.1-bin_20230626.zip',
             termcap => 'https://github.com/StrawberryPerl/build-extlibs/releases/download/dev_gcc13.1_20230606/64bit_termcap-1.3.1-bin_20230606.zip',
+            libfribidi => 'https://github.com/StrawberryPerl/build-extlibs/releases/download/dev_gcc13.1_20230606/64bit_fribidi-1.0.12-bin_20230606.zip',
         },
     },
     ### NEXT STEP ###########################
@@ -172,7 +173,8 @@
             # File-Remove has symlink test failures under 5.38, is needed by Win32-File-Object
             { module=>'File-Remove', env=>{ 'HARNESS_SUBCLASS'=>'TAP::Harness::Restricted', 'HARNESS_SKIP'=>'t/05_links.t' } },
             qw/ Win32-Daemon Win32-EventLog Win32-Process Win32-File-Object Win32-WinError Win32-UTCFileTime /,
-            qw/ Win32-ShellQuote Win32::Console Win32::Console::ANSI Win32::Job Win32::ServiceManager Win32::Service Win32::Clipboard /,
+            qw/ Win32-ShellQuote Win32::Console Win32::Console::ANSI Win32::Job Win32::ServiceManager Win32::Service /,
+            { module => 'Win32-Clipboard', ignore_testfailure=>1 },  #  inconsistent failures of tests 7 & 9
             { module=>'<package_url>/kmx/perl-modules-patched/Win32-SerialPort-0.22_patched.tar.gz', skiptest=>1 },
             qw/ Sys::Syslog /,
 
@@ -197,7 +199,7 @@
             qw/ File-HomeDir File-Listing File-ShareDir File-Which File::Map /,
             { module=>'File::Slurp', ignore_testfailure=>1 },
             qw/ File::Slurper /,
-	    { module=>'IO::All', env=>{ 'HARNESS_SUBCLASS'=>'TAP::Harness::Restricted', 'HARNESS_SKIP'=>'t/link.t' } },  # https://github.com/StrawberryPerl/Perl-Dist-Strawberry/issues/67
+            { module=>'IO::All', env=>{ 'HARNESS_SUBCLASS'=>'TAP::Harness::Restricted', 'HARNESS_SKIP'=>'t/link.t' } },  # https://github.com/StrawberryPerl/Perl-Dist-Strawberry/issues/67
             { module=>'Path::Class', env=>{ 'HARNESS_SUBCLASS'=>'TAP::Harness::Restricted', 'HARNESS_SKIP'=>'t/01-basic.t' } }, # https://github.com/StrawberryPerl/Perl-Dist-Strawberry/issues/65 
             qw/ Path::Tiny /,
             # math related
@@ -241,6 +243,13 @@
             { module=>'IO::Stringy', env=>{ 'HARNESS_SUBCLASS'=>'TAP::Harness::Restricted', 'HARNESS_SKIP'=>'t/IO_InnerFile.t' } }, #https://rt.cpan.org/Public/Bug/Display.html?id=103895
             qw/ Text-Diff Text-Patch Text::CSV Text::CSV_XS Tie::Array::CSV Excel::Writer::XLSX Spreadsheet::ParseXLSX Spreadsheet::WriteExcel Spreadsheet::ParseExcel /,
 
+        ]
+    },
+    ### NEXT STEP ###########################
+    {
+        plugin => 'Perl::Dist::Strawberry::Step::InstallModules',
+        modules => [
+
             # database stuff
             { module=>'Module::Find', env=>{ 'HARNESS_SUBCLASS'=>'TAP::Harness::Restricted', 'HARNESS_SKIP'=>'t/07-symlinks.t' } }, # https://github.com/StrawberryPerl/Perl-Dist-Strawberry/issues/67 
 
@@ -248,7 +257,7 @@
             { module=>'DBD::SQLite', env=>{ 'HARNESS_SUBCLASS'=>'TAP::Harness::Restricted', 'HARNESS_SKIP'=>'t/33_non_latin_path.t' } }, # https://github.com/StrawberryPerl/Perl-Dist-Strawberry/issues/68 
             qw/ DBI DBD-ODBC DBD-CSV DBD-ADO DBIx-Class DBIx-Simple /,
             'https://cpan.metacpan.org/authors/id/T/TU/TURNSTEP/DBD-Pg-3.8.0.tar.gz', ###{ module=>'DBD::Pg' },
-            { module=>'DBD::mysql' },
+            #{ module=>'DBD::mysql' },  #  disable until we sort out more recent mysql (but see https://github.com/StrawberryPerl/Perl-Dist-Strawberry/discussions/157 )
             #  SKIP DBD::Oracle for 5.36 until we can sort out what files to use
             # { module=>'DBD::Oracle', makefilepl_param=>'-V 12.2.0.1.0', env=>{ ORACLE_HOME=>'c:\ora122instant64' }, skiptest=>1 }, ## requires Oracle Instant Client 64bit!!!
 
@@ -535,12 +544,21 @@
           { module => 'Astro::FITS::CFITSIO', ignore_testfailure => 1},  #  only needed for createfile test
           { module => 'Inline::C', ignore_testfailure => 1 },
           { module => 'Module::Compile', ignore_testfailure => 1 }, #XXX-TODO-5.28 / PREREQ-ONLY
+       ],
+    },
+    ### NEXT STEP ###########################
+    {
+        disable => $ENV{SKIP_PDL_STEP}, ### hack
+        plugin => 'Perl::Dist::Strawberry::Step::InstallModules',
+        # modules specific to PDL edition
+        modules => [
           { module => 'PDL',
             #makefilepl_param => 'PDLCONF=<dist_sharedir>\pdl\perldl2.conf',
             ignore_testfailure => 1,
             env => {
               PLPLOT_LIB     => '<image_dir>\c\share\plplot',
               PLPLOT_DRV_DIR => '<image_dir>\c\share\plplot',
+              MAKEFLAGS      => '',
             },
           },
           qw/ PDL::IO::CSV PDL::IO::DBI PDL::DateTime PDL::Stats /, # PDL::IO::Image
