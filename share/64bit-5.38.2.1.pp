@@ -21,7 +21,7 @@
         install_packages => {
             #tools
             #gcc, gmake, gdb & co.
-            'gcc-toolchain' => { url => 'https://github.com/StrawberryPerl/build-extlibs/releases/download/dev_gcc13.1_20230606/winlibs_gcc13.1r5.zip', install_to => 'c' },
+            'gcc-toolchain' => { url => 'https://github.com/StrawberryPerl/build-extlibs/releases/download/dev_gcc13.1_20230606/winlibs_gcc13.1r5_sans_make.zip', install_to => 'c' },
             #patch => 'https://github.com/StrawberryPerl/build-extlibs/releases/download/dev_gcc10.3_20230313/64bit_patch-2.7.5-bin_20230420.zip',
             'patch'         => '<package_url>/kmx/64_tools/64bit_patch-2.5.9-7-bin_20100110_UAC.zip',
             #special cases

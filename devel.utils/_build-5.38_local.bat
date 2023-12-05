@@ -19,7 +19,7 @@ call ..\build.bat test
 
 set MAKEFLAGS=-j8
 set TEST_JOBS=8
-::set LC_ALL=C
+
 
 ::set SKIP_MSI_STEP=1
 ::set SKIP_PDL_STEP=1
