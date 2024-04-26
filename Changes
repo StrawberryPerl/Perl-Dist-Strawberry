@@ -1,7 +1,10 @@
 Changes for Perl extension Perl-Dist-Strawberry
 
-4.023   2021/NEXT
-        - ???
+4.024   2024-NEXT
+        - Forgot to fix some change logs.
+
+4.023   2024-04-26
+        - used for building strawberry perl 5.34 - 5.28
 
 4.022   2021/01/26
         - used for building strawberry perl 5.32.1.1
