@@ -21,3 +21,4 @@ MANIFEST
 
 *.iml
 /.idea/
+/Perl-Dist-Strawberry-*/
