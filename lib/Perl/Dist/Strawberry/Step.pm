@@ -12,7 +12,8 @@ use File::Copy             qw(copy);
 use Storable               qw(retrieve);
 use Template;
 use File::Slurp;
-use Text::Diff;
+use Text::Diff qw(diff);
+use Text::Patch qw(patch);
 use Win32;
 use Win32::File::Object;
 use IPC::Run3;
@@ -288,11 +289,11 @@ sub backup_file {
 
 sub _patch_file {
   my ($self, $new, $dst, $dir, $tt_vars, $no_backup) = @_;
-$self->boss->message(5, "PATCHING '$new' '$dst' '$dir' $tt_vars " . ($no_backup||'') . "\n");
+  $self->boss->message(5, "PATCHING '$new' '$dst' '$dir' $tt_vars " . ($no_backup||'') . "\n");
 
-if ($dst =~ /\*$/) {
+  if ($dst =~ /\*$/) {
     warn "WE ARE PATCHIN '$new'";
-}
+  }
   if ($new eq 'config_H.gc' and ref($dst) =~ /HASH/) {
     $self->boss->message(5, "_patch_file: using hash of values to update config_H.gc'\n");
     $self->_update_config_H_gc ("$dir/win32/config_H.gc", $dst);

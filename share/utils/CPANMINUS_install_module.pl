@@ -272,7 +272,7 @@ sub run3 {
                            : @$cmd
               : system $cmd;
 
-       $errno = $!;              # save $!, because later failures will overwrite it
+        $errno = $!;              # save $!, because later failures will overwrite it
 
         croak $! if defined $r && $r == -1 && !$options->{return_if_system_error};
 

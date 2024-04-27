@@ -123,6 +123,12 @@ sub run {
     # necessary workaround for building 32bit perl on 64bit Windows
     my @make_args = ("INST_DRV=$INST_DRV", "INST_TOP=$INST_TOP", "CCHOME=$CCHOME", "EMAIL=$cf_email");
 
+    # if we're building with MSVC, we can't clobber the environment. ugh.
+    if ($self->global->{maketool} eq 'nmake') {
+      @make_args = ("INST_DRV=$INST_DRV", "INST_TOP=$INST_TOP", "EMAIL=$cf_email");
+      $new_env = {%ENV};
+    }
+
     #HACK: perl-5.12/14 only
     if ($self->global->{app_version} && $self->global->{app_version} =~ /^5\.(12|14)/) {
       push @make_args, 'GCC_4XX=define', 'GCCHELPERDLL=$(CCHOME)\bin\libgcc_s_sjlj-1.dll';

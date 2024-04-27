@@ -1,0 +1,30 @@
+diff --git a/win32/Makefile b/win32/Makefile
+index 91f4103..e3f32c6 100755
+--- a/win32/Makefile
++++ b/win32/Makefile
+@@ -95,11 +95,11 @@ DEFAULT_INC_EXCLUDES_DOT = define
+ #
+ # Uncomment this if you want to disable looking up values from
+ # HKEY_CURRENT_USER\Software\Perl and HKEY_LOCAL_MACHINE\Software\Perl in
+ # the Registry.
+ #
+-#USE_NO_REGISTRY = define
++USE_NO_REGISTRY = define
+ 
+ #
+ # uncomment exactly one of the following
+ #
+ # Visual C++ 2015 (aka Visual C++ 14.0) (full version or Express Edition)
+@@ -107,11 +107,11 @@ USE_NO_REGISTRY = define
+ # Visual C++ 2017 (aka Visual C++ 14.1) (full version or Community Edition)
+ #CCTYPE		= MSVC141
+ # Visual C++ 2019 (aka Visual C++ 14.2) (full version or Community Edition)
+ #CCTYPE		= MSVC142
+ # Visual C++ 2022 (aka Visual C++ 14.3) (full version or Community Edition)
+-#CCTYPE		= MSVC143
++CCTYPE		= MSVC143
+ 
+ #
+ # If you are using Intel C++ Compiler uncomment this
+ #
+ #__ICC		= define
