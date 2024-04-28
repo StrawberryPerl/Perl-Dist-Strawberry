@@ -1,6 +1,6 @@
 Changes for Perl extension Perl-Dist-Strawberry
 
-4.024   2024-04-27
+4.024   2024-04-28
         - Forgot to fix some change logs.
         - Beginnings of getting things to work for MSVC
         - Fixed a few bugs with patch, etc.

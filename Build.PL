@@ -59,6 +59,7 @@ my $builder = $class->new(
         'Pod::Usage'            => 0,
         'Portable::Dist'        => '1.06',
         'Storable'              => 0,
+        'Syntax::Keyword::Try'  => 0,
         'Template'              => 0,
         'Text::Diff'            => 0,
         'Text::Patch'           => 0,
