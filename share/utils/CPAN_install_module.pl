@@ -18,8 +18,7 @@ my @spec = (
     'internet=i',
     'assume=i',
 );
-my %opts = ();
-GetOptions(\%opts, @spec) or die ">> invalid option(s)";
+GetOptions(\my %opts, @spec) or die ">> invalid option(s)";
 
 #defaults
 $opts{module}      //= [];
