@@ -437,12 +437,18 @@ sub _install_module {
   my $dumper_file = catfile($self->global->{debug_dir}, "mod_install_${shortname}_${now}.list.dumper.txt");
   my $nstore_file = catfile($self->global->{debug_dir}, "mod_install_${shortname}_${now}.list.nstore.txt");
 
-  my $env = {
-    PERL_MM_USE_DEFAULT=>1, AUTOMATED_TESTING=>undef, RELEASE_TESTING=>undef,
-    PERL5_CPANPLUS_HOME=>$self->global->{build_ENV}->{APPDATA}, #workaround for CPANPLUS
-    PERL_CPANM_HOME => ($self->global->{build_ENV}->{APPDATA} . '/.cpanm'), # GH#101
-    PKG_CONFIG_PATH => ($self->global->{image_dir} . '/c/lib/pkgconf'),  #  just to be sure
-  };
+  # if we're building with MSVC, we can't clobber the environment. ugh.
+  my $env = {};
+  if ($self->global->{maketool} eq 'nmake') {
+    $env = {%ENV};
+  }
+  $env->{PERL_MM_USE_DEFAULT} = 1;
+  $env->{AUTOMATED_TESTING} = undef;
+  $env->{RELEASE_TESTING} = undef;
+  $env->{PERL5_CPANPLUS_HOME} = $self->global->{build_ENV}->{APPDATA}; # workaround for CPANPLUS
+  $env->{PERL_CPANM_HOME} = ($self->global->{build_ENV}->{APPDATA} . '/.cpanm'); # GH#101
+  $env->{PKG_CONFIG_PATH} = ($self->global->{image_dir} . '/c/lib/pkgconf'); # just to be sure
+
   # resolve macros in env{}
   if (defined $args{env} && ref $args{env} eq 'HASH') {
     for my $var (keys %{$args{env}}) {
