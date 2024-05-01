@@ -1,6 +1,6 @@
 Changes for Perl extension Perl-Dist-Strawberry
 
-4.024   2024-04-28
+4.024   2024-04-30
         - Forgot to fix some change logs.
         - Beginnings of getting things to work for MSVC
         - Fixed a few bugs with patch, etc.
@@ -11,6 +11,7 @@ Changes for Perl extension Perl-Dist-Strawberry
         - Simplified the CPANMINUS_install_modules.pl script
         - Ensure all shared scripts use v5.18
         - Ensure all shared scripts use GetOpts a bit more correctly
+        - Stop clobbering %ENV on nmake (MSVC) builds
 
 4.023   2024-04-26
         - used for building strawberry perl 5.34 - 5.28
