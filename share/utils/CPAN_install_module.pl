@@ -71,34 +71,36 @@ foreach my $name (@{$opts{module}}) {
         next MODULE;
     }
 
-    try {
-        if ($opts{run_tests} == 1) {
-            CPAN::Shell->install($name);
-        }
-        elsif ($opts{run_tests} == 2) {
-            CPAN::Shell->force('install', $name);
-        }
-        elsif ($opts{run_tests} == 0) {
-            CPAN::Shell->notest('install', $name);
-        }
-        else {
-            die "invalid run_tests";
-        }
-    } catch($e) {
-        my $error = $@;
-       
-       #XXX-FIXME probably not needed
-       #my $id = $module->distribution()->pretty_id();
-       #my $time = time;
-       #my $module_id = $name;
-       #$module_id =~ s{::}{_}gmsx;
-       #my $filename = catfile('$output_dir', "$time.$module_id.output.txt");
-       #write_file($filename, $output);
-       #die "Installation of $name failed: $error\n" if $error;
-       #say $cpan_fh "$name;$id;$filename;"  or die "say: $!";
-       
-        warn ">> ERROR=$error" if $error;
+    my $error;
+    {
+        local $@;
+        $error = $@ || 'Error' unless eval {
+            if ($opts{run_tests} == 1) {
+                CPAN::Shell->install($name);
+            }
+            elsif ($opts{run_tests} == 2) {
+                CPAN::Shell->force('install', $name);
+            }
+            elsif ($opts{run_tests} == 0) {
+                CPAN::Shell->notest('install', $name);
+            }
+            else {
+                die "invalid run_tests";
+            }
+            1;
+        };
     }
+    #XXX-FIXME probably not needed
+    #my $id = $module->distribution()->pretty_id();
+    #my $time = time;
+    #my $module_id = $name;
+    #$module_id =~ s{::}{_}gmsx;
+    #my $filename = catfile('$output_dir', "$time.$module_id.output.txt");
+    #write_file($filename, $output);
+    #die "Installation of $name failed: $error\n" if $error;
+    #say $cpan_fh "$name;$id;$filename;"  or die "say: $!";
+
+    warn ">> ERROR=$error" if $error;
     warn ">> Completed install of '$name'\n";
     die ">> Installation of '$name' appears to have failed\n" unless $opts{assume} or $module->uptodate();
 }

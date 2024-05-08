@@ -1,5 +1,10 @@
 Changes for Perl extension Perl-Dist-Strawberry
 
+4.025   2024-05-07
+        - Revert the use of Syntax::Keyword::Try to eval{}
+        - Revert removal of MYIPC::Run3 in the cpanminus script
+        - perltidy the cpanminus script to make it easier to see
+
 4.024   2024-04-30
         - Forgot to fix some change logs.
         - Beginnings of getting things to work for MSVC

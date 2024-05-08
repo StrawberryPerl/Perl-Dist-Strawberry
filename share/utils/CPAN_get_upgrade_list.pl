@@ -5,7 +5,6 @@ use CPAN;
 use Storable      qw(nstore);
 use Data::Dumper  qw(Dumper);
 use Getopt::Long  qw(:config gnu_getopt no_ignore_case);
-use Syntax::Keyword::Try;
 require Config;
 
 warn ">> started '$0'\n";
@@ -58,26 +57,30 @@ for my $module (@expand) {
     my $inst_file = $module->inst_file;
     my $have;
     my $next_MODULE;
-    try {
-        # version.pm involved!
-        if ($inst_file and $vendorlib ne substr($inst_file, 0, length($vendorlib))) {
-            $have = $module->inst_version;
-            local $^W = 0;
-            if (CPAN::Version->vgt($latest, $have) && !($have eq "undef" && $latest ne "undef")) {
-                #warn "UPGRADE NEEDED: '$inst_file' have=$have latest=$latest\n" if "$have" ne "$latest";
+    my $error;
+    {
+        local $@;
+        $error = $@ || 'Error' unless eval {
+            # version.pm involved!
+            if ($inst_file and $vendorlib ne substr($inst_file, 0, length($vendorlib))) {
+                $have = $module->inst_version;
+                local $^W = 0;
+                if (CPAN::Version->vgt($latest, $have) && !($have eq "undef" && $latest ne "undef")) {
+                    #warn "UPGRADE NEEDED: '$inst_file' have=$have latest=$latest\n" if "$have" ne "$latest";
+                } else {
+                    ++$next_MODULE;
+                }
+                # to be pedantic we should probably say:
+                #    && !($have eq "undef" && $latest ne "undef" && $latest gt "");
+                # to catch the case where CPAN has a version 0 and we have a version undef
             } else {
-                ++$next_MODULE 
+                ++$next_MODULE;
             }
-            # to be pedantic we should probably say:
-            #    && !($have eq "undef" && $latest ne "undef" && $latest gt "");
-            # to catch the case where CPAN has a version 0 and we have a version undef
-        } else {
-            ++$next_MODULE;
-        }
+            1;
+        };
     }
-    catch($e) {
-        next;
-    }
+    next if $error;
+
     next if $next_MODULE;
 
     $seen{$file} ||= 0;
