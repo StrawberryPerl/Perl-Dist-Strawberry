@@ -585,8 +585,7 @@ sub _update_config_gc {
         elsif ($line =~ /^PERL/) {
             push @perl_lines, $line;
         }
-        else {
-            $line =~ m/^([\w]+)=(.+)$/;
+        elsif ($line =~ m/^([\w]+)=(.*)$/) {
             $data{$1} = $2;
         }
     }
