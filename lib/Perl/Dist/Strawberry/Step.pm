@@ -465,18 +465,22 @@ sub _install_module {
   $args{module} = $self->boss->resolve_name($args{module});
   $args{module} =~ s|\\|/|g; # cpanm dislikes backslashes
 
-  my %params = ( '-url' => $self->global->{cpan_url}, '-install_to' => 'vendor', '-module' => $args{module} ); #XXX-TODO multiple modules?
-  $params{'-out_dumper'}         = $dumper_file if $dumper_file;
-  $params{'-out_nstore'}         = $nstore_file if $nstore_file;
-  $params{'-install_to'}         = $args{install_to}         if defined $args{install_to};
-  $params{'-verbose'}            = $args{verbose}            if defined $args{verbose};
-  $params{'-skiptest'}           = $args{skiptest}           if defined $args{skiptest};
-  $params{'-ignore_testfailure'} = $args{ignore_testfailure} if defined $args{ignore_testfailure};
-  $params{'-ignore_uptodate'}    = $args{ignore_uptodate}    if defined $args{ignore_uptodate};
-  $params{'-prereqs'}            = $args{prereqs}            if defined $args{prereqs};
-  $params{'-interactivity'}      = $args{interactivity}      if defined $args{interactivity};
-  $params{'-makefilepl_param'}   = $args{makefilepl_param}   if defined $args{makefilepl_param}; #XXX-TODO multiple args?
-  $params{'-buildpl_param'}      = $args{buildpl_param}      if defined $args{buildpl_param};    #XXX-TODO multiple args?
+  my %params = ( 
+    '--url' => $self->global->{cpan_url}, 
+    '--install_to' => 'vendor', 
+    '--module' => $args{module}, #XXX-TODO multiple modules?
+  ); 
+  $params{'--out_dumper'}         = $dumper_file if $dumper_file;
+  $params{'--out_nstore'}         = $nstore_file if $nstore_file;
+  $params{'--install_to'}         = $args{install_to}         if defined $args{install_to};
+  $params{'--verbose'}            = $args{verbose}            if defined $args{verbose};
+  $params{'--skiptest'}           = $args{skiptest}           if defined $args{skiptest};
+  $params{'--ignore_testfailure'} = $args{ignore_testfailure} if defined $args{ignore_testfailure};
+  $params{'--ignore_uptodate'}    = $args{ignore_uptodate}    if defined $args{ignore_uptodate};
+  $params{'--prereqs'}            = $args{prereqs}            if defined $args{prereqs};
+  $params{'--interactivity'}      = $args{interactivity}      if defined $args{interactivity};
+  $params{'--makefilepl_param'}   = $args{makefilepl_param}   if defined $args{makefilepl_param}; #XXX-TODO multiple args?
+  $params{'--buildpl_param'}      = $args{buildpl_param}      if defined $args{buildpl_param};    #XXX-TODO multiple args?
 
   # handle global test skip
   $params{'-skiptest'} = 1 unless $self->global->{test_modules};
