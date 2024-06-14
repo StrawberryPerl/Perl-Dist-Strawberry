@@ -88,9 +88,9 @@ sub _get_cpan_upgrades_list {
   my $nstore_file = catfile($self->global->{debug_dir}, "cpan_upgrade.nstore.txt");
 
   # Execute the CPAN upgrade script.
-  my $rv = $self->execute_special(['perl', $script_pl, '-url', $self->global->{cpan_url},
-                                                   '-out_nstore', $nstore_file,
-                                                   '-out_dumper', $dumper_file ], $log);
+  my $rv = $self->execute_special(['perl', $script_pl, '--url', $self->global->{cpan_url},
+                                                   '--out_nstore', $nstore_file,
+                                                   '--out_dumper', $dumper_file ], $log);
 
   die "ERROR: exec '$script_pl' failed" unless defined $rv && $rv == 0;
   die "ERROR: missing file '$nstore_file'" unless -f $nstore_file;
