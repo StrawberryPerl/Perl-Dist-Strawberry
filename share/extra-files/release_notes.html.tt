@@ -40,7 +40,7 @@
 [%-ELSE%]
 <h2>Strawberry Perl ([%app_version%]-beta[%beta%]-[%bits%]bit) Release Notes</h2>
 [%-END%]
-<p><i>Released: [%release_date%] / with support of our sponsor <a href="http://www.enlightenedperl.org">Enlightened Perl Organisation</a></i></p>
+<p><i>Released: [%release_date%]</i></p>
 <p>Check out what is new, what known issues there are, and frequently asked questions about this version of Strawberry Perl. As always, you're encouraged to tell us what you think.</p>
 
 <h3>What's new in this Strawberry Perl release: <span class="switch"><a href="javascript:unhide('whatsnew', 'whatsnew_switch')" id="whatsnew_switch">Collapse</a><br /></span>
