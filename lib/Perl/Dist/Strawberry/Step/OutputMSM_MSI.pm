@@ -14,7 +14,7 @@ use Data::Dump            qw(pp);
 use Data::UUID;
 use Template;
 use IPC::Run3;
-use Digest::SHA1;
+use Digest::SHA;
 use Win32::TieRegistry qw( KEY_READ );
 
 sub new {
