@@ -5,7 +5,7 @@ use warnings;
 use base 'Perl::Dist::Strawberry::Step';
 
 use Time::Piece;
-use JSON;
+use JSON::PP;
   
 use File::Spec::Functions qw(catfile);
 
@@ -87,7 +87,7 @@ sub run {
   };
 
   #p $snippet;
-  my $json_snippet = JSON->new->utf8->pretty->canonical->encode($snippet);
+  my $json_snippet = JSON::PP->new->utf8->pretty->canonical->encode($snippet);
   open my $fh, '>', $json_file or die "Unable to open $json_file, $!";
   print {$fh} $json_snippet;
   $fh->close;
