@@ -20,6 +20,7 @@ sub run {
   #store results
   $self->{data}->{output}->{log_zip} = $zip_file;
   $self->{data}->{output}->{log_zip_sha1} = $self->sha1_file($zip_file);
+  $self->{data}->{output}->{log_zip_sha256} = $self->sha256_file($zip_file);
 }
 
 1;

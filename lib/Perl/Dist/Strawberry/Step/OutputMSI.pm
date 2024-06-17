@@ -140,6 +140,7 @@ sub run {
   #store results
   $self->{data}->{output}->{msi} = $msi_file;
   $self->{data}->{output}->{msi_sha1} = $self->sha1_file($msi_file); # will change after we sign MSI
+  $self->{data}->{output}->{msi_sha256} = $self->sha256_file($msi_file); # will change after we sign MSI
   $self->{data}->{output}->{msi_guid} = $msi_guid;
 
 } 
