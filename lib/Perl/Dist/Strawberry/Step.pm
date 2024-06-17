@@ -483,7 +483,7 @@ sub _install_module {
   $params{'--buildpl_param'}      = $args{buildpl_param}      if defined $args{buildpl_param};    #XXX-TODO multiple args?
 
   # handle global test skip
-  $params{'-skiptest'} = 1 unless $self->global->{test_modules};
+  $params{'--skiptest'} = 1 unless $self->global->{test_modules};
   # Execute the module install script
   my $rv = $self->execute_special(['perl', $script_pl, %params], $log, $log, $env);
   unless(defined $rv && $rv == 0) {
