@@ -69,7 +69,7 @@ sub run {
         sha1   => $params->{output}{"${edition}_sha1"}   // $self->sha1_file($f),
         sha256 => $params->{output}{"${edition}_sha256"} // $self->sha256_file($f),
         size   => $size,
-        url    => "__XXXXfixURL__ $basename",
+        url    => "__XXXX_URL_placeholder__ $basename",
     };
     $edition_hash->{$edition} = $hash; 
   }
@@ -82,7 +82,7 @@ sub run {
     edition  => $edition_hash,
     name     => $name,
     numver   => $numver,
-    relnotes => "__XXXXfixURL__ $params->{output_basename}.html",
+    relnotes => "https://strawberryperl.com/release-notes/$params->{output_basename}.html",
     version  => $app_version,
   };
 
