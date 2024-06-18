@@ -84,7 +84,7 @@ sub parse_options {
   $self->global->{image_dir_quotemeta} = $idq;
   $self->global->{image_dir_url}       = "file:///$idu";
   
-  if (defined $self->global->{wixbin_dir}) {
+  if (defined $self->global->{wixbin_dir} && !$ENV{SKIP_MSI_STEP}) {
     my $d = $self->global->{wixbin_dir};
     unless (-f "$d/candle.exe" && -f "$d/light.exe") {
       die "ERROR: invalid wixbin_dir '$d' (candle.exe+light.exe not found)\n";
@@ -122,7 +122,7 @@ sub do_job {
   $i = 0;
   for (@{$self->{build_job_steps}}) {    
     $self->message(1, "checking [step:$i] ".ref($_));
-    $_->check unless $_->{data}->{done}; # dies on error
+    $_->check unless $_->{data}->{done} || $_->{config}->{disable}; # dies on error
     $i++;
   }; 
 
