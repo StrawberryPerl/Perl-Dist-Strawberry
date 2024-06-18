@@ -12,7 +12,7 @@ use Getopt::Long;
 use File::Temp qw(tempfile tempdir);
 
 use Archive::Zip qw( :ERROR_CODES :CONSTANTS );
-use Digest::SHA1  qw(sha1 sha1_hex sha1_base64);
+use Digest::SHA  qw(sha1 sha1_hex sha1_base64 sha256 sha256_hex sha256_base64);
 use Data::Dump 'pp';
 use File::Glob 'bsd_glob';
 use File::Basename;

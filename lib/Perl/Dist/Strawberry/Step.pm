@@ -17,7 +17,7 @@ use Text::Patch qw(patch);
 use Win32;
 use Win32::File::Object;
 use IPC::Run3;
-use Digest::SHA1;
+use Digest::SHA;
 
 ##### mandatory methods for all Step-like classes - new(), check(), run(), test()
 
@@ -372,11 +372,25 @@ sub _restore_ro {
 
 sub sha1_file {
   my ($self, $file) = @_;
-  my $sha1 = Digest::SHA1->new;
-  open FILE, '<', $file or die "ERROR: open failed";
-  binmode FILE;
-  $sha1->addfile(*FILE);
-  close FILE;
+  return $self->_sha_file($file, 1);
+}
+
+sub sha256_file {
+  my ($self, $file) = @_;
+  return $self->_sha_file($file, 256);
+}
+
+sub _sha_file {
+  my ($self, $file, $alg) = @_;
+  die "undefined SHA algorithm" if !defined $alg;
+  #  generalise this check if more algs are needed
+  die "invalid SHA algorithm '$alg'" if $alg !~ /^1|256$/;
+  my $sha1 = Digest::SHA->new($alg);
+  #open FILE, '<', $file or die "ERROR: open failed";
+  #binmode FILE;
+  #$sha1->addfile(*FILE);
+  #close FILE;
+  $sha1->addfile($file, 'b');
   return $sha1->hexdigest;
 }
 
