@@ -119,11 +119,21 @@ sub do_job {
 
   #check
   $self->message(0, "starting global check");
-  $i = 0;
-  for (@{$self->{build_job_steps}}) {    
-    $self->message(1, "checking [step:$i] ".ref($_));
-    $_->check unless $_->{data}->{done} || $_->{config}->{disable}; # dies on error
+  $i = -1;
+  STEP:
+  for my $step (@{$self->{build_job_steps}}) {    
     $i++;
+    my $msg = "checking [step:$i] ".ref($_);
+    if ($step->{config}->{disable}) {
+        $msg .= " (disabled, skipping check)";
+        $self->message(1, $msg);
+        next STEP;
+    }
+    $self->message(1, $msg);
+    
+    next STEP if $step->{data}->{done};
+    
+    $step->check; # dies on error
   }; 
 
   #run
