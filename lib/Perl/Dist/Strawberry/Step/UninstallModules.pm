@@ -77,9 +77,9 @@ sub _uninstall_module {
   # resolve macros in module name
   $args{module} = $self->boss->resolve_name($args{module});
   my %params;
-  $params{--url}     = $self->global->{cpan_url};
-  $params{--module}  = $args{module}; #XXX-TODO multiple modules?
-  $params{--verbose} = $args{verbose} if defined $args{verbose};
+  $params{'--url'}     = $self->global->{cpan_url};
+  $params{'--module'}  = $args{module}; #XXX-TODO multiple modules?
+  $params{'--verbose'} = $args{verbose} if defined $args{verbose};
   # Execute the module uninstall script
   my $rv = $self->execute_special(['perl', $script_pl, %params], $log, $log, $env);
   unless(defined $rv && $rv == 0) {
