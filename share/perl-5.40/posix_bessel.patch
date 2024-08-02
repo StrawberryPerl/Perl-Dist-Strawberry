@@ -1,0 +1,227 @@
+From ddafb0ef58d47e76cb8fa7cbe7dabd056218d852 Mon Sep 17 00:00:00 2001
+From: Tony Cook <tony@develop-help.com>
+Date: Thu, 16 May 2024 11:25:27 +1000
+Subject: [PATCH 1/6] POSIX: win32 calls "putenv" "_putenv"
+
+This produced build errors with gcc 14.
+---
+ ext/POSIX/POSIX.xs | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/ext/POSIX/POSIX.xs b/ext/POSIX/POSIX.xs
+index 7ed5ec7fded3..df4919bcd6dc 100644
+--- a/ext/POSIX/POSIX.xs
++++ b/ext/POSIX/POSIX.xs
+@@ -1722,7 +1722,7 @@ fix_win32_tzenv(void)
+         newenv = (char*)malloc((strlen(perl_tz_env) + 4) * sizeof(char));
+         if (newenv != NULL) {
+             sprintf(newenv, "TZ=%s", perl_tz_env);
+-            putenv(newenv);
++            _putenv(newenv);
+             if (oldenv != NULL)
+                 free(oldenv);
+             oldenv = newenv;
+
+From 0a0364b3fc392c3568374a3c2535895c6a574d6a Mon Sep 17 00:00:00 2001
+From: Tony Cook <tony@develop-help.com>
+Date: Wed, 22 May 2024 12:08:53 +1000
+Subject: [PATCH 2/6] perlguts: PTR2ul() is unsafe
+
+For a 64-bit build on Windows, pointers are 64-bits, while
+long is 32-bits, so PTR2ul() discards some bits.
+---
+ pod/perlguts.pod | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/pod/perlguts.pod b/pod/perlguts.pod
+index bcb7e8c9484e..556cb52f68ba 100644
+--- a/pod/perlguts.pod
++++ b/pod/perlguts.pod
+@@ -3271,7 +3271,9 @@ and
+ There are also
+ 
+  PTR2nat(pointer)   /* pointer to integer of PTRSIZE */
+- PTR2ul(pointer)    /* pointer to unsigned long */
++ PTR2ul(pointer)    /* pointer to unsigned long (unsafe) */
++
++PTR2ul() is unsafe, since a pointer may be larger than unsigned long.
+ 
+ =for apidoc Amh|IV|PTR2nat|void *
+ =for apidoc Amh|unsigned long|PTR2ul|void *
+
+From 4ce0fbf1d0aae8ea79253d078840f1a65fbbd150 Mon Sep 17 00:00:00 2001
+From: Tony Cook <tony@develop-help.com>
+Date: Wed, 22 May 2024 14:02:53 +1000
+Subject: [PATCH 3/6] isnan (long double): always use the C99 version
+
+C99 requires that isnan() is a generic macro that accepts the
+standard floating point types (float, double, long double).
+
+We always include math.h eventually, so this macro should be
+available.
+
+This is complicated by C++.  C++98 depends on C89, which does
+not require isnan(), but since we do require C99, I think we
+need to require a minimum of C++11, which follows C99.
+
+C++11 does *not* define isnan() as a macro, but as a set of
+overloaded functions, which produces almost the same result,
+the difference being that the macro test that was done by this
+code is no longer valid.
+
+The old code would fail to build with C++ long double builds
+with gcc on Window:
+
+..\sv.c: In function 'size_t S_infnan_2pv(NV, char*, size_t, char)':
+..\perl.h:2680:34: error: 'isnanl' was not declared in this scope; did you mean 'isnan'?
+ 2680 | #           define Perl_isnan(x) isnanl(x)
+      |                                  ^~~~~~
+..\sv.c:2882:14: note: in expansion of macro 'Perl_isnan'
+ 2882 |     else if (Perl_isnan(nv)) {
+      |              ^~~~~~~~~~
+..\sv.c: In function 'U8* S_hextract(NV, int*, bool*, U8*, U8*)':
+..\perl.h:2680:34: error: 'isnanl' was not declared in this scope; did you mean 'isnan'?
+ 2680 | #           define Perl_isnan(x) isnanl(x)
+      |                                  ^~~~~~
+..\perl.h:8605:69: note: in expansion of macro 'Perl_isnan'
+ 8605 | #  define Perl_fp_class_denorm(x) ((x) != 0.0 && !Perl_isinf(x) && !Perl_isnan(x) && PERL_ABS(x) < NV_MIN)
+      |                                                                     ^~~~~~~~~~
+..\sv.c:11604:49: note: in expansion of macro 'Perl_fp_class_denorm'
+11604 | #define HEXTRACT_GET_SUBNORMAL(nv) *subnormal = Perl_fp_class_denorm(nv)
+      |                                                 ^~~~~~~~~~~~~~~~~~~~
+..\sv.c:11672:9: note: in expansion of macro 'HEXTRACT_GET_SUBNORMAL'
+11672 |         HEXTRACT_GET_SUBNORMAL(nv);
+      |         ^~~~~~~~~~~~~~~~~~~~~~
+
+and with gcc 14.2, which requires prototypes per C99:
+
+In file included from ..\sv.c:32:
+..\sv.c: In function 'S_infnan_2pv':
+..\perl.h:2680:34: error: implicit declaration of function 'isnanl'; did you mean 'isnan'? [-Wimplicit-function-declaration]
+ 2680 | #           define Perl_isnan(x) isnanl(x)
+      |                                  ^~~~~~
+..\sv.c:2882:14: note: in expansion of macro 'Perl_isnan'
+ 2882 |     else if (Perl_isnan(nv)) {
+      |              ^~~~~~~~~~
+gmake: *** [GNUmakefile:1430: mini\sv.o] Error 1
+---
+ perl.h | 7 ++-----
+ 1 file changed, 2 insertions(+), 5 deletions(-)
+
+diff --git a/perl.h b/perl.h
+index 9788654975ff..1d12d9f27765 100644
+--- a/perl.h
++++ b/perl.h
+@@ -2676,11 +2676,8 @@ extern long double Perl_my_frexpl(long double x, int *e);
+ #       endif
+ #   endif
+ #   ifndef Perl_isnan
+-#       if defined(HAS_ISNANL) && !(defined(isnan) && defined(HAS_C99))
+-#           define Perl_isnan(x) isnanl(x)
+-#       elif defined(__sgi) && defined(__c99)  /* XXX Configure test needed */
+-#           define Perl_isnan(x) isnan(x)
+-#       endif
++        /* C99 requites that isnan() also support long double */
++#       define Perl_isnan(x) isnan(x)
+ #   endif
+ #   ifndef Perl_isinf
+ #       if defined(HAS_ISINFL) && !(defined(isinf) && defined(HAS_C99))
+
+From 0b877ca350b0b796d7565e8985f448074f19d09e Mon Sep 17 00:00:00 2001
+From: Tony Cook <tony@develop-help.com>
+Date: Thu, 23 May 2024 15:27:42 +1000
+Subject: [PATCH 4/6] POSIX: mingw64 doesn't make the bessel functions visible
+ with -std=c99
+
+And doesn't provide a way to make them visible, even though they
+are visible by default for MSVC UCRT builds.
+
+The __MINGW32__ macro is set for both 32-bit and 64-bit MINGW builds.
+---
+ ext/POSIX/POSIX.xs | 21 ++++++++++++++++++++-
+ 1 file changed, 20 insertions(+), 1 deletion(-)
+
+diff --git a/ext/POSIX/POSIX.xs b/ext/POSIX/POSIX.xs
+index df4919bcd6dc..ba48f6256dd0 100644
+--- a/ext/POSIX/POSIX.xs
++++ b/ext/POSIX/POSIX.xs
+@@ -13,6 +13,25 @@
+ 
+ static int not_here(const char *s);
+ 
++#if defined(__MINGW32__) && !defined(USE_QUADMATH)
++
++/* If nvtype is long double, the bessel functions still
++ * operate at "double precision" only - as in the past.
++ * Mingw's math.h makes no provision for j0l, y0l, etc.
++ *
++ * Unfortunately the mingw64 supplied headers cannot be
++ * convinced to declare these functions with -std=c99.
++ */
++   double __cdecl _hypot(double x, double y);
++   double __cdecl _j0(double d);
++   double __cdecl _j1(double d);
++   double __cdecl _jn(int n, double d);
++   double __cdecl _y0(double d);
++   double __cdecl _y1(double d);
++   double __cdecl _yn(int n, double d);
++
++#endif
++
+ #if defined(PERL_IMPLICIT_SYS)
+ #  undef signal
+ #  undef open
+@@ -572,7 +591,7 @@ static int not_here(const char *s);
+ #  undef c99_trunc
+ #endif
+ 
+-#ifdef _MSC_VER
++#if defined(_MSC_VER) || (defined(__MINGW32__) && !defined(USE_QUADMATH))
+ 
+ /* Some APIs exist under Win32 with "underbar" names. */
+ #  undef c99_hypot
+
+From d89a2c49a6b8c23d5082d2ad12a654089c004162 Mon Sep 17 00:00:00 2001
+From: Tony Cook <tony@develop-help.com>
+Date: Mon, 27 May 2024 12:03:04 +1000
+Subject: [PATCH 6/6] POSIX: add simple bessel function tests
+
+---
+ ext/POSIX/t/math.t | 26 ++++++++++++++++++++++++++
+ 1 file changed, 26 insertions(+)
+
+diff --git a/ext/POSIX/t/math.t b/ext/POSIX/t/math.t
+index ce9090cb48e5..2332c0834a29 100644
+--- a/ext/POSIX/t/math.t
++++ b/ext/POSIX/t/math.t
+@@ -296,4 +296,30 @@ SKIP: {
+     ok(signbit(copysign(NAN, -1.0)), "signbit(copysign(NAN, -1.0)))");
+ }
+ 
++SKIP: {
++    # win32 msvcrt and ucrt both have these as _j0() etc, but might
++    # not make them visible in the headers
++    $Config{d_j0} || $^O eq "MSWin32"
++      or skip "No bessel functions", 1;
++    # just in case j0 etc ends up being called without a prototype
++    is_float(j0(0.5), 0.938469807240813, "j0");
++    is_float(j1(0.5), 0.242268457674874, "j1");
++    is_float(jn(1, 0.5), j1(0.5), "jn");
++    is_float(y0(0.5), -0.444518733506707, "y0");
++    is_float(y1(0.5), -1.47147239267024, "y1");
++    is_float(yn(1, 0.5), y1(0.5), "yn");
++}
++
++sub is_float {
++    my ($left, $right, $note) = @_;
++
++    my $ok = ok(abs($left - $right) < 0.00001, $note);
++    unless ($ok) {
++        diag <<EOS;
++ Expected: $left
++      Got: $right
++EOS
++    }
++}
++
+ done_testing();
