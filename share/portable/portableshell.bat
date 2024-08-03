@@ -35,7 +35,7 @@ echo  * URL - https://www.strawberryperl.com/
 echo  * See README.TXT for more info
 echo ----------------------------------------------
 perl -MConfig -e "printf("""Perl executable: %%s\nPerl version   : %%vd / $Config{archname}\n\n""", $^X, $^V)" 2>nul
-if ERRORLEVEL 1 echo FATAL ERROR: 'perl' does not work; check if your strawberry pack is complete!
+if %ERRORLEVEL% == "1" echo FATAL ERROR: 'perl' does not work; check if your strawberry pack is complete!
 
 cmd /K
 
