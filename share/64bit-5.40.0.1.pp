@@ -645,5 +645,9 @@
     {
        plugin => 'Perl::Dist::Strawberry::Step::OutputLogZIP', # no options needed
     },
+    ### NEXT STEP ###########################
+    {
+       plugin => 'Perl::Dist::Strawberry::Step::OutputReleasesJSONSnippet', # no options needed
+    },
   ],
 }
