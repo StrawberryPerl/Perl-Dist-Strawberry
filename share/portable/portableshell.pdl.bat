@@ -41,7 +41,7 @@ echo           or if previous fails:    ppm PDL::Any::Module
 echo  * or you can use dev tools like:  gcc, g++, gfortran, gmake
 echo  * see README.TXT for more info
 echo ----------------------------------------------
-perl -MConfig -MPDL -e "printf("""Perl executable: %%s\nPerl version   : %%vd / $Config{archname}\nPDL version    : %%s\n\n""", $^X, $^V, $PDL::VERSION)" 2>nul
+perl -MConfig -MPDL -e "print(qq{Perl executable: $^X\nPerl version   : $^V / $Config{archname}\nPDL version    : $PDL::VERSION\n\n})" 2>nul
 if ERRORLEVEL==1 echo FATAL ERROR: 'perl' does not work; check if your strawberry pack is complete!
 
 cmd /K
