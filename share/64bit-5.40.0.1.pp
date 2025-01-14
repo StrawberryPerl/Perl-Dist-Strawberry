@@ -21,7 +21,7 @@
         install_packages => {
             #tools
             #gcc, gmake, gdb & co.
-            'gcc-toolchain' => { url => 'file://z|/winlibs.zip', install_to => 'c' },
+            'gcc-toolchain' => { url => 'https://github.com/StrawberryPerl/build-extlibs/releases/download/gcc13.2_ucrt_posix/winlibs.zip', install_to => 'c' },
             #patch => 'https://github.com/StrawberryPerl/build-extlibs/releases/download/dev_gcc10.3_20230313/64bit_patch-2.7.5-bin_20230420.zip',
             'patch'         => '<package_url>/kmx/64_tools/64bit_patch-2.5.9-7-bin_20100110_UAC.zip',
             #special cases
@@ -58,7 +58,7 @@
             'readline'      => 'https://github.com/StrawberryPerl/build-extlibs/releases/download/gcc13.2_ucrt_posix/64bit_readline-8.2-bin_20240515.zip',
             'termcap'       => 'https://github.com/StrawberryPerl/build-extlibs/releases/download/gcc13.2_ucrt_posix/64bit_termcap-1.3.1-bin_20240515.zip',
             'tiff'          => 'https://github.com/StrawberryPerl/build-extlibs/releases/download/gcc13.2_ucrt_posix/64bit_tiff-4.6.0-bin_20240515.zip',
-            'xz'            => 'file://c:/shawn/sp_repos/build_extlibs_20240518/extlibs_ucrt_posix/64bit_xz-5.4.6-bin_20240518.zip',  #  temporary
+            'xz'            => 'https://github.com/StrawberryPerl/build-extlibs/releases/download/gcc13.2_ucrt_posix/64bit_xz-5.4.6-bin_20240518.zip',  
             'zlib'          => 'https://github.com/StrawberryPerl/build-extlibs/releases/download/gcc13.2_ucrt_posix/64bit_zlib-1.3.1-bin_20240515.zip',            
         },
     },
