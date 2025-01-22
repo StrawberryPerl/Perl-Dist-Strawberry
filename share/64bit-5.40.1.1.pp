@@ -589,7 +589,7 @@
     {
         disable => $ENV{SKIP_PDL_STEP}, ### hack
         plugin => 'Perl::Dist::Strawberry::Step::InstallModules',
-        # modules specific to PDL edition
+        # prereq modules specific to PDL edition
         modules => [
           { module => 'File::Next', ignore_testfailure => 1 }, #XXX-TODO-5.28 / PREREQ-ONLY
           { module => 'Devel::REPL', ignore_testfailure => 1 },
@@ -597,6 +597,7 @@
           { module => 'Astro::FITS::CFITSIO', ignore_testfailure => 1},  #  only needed for createfile test
           { module => 'Inline::C', ignore_testfailure => 1 },
           { module => 'Module::Compile', ignore_testfailure => 1 }, #XXX-TODO-5.28 / PREREQ-ONLY
+          qw/ Term::ReadKey /,  #  for perldl
        ],
     },
     ### NEXT STEP ###########################
@@ -611,13 +612,24 @@
             env => {
               PLPLOT_LIB     => '<image_dir>\c\share\plplot',
               PLPLOT_DRV_DIR => '<image_dir>\c\share\plplot',
-              MAKEFLAGS      => '',
+              # MAKEFLAGS      => '',  #  there were previously issues with parallel builds
             },
           },
           qw/ PDL::IO::CSV PDL::IO::DBI PDL::DateTime PDL::Stats /, # PDL::IO::Image
           qw/ PDL::LinearAlgebra /,
           ##{ module=>'PDL::Graphics::Gnuplot', skiptest=>1 },
           ##{ module=>'PDL::Graphics::Prima', ignore_testfailure => 1 }, # does not compile with 5.30.1 XXX-FIXME
+          # Modules no longer in PDL Core but which were in 5.40.0
+          qw /
+              PDL::Perldl2 PDL::Complex PDL::GSL 
+              PDL::IO::HDF PDL::IO::IDL PDL::IO::Dicom    PDL::IO::ENVI  
+              PDL::Fit     PDL::Minuit  PDL::Opt::Simplex 
+              PDL::Graphics::Limits
+          /,
+          #  Newly non-core modules that fail to build, not sure why yet
+          #   PDL::IO::GD
+          #  Newly non-core modules that were not installed for 5.40.0.  Listed only for info.
+          #   PDL::IO::Browser PDL::Transform::Proj4 PDL::Graphics::TriD PDL::Graphics::IIS
         ],
     },
     ### NEXT STEP ###########################
