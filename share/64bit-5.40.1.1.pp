@@ -349,7 +349,8 @@
             # 'GD',  #  disable for 5.39.10
           ##{ module=>'http://chorny.net/strawberry/Imager-1.006.zip', ignore_testfailure=>1 }, #https://rt.cpan.org/Ticket/Display.html?id=124001
             { module=>'Imager', ignore_testfailure=>1 }, #https://rt.cpan.org/Ticket/Display.html?id=124001
-            qw/ Imager-File-GIF Imager-File-JPEG Imager-File-PNG Imager-File-TIFF Imager-Font-FT2 Imager-Font-W32 /,
+            qw/ Imager-File-GIF Imager-File-JPEG Imager-File-PNG Imager-Font-FT2 Imager-Font-W32 /,
+            #  qw/ Imager-File-TIFF /,  #  https://github.com/tonycoz/imager/issues/537
             # Disable for now - tests fail when run under gmake but pass under prove. 
             # There have also been no updates since 2016 and local installs work quickly.
             # { module=>'OpenGL', ignore_testfailure=>1 },
