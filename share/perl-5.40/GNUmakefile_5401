@@ -616,8 +616,8 @@ else
 # optimization level -O2 causes generated code that fails in mysterious ways
 # when run on Win11 (*even* if it was built and successfully tested on Win10!).
 #OPTIMIZE	= -Os
-#OPTIMIZE    = -Os -falign-functions -falign-jumps -falign-labels -falign-loops -freorder-blocks -freorder-blocks-algorithm=stc -freorder-blocks-and-partition
-OPTIMIZE    = -O2 -fno-inline-functions
+OPTIMIZE    = -Os -falign-functions -falign-jumps -falign-labels -falign-loops -freorder-blocks -freorder-blocks-algorithm=stc -freorder-blocks-and-partition
+#OPTIMIZE    = -O2 -fno-inline-functions
 LINK_DBG	= -s
 endif
 
