@@ -86,7 +86,7 @@
             '<dist_sharedir>/msi/files/perlexe.ico'             => 'win32/perlexe.ico',
             '<dist_sharedir>/perl-5.36/perlexe.rc.tt'           => 'win32/perlexe.rc',
             '<dist_sharedir>/perl-5.40/posix_bessel.patch'      => '*',
-            '<dist_sharedir>/perl-5.40/GNUmakefile'      => 'win32/GNUmakefile',
+            '<dist_sharedir>/perl-5.40/GNUmakefile_5401'      => 'win32/GNUmakefile',
             'config_H.gc'                                 => {
                 I_DBM  => 'define',
                 I_GDBM => 'define',
