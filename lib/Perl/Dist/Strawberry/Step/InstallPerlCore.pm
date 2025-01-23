@@ -256,6 +256,25 @@ sub run {
 
   die "FATAL: perl.exe not properly installed" unless -f catfile($image_dir, qw/perl bin perl.exe/);
   
+  do {
+      #  could shell out to 'perl -i'?
+      my $config_heavy = catfile($image_dir, qw/perl lib Config_heavy.pl/);
+      if (-e $config_heavy) {  #  it should always be there
+          $self->boss->message(3, "Updating optimize settings in Config_heavy.pl");
+          local $/ = undef;
+          open my $fh, $config_heavy or die "Unable to open $config_heavy for reading, $?";
+          my $data = <$fh>;
+          $fh->close;
+          #  now update the file
+          $data =~ s/^(optimize=.+)$/#  SP POST-BUILD OVERRIDE\noptimize='-O2'\n#$1/ms;
+          my $ro_flag = $self->_unset_ro($config_heavy);
+          open my $ofh, '>', $config_heavy or die "Unable to open $config_heavy for writing, $?";
+          print {$ofh} $data;
+          $ofh->close;
+          $self->_restore_ro($config_heavy, $ro_flag);
+      }
+  };
+  
   # Create some missing directories
   my @d = ( catdir($image_dir, qw/perl vendor lib/),
             catdir($image_dir, qw/perl site bin/),
