@@ -623,13 +623,12 @@
           ##{ module=>'PDL::Graphics::Prima', ignore_testfailure => 1 }, # does not compile with 5.30.1 XXX-FIXME
           # Modules no longer in PDL Core but which were in 5.40.0
           qw /
-              PDL::Perldl2 PDL::Complex PDL::GSL 
-              PDL::IO::HDF PDL::IO::IDL PDL::IO::Dicom    PDL::IO::ENVI  
-              PDL::Fit     PDL::Minuit  PDL::Opt::Simplex 
+              PDL::Perldl2 PDL::Complex  PDL::GSL 
+              PDL::Fit     PDL::Minuit   PDL::Opt::Simplex 
+              PDL::IO::HDF PDL::IO::IDL  PDL::IO::Dicom    
+              PDL::IO::GD  PDL::IO::ENVI  
               PDL::Graphics::Limits
           /,
-          #  Newly non-core modules that fail to build, not sure why yet
-          #   PDL::IO::GD
           #  Newly non-core modules that were not installed for 5.40.0.  Listed only for info.
           #   PDL::IO::Browser PDL::Transform::Proj4 PDL::Graphics::TriD PDL::Graphics::IIS
         ],
