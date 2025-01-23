@@ -261,17 +261,21 @@ sub run {
       my $config_heavy = catfile($image_dir, qw/perl lib Config_heavy.pl/);
       if (-e $config_heavy) {  #  it should always be there
           $self->boss->message(3, "Updating optimize settings in Config_heavy.pl");
+          #use File::Copy qw /copy/;
+          #my $bk = "${config_heavy}.orig";
+          #copy $config_heavy, $bk;  #  directory rw probs - disable for now
           local $/ = undef;
           open my $fh, $config_heavy or die "Unable to open $config_heavy for reading, $?";
           my $data = <$fh>;
           $fh->close;
           #  now update the file
-          $data =~ s/^(optimize=.+)$/#  SP POST-BUILD OVERRIDE\noptimize='-O2'\n#$1/ms;
+          $data =~ s/^(optimize=.+)$/optimize='-O2'/m;
           my $ro_flag = $self->_unset_ro($config_heavy);
           open my $ofh, '>', $config_heavy or die "Unable to open $config_heavy for writing, $?";
           print {$ofh} $data;
           $ofh->close;
           $self->_restore_ro($config_heavy, $ro_flag);
+          #$self->_restore_ro($bk, $ro_flag);
       }
   };
   
