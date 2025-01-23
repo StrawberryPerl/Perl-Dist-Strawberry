@@ -50,7 +50,7 @@
             'libxml2'       => 'https://github.com/StrawberryPerl/build-extlibs/releases/download/gcc13.2_ucrt_posix/64bit_libxml2-2.12.9-bin_20250122.zip',
             'libXpm'        => 'https://github.com/StrawberryPerl/build-extlibs/releases/download/gcc13.2_ucrt_posix/64bit_libXpm-3.5.12-bin_20240515.zip',
             'libxslt'       => 'https://github.com/StrawberryPerl/build-extlibs/releases/download/gcc13.2_ucrt_posix/64bit_libxslt-1.1.39-bin_20240515.zip',
-            'libwebp'       => 'https://github.com/StrawberryPerl/build-extlibs/releases/download/gcc13.2_ucrt_posix/64bit_libxslt-1.1.39-bin_20250122.zip',
+            'libwebp'       => 'https://github.com/StrawberryPerl/build-extlibs/releases/download/gcc13.2_ucrt_posix/64bit_libwebp-1.4.0-bin_20240515.zip',
             'mpc'           => 'https://github.com/StrawberryPerl/build-extlibs/releases/download/gcc13.2_ucrt_posix/64bit_mpc-1.3.1-bin_20240515.zip',
             'mpfr'          => 'https://github.com/StrawberryPerl/build-extlibs/releases/download/gcc13.2_ucrt_posix/64bit_mpfr-4.2.1-bin_20250121.zip',
             'openssl'       => 'https://github.com/StrawberryPerl/build-extlibs/releases/download/gcc13.2_ucrt_posix/64bit_openssl-3.3.0-bin_20240515.zip',
@@ -135,6 +135,7 @@
     {
         plugin => 'Perl::Dist::Strawberry::Step::InstallModules',
         modules => [
+            qw /ExtUtils::Config/,  #  temp for debug
             { module=>'Capture::Tiny', ignore_testfailure=>1 }, #XXX-TODO https://github.com/dagolden/Capture-Tiny/issues/29
             { module=>'Path::Tiny', ignore_testfailure=>1 }, #XXX-TODO 5.30 t/zzz-spec.t fails https://github.com/dagolden/Path-Tiny/issues/228
             'TAP::Harness::Restricted', #to be able to skip only some tests
@@ -306,24 +307,24 @@
     {
         plugin => 'Perl::Dist::Strawberry::Step::InstallModules',
         modules => [
-            # crypto related - DISABLE in 5.39.10 as CryptX is failing
+            # crypto related - these were  disabled in 5.39.10 as CryptX was failing
             # { module =>'Convert-PEM', ignore_testfailure=>1 }, #XXX-TODO Convert-PEM-0.08 fails
-            # qw/ Convert-PEM /,
+            qw/ Convert-PEM /,  #  0.13 passes
+            qw / Crypt::OpenSSL::DSA /, # https://github.com/StrawberryPerl/Perl-Dist-Strawberry/issues/86
+            qw / CryptX /,
+            qw/ Crypt::OpenSSL::Bignum Crypt-OpenSSL-RSA Crypt-OpenSSL-Random Crypt-OpenSSL-X509 /,
+            qw / Crypt::OpenSSL::AES /,
+            #'KMX/Crypt-OpenSSL-AES-0.05.tar.gz', #XXX-FIXME patched https://metacpan.org/pod/Crypt::OpenSSL::AES  https://rt.cpan.org/Public/Bug/Display.html?id=77605
+            #Crypt-SMIME ?
+            qw/ Crypt::CBC Crypt::Blowfish Crypt::CAST5_PP Crypt::DES Crypt::DES_EDE3 Crypt::DSA Crypt::IDEA Crypt::Rijndael Crypt::Twofish Crypt::Serpent Crypt::RC6 /,
+            qw/ Digest-MD2 Digest-MD5 Digest-SHA Digest-SHA1 Crypt::RIPEMD160 Digest::Whirlpool Digest::HMAC Digest::CMAC /,
+            # 'Alt::Crypt::RSA::BigInt',  #hack Crypt-RSA without Math::PARI - https://metacpan.org/release/Crypt-RSA, #  fails for 5.40.1 due to Math::Prime::Util::GMP
+            qw/ Crypt-DSA /,
+            #qw /Crypt::DSA::GMP/,  #  fails for 5.40.1 due to Math::Prime::Util::GMP
 
-            # # crypto
-            # qw / Crypt::OpenSSL::DSA /, # https://github.com/StrawberryPerl/Perl-Dist-Strawberry/issues/86
-            # #  qw /CryptX/,  #  fails under 5.39
-            # qw/ Crypt::OpenSSL::Bignum Crypt-OpenSSL-RSA Crypt-OpenSSL-Random Crypt-OpenSSL-X509 /,
-            # qw / Crypt::OpenSSL::AES /,
-            # #'KMX/Crypt-OpenSSL-AES-0.05.tar.gz', #XXX-FIXME patched https://metacpan.org/pod/Crypt::OpenSSL::AES  https://rt.cpan.org/Public/Bug/Display.html?id=77605
-            # #Crypt-SMIME ?
-            # qw/ Crypt::CBC Crypt::Blowfish Crypt::CAST5_PP Crypt::DES Crypt::DES_EDE3 Crypt::DSA Crypt::IDEA Crypt::Rijndael Crypt::Twofish Crypt::Serpent Crypt::RC6 /,
-            # qw/ Digest-MD2 Digest-MD5 Digest-SHA Digest-SHA1 Crypt::RIPEMD160 Digest::Whirlpool Digest::HMAC Digest::CMAC /,
-            # 'Alt::Crypt::RSA::BigInt',  #hack Crypt-RSA without Math::PARI - https://metacpan.org/release/Crypt-RSA
-            # qw/ Crypt-DSA Crypt::DSA::GMP /,
-
-            # qw/ Bytes::Random::Secure Crypt::OpenPGP /,
-            # #qw/ Module::Signature /, #XXX-TODO still not able to properly handle CRLF - https://metacpan.org/release/Module-Signature
+            qw/ Bytes::Random::Secure /,
+            # qw /Crypt::OpenPGP/,  #  fails for 5.40.1 due to Math::Prime::Util::GMP
+            #qw/ Module::Signature /, #XXX-TODO still not able to properly handle CRLF - https://metacpan.org/release/Module-Signature
 
             # date/time
             { module=>'Test2::Plugin::NoWarnings', ignore_testfailure=>1 }, #otherwise DateTime fails
@@ -608,14 +609,15 @@
         modules => [
           { module => 'PDL',
             #makefilepl_param => 'PDLCONF=<dist_sharedir>\pdl\perldl2.conf',
-            ignore_testfailure => 1,
+            ignore_testfailure => 0,  #  these should pass now
             env => {
               PLPLOT_LIB     => '<image_dir>\c\share\plplot',
               PLPLOT_DRV_DIR => '<image_dir>\c\share\plplot',
               # MAKEFLAGS      => '',  #  there were previously issues with parallel builds
             },
           },
-          qw/ PDL::IO::CSV PDL::IO::DBI PDL::DateTime PDL::Stats /, # PDL::IO::Image
+          qw/ PDL::IO::CSV PDL::DateTime PDL::Stats /, # PDL::IO::Image
+          #  qw /PDL::IO::DBI/,  #  https://github.com/StrawberryPerl/Perl-Dist-Strawberry/issues/231#issuecomment-2611092198
           qw/ PDL::LinearAlgebra /,
           ##{ module=>'PDL::Graphics::Gnuplot', skiptest=>1 },
           ##{ module=>'PDL::Graphics::Prima', ignore_testfailure => 1 }, # does not compile with 5.30.1 XXX-FIXME
