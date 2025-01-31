@@ -15,8 +15,13 @@ sub run {
   my $self = shift;
   
   $self->boss->message(2, "Creating Release Notes");
+
+  my $suffix = $self->{config}->{suffix} // '';
+  if ($suffix) {
+      $self->boss->message(2, "Appending suffix ${suffix}");
+  }
   
-  my $html_file = catfile($self->global->{output_dir}, $self->global->{output_basename} .".html");
+  my $html_file = catfile($self->global->{output_dir}, $self->global->{output_basename} . $suffix . ".html");
   my $tt_file = catfile($self->global->{dist_sharedir}, qw/extra-files release_notes.html.tt/);
   
   # get release date
