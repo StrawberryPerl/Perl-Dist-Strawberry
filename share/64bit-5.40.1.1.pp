@@ -646,6 +646,8 @@
          { do=>'removefile', args=>[ '<image_dir>/README.txt', '<image_dir>/portableshell.bat' ] },
          { do=>'copyfile',   args=>[ '<dist_sharedir>/portable/portableshell.pdl.bat', '<image_dir>/portableshell.bat' ] },
          { do=>'apply_tt',   args=>[ '<dist_sharedir>/portable/README.pdl.txt.tt',     '<image_dir>/README.txt' ] },
+         { do=>'removefile', args=>[ '<image_dir>/DISTRIBUTIONS.txt' ] },
+         { do=>'apply_tt',   args=>[ '<dist_sharedir>/extra-files/DISTRIBUTIONS.txt.tt', '<image_dir>/DISTRIBUTIONS.txt' ] },
          # cleanup (remove unwanted files/dirs)
          { do=>'removefile_recursive', args=>[ '<image_dir>/perl', qr/.+\.dll\.AA[A-Z]$/i ] },
          # cleanup cpanm related files
@@ -659,6 +661,12 @@
     {
        disable => $ENV{SKIP_PDL_STEP}, ### hack
        plugin => 'Perl::Dist::Strawberry::Step::OutputPdlZIP', # no options needed
+    },
+    ### NEXT STEP ###########################
+    {
+       disable => $ENV{SKIP_PDL_STEP}, ### hack
+       plugin => 'Perl::Dist::Strawberry::Step::CreateReleaseNotes',
+       suffix => '-PDL',
     },
     ### NEXT STEP ###########################
     {
