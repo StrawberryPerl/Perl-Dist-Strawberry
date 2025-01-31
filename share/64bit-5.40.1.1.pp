@@ -613,11 +613,12 @@
         modules => [
           { module => 'PDL',
             #makefilepl_param => 'PDLCONF=<dist_sharedir>\pdl\perldl2.conf',
-            ignore_testfailure => 1,  #  fails inline tests - t/inlinepdlpp.t - should set harness to skip that test file
             env => {
               PLPLOT_LIB     => '<image_dir>\c\share\plplot',
               PLPLOT_DRV_DIR => '<image_dir>\c\share\plplot',
               # MAKEFLAGS      => '',  #  there were previously issues with parallel builds
+              HARNESS_SUBCLASS => 'TAP::Harness::Restricted', 
+              HARNESS_SKIP     => 't/inlinepdlpp.t',  #  paths too long
             },
           },
           qw/ PDL::IO::CSV PDL::DateTime PDL::Stats /, # PDL::IO::Image
