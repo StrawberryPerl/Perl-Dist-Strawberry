@@ -277,7 +277,7 @@ sub run {
           my $data = <$fh>;
           $fh->close;
           #  now update the file
-          $data =~ s/^optimize=(.+)$/optimize='$optimize_cpan'/m;
+          $data =~ s/^optimize=(.+)$/optimize_core_build=$1\noptimize='$optimize_cpan'/m;
           my $ro_flag = $self->_unset_ro($config_heavy);
           open my $ofh, '>', $config_heavy or die "Unable to open $config_heavy for writing, $?";
           print {$ofh} $data;
