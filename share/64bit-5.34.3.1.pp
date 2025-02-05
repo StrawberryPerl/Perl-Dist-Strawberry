@@ -159,7 +159,7 @@
             # gdbm / db related
             { module => 'BerkeleyDB',  
               makefilepl_param=>'"OPTIMIZE=-Os"',  #  otherwise test failures (crash in t/strict.pm)
-            },  
+            },
             qw/ DB_File DBM-Deep /,
         ]
     },
@@ -500,5 +500,10 @@
     {
        plugin => 'Perl::Dist::Strawberry::Step::OutputLogZIP', # no options needed
     },
+    ### NEXT STEP ###########################
+    {
+       plugin => 'Perl::Dist::Strawberry::Step::OutputReleasesJSONSnippet', # no options needed
+    },
+
   ],
 }
