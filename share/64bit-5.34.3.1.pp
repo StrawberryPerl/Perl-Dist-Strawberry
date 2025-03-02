@@ -81,9 +81,9 @@
         perl_debug => 0,    # can be overridden by --perl_debug=N option
         perl_64bitint => 1, # ignored on 64bit, can be overridden by --perl_64bitint | --noperl_64bitint option
         #optimize_core => '-Os -falign-functions -falign-jumps -falign-labels -falign-loops -freorder-blocks -freorder-blocks-algorithm=stc -freorder-blocks-and-partition',
-        optimize_core => '-Os',
+        #optimize_core => '-Os',
         #  build CPAN modules using these OPTIMIZE flags
-        optimize_cpan => '-O2',
+        #optimize_cpan => '-O2',
         #  buildoptextra => '-D__USE_MINGW_ANSI_STDIO',  #  not needed since 5.33.3
         patch => { #DST paths are relative to the perl src root
             '<dist_sharedir>/msi/files/perlexe.ico'             => 'win32/perlexe.ico',
@@ -126,6 +126,7 @@
           #{ do=>'ignore_testfailure', distribution=>qr/^IPC-Cmd-/ },
           { do=>'ignore_testfailure', distribution=>qr/^Net-Ping-/ }, # 2.72 fails
           { do=>'skip', distribution=>qr/^Storable-/ }, # 3.25 fails
+          { do=>'ignore_testfailure', distribution=>qr/^Archive-Tar/ },  #  fails symlink tests
         ]
     },
     ### NEXT STEP ###########################
@@ -199,7 +200,8 @@
             { module=>'Win32::API',         ignore_testfailure=>1 }, #XXX-TODO: https://rt.cpan.org/Public/Bug/Display.html?id=107450
             'Win32::Exe',
             { module=>'<package_url>/kmx/perl-modules-patched/Win32-Pipe-0.025_patched.tar.gz' }, #XXX-FIXME 
-            qw/ Win32-Daemon Win32-EventLog Win32-Process Win32-WinError Win32-File-Object Win32-UTCFileTime /,
+            qw/ Win32-Daemon Win32-EventLog Win32-Process Win32-WinError Win32-UTCFileTime /,
+            { module => 'Win32-File-Object', env=>{ 'HARNESS_SUBCLASS'=>'TAP::Harness::Restricted', 'HARNESS_SKIP'=>'t/05_links.t' } },
             qw/ Win32-ShellQuote Win32::Console Win32::Job Win32::ServiceManager Win32::Service /,
             { module => 'Win32-Clipboard', ignore_testfailure=>1 },  #  inconsistent failures of tests 7 & 9
             { 
