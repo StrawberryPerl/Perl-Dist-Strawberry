@@ -29,7 +29,7 @@ sub run {
     # Now go through the loop for each module.
     my $i = 0;
     for my $module (@list) {
-      my $item = { module=> $module->{cpan_file}, install_to=>'vendor' };
+      my $item = { module=> $module->{cpan_file}, install_to=>'perl' };
       my $extra = $self->_get_extra_install_options($module);
       if (!defined $extra) {
         $self->boss->message(2, sprintf("SKIPPING! %2d/%d '%s'", $i, $count, $module));
