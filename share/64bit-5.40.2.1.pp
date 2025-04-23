@@ -47,9 +47,9 @@
             'libpng'        => 'https://github.com/StrawberryPerl/build-extlibs/releases/download/gcc13.2_ucrt_posix/64bit_libpng-1.6.43-bin_20240515.zip',
             'libssh2'       => 'https://github.com/StrawberryPerl/build-extlibs/releases/download/gcc13.2_ucrt_posix/64bit_libssh2-1.11.0-bin_20240515.zip',
             'libunistring'  => 'https://github.com/StrawberryPerl/build-extlibs/releases/download/gcc13.2_ucrt_posix/64bit_libunistring-1.2-bin_20240515.zip',
-            'libxml2'       => 'https://github.com/StrawberryPerl/build-extlibs/releases/download/gcc13.2_ucrt_posix/64bit_libxml2-2.12.9-bin_20250122.zip',
+            'libxml2'       => 'https://github.com/StrawberryPerl/build-extlibs/releases/download/gcc13.2_ucrt_posix/64bit_libxml2-2.12.10-bin_20250303.zip',
             'libXpm'        => 'https://github.com/StrawberryPerl/build-extlibs/releases/download/gcc13.2_ucrt_posix/64bit_libXpm-3.5.12-bin_20240515.zip',
-            'libxslt'       => 'https://github.com/StrawberryPerl/build-extlibs/releases/download/gcc13.2_ucrt_posix/64bit_libxslt-1.1.39-bin_20240515.zip',
+            'libxslt'       => 'https://github.com/StrawberryPerl/build-extlibs/releases/download/gcc13.2_ucrt_posix/64bit_libxslt-1.1.39-bin_20250303.zip',
             'libwebp'       => 'https://github.com/StrawberryPerl/build-extlibs/releases/download/gcc13.2_ucrt_posix/64bit_libwebp-1.4.0-bin_20240515.zip',
             'mpc'           => 'https://github.com/StrawberryPerl/build-extlibs/releases/download/gcc13.2_ucrt_posix/64bit_mpc-1.3.1-bin_20240515.zip',
             'mpfr'          => 'https://github.com/StrawberryPerl/build-extlibs/releases/download/gcc13.2_ucrt_posix/64bit_mpfr-4.2.1-bin_20250121.zip',
@@ -273,7 +273,7 @@
             { module => 'https://github.com/StrawberryPerl/Perl-Dist-Strawberry/releases/download/dev_20230318/Socket6-0.29_02.tar.gz' },
             qw/ IO::Socket::IP IO::Socket::INET6 IO::Socket::Socks /,
             # EV4.32 + perl-5.30 fails XXX-FIXME
-            qw/ HTTP-Server-Simple /,
+            { module=>'HTTP-Server-Simple', env => { 'HARNESS_SUBCLASS'=>'TAP::Harness::Restricted', 'HARNESS_SKIP'=>'t/04cgi.t' } },  #  intermittent connection failures, passes otherwise
             { module=>'<package_url>/kmx/perl-modules-patched/Crypt-SSLeay-0.72_patched.tar.gz' }, #XXX-FIXME
             { module=>'Mojolicious', env=>{ 'HARNESS_SUBCLASS'=>'TAP::Harness::Restricted', 'HARNESS_SKIP'=>'t/mojolicious/websocket_lite_app.t t/mojo/file.t' } }, #https://github.com/kraih/mojo/issues/1011, https://github.com/StrawberryPerl/Perl-Dist-Strawberry/issues/67
             { module=>'WWW::Mechanize', skiptest=>1 }, # tests hang
@@ -294,7 +294,7 @@
             # data/text processing
             { module=>'IO::Stringy', env=>{ 'HARNESS_SUBCLASS'=>'TAP::Harness::Restricted', 'HARNESS_SKIP'=>'t/IO_InnerFile.t' } }, #https://rt.cpan.org/Public/Bug/Display.html?id=103895
             qw/ Text-Diff Text-Patch Text::CSV Text::CSV_XS Tie::Array::CSV Excel::Writer::XLSX Spreadsheet::WriteExcel Spreadsheet::ParseExcel /,
-            qw /Spreadsheet::ParseXLSX/,  #  was failing for 5.39: https://github.com/StrawberryPerl/Perl-Dist-Strawberry/issues/214
+            # qw /Spreadsheet::ParseXLSX/,  #  currently failing BigMath tests: https://github.com/StrawberryPerl/Perl-Dist-Strawberry/issues/214
 
         ]
     },
@@ -320,19 +320,20 @@
     {
         plugin => 'Perl::Dist::Strawberry::Step::InstallModules',
         modules => [
-            # crypto related - these were  disabled in 5.39.10 as CryptX was failing
+            # crypto related - many are disabled as CryptX 0.085 is failing
             # { module =>'Convert-PEM', ignore_testfailure=>1 }, #XXX-TODO Convert-PEM-0.08 fails
-            qw/ Convert-PEM /,  #  0.13 passes
+            # qw/ Convert-PEM /,  
             qw / Crypt::OpenSSL::DSA /, # https://github.com/StrawberryPerl/Perl-Dist-Strawberry/issues/86
-            qw / CryptX /,
+            # qw / CryptX /,
             qw/ Crypt::OpenSSL::Bignum Crypt-OpenSSL-RSA Crypt-OpenSSL-Random Crypt-OpenSSL-X509 /,
             qw / Crypt::OpenSSL::AES /,
             #'KMX/Crypt-OpenSSL-AES-0.05.tar.gz', #XXX-FIXME patched https://metacpan.org/pod/Crypt::OpenSSL::AES  https://rt.cpan.org/Public/Bug/Display.html?id=77605
             #Crypt-SMIME ?
-            qw/ Crypt::CBC Crypt::Blowfish Crypt::CAST5_PP Crypt::DES Crypt::DES_EDE3 Crypt::DSA Crypt::IDEA Crypt::Rijndael Crypt::Twofish Crypt::Serpent Crypt::RC6 /,
+            # qw/ Crypt::CBC Crypt-DSA /, #  dependency CryptX 0.085 fails
+            qw/  Crypt::Blowfish Crypt::CAST5_PP Crypt::DES Crypt::DES_EDE3 Crypt::IDEA Crypt::Rijndael Crypt::Twofish Crypt::Serpent Crypt::RC6 /,
             qw/ Digest-MD2 Digest-MD5 Digest-SHA Digest-SHA1 Crypt::RIPEMD160 Digest::Whirlpool Digest::HMAC Digest::CMAC /,
             # 'Alt::Crypt::RSA::BigInt',  #hack Crypt-RSA without Math::PARI - https://metacpan.org/release/Crypt-RSA, #  fails for 5.40.1 due to Math::Prime::Util::GMP
-            qw/ Crypt-DSA /,
+            
             #qw /Crypt::DSA::GMP/,  #  fails for 5.40.1 due to Math::Prime::Util::GMP
 
             qw/ Bytes::Random::Secure /,
@@ -420,7 +421,8 @@
             # misc
             #{ module=>'Alien::Tidyp', buildpl_param=>'--srctarball=http://strawberryperl.com/package/kmx/testing/tidyp-1.04.tar.gz' }, #gcc 8.3 failure
             qw/ CPAN::SQLite /,
-            { module => 'FCGI', env => { 'HARNESS_SUBCLASS'=>'TAP::Harness::Restricted', 'HARNESS_SKIP'=>'t/02-unix_domain_socket.t' } },
+            #  FCGI needs Type::Tiny, which is awaiting https://github.com/tobyink/p5-type-tiny/pull/175
+            # { module => 'FCGI', env => { 'HARNESS_SUBCLASS'=>'TAP::Harness::Restricted', 'HARNESS_SKIP'=>'t/02-unix_domain_socket.t' } },
             qw/ IO::String /,
             { module=>'Unicode::UTF8', ignore_testfailure=>1 }, #XXX-TODO-5.28
             qw/ V Modern::Perl Perl::Tidy /,
