@@ -185,7 +185,7 @@
             #XXX-TODO https://rt.cpan.org/Public/Bug/Display.html?id=116479
             qw/ CPANPLUS::Dist::Build /,
             qw/ File::CheckTree Log::Message Module::Pluggable Object::Accessor Text::Soundex Term::UI /,
-            'https://cpan.metacpan.org/authors/id/R/RS/RSAVAGE/Tree-DAG_Node-1.32.tgz',  #  1.33 fails UTF8 tests
+            'Tree-DAG_Node',  #  1.33 failed tests, fixed in 1.34
 
             #  https://github.com/StrawberryPerl/Perl-Dist-Strawberry/issues/92
             { module => 'https://github.com/StrawberryPerl/Perl-Dist-Strawberry/releases/download/dev_20230318/Pod-Parser-1.65_01.tar.gz' },
@@ -218,7 +218,7 @@
             { module=>'<package_url>/kmx/perl-modules-patched/Win32-Pipe-0.025_patched.tar.gz' }, #XXX-FIXME
             # File-Remove has symlink test failures under 5.38, is needed by Win32-File-Object
             { module=>'File-Remove', env=>{ 'HARNESS_SUBCLASS'=>'TAP::Harness::Restricted', 'HARNESS_SKIP'=>'t/05_links.t' } },
-            qw/ Win32-Daemon Win32-EventLog Win32-Process Win32-File-Object Win32-WinError Win32-UTCFileTime /,
+            qw/ Win32-Daemon Win32-EventLog Win32-Process Win32-File-Object Win32-WinError Win32-UTCFileTime Win32-LongPath/,
             qw/ Win32-ShellQuote Win32::Console Win32::Job Win32::ServiceManager Win32::Service /,
 			# qw/ Win32::Console::ANSI /,  # disable for now - fails tests under UCRT 5.39.10 - but patched now
             { 
@@ -320,16 +320,17 @@
     {
         plugin => 'Perl::Dist::Strawberry::Step::InstallModules',
         modules => [
-            # crypto related - many are disabled as CryptX 0.085 is failing
+            # crypto related - many were disabled as CryptX 0.085 is failing - should be fixed in 0.086.
             # { module =>'Convert-PEM', ignore_testfailure=>1 }, #XXX-TODO Convert-PEM-0.08 fails
             # qw/ Convert-PEM /,  
             qw / Crypt::OpenSSL::DSA /, # https://github.com/StrawberryPerl/Perl-Dist-Strawberry/issues/86
             # qw / CryptX /,
+            'https://cpan.metacpan.org/authors/id/M/MI/MIK/CryptX-0.085_003.tar.gz',  #  dev version for the moment as 0.085 fails due to Math::BigNum changes
             qw/ Crypt::OpenSSL::Bignum Crypt-OpenSSL-RSA Crypt-OpenSSL-Random Crypt-OpenSSL-X509 /,
             qw / Crypt::OpenSSL::AES /,
             #'KMX/Crypt-OpenSSL-AES-0.05.tar.gz', #XXX-FIXME patched https://metacpan.org/pod/Crypt::OpenSSL::AES  https://rt.cpan.org/Public/Bug/Display.html?id=77605
             #Crypt-SMIME ?
-            # qw/ Crypt::CBC Crypt-DSA /, #  dependency CryptX 0.085 fails
+            qw/ Crypt::CBC Crypt-DSA /, #  dependency CryptX 0.085 fails
             qw/  Crypt::Blowfish Crypt::CAST5_PP Crypt::DES Crypt::DES_EDE3 Crypt::IDEA Crypt::Rijndael Crypt::Twofish Crypt::Serpent Crypt::RC6 /,
             qw/ Digest-MD2 Digest-MD5 Digest-SHA Digest-SHA1 Crypt::RIPEMD160 Digest::Whirlpool Digest::HMAC Digest::CMAC /,
             # 'Alt::Crypt::RSA::BigInt',  #hack Crypt-RSA without Math::PARI - https://metacpan.org/release/Crypt-RSA, #  fails for 5.40.1 due to Math::Prime::Util::GMP
@@ -421,8 +422,7 @@
             # misc
             #{ module=>'Alien::Tidyp', buildpl_param=>'--srctarball=http://strawberryperl.com/package/kmx/testing/tidyp-1.04.tar.gz' }, #gcc 8.3 failure
             qw/ CPAN::SQLite /,
-            #  FCGI needs Type::Tiny, which is awaiting https://github.com/tobyink/p5-type-tiny/pull/175
-            # { module => 'FCGI', env => { 'HARNESS_SUBCLASS'=>'TAP::Harness::Restricted', 'HARNESS_SKIP'=>'t/02-unix_domain_socket.t' } },
+            { module => 'FCGI', env => { 'HARNESS_SUBCLASS'=>'TAP::Harness::Restricted', 'HARNESS_SKIP'=>'t/02-unix_domain_socket.t' } },
             qw/ IO::String /,
             { module=>'Unicode::UTF8', ignore_testfailure=>1 }, #XXX-TODO-5.28
             qw/ V Modern::Perl Perl::Tidy /,
