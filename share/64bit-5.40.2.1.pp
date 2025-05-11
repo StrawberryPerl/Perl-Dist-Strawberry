@@ -307,8 +307,9 @@
             { module=>'Module::Find', env=>{ 'HARNESS_SUBCLASS'=>'TAP::Harness::Restricted', 'HARNESS_SKIP'=>'t/07-symlinks.t' } }, # https://github.com/StrawberryPerl/Perl-Dist-Strawberry/issues/67 
 
             { module=>'Config::Any', env=>{ 'HARNESS_SUBCLASS'=>'TAP::Harness::Restricted', 'HARNESS_SKIP'=>'t/10-branches.t' } }, # https://github.com/StrawberryPerl/Perl-Dist-Strawberry/issues/73 needed for DBIx::Class 
+            'https://cpan.metacpan.org/authors/id/H/HM/HMBRAND/DBI-1.645.tgz',  #  https://github.com/StrawberryPerl/Perl-Dist-Strawberry/issues/242
             { module=>'DBD::SQLite', env=>{ 'HARNESS_SUBCLASS'=>'TAP::Harness::Restricted', 'HARNESS_SKIP'=>'t/33_non_latin_path.t' } }, # https://github.com/StrawberryPerl/Perl-Dist-Strawberry/issues/68 
-            qw/ DBI DBD-ODBC DBD-CSV DBD-ADO DBIx-Class DBIx-Simple /,
+            qw/ DBD-ODBC DBD-CSV DBD-ADO DBIx-Class DBIx-Simple /,
             'https://cpan.metacpan.org/authors/id/T/TU/TURNSTEP/DBD-Pg-3.8.0.tar.gz', ###{ module=>'DBD::Pg' },
             #{ module=>'DBD::mysql' },  #  disable until we sort out more recent mysql (but see https://github.com/StrawberryPerl/Perl-Dist-Strawberry/discussions/157 )
             #  SKIP DBD::Oracle for 5.36 until we can sort out what files to use
@@ -610,7 +611,9 @@
           { module => 'File::Next', ignore_testfailure => 1 }, #XXX-TODO-5.28 / PREREQ-ONLY
           { module => 'Devel::REPL', ignore_testfailure => 1 },
           qw/Lexical::Persistence Astro::FITS::Header /,
-          { module => 'Astro::FITS::CFITSIO', ignore_testfailure => 1},  #  only needed for createfile test
+          #  disable CFITSIO for now
+          # { module => 'Alien::zlib', env => {HARNESS_SUBCLASS => 'TAP::Harness::Restricted', HARNESS_SKIP => 't/alien_zlib.t',} },  #  needed for Alien::CFITSIO, fails ffi test
+          # { module => 'Astro::FITS::CFITSIO', ignore_testfailure => 1},  #  only needed for createfile test
           { module => 'Inline::C', ignore_testfailure => 1 },
           { module => 'Module::Compile', ignore_testfailure => 1 }, #XXX-TODO-5.28 / PREREQ-ONLY
           qw/ Term::ReadKey /,  #  for perldl
