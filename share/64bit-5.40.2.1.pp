@@ -325,8 +325,7 @@
             # { module =>'Convert-PEM', ignore_testfailure=>1 }, #XXX-TODO Convert-PEM-0.08 fails
             # qw/ Convert-PEM /,  
             qw / Crypt::OpenSSL::DSA /, # https://github.com/StrawberryPerl/Perl-Dist-Strawberry/issues/86
-            # qw / CryptX /,
-            'https://cpan.metacpan.org/authors/id/M/MI/MIK/CryptX-0.085_003.tar.gz',  #  dev version for the moment as 0.085 fails due to Math::BigNum changes
+            qw / CryptX /,
             qw/ Crypt::OpenSSL::Bignum Crypt-OpenSSL-RSA Crypt-OpenSSL-Random Crypt-OpenSSL-X509 /,
             qw / Crypt::OpenSSL::AES /,
             #'KMX/Crypt-OpenSSL-AES-0.05.tar.gz', #XXX-FIXME patched https://metacpan.org/pod/Crypt::OpenSSL::AES  https://rt.cpan.org/Public/Bug/Display.html?id=77605
