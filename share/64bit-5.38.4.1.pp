@@ -76,8 +76,8 @@
             '<dist_sharedir>/perl-5.36/perlexe.rc.tt'           => 'win32/perlexe.rc',
             '<dist_sharedir>/perl-5.40/posix_bessel.patch'      => '*',
             '<dist_sharedir>/perl-5.38/vmem.patch'              => '*',
-            #'<dist_sharedir>/perl-5.40/gh23179_no_delta.patch'  => '*',  #  perl build fails if this is applied
-            #'<dist_sharedir>/perl-5.38/scope_types.h'           => 'scope_types.h',
+            '<dist_sharedir>/perl-5.38/gh23179_no_delta_or_PERL_RE_BUILD_AUX.patch'  => '*',
+            '<dist_sharedir>/perl-5.38/scope_types.h'           => 'scope_types.h',
             'config_H.gc'                                 => {
                 I_DBM  => 'define',
                 I_GDBM => 'define',
