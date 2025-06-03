@@ -21,6 +21,6 @@ set TEST_CORE=-test_core
 
 ::set SKIP_MSI_STEP=1
 ::set SKIP_PDL_STEP=1
-%PERLEXE% -Mblib ..\script\perldist_strawberry -job ..\share\64bit-5.38.4.1.pp %TEST_CORE% -beta=2 -interactive -restorepoints -wixbin_dir=z:\sw\wix311 -cpan_url https://cpan.metacpan.org
+%PERLEXE% -Mblib ..\script\perldist_strawberry -job ..\share\64bit-5.38.4.1.pp %TEST_CORE% -beta=0 -interactive -restorepoints -wixbin_dir=z:\sw\wix311 -cpan_url https://cpan.metacpan.org
 
 

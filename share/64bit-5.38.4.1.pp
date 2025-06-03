@@ -45,6 +45,7 @@
             libunistring => 'https://github.com/StrawberryPerl/build-extlibs/releases/download/dev_gcc13.1_20230606/64bit_libunistring-1.1-bin_20230606.zip',    
             libxml2 => 'https://github.com/StrawberryPerl/build-extlibs/releases/download/dev_gcc13.1_20230606/64bit_libxml2-2.12.10-bin_20250515.zip',
             libxslt => 'https://github.com/StrawberryPerl/build-extlibs/releases/download/dev_gcc13.1_20230606/64bit_libxslt-1.1.39-bin_20250515.zip',
+            libjpeg => 'https://github.com/StrawberryPerl/build-extlibs/releases/download/dev_gcc13.1_20230606/64bit_jpeg-9f-bin_20250530.zip',
         },
     },
     ### NEXT STEP ###########################
@@ -78,6 +79,7 @@
             '<dist_sharedir>/perl-5.38/vmem.patch'              => '*',
             '<dist_sharedir>/perl-5.38/gh23179_no_delta_or_PERL_RE_BUILD_AUX.patch'  => '*',
             '<dist_sharedir>/perl-5.38/scope_types.h'           => 'scope_types.h',
+            '<dist_sharedir>/perl-5.38/CVE-2025-40909_for_538.patch'    => '*',
             'config_H.gc'                                 => {
                 I_DBM  => 'define',
                 I_GDBM => 'define',
@@ -96,6 +98,7 @@
                 i_gdbm                => 'define',
                 i_ndbm                => 'define',
                 d_isfinite            => 'define',  #  part of https://github.com/Perl/perl5/pull/22257
+                d_fdopendir           => 'undef',   #  was part of CVE-2025-40909_for_538.patch
                 osvers                => '10',
             },
         },
@@ -482,9 +485,10 @@
        reloc_out => '<image_dir>/relocation.txt',
     },
     ### NEXT STEP ###########################
-    {
-       plugin => 'Perl::Dist::Strawberry::Step::OutputZIP', # no options needed
-    },
+    #  disable zip edition as we are not distributing it
+    # {
+    #    plugin => 'Perl::Dist::Strawberry::Step::OutputZIP', # no options needed
+    # },
     ### NEXT STEP ###########################
     {
        disable => $ENV{SKIP_MSI_STEP}, ### hack
