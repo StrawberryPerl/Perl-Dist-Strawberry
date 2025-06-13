@@ -69,7 +69,7 @@ sub run {
 
   # compute msi_version which has to be 3-numbers (otherwise major upgrade feature does not work)
   my ($v1, $v2, $v3, $v4) = split /\./, $self->global->{app_version};
-  $v3 = $v3*1000 + $v4 if defined $v4; #turn 5.14.2.1 to 5.12.2001
+  $v3 = $v3*1000 + $v4 if defined $v4; #turn 5.14.2.1 to 5.14.2001
  
   # resolve values (only scalars) from config
   for (keys %{$self->{config}}) {
