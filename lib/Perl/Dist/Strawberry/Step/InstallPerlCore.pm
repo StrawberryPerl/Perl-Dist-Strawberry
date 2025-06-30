@@ -112,6 +112,11 @@ sub run {
   my $u64 = defined $self->global->{perl_64bitint} ? $self->global->{perl_64bitint} : ($self->{config}->{perl_64bitint} // $self->{config}->{use_64_bit_int} // 0);
   # XXX use_64_bit_int is for backwards compatibility
 
+  #  Optionally override the default optimization settings.
+  #  This hack is needed as some perls need -Os to build but then modules need -O2.  
+  my $optimize_core = $self->global->{optimize_core} // $self->{config}->{optimize_core};
+  my $optimize_cpan = $self->global->{optimize_cpan} // $self->{config}->{optimize_cpan};
+  
   # Build win32 perl
   SCOPE: {
     my $wd = $self->_push_dir( $unpack_to, $perlsrc, 'win32' );
@@ -159,6 +164,10 @@ sub run {
     else {
       $new_env->{PROCESSOR_ARCHITECTURE} = 'x86';
       push @make_args, 'WIN64=undef';
+    }
+    if ($optimize_core) {
+        push @make_args, "OPTIMIZE=${optimize_core}";
+        $self->boss->message(3, "Building core using OPTIMIZE=${optimize_core}");
     }
 
     my $maketool = $self->global->{maketool} || 'dmake';
@@ -255,6 +264,28 @@ sub run {
   }
 
   die "FATAL: perl.exe not properly installed" unless -f catfile($image_dir, qw/perl bin perl.exe/);
+  
+  if ($optimize_cpan) {
+      my $config_heavy = catfile($image_dir, qw/perl lib Config_heavy.pl/);
+      if (-e $config_heavy) {  #  it should always be there
+          $self->boss->message(3, "Updating optimize settings in Config_heavy.pl");
+          #use File::Copy qw /copy/;
+          #my $bk = "${config_heavy}.orig";
+          #copy $config_heavy, $bk;  #  directory rw probs - disable for now
+          local $/ = undef;
+          open my $fh, $config_heavy or die "Unable to open $config_heavy for reading, $?";
+          my $data = <$fh>;
+          $fh->close;
+          #  now update the file
+          $data =~ s/^optimize=(.+)$/my_optimize_core_build=$1\noptimize='$optimize_cpan'/m;
+          my $ro_flag = $self->_unset_ro($config_heavy);
+          open my $ofh, '>', $config_heavy or die "Unable to open $config_heavy for writing, $?";
+          print {$ofh} $data;
+          $ofh->close;
+          $self->_restore_ro($config_heavy, $ro_flag);
+          #$self->_restore_ro($bk, $ro_flag);
+      }
+  };
   
   # Create some missing directories
   my @d = ( catdir($image_dir, qw/perl vendor lib/),

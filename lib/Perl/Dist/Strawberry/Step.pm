@@ -291,8 +291,8 @@ sub _patch_file {
   my ($self, $new, $dst, $dir, $tt_vars, $no_backup) = @_;
   $self->boss->message(5, "PATCHING '$new' '$dst' '$dir' $tt_vars " . ($no_backup||'') . "\n");
 
-  if ($dst =~ /\*$/) {
-    warn "WE ARE PATCHIN '$new'";
+  if (1 or $dst =~ /\*$/) {
+    warn "WE ARE PATCHING '$new' onto $dst";
   }
   if ($new eq 'config_H.gc' and ref($dst) =~ /HASH/) {
     $self->boss->message(5, "_patch_file: using hash of values to update config_H.gc'\n");

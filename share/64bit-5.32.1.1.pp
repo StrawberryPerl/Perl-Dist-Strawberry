@@ -86,7 +86,7 @@
             '<dist_sharedir>/perl-5.32/win32_config.gc.tt'      => 'win32/config.gc',
             '<dist_sharedir>/perl-5.32/perlexe.rc.tt'           => 'win32/perlexe.rc',
             '<dist_sharedir>/perl-5.32/win32_config_H.gc'       => 'win32/config_H.gc', # enables gdbm/ndbm/odbm
-            '<dist_sharedir>/perl-5.32/win32_FindExt.pm'        => 'win32/FindExt.pm',
+            '<dist_sharedir>/perl-5.32/win32_FindExt.pm'        => 'win32/FindExt.pm',  #  needed?
         },
         license => { #SRC paths are relative to the perl src root
             'Readme'   => '<image_dir>/licenses/perl/Readme',
