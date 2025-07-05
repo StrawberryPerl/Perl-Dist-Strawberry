@@ -14,7 +14,7 @@ What is Strawberry Perl?
   you need to run and develop perl applications. It is designed to be as close
   as possible to perl environment on UNIX systems. See https://strawberryperl.com/
 
-* If you are completely new to perl consider visiting http2://learn.perl.org/
+* If you are completely new to perl consider visiting https://learn.perl.org/
 
 Installation instructions: (.ZIP distribution only, not .MSI installer)
 -----------------------------------------------------------------------
