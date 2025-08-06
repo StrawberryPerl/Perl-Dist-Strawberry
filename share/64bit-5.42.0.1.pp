@@ -244,7 +244,7 @@
             # file related
             { module=>'File-ShareDir-Install', ignore_testfailure=>1 }, #XXX-TODO-5.28
             { module=>'File::Copy::Recursive', ignore_testfailure=>1 }, #XXX-FAIL-5.32.1
-            { module => 'https://github.com/StrawberryPerl/Perl-Dist-Strawberry/releases/download/dev_20230318/File-Find-Rule-0.34_01.tar.gz' }, #  https://github.com/StrawberryPerl/Perl-Dist-Strawberry/issues/88
+            'File::Find::Rule',  #  new release June-2025
             qw/ File-HomeDir File-Listing File-ShareDir File-Which File::Map /,
             { module=>'File::Slurp', ignore_testfailure=>1 },
             qw/ File::Slurper /,
