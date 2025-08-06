@@ -8,7 +8,7 @@
 # <image_dir>     is placeholder for c:\strawberry
 
 {
-  app_version     => '5.40.2.2', #BEWARE: do not use '.0.0' in the last two version digits
+  app_version     => '5.42.0.1', #BEWARE: do not use '.0.0' in the last two version digits
   bits            => 64,
   beta            => 0,
   app_fullname    => 'Strawberry Perl (64-bit)',
@@ -77,7 +77,7 @@
     ### NEXT STEP ###########################
     {
         plugin     => 'Perl::Dist::Strawberry::Step::InstallPerlCore',
-        url        => 'https://www.cpan.org/src/5.0/perl-5.40.2.tar.gz',
+        url        => 'https://www.cpan.org/src/5.0/perl-5.42.0.tar.gz',
         cf_email   => 'strawberry-perl@project', #IMPORTANT: keep 'strawberry-perl' before @
         perl_debug => 0,    # can be overridden by --perl_debug=N option
         perl_64bitint => 1, # ignored on 64bit, can be overridden by --perl_64bitint | --noperl_64bitint option
@@ -89,10 +89,6 @@
         patch => { #DST paths are relative to the perl src root
             '<dist_sharedir>/msi/files/perlexe.ico'             => 'win32/perlexe.ico',
             '<dist_sharedir>/perl-5.36/perlexe.rc.tt'           => 'win32/perlexe.rc',
-            '<dist_sharedir>/perl-5.40/posix_bessel.patch'      => '*',
-            '<dist_sharedir>/perl-5.40/gh23179_no_delta.patch'  => '*',
-            '<dist_sharedir>/perl-5.40/scope_types.h'           => 'scope_types.h',
-            '<dist_sharedir>/perl-5.40/CVE-2025-40909.patch'    => '*',
             'config_H.gc'                                 => {
                 I_DBM  => 'define',
                 I_GDBM => 'define',
@@ -248,7 +244,7 @@
             # file related
             { module=>'File-ShareDir-Install', ignore_testfailure=>1 }, #XXX-TODO-5.28
             { module=>'File::Copy::Recursive', ignore_testfailure=>1 }, #XXX-FAIL-5.32.1
-            'File::Find::Rule',
+            'File::Find::Rule',  #  new release June-2025
             qw/ File-HomeDir File-Listing File-ShareDir File-Which File::Map /,
             { module=>'File::Slurp', ignore_testfailure=>1 },
             qw/ File::Slurper /,
@@ -295,7 +291,7 @@
             # data/text processing
             { module=>'IO::Stringy', env=>{ 'HARNESS_SUBCLASS'=>'TAP::Harness::Restricted', 'HARNESS_SKIP'=>'t/IO_InnerFile.t' } }, #https://rt.cpan.org/Public/Bug/Display.html?id=103895
             qw/ Text-Diff Text-Patch Text::CSV Text::CSV_XS Tie::Array::CSV Excel::Writer::XLSX Spreadsheet::WriteExcel Spreadsheet::ParseExcel /,
-            # qw /Spreadsheet::ParseXLSX/,  #  currently failing BigMath tests: https://github.com/StrawberryPerl/Perl-Dist-Strawberry/issues/214
+            qw /Spreadsheet::ParseXLSX/,  #  currently failing BigMath tests: https://github.com/StrawberryPerl/Perl-Dist-Strawberry/issues/214
 
         ]
     },
@@ -497,9 +493,9 @@
        reloc_out => '<image_dir>/relocation.txt',
     },
     ### NEXT STEP ###########################
-    {
-       plugin => 'Perl::Dist::Strawberry::Step::OutputZIP', # no options needed
-    },
+    # {
+    #    plugin => 'Perl::Dist::Strawberry::Step::OutputZIP', # no options needed
+    # },
     ### NEXT STEP ###########################
     {
        disable => $ENV{SKIP_MSI_STEP}, ### hack
