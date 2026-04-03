@@ -1,6 +1,6 @@
 package Perl::Dist::Strawberry::Step::OutputReleasesJSONSnippet;
 
-use 5.012;
+use 5.014;
 use warnings;
 use base 'Perl::Dist::Strawberry::Step';
 
@@ -71,7 +71,9 @@ sub run {
         size   => $size,
         url    => "__XXXX_URL_placeholder__ $basename",
     };
-    $edition_hash->{$edition} = $hash; 
+    #  pdl_zip to pdl
+    my $edition_name = ($edition =~ s/_zip$//r);
+    $edition_hash->{$edition_name} = $hash; 
   }
 
 
