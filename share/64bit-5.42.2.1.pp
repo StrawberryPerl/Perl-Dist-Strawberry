@@ -213,18 +213,18 @@
             { module=>'Win32::GuiTest',     skiptest=>1 },
             { module=>'Win32::API',         ignore_testfailure=>1 }, #XXX-TODO: https://rt.cpan.org/Public/Bug/Display.html?id=107450
             { module => 'Win32::Exe', env => { MAKEFLAGS => '', TEST_JOBS => ''} },
-            #  { module=>'<package_url>/kmx/perl-modules-patched/Win32-Pipe-0.025_patched.tar.gz' }, #XXX-FIXME  disabled for 5.42.2.1 due to build failures.  GH #291
+            { module=>'<package_url>/kmx/perl-modules-patched/Win32-Pipe-0.025_patched.tar.gz' },
             # File-Remove has symlink test failures under 5.38, is needed by Win32-File-Object
             { module=>'File-Remove', env=>{ 'HARNESS_SUBCLASS'=>'TAP::Harness::Restricted', 'HARNESS_SKIP'=>'t/05_links.t' } },
             qw/ Win32-Daemon Win32-EventLog Win32-Process Win32-File-Object Win32-WinError Win32-UTCFileTime Win32-LongPath/,
             qw/ Win32-ShellQuote Win32::Console Win32::Job Win32::ServiceManager Win32::Service /,
-			# qw/ Win32::Console::ANSI /,  # disable for now - fails tests under UCRT 5.39.10 - but patched now
-            #  needs Win32::Pipe, which is disabled for 5.42.2.1
-            # { 
-            #   module => 'https://github.com/StrawberryPerl/Perl-Dist-Strawberry/releases/download/patched_cpan_modules/Win32-Console-ANSI-1.11_001.tar.gz',
-            #   env    => { 'HARNESS_SUBCLASS'=>'TAP::Harness::Restricted', 'HARNESS_SKIP'=>'t/04_DisplayEdition.t t/06_Func.t' } 
-            #   # 06_Func test fails new in 5.40.2, as-yet undiagnosed
-            # },
+			#qw/ Win32::Console::ANSI /,  # disable for now - fails tests under UCRT 5.39.10 - but patched now
+            { 
+              module   => 'https://github.com/StrawberryPerl/Perl-Dist-Strawberry/releases/download/patched_cpan_modules/Win32-Console-ANSI-1.11_001.tar.gz',
+              skiptest => 1,
+              #env      => { 'HARNESS_SUBCLASS'=>'TAP::Harness::Restricted', 'HARNESS_SKIP'=>'t/04_DisplayEdition.t t/06_Func.t' } 
+              # 06_Func test fails new in 5.40.2, as-yet undiagnosed
+            },
             { module => 'Win32-Clipboard', ignore_testfailure=>1 },  #  inconsistent failures of tests 7 & 9
             { module=>'<package_url>/kmx/perl-modules-patched/Win32-SerialPort-0.22_patched.tar.gz', skiptest=>1 },
             qw/ Sys::Syslog /,
@@ -416,8 +416,7 @@
         plugin => 'Perl::Dist::Strawberry::Step::InstallModules',
         modules => [
             # dumpers
-            qw/ Data::Dump /,
-            # qw/ Data::Printer /,  #  disable until Win32::Pipe is working 
+            qw/ Data::Dump Data::Printer /,
             
             { module=>'Data-Dump-Streamer', ignore_testfailure=>1 },    #XXX-TODO ! Testing Data-Dump-Streamer-2.37 failed
 
