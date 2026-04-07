@@ -18,7 +18,7 @@ set TEST_JOBS=8
 :: tests take a long time
 set TEST_CORE=-test_core
 set TEST_CORE=-notest_core
-set BETA=1
+set BETA=0
 
 ::set SKIP_MSI_STEP=1
 ::set SKIP_PDL_STEP=1
