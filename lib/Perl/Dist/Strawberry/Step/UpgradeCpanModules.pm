@@ -32,7 +32,7 @@ sub run {
       my $item = { module=> $module->{cpan_file}, install_to=>'perl' };
       my $extra = $self->_get_extra_install_options($module);
       if (!defined $extra) {
-        $self->boss->message(2, sprintf("SKIPPING! %2d/%d '%s'", $i, $count, $module));
+        $self->boss->message(2, sprintf("SKIPPING! %2d/%d '%s'", $i, $count, $module->{distribution}));
         next;
       }
       $item->{ignore_testfailure} = 1 if $extra->{"-ignore_testfailure"};
