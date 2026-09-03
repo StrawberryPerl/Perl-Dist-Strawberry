@@ -47,8 +47,6 @@
 <hr /></h3>
 <div id="whatsnew">
 <ul>
-<li>XXX-TODO Put blurb here.</li>
-<li>XXX-TODO Put blurb here.</li>
 <li>There is a special portable version with extra math related libraries and pre-installed <a href="http://pdl.perl.org">PDL</a> -
 <a href="https://strawberryperl.com/download/[%app_version%]/strawberry-perl-[%app_version%]-[%bits%]bit-PDL.zip">strawberry-perl-[%app_version%]-[%bits%]bit-PDL.zip</a></li>
 [%-IF bits==32 -%]
@@ -59,9 +57,7 @@
 </ul>
 Bundled database clients:
 <ul>
-<li>MySQL: <a href="https://metacpan.org/pod/DBD::mysql">DBD::mysql</a> - works out of box</li>
 <li>PostgreSQL: <a href="https://metacpan.org/pod/DBD::Pg">DBD::Pg</a> - works out of box</li>
-<li>Oracle: <a href="https://metacpan.org/pod/DBD::Oracle">DBD::Oracle</a> - install [%bits%]bit Oracle Instant Client 12.x and make sure you have OCI.DLL in your PATH</li>
 <li>MS SQL: <a href="https://metacpan.org/pod/DBD::ODBC">DBD::ODBC</a> - install SQL Server ODBC client</li>
 </ul>
 </div>
@@ -70,9 +66,8 @@ Bundled database clients:
 <hr /></h3>
 <div id="issues">
 <ul>
-<li>XXX-TODO Put issues here.</li>
-<li>XXX-TODO Put issues here.</li>
 <li>MSI package is not signed</li>
+<li>See also <a href="https://github.com/StrawberryPerl/Perl-Dist-Strawberry/issues">the main project issue tracker</a></li>
 </ul>
 </div>
 
