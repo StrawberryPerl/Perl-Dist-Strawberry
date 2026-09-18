@@ -24,19 +24,20 @@ sub new {
   return bless {
     global => {
         # set defaults
-        target        => 'msi+zip+portable',
-        working_dir   => 'c:\strawberry_build',
-        image_dir     => 'c:\strawberry',
-        cpan_url      => 'http://cpan.strawberryperl.com',
-        package_url   => 'https://strawberryperl.com/package/',
-        test_modules  => 1,
-        test_core     => 0,
-        offline       => 0,
-        perl_debug    => 0,
-        verbosity     => 3,
-        interactive   => 1,
-        restorepoints => 0,
-        output        => {}, #globally storing outputs from each step
+        target         => 'msi+zip+portable',
+        working_dir    => 'c:\strawberry_build',
+        image_dir      => 'c:\strawberry',
+        cpan_url       => 'http://cpan.strawberryperl.com',
+        package_url    => 'https://strawberryperl.com/package/',
+        gh_package_url => 'https://github.com/StrawberryPerl/build-extlibs/releases/download',
+        test_modules   => 1,
+        test_core      => 0,
+        offline        => 0,
+        perl_debug     => 0,
+        verbosity      => 3,
+        interactive    => 1,
+        restorepoints  => 0,
+        output         => {}, #globally storing outputs from each step
         @_,
     } }, $class;
 }
@@ -60,6 +61,7 @@ sub parse_options {
     'perl_ldouble!'     => \$self->global->{perl_ldouble},  #<flag>   default: undef (0)
     'verbosity=s'       => \$self->global->{verbosity},     #<level>  default: 2 (you can use values 1/silent to 5/verbose)
     'package_url=s'     => \$self->global->{package_url},   #<url>    default: https://strawberryperl.com/package/ (or use e.g. file://C|/pkgmirror/)
+    'gh_package_url=s'  => \$self->global->{gh_package_url}, #<url>    default: https://github.com/StrawberryPerl/build-extlibs/releases/download (or use e.g. file://C|/pkgmirror/)
     'app_simplename=s'  => \$self->global->{app_simplename},#<name>   default: undef
     'app_fullname=s'    => \$self->global->{app_fullname},  #<name>   default: undef
     'beta=i'            => \$self->global->{beta},          #<name>   default: undef
@@ -436,9 +438,9 @@ sub resolve_name {
   #  don't change references
   return $name if ref ($name);
 
-  if ($name =~ /<(package_url|dist_sharedir|image_dir)>/) {
+  if ($name =~ /<(package_url|gh_package_url|dist_sharedir|image_dir)>/) {
     my $r = $self->global->{$1};
-    $name =~ s/<(package_url|dist_sharedir|image_dir)>/$r/g if defined $r;
+    $name =~ s/<(package_url|gh_package_url|dist_sharedir|image_dir)>/$r/g if defined $r;
   }
   if ($name =~ m|^[a-zA-Z0-9]+://|) {
     #url
