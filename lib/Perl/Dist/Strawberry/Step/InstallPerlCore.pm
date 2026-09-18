@@ -182,6 +182,13 @@ sub run {
     $self->boss->message( 1, "Building perl $version (dbg=$dbg, u64=$u64, uld=$uld)...\n" );
     $log = catfile($self->global->{debug_dir}, 'perl_make_all.log.txt');
 
+    eval {
+        $rv = $self->execute_special([$maketool, '--version'], undef, undef, $new_env); 
+    };
+    if (my $e = $@) {
+        die "Error running make tool: $e";
+    }
+    
     if ($self->global->{bits} == 64) {
       #XXX-FIXME-XXX 'make all' fails with redirected output for 64bit build via IPC::Run3
       $rv = $self->execute_special([$maketool, @make_args, 'all'], undef, undef, $new_env);
