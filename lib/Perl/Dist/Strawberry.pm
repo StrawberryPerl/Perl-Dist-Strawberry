@@ -38,6 +38,7 @@ sub new {
         interactive    => 1,
         restorepoints  => 0,
         output         => {}, #globally storing outputs from each step
+        use_ccache     => 0,
         @_,
     } }, $class;
 }
@@ -68,6 +69,7 @@ sub parse_options {
     'interactive!'      => \$self->global->{interactive},   #<flag>   default: 1 (0 = no interactive questions)
     'restorepoints!'    => \$self->global->{restorepoints}, #<flag>   default: 0 (1 = create restorepoint after each finished step)
     'h|help'            => sub { pod2usage(-exitstatus=>0, -verbose=>2) },
+    'use_ccache'        => \$self->global->{use_ccache},    #<flag> - not yet working in any case
   ) or pod2usage(-verbose=>2);
   
   $self->global->{working_dir}     = canonpath($self->global->{working_dir});
@@ -261,6 +263,13 @@ sub prepare_build_ENV {
   my @new_path = ( catdir($self->global->{image_dir}, qw/perl site bin/),
                    catdir($self->global->{image_dir}, qw/perl bin/),
                    catdir($self->global->{image_dir}, qw/c bin/) );
+  if (0 && $self->global->{use_ccache}) {
+      my $dst = $self->global->{ccache_bin_dir} = catdir($self->global->{build_dir}, 'ccache', 'bin');
+      if (!-d $dst) {
+        make_path($dst) or die "ERROR: cannot create $dst\n";
+      }
+      unshift @new_path, $self->global->{ccache_bin_dir};
+  }
   foreach my $p (@path) {
     next if not -d $p; # Strip any path that doesn't exist
     # Strip any path outside of the windows directories. This is done by testing for kernel32.dll and win.ini

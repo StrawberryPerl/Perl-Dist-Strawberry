@@ -176,6 +176,15 @@ sub _do_job {
       $self->boss->message(4, "gonna make '$src' read-write");
       $self->_unset_ro($src);
     }
+    elsif ($cmd eq 'setup_ccache' && $self->global->{use_ccache}) {
+      $self->boss->message(4, "ccache functionality not yet implemented");
+      #my $dst = $self->global->{ccache_bin_dir};
+      #$self->boss->message(4, "Setting up ccache files in $dst");
+      #my $src = catfile ($self->global->{image_dir}, 'c', 'bin', 'ccache.exe');
+      #foreach my $target (qw /gcc g++/) {
+      #  copy($src, "$dst/$target.exe") or die "copy failed: $!";
+      #}
+    }
     else {
       #XXX-TODO
       die "FATAL: '$cmd' not implemented";

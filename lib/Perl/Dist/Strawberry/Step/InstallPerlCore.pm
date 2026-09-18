@@ -173,6 +173,11 @@ sub run {
     my $maketool = $self->global->{maketool} || 'dmake';
     #create debuging build scripts in 'win32' subdir
     my $set_simple_path = "set PATH=$image_dir\\c\\bin;\%SystemRoot\%\\system32;\%SystemRoot\%";
+    if (my $d = $self->global->{ccache_bin_dir}) {  #  should only be defined if it were created
+        $set_simple_path = "set PATH=$d;$image_dir\\c\\bin;\%SystemRoot\%\\system32;\%SystemRoot\%";
+        $self->execute_special(['where', 'gcc'], $log, $log, $new_env); 
+        $self->execute_special(['ccache', '-p'], $log, $log, $new_env); 
+    }
     write_file('_do_make.bat', $set_simple_path."\n".join(' ', $maketool, @make_args).' %*');
     write_file('_do_make_install.bat', $set_simple_path."\n".join(' ', $maketool, @make_args, 'install'));
     write_file('_do_make_test.bat', $set_simple_path."\n".join(' ', $maketool, @make_args, 'test'));
