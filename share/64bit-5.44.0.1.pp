@@ -3,9 +3,10 @@
 ### job description for building strawberry perl
 
 #Available '<..>' macros:
-# <package_url>   is placeholder for http://strawberryperl.com/package
-# <dist_sharedir> is placeholder for Perl::Dist::Strawberry's distribution sharedir
-# <image_dir>     is placeholder for c:\strawberry
+# <package_url>    is placeholder for http://strawberryperl.com/package
+# <gh_package_url> is placeholder for <gh_package_url>
+# <dist_sharedir>  is placeholder for Perl::Dist::Strawberry's distribution sharedir
+# <image_dir>      is placeholder for c:\strawberry
 
 {
   app_version     => '5.44.0.1', #BEWARE: do not use '.0.0' in the last two version digits
@@ -21,42 +22,42 @@
         install_packages => {
             #tools
             #gcc, gmake, gdb & co.
-            'gcc-toolchain' => { url => 'https://github.com/StrawberryPerl/build-extlibs/releases/download/extlibs_gcc16.2_UCRT_20260917/winlibs_gcc16.2_UCRT_POSIX.zip', install_to => 'c' },
+            'gcc-toolchain' => { url => '<gh_package_url>/extlibs_gcc16.2_UCRT_20260917/winlibs_gcc16.2_UCRT_POSIX.zip', install_to => 'c' },
             'patch'         => '<package_url>/kmx/64_tools/64bit_patch-2.5.9-7-bin_20100110_UAC.zip',
             #  gcc16 libs 
-            'bzip2'         => 'https://github.com/StrawberryPerl/build-extlibs/releases/download/extlibs_gcc16.2_UCRT_20260917/64bit_bzip2-1.0.8-bin_20260914.zip',
-            'db'            => 'https://github.com/StrawberryPerl/build-extlibs/releases/download/extlibs_gcc16.2_UCRT_20260917/64bit_db-6.2.38-bin_20260914.zip',
-            'expat'         => 'https://github.com/StrawberryPerl/build-extlibs/releases/download/extlibs_gcc16.2_UCRT_20260917/64bit_expat-2.8.4-bin_20260914.zip',
-            'fontconfig'    => 'https://github.com/StrawberryPerl/build-extlibs/releases/download/extlibs_gcc16.2_UCRT_20260917/64bit_fontconfig-2.18.3-bin_20260914.zip',
-            'freeglut'      => 'https://github.com/StrawberryPerl/build-extlibs/releases/download/extlibs_gcc16.2_UCRT_20260917/64bit_freeglut-3.8.0-bin_20260914.zip',
-            'freetype'      => 'https://github.com/StrawberryPerl/build-extlibs/releases/download/extlibs_gcc16.2_UCRT_20260917/64bit_freetype-2.14.3-bin_20260914.zip',
-            'fribidi'       => 'https://github.com/StrawberryPerl/build-extlibs/releases/download/extlibs_gcc16.2_UCRT_20260917/64bit_fribidi-1.0.16-bin_20260914.zip',
-            'gdb'           => 'https://github.com/StrawberryPerl/build-extlibs/releases/download/extlibs_gcc16.2_UCRT_20260917/64bit_gdb-17.2-bin_20260916b.zip',
-            'gdbm'          => 'https://github.com/StrawberryPerl/build-extlibs/releases/download/extlibs_gcc16.2_UCRT_20260917/64bit_gdbm-1.26-bin_20260914.zip',
-            'giflib'        => 'https://github.com/StrawberryPerl/build-extlibs/releases/download/extlibs_gcc16.2_UCRT_20260917/64bit_giflib-6.1.3-bin_20260914.zip',
-            'gmp'           => 'https://github.com/StrawberryPerl/build-extlibs/releases/download/extlibs_gcc16.2_UCRT_20260917/64bit_gmp-6.3.0-bin_20260914.zip',
-            'graphite2'     => 'https://github.com/StrawberryPerl/build-extlibs/releases/download/extlibs_gcc16.2_UCRT_20260917/64bit_graphite2-1.3.15-bin_20260914.zip',
-            'harfbuzz'      => 'https://github.com/StrawberryPerl/build-extlibs/releases/download/extlibs_gcc16.2_UCRT_20260917/64bit_harfbuzz-14.4.0-bin_20260914.zip',
-            'jpeg'          => 'https://github.com/StrawberryPerl/build-extlibs/releases/download/extlibs_gcc16.2_UCRT_20260917/64bit_jpeg-10-bin_20260914.zip',
-            'libffi'        => 'https://github.com/StrawberryPerl/build-extlibs/releases/download/extlibs_gcc16.2_UCRT_20260917/64bit_libffi-3.8.0-bin_20260914.zip',
-            'libgd'         => 'https://github.com/StrawberryPerl/build-extlibs/releases/download/extlibs_gcc16.2_UCRT_20260917/64bit_libgd-2.3.3-bin_20260914.zip',
-            'libiconv'      => 'https://github.com/StrawberryPerl/build-extlibs/releases/download/extlibs_gcc16.2_UCRT_20260917/64bit_libiconv-1.19-bin_20260914.zip',
-            'libidn2'       => 'https://github.com/StrawberryPerl/build-extlibs/releases/download/extlibs_gcc16.2_UCRT_20260917/64bit_libidn2-2.3.8-bin_20260914.zip',
-            'libpng'        => 'https://github.com/StrawberryPerl/build-extlibs/releases/download/extlibs_gcc16.2_UCRT_20260917/64bit_libpng-1.6.58-bin_20260914.zip',
-            'libssh2'       => 'https://github.com/StrawberryPerl/build-extlibs/releases/download/extlibs_gcc16.2_UCRT_20260917/64bit_libssh2-1.11.0-bin_20260914.zip',
-            'libunistring'  => 'https://github.com/StrawberryPerl/build-extlibs/releases/download/extlibs_gcc16.2_UCRT_20260917/64bit_libunistring-1.4.2-bin_20260914.zip',
-            'libwebp'       => 'https://github.com/StrawberryPerl/build-extlibs/releases/download/extlibs_gcc16.2_UCRT_20260917/64bit_libwebp-1.6.0-bin_20260914.zip',
-            'libxml2'       => 'https://github.com/StrawberryPerl/build-extlibs/releases/download/extlibs_gcc16.2_UCRT_20260917/64bit_libxml2-2.15.4-bin_20260914.zip',
-            'libxslt'       => 'https://github.com/StrawberryPerl/build-extlibs/releases/download/extlibs_gcc16.2_UCRT_20260917/64bit_libxslt-v1.1.45-bin_20260914.zip',
-            'mpc'           => 'https://github.com/StrawberryPerl/build-extlibs/releases/download/extlibs_gcc16.2_UCRT_20260917/64bit_mpc-1.4.1-bin_20260914.zip',
-            'mpfr'          => 'https://github.com/StrawberryPerl/build-extlibs/releases/download/extlibs_gcc16.2_UCRT_20260917/64bit_mpfr-4.2.2-bin_20260914.zip',
-            'openssl'       => 'https://github.com/StrawberryPerl/build-extlibs/releases/download/extlibs_gcc16.2_UCRT_20260917/64bit_openssl-3.6.3-bin_20260914.zip',
-            'postgresql'    => 'https://github.com/StrawberryPerl/build-extlibs/releases/download/extlibs_gcc16.2_UCRT_20260917/64bit_postgresql-18.6-bin_20260914.zip',
-            'readline'      => 'https://github.com/StrawberryPerl/build-extlibs/releases/download/extlibs_gcc16.2_UCRT_20260917/64bit_readline-8.3-bin_20260914.zip',
-            'termcap'       => 'https://github.com/StrawberryPerl/build-extlibs/releases/download/extlibs_gcc16.2_UCRT_20260917/64bit_termcap-1.3.1-bin_20260914.zip',
-            'tiff'          => 'https://github.com/StrawberryPerl/build-extlibs/releases/download/extlibs_gcc16.2_UCRT_20260917/64bit_tiff-4.7.2-bin_20260914.zip',
-            'xz'            => 'https://github.com/StrawberryPerl/build-extlibs/releases/download/extlibs_gcc16.2_UCRT_20260917/64bit_xz-5.8.3-bin_20260914.zip',
-            'zlib'          => 'https://github.com/StrawberryPerl/build-extlibs/releases/download/extlibs_gcc16.2_UCRT_20260917/64bit_zlib-1.3.2-bin_20260914.zip',            
+            'bzip2'         => '<gh_package_url>/extlibs_gcc16.2_UCRT_20260917/64bit_bzip2-1.0.8-bin_20260914.zip',
+            'db'            => '<gh_package_url>/extlibs_gcc16.2_UCRT_20260917/64bit_db-6.2.38-bin_20260914.zip',
+            'expat'         => '<gh_package_url>/extlibs_gcc16.2_UCRT_20260917/64bit_expat-2.8.4-bin_20260914.zip',
+            'fontconfig'    => '<gh_package_url>/extlibs_gcc16.2_UCRT_20260917/64bit_fontconfig-2.18.3-bin_20260914.zip',
+            'freeglut'      => '<gh_package_url>/extlibs_gcc16.2_UCRT_20260917/64bit_freeglut-3.8.0-bin_20260914.zip',
+            'freetype'      => '<gh_package_url>/extlibs_gcc16.2_UCRT_20260917/64bit_freetype-2.14.3-bin_20260914.zip',
+            'fribidi'       => '<gh_package_url>/extlibs_gcc16.2_UCRT_20260917/64bit_fribidi-1.0.16-bin_20260914.zip',
+            'gdb'           => '<gh_package_url>/extlibs_gcc16.2_UCRT_20260917/64bit_gdb-17.2-bin_20260916b.zip',
+            'gdbm'          => '<gh_package_url>/extlibs_gcc16.2_UCRT_20260917/64bit_gdbm-1.26-bin_20260914.zip',
+            'giflib'        => '<gh_package_url>/extlibs_gcc16.2_UCRT_20260917/64bit_giflib-6.1.3-bin_20260914.zip',
+            'gmp'           => '<gh_package_url>/extlibs_gcc16.2_UCRT_20260917/64bit_gmp-6.3.0-bin_20260914.zip',
+            'graphite2'     => '<gh_package_url>/extlibs_gcc16.2_UCRT_20260917/64bit_graphite2-1.3.15-bin_20260914.zip',
+            'harfbuzz'      => '<gh_package_url>/extlibs_gcc16.2_UCRT_20260917/64bit_harfbuzz-14.4.0-bin_20260914.zip',
+            'jpeg'          => '<gh_package_url>/extlibs_gcc16.2_UCRT_20260917/64bit_jpeg-10-bin_20260914.zip',
+            'libffi'        => '<gh_package_url>/extlibs_gcc16.2_UCRT_20260917/64bit_libffi-3.8.0-bin_20260914.zip',
+            'libgd'         => '<gh_package_url>/extlibs_gcc16.2_UCRT_20260917/64bit_libgd-2.3.3-bin_20260914.zip',
+            'libiconv'      => '<gh_package_url>/extlibs_gcc16.2_UCRT_20260917/64bit_libiconv-1.19-bin_20260914.zip',
+            'libidn2'       => '<gh_package_url>/extlibs_gcc16.2_UCRT_20260917/64bit_libidn2-2.3.8-bin_20260914.zip',
+            'libpng'        => '<gh_package_url>/extlibs_gcc16.2_UCRT_20260917/64bit_libpng-1.6.58-bin_20260914.zip',
+            'libssh2'       => '<gh_package_url>/extlibs_gcc16.2_UCRT_20260917/64bit_libssh2-1.11.0-bin_20260914.zip',
+            'libunistring'  => '<gh_package_url>/extlibs_gcc16.2_UCRT_20260917/64bit_libunistring-1.4.2-bin_20260914.zip',
+            'libwebp'       => '<gh_package_url>/extlibs_gcc16.2_UCRT_20260917/64bit_libwebp-1.6.0-bin_20260914.zip',
+            'libxml2'       => '<gh_package_url>/extlibs_gcc16.2_UCRT_20260917/64bit_libxml2-2.15.4-bin_20260914.zip',
+            'libxslt'       => '<gh_package_url>/extlibs_gcc16.2_UCRT_20260917/64bit_libxslt-v1.1.45-bin_20260914.zip',
+            'mpc'           => '<gh_package_url>/extlibs_gcc16.2_UCRT_20260917/64bit_mpc-1.4.1-bin_20260914.zip',
+            'mpfr'          => '<gh_package_url>/extlibs_gcc16.2_UCRT_20260917/64bit_mpfr-4.2.2-bin_20260914.zip',
+            'openssl'       => '<gh_package_url>/extlibs_gcc16.2_UCRT_20260917/64bit_openssl-3.6.3-bin_20260914.zip',
+            'postgresql'    => '<gh_package_url>/extlibs_gcc16.2_UCRT_20260917/64bit_postgresql-18.6-bin_20260914.zip',
+            'readline'      => '<gh_package_url>/extlibs_gcc16.2_UCRT_20260917/64bit_readline-8.3-bin_20260914.zip',
+            'termcap'       => '<gh_package_url>/extlibs_gcc16.2_UCRT_20260917/64bit_termcap-1.3.1-bin_20260914.zip',
+            'tiff'          => '<gh_package_url>/extlibs_gcc16.2_UCRT_20260917/64bit_tiff-4.7.2-bin_20260914.zip',
+            'xz'            => '<gh_package_url>/extlibs_gcc16.2_UCRT_20260917/64bit_xz-5.8.3-bin_20260914.zip',
+            'zlib'          => '<gh_package_url>/extlibs_gcc16.2_UCRT_20260917/64bit_zlib-1.3.2-bin_20260914.zip',            
         },
     },
     ### NEXT STEP ###########################
@@ -71,6 +72,7 @@
          { do=>'make_rw', args=>[ '<image_dir>/c/include/db_cxx.h' ] }, 
          #  winlibs does not have gmake as-named, and we get obscure errors later on if it is not in the path
          { do=>'copyfile',   args=>[ '<image_dir>/c/bin/mingw32-make.exe', '<image_dir>/c/bin/gmake.exe' ] }, 
+         # { do=>'setup_ccache', args=>[ ] }, 
        ],
     },
     ### NEXT STEP ###########################
@@ -576,17 +578,17 @@
         disable => $ENV{SKIP_PDL_STEP}, ### hack
         plugin  => 'Perl::Dist::Strawberry::Step::BinaryToolsAndLibs',
         install_packages => {
-            'fftw'    => 'https://github.com/StrawberryPerl/build-extlibs/releases/download/extlibs_gcc16.2_UCRT_20260917/64bit_fftw-3.3.11-bin_20260914.zip',
-            'gnuplot' => 'https://github.com/StrawberryPerl/build-extlibs/releases/download/extlibs_gcc16.2_UCRT_20260917/64bit_gnuplot-6.0.0-bin_20260914.zip',
-            'gsl'     => 'https://github.com/StrawberryPerl/build-extlibs/releases/download/extlibs_gcc16.2_UCRT_20260917/64bit_gsl-2.7.1-bin_20260914.zip',
-            'hdf4'    => 'https://github.com/StrawberryPerl/build-extlibs/releases/download/extlibs_gcc16.2_UCRT_20260917/64bit_hdf-4.4.0-bin_20260914.zip',
-            'hdf5'    => 'https://github.com/StrawberryPerl/build-extlibs/releases/download/extlibs_gcc16.2_UCRT_20260917/64bit_hdf5-2.2.0-bin_20260914.zip',
-            'plplot'  => 'https://github.com/StrawberryPerl/build-extlibs/releases/download/extlibs_gcc16.2_UCRT_20260917/64bit_plplot-5.15.0-bin_20260914.zip',
-            'libaec'  => 'https://github.com/StrawberryPerl/build-extlibs/releases/download/extlibs_gcc16.2_UCRT_20260917/64bit_libaec-1.1.7-bin_20260914.zip',
-            'talib'   => 'https://github.com/StrawberryPerl/build-extlibs/releases/download/extlibs_gcc16.2_UCRT_20260917/64bit_ta-lib-0.7.1-bin_20260914.zip',
-            'netcdf'  => 'https://github.com/StrawberryPerl/build-extlibs/releases/download/extlibs_gcc16.2_UCRT_20260917/64bit_netcdf-c-4.10.1-bin_20260914.zip',
-            'lapack'  => 'https://github.com/StrawberryPerl/build-extlibs/releases/download/extlibs_gcc16.2_UCRT_20260917/64bit_lapack-3.12.1-bin_20260914.zip',
-            'glfw'    => 'https://github.com/StrawberryPerl/build-extlibs/releases/download/extlibs_gcc16.2_UCRT_20260917/64bit_glfw-3.5.1-bin_20260917b.zip',
+            'fftw'    => '<gh_package_url>/extlibs_gcc16.2_UCRT_20260917/64bit_fftw-3.3.11-bin_20260914.zip',
+            'gnuplot' => '<gh_package_url>/extlibs_gcc16.2_UCRT_20260917/64bit_gnuplot-6.0.0-bin_20260914.zip',
+            'gsl'     => '<gh_package_url>/extlibs_gcc16.2_UCRT_20260917/64bit_gsl-2.7.1-bin_20260914.zip',
+            'hdf4'    => '<gh_package_url>/extlibs_gcc16.2_UCRT_20260917/64bit_hdf-4.4.0-bin_20260914.zip',
+            'hdf5'    => '<gh_package_url>/extlibs_gcc16.2_UCRT_20260917/64bit_hdf5-2.2.0-bin_20260914.zip',
+            'plplot'  => '<gh_package_url>/extlibs_gcc16.2_UCRT_20260917/64bit_plplot-5.15.0-bin_20260914.zip',
+            'libaec'  => '<gh_package_url>/extlibs_gcc16.2_UCRT_20260917/64bit_libaec-1.1.7-bin_20260914.zip',
+            'talib'   => '<gh_package_url>/extlibs_gcc16.2_UCRT_20260917/64bit_ta-lib-0.7.1-bin_20260914.zip',
+            'netcdf'  => '<gh_package_url>/extlibs_gcc16.2_UCRT_20260917/64bit_netcdf-c-4.10.1-bin_20260914.zip',
+            'lapack'  => '<gh_package_url>/extlibs_gcc16.2_UCRT_20260917/64bit_lapack-3.12.1-bin_20260914.zip',
+            'glfw'    => '<gh_package_url>/extlibs_gcc16.2_UCRT_20260917/64bit_glfw-3.5.1-bin_20260917b.zip',
         },
     },
     ### NEXT STEP ###########################
