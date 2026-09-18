@@ -196,7 +196,8 @@ sub run {
     
     if ($self->global->{bits} == 64) {
       #XXX-FIXME-XXX 'make all' fails with redirected output for 64bit build via IPC::Run3
-      $rv = $self->execute_special([$maketool, @make_args, 'all'], undef, undef, $new_env);
+      #  update: seems to work now
+      $rv = $self->execute_special([$maketool, @make_args, 'all'], $log, $log, $new_env);
     }
     else {
       $rv = $self->execute_special([$maketool, @make_args, 'all'], $log, $log, $new_env);
